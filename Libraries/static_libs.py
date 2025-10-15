@@ -93,6 +93,109 @@ logger = logging.getLogger(__name__)
 class LibraryManager:
     """Manages optional advanced analysis libraries"""
     
+    def __init__(self):
+        self.available_libs = {}
+        self._check_libraries()
+    
+    def _check_libraries(self):
+        """Check which advanced libraries are available"""
+        libs = {
+            'astroid': self._try_import('astroid'),
+            'jedi': self._try_import('jedi'),
+            'rope': self._try_import('rope.base.project'),
+            'vulture': self._try_import('vulture'),
+            'pytype': self._check_command('pytype'),
+            'pyre': self._check_command('pyre'),
+            'pyanalyze': self._try_import('pyanalyze'),
+        }
+        self.available_libs = {k: v for k, v in libs.items() if v}
+        
+        logger.info(f"Available advanced libraries: {list(self.available_libs.keys())}")
+    
+    def _try_import(self, module_name: str) -> bool:
+        """Try to import a module"""
+        try:
+            parts = module_name.split('.')
+            mod = __import__(parts[0])
+            for part in parts[1:]:
+                mod = getattr(mod, part)
+            return True
+        except (ImportError, AttributeError):
+            return False
+    
+    def _check_command(self, cmd: str) -> bool:
+        """Check if command-line tool is available"""
+        try:
+            result = subprocess.run(
+                [cmd, '--version'],
+                capture_output=True,
+                timeout=5
+            )
+            return result.returncode == 0
+        except (FileNotFoundError, subprocess.TimeoutExpired):
+            return False
+    
+    def get_import(self, module_name: str):
+        """Safely import a module"""
+        if module_name not in self.available_libs:
+            return None
+        try:
+            return __import__(module_name)
+        except ImportError:
+            return None
+    
+    
+    def __init__(self):
+        self.available_libs = {}
+        self._check_libraries()
+    
+    def _check_libraries(self):
+        """Check which advanced libraries are available"""
+        libs = {
+            'astroid': self._try_import('astroid'),
+            'jedi': self._try_import('jedi'),
+            'rope': self._try_import('rope.base.project'),
+            'vulture': self._try_import('vulture'),
+            'pytype': self._check_command('pytype'),
+            'pyre': self._check_command('pyre'),
+            'pyanalyze': self._try_import('pyanalyze'),
+        }
+        self.available_libs = {k: v for k, v in libs.items() if v}
+        
+        logger.info(f"Available advanced libraries: {list(self.available_libs.keys())}")
+    
+    def _try_import(self, module_name: str) -> bool:
+        """Try to import a module"""
+        try:
+            parts = module_name.split('.')
+            mod = __import__(parts[0])
+            for part in parts[1:]:
+                mod = getattr(mod, part)
+            return True
+        except (ImportError, AttributeError):
+            return False
+    
+    def _check_command(self, cmd: str) -> bool:
+        """Check if command-line tool is available"""
+        try:
+            result = subprocess.run(
+                [cmd, '--version'],
+                capture_output=True,
+                timeout=5
+            )
+            return result.returncode == 0
+        except (FileNotFoundError, subprocess.TimeoutExpired):
+            return False
+    
+    def get_import(self, module_name: str):
+        """Safely import a module"""
+        if module_name not in self.available_libs:
+            return None
+        try:
+            return __import__(module_name)
+        except ImportError:
+            return None
+    
     def _analyze_sequential(self, files: List[Path]) -> List[AnalysisError]:
         """Analyze files sequentially"""
         all_errors = []
@@ -229,56 +332,26 @@ class StandardToolIntegration:
                    '--no-error-summary', file_path]
             result = subprocess.run(cmd, capture_output=True, text=True, timeout=60)
             
-            pattern = r'^(.+?):(\d+):(\d+): (error|warning): (.+?)(?:\s+\[([^\]]+)\])? __init__(self):
-        self.available_libs = {}
-        self._check_libraries()
-    
-    def _check_libraries(self):
-        """Check which advanced libraries are available"""
-        libs = {
-            'astroid': self._try_import('astroid'),
-            'jedi': self._try_import('jedi'),
-            'rope': self._try_import('rope.base.project'),
-            'vulture': self._try_import('vulture'),
-            'pytype': self._check_command('pytype'),
-            'pyre': self._check_command('pyre'),
-            'pyanalyze': self._try_import('pyanalyze'),
-        }
-        self.available_libs = {k: v for k, v in libs.items() if v}
+            pattern = r'^(.+?):(\d+):(\d+): (error|warning): (.+?)(?:\s+\[([^\]]+)\])?$'
+            
+            for line in result.stdout.splitlines():
+                match = re.match(pattern, line)
+                if match:
+                    file, line_no, col, severity, message, code = match.groups()
+                    errors.append(AnalysisError(
+                        file_path=file,
+                        category=ErrorCategory.RUNTIME.value,
+                        severity=Severity.ERROR.value if severity == 'error' else Severity.WARNING.value,
+                        message=message,
+                        line=int(line_no),
+                        column=int(col),
+                        error_code=code or 'mypy',
+                        tool='mypy'
+                    ))
+        except Exception as e:
+            logger.error(f"Mypy failed: {e}")
         
-        logger.info(f"Available advanced libraries: {list(self.available_libs.keys())}")
-    
-    def _try_import(self, module_name: str) -> bool:
-        """Try to import a module"""
-        try:
-            parts = module_name.split('.')
-            mod = __import__(parts[0])
-            for part in parts[1:]:
-                mod = getattr(mod, part)
-            return True
-        except (ImportError, AttributeError):
-            return False
-    
-    def _check_command(self, cmd: str) -> bool:
-        """Check if command-line tool is available"""
-        try:
-            result = subprocess.run(
-                [cmd, '--version'],
-                capture_output=True,
-                timeout=5
-            )
-            return result.returncode == 0
-        except (FileNotFoundError, subprocess.TimeoutExpired):
-            return False
-    
-    def get_import(self, module_name: str):
-        """Safely import a module"""
-        if module_name not in self.available_libs:
-            return None
-        try:
-            return __import__(module_name)
-        except ImportError:
-            return None
+        return errors
 
 
 # Global library manager
@@ -935,28 +1008,6 @@ class ComprehensiveErrorAnalyzer:
         else:
             return self._analyze_sequential(python_files)
     
-    def
-            for line in result.stdout.splitlines():
-                match = re.match(pattern, line)
-                if match:
-                    fpath, line_num, col, level, msg, code = match.groups()
-                    if level == 'error':
-                        errors.append(AnalysisError(
-                            file_path=fpath,
-                            category=ErrorCategory.TYPE.value,
-                            severity=Severity.ERROR.value,
-                            message=msg,
-                            line=int(line_num),
-                            column=int(col),
-                            error_code=code,
-                            tool='mypy'
-                        ))
-        except Exception as e:
-            logger.error(f"Mypy failed: {e}")
-        
-        return errors
-    
-    @staticmethod
     def run_ruff(file_path: str) -> List[AnalysisError]:
         """Run Ruff with F-code selection only"""
         errors = []
@@ -1368,59 +1419,7 @@ Examples:
 
 
 if __name__ == "__main__":
-    main() __init__(self):
-        self.available_libs = {}
-        self._check_libraries()
-    
-    def _check_libraries(self):
-        """Check which advanced libraries are available"""
-        libs = {
-            'astroid': self._try_import('astroid'),
-            'jedi': self._try_import('jedi'),
-            'rope': self._try_import('rope.base.project'),
-            'vulture': self._try_import('vulture'),
-            'pytype': self._check_command('pytype'),
-            'pyre': self._check_command('pyre'),
-            'pyanalyze': self._try_import('pyanalyze'),
-        }
-        self.available_libs = {k: v for k, v in libs.items() if v}
-        
-        logger.info(f"Available advanced libraries: {list(self.available_libs.keys())}")
-    
-    def _try_import(self, module_name: str) -> bool:
-        """Try to import a module"""
-        try:
-            parts = module_name.split('.')
-            mod = __import__(parts[0])
-            for part in parts[1:]:
-                mod = getattr(mod, part)
-            return True
-        except (ImportError, AttributeError):
-            return False
-    
-    def _check_command(self, cmd: str) -> bool:
-        """Check if command-line tool is available"""
-        try:
-            result = subprocess.run(
-                [cmd, '--version'],
-                capture_output=True,
-                timeout=5
-            )
-            return result.returncode == 0
-        except (FileNotFoundError, subprocess.TimeoutExpired):
-            return False
-    
-    def get_import(self, module_name: str):
-        """Safely import a module"""
-        if module_name not in self.available_libs:
-            return None
-        try:
-            return __import__(module_name)
-        except ImportError:
-            return None
-
-
-# Global library manager
+    main()
 lib_manager = LibraryManager()
 
 
@@ -2074,4 +2073,3 @@ class ComprehensiveErrorAnalyzer:
         else:
             return self._analyze_sequential(python_files)
     
-    def
