@@ -1,0 +1,1250 @@
+
+================================================================================
+COMPREHENSIVE FUNCTION ANALYSIS REPORT
+================================================================================
+
+
+================================================================================
+MODULE: static_libs.py
+================================================================================
+
+================================================================================
+MODULE: lsp_adapter.py
+================================================================================
+
+
+📦 CLASSES (3)
+--------------------------------------------------------------------------------
+
+  class EnhancedDiagnostic
+    Line: 24 | Methods: 0
+
+  class RuntimeErrorCollector
+    Line: 40 | Methods: 6
+
+    __init__()
+      Line: 43 | Args: self, codebase
+      ✅ exists: Method defined
+
+    collect_python_runtime_errors()
+      Line: 49 | Args: self, log_file_path
+      ✅ exists: Method defined
+
+    collect_ui_interaction_errors()
+      Line: 98 | Args: self, ui_log_path
+      ✅ exists: Method defined
+
+    collect_network_errors()
+      Line: 160 | Args: self
+      ✅ exists: Method defined
+
+    _collect_in_memory_errors()
+      Line: 185 | Args: self
+      ✅ exists: Method defined
+
+    _collect_browser_console_errors()
+      Line: 191 | Args: self
+      ✅ exists: Method defined
+
+  class LSPDiagnosticsManager
+    Line: 198 | Methods: 18
+
+    __init__()
+      Line: 201 | Args: self, codebase, language, log_level
+      ✅ exists: Method defined
+
+    start_server()
+      Line: 214 | Args: self
+      ✅ exists: Method defined
+
+    open_file()
+      Line: 224 | Args: self, relative_file_path, content
+      ✅ exists: Method defined
+
+    change_file()
+      Line: 231 | Args: self, relative_file_path, content
+      ✅ exists: Method defined
+
+    get_diagnostics()
+      Line: 238 | Args: self, relative_file_path
+      ✅ exists: Method defined
+
+    get_all_enhanced_diagnostics()
+      Line: 247 | Args: self, runtime_log_path, ui_log_path
+      ✅ exists: Method defined
+
+    _get_relevant_code_for_diagnostic()
+      Line: 331 | Args: self, file_content, diagnostic_range, context_lines
+      ✅ exists: Method defined
+
+    _get_error_history()
+      Line: 363 | Args: self, error_key
+      ✅ exists: Method defined
+
+    _extract_component_errors()
+      Line: 367 | Args: self, ui_errors
+      ✅ exists: Method defined
+
+    collect_runtime_diagnostics()
+      Line: 382 | Args: self, runtime_log_path, ui_log_path
+      ✅ exists: Method defined
+
+    get_error_statistics()
+      Line: 459 | Args: self
+      ✅ exists: Method defined
+
+    add_runtime_error()
+      Line: 490 | Args: self, error_data
+      ✅ exists: Method defined
+
+    add_ui_error()
+      Line: 495 | Args: self, error_data
+      ✅ exists: Method defined
+
+    clear_diagnostics()
+      Line: 500 | Args: self
+      ✅ exists: Method defined
+
+    shutdown_server()
+      Line: 508 | Args: self
+      ✅ exists: Method defined
+
+    _categorize_diagnostics_by_severity()
+      Line: 540 | Args: self, all_diagnostics
+      ✅ exists: Method defined
+
+    _calculate_resolution_success_rate()
+      Line: 553 | Args: self
+      ✅ exists: Method defined
+
+    mark_error_resolved()
+      Line: 561 | Args: self, error_key, success, method
+      ✅ exists: Method defined
+
+================================================================================
+MODULE: autogenlib_adapter.py
+================================================================================
+
+📦 TOP-LEVEL FUNCTIONS (32)
+--------------------------------------------------------------------------------
+
+  get_llm_codebase_overview()
+    Line: 45 | Args: codebase
+    ❌ import: ❌ Import error: No module named 'openai'
+
+  get_comprehensive_symbol_context()
+    Line: 52 | Args: codebase, symbol_name, filepath
+    ❌ import: ❌ Import error: No module named 'openai'
+
+  get_file_context()
+    Line: 82 | Args: codebase, filepath
+    ❌ import: ❌ Import error: No module named 'openai'
+
+  get_autogenlib_enhanced_context()
+    Line: 108 | Args: enhanced_diagnostic
+    ❌ import: ❌ Import error: No module named 'openai'
+
+  get_ai_fix_context()
+    Line: 162 | Args: enhanced_diagnostic, codebase
+    ❌ import: ❌ Import error: No module named 'openai'
+
+  _extract_relevant_code_snippets()
+    Line: 252 | Args: caller_code, enhanced_diagnostic
+    ❌ import: ❌ Import error: No module named 'openai'
+
+  _analyze_module_dependencies()
+    Line: 280 | Args: module_name, all_cached_modules
+    ❌ import: ❌ Import error: No module named 'openai'
+
+  _find_related_modules()
+    Line: 307 | Args: module_name, all_cached_modules
+    ❌ import: ❌ Import error: No module named 'openai'
+
+  _count_import_statements()
+    Line: 322 | Args: file_content
+    ❌ import: ❌ Import error: No module named 'openai'
+
+  _count_function_definitions()
+    Line: 328 | Args: file_content
+    ❌ import: ❌ Import error: No module named 'openai'
+
+  _count_class_definitions()
+    Line: 333 | Args: file_content
+    ❌ import: ❌ Import error: No module named 'openai'
+
+  _determine_file_role()
+    Line: 338 | Args: filepath
+    ❌ import: ❌ Import error: No module named 'openai'
+
+  _find_related_symbols_in_file()
+    Line: 366 | Args: codebase, filepath, error_line
+    ❌ import: ❌ Import error: No module named 'openai'
+
+  _calculate_simple_complexity()
+    Line: 400 | Args: func
+    ❌ import: ❌ Import error: No module named 'openai'
+
+  _categorize_error()
+    Line: 407 | Args: diagnostic
+    ❌ import: ❌ Import error: No module named 'openai'
+
+  _get_common_fixes_for_error()
+    Line: 428 | Args: diagnostic
+    ❌ import: ❌ Import error: No module named 'openai'
+
+  _estimate_resolution_confidence()
+    Line: 444 | Args: diagnostic, symbol_context
+    ❌ import: ❌ Import error: No module named 'openai'
+
+  _requires_manual_review()
+    Line: 465 | Args: diagnostic
+    ❌ import: ❌ Import error: No module named 'openai'
+
+  _has_automated_fix()
+    Line: 478 | Args: diagnostic
+    ❌ import: ❌ Import error: No module named 'openai'
+
+  _get_visualization_context()
+    Line: 486 | Args: analyzer, symbol
+    ❌ import: ❌ Import error: No module named 'openai'
+
+  get_error_pattern_context()
+    Line: 514 | Args: codebase, error_category, max_examples
+    ❌ import: ❌ Import error: No module named 'openai'
+
+  _get_common_causes_for_error_category()
+    Line: 550 | Args: category
+    ❌ import: ❌ Import error: No module named 'openai'
+
+  _get_resolution_strategies_for_error_category()
+    Line: 563 | Args: category
+    ❌ import: ❌ Import error: No module named 'openai'
+
+  _get_search_terms_for_error_category()
+    Line: 576 | Args: category
+    ❌ import: ❌ Import error: No module named 'openai'
+
+  resolve_diagnostic_with_ai()
+    Line: 596 | Args: enhanced_diagnostic, codebase
+    ❌ import: ❌ Import error: No module named 'openai'
+
+  resolve_runtime_error_with_ai()
+    Line: 772 | Args: runtime_error, codebase
+    ❌ import: ❌ Import error: No module named 'openai'
+
+  resolve_ui_error_with_ai()
+    Line: 829 | Args: ui_error, codebase
+    ❌ import: ❌ Import error: No module named 'openai'
+
+  resolve_multiple_errors_with_ai()
+    Line: 882 | Args: enhanced_diagnostics, codebase, max_fixes
+    ❌ import: ❌ Import error: No module named 'openai'
+
+  generate_comprehensive_fix_strategy()
+    Line: 996 | Args: codebase, error_analysis
+    ❌ import: ❌ Import error: No module named 'openai'
+
+  validate_fix_with_context()
+    Line: 1063 | Args: fixed_code, enhanced_diagnostic, codebase
+    ❌ import: ❌ Import error: No module named 'openai'
+
+  _analyze_code_style()
+    Line: 1114 | Args: code
+    ❌ import: ❌ Import error: No module named 'openai'
+
+  _styles_compatible()
+    Line: 1124 | Args: style1, style2
+    ❌ import: ❌ Import error: No module named 'openai'
+
+================================================================================
+MODULE: graph_sitter_adapter.py
+================================================================================
+
+
+📦 CLASSES (12)
+--------------------------------------------------------------------------------
+
+  class AnalyzeRequest
+    Line: 226 | Methods: 0
+
+  class ErrorAnalysisResponse
+    Line: 239 | Methods: 0
+
+  class EntrypointAnalysisResponse
+    Line: 250 | Methods: 0
+
+  class TransformationRequest
+    Line: 263 | Methods: 0
+
+  class VisualizationRequest
+    Line: 271 | Methods: 0
+
+  class DeadCodeAnalysisResponse
+    Line: 286 | Methods: 0
+
+  class CodeQualityMetrics
+    Line: 296 | Methods: 0
+
+  class GraphSitterAnalyzer
+    Line: 309 | Methods: 84
+
+    __init__()
+      Line: 315 | Args: self, codebase
+      ✅ exists: Method defined
+
+    get_codebase_overview()
+      Line: 324 | Args: self
+      ✅ exists: Method defined
+
+    get_file_details()
+      Line: 348 | Args: self, filepath
+      ✅ exists: Method defined
+
+    get_function_details()
+      Line: 378 | Args: self, function_name, filepath
+      ✅ exists: Method defined
+
+    get_class_details()
+      Line: 422 | Args: self, class_name, filepath
+      ✅ exists: Method defined
+
+    get_symbol_details()
+      Line: 465 | Args: self, symbol_name, filepath
+      ✅ exists: Method defined
+
+    create_blast_radius_visualization()
+      Line: 508 | Args: self, symbol_name, filepath, max_depth
+      ✅ exists: Method defined
+
+    create_call_trace_visualization()
+      Line: 539 | Args: self, function_name, filepath, max_depth
+      ✅ exists: Method defined
+
+    create_dependency_trace_visualization()
+      Line: 570 | Args: self, symbol_name, filepath, max_depth
+      ✅ exists: Method defined
+
+    create_method_relationships_visualization()
+      Line: 601 | Args: self, class_name, filepath
+      ✅ exists: Method defined
+
+    view_file_content()
+      Line: 635 | Args: self, filepath, line_numbers, start_line, end_line, max_lines
+      ✅ exists: Method defined
+
+    list_directory_contents()
+      Line: 647 | Args: self, path, depth
+      ✅ exists: Method defined
+
+    add_line_numbers_to_content()
+      Line: 651 | Args: self, content
+      ✅ exists: Method defined
+
+    reveal_symbol_relationships()
+      Line: 659 | Args: self, symbol_name, filepath, max_depth, max_tokens, collect_dependencies, collect_usages
+      ✅ exists: Method defined
+
+    get_symbol_info_detailed()
+      Line: 673 | Args: self, symbol, max_tokens
+      ✅ exists: Method defined
+
+    get_extended_symbol_context()
+      Line: 677 | Args: self, symbol, degree, max_tokens, collect_dependencies, collect_usages
+      ✅ exists: Method defined
+
+    generate_docstrings_for_undocumented()
+      Line: 692 | Args: self
+      ✅ exists: Method defined
+
+    generate_structured_docs()
+      Line: 716 | Args: self, head_commit, raise_on_missing_docstring
+      ✅ exists: Method defined
+
+    generate_mdx_documentation()
+      Line: 720 | Args: self, target_classes, output_dir
+      ✅ exists: Method defined
+
+    find_dead_code()
+      Line: 765 | Args: self
+      ✅ exists: Method defined
+
+    validate_bash_command()
+      Line: 889 | Args: self, command
+      ✅ exists: Method defined
+
+    run_bash_command()
+      Line: 893 | Args: self, command, is_background
+      ✅ exists: Method defined
+
+    perform_reflection()
+      Line: 901 | Args: self, context_summary, findings_so_far, current_challenges, reflection_focus
+      ✅ exists: Method defined
+
+    parse_reflection_response()
+      Line: 912 | Args: self, response
+      ✅ exists: Method defined
+
+    get_workspace_tools()
+      Line: 920 | Args: self
+      ✅ exists: Method defined
+
+    get_current_code_codebase()
+      Line: 928 | Args: self, config, secrets, subdirectories
+      ✅ exists: Method defined
+
+    get_codegen_sdk_codebase()
+      Line: 932 | Args: self
+      ✅ exists: Method defined
+
+    import_all_sdk_modules()
+      Line: 936 | Args: self
+      ✅ exists: Method defined
+
+    get_documented_objects()
+      Line: 940 | Args: self
+      ✅ exists: Method defined
+
+    analyze_function_complexity()
+      Line: 948 | Args: self, function_name, filepath
+      ✅ exists: Method defined
+
+    analyze_class_structure()
+      Line: 978 | Args: self, class_name, filepath
+      ✅ exists: Method defined
+
+    analyze_import_relationships()
+      Line: 1028 | Args: self, filepath
+      ✅ exists: Method defined
+
+    _resolve_symbol_with_filepath()
+      Line: 1075 | Args: self, symbols, filepath, expected_type
+      ✅ exists: Method defined
+
+    _identify_entrypoints()
+      Line: 1085 | Args: self
+      ✅ exists: Method defined
+
+    _get_dead_code_summary()
+      Line: 1126 | Args: self
+      ✅ exists: Method defined
+
+    _get_complexity_overview()
+      Line: 1136 | Args: self
+      ✅ exists: Method defined
+
+    _get_function_parameters_details()
+      Line: 1153 | Args: self, func
+      ✅ exists: Method defined
+
+    _get_function_return_type_details()
+      Line: 1192 | Args: self, func
+      ✅ exists: Method defined
+
+    _get_function_local_variables_details()
+      Line: 1222 | Args: self, func
+      ✅ exists: Method defined
+
+    _symbol_to_dict()
+      Line: 1236 | Args: self, symbol_info
+      ✅ exists: Method defined
+
+    _call_site_to_dict()
+      Line: 1244 | Args: self, call_site
+      ✅ exists: Method defined
+
+    _function_call_to_dict()
+      Line: 1252 | Args: self, function_call
+      ✅ exists: Method defined
+
+    _class_to_dict()
+      Line: 1260 | Args: self, cls
+      ✅ exists: Method defined
+
+    _calculate_function_complexity()
+      Line: 1273 | Args: self, func
+      ✅ exists: Method defined
+
+    _calculate_cyclomatic_complexity()
+      Line: 1277 | Args: self, func
+      ✅ exists: Method defined
+
+    _calculate_halstead_metrics()
+      Line: 1299 | Args: self, func
+      ✅ exists: Method defined
+
+    _get_complexity_rank()
+      Line: 1329 | Args: self, complexity
+      ✅ exists: Method defined
+
+    _calculate_function_complexity_metrics()
+      Line: 1344 | Args: self, func
+      ✅ exists: Method defined
+
+    _calculate_function_quality_metrics()
+      Line: 1354 | Args: self, func
+      ✅ exists: Method defined
+
+    _calculate_class_complexity_metrics()
+      Line: 1363 | Args: self, cls
+      ✅ exists: Method defined
+
+    _calculate_inheritance_metrics()
+      Line: 1375 | Args: self, cls
+      ✅ exists: Method defined
+
+    _calculate_class_cohesion()
+      Line: 1384 | Args: self, cls
+      ✅ exists: Method defined
+
+    _build_blast_radius_graph()
+      Line: 1421 | Args: self, graph, symbol, max_depth, depth
+      ✅ exists: Method defined
+
+    _build_call_trace_graph()
+      Line: 1440 | Args: self, graph, func, max_depth, depth
+      ✅ exists: Method defined
+
+    _build_dependency_trace_graph()
+      Line: 1458 | Args: self, graph, symbol, max_depth, depth
+      ✅ exists: Method defined
+
+    _build_method_relationships_graph()
+      Line: 1477 | Args: self, graph, cls
+      ✅ exists: Method defined
+
+    _is_entrypoint_function()
+      Line: 1497 | Args: self, func
+      ✅ exists: Method defined
+
+    _is_entrypoint_class()
+      Line: 1507 | Args: self, cls
+      ✅ exists: Method defined
+
+    _is_entrypoint_file()
+      Line: 1516 | Args: self, file_obj
+      ✅ exists: Method defined
+
+    _is_test_function()
+      Line: 1521 | Args: self, func
+      ✅ exists: Method defined
+
+    _is_test_class()
+      Line: 1529 | Args: self, cls
+      ✅ exists: Method defined
+
+    _is_special_function()
+      Line: 1533 | Args: self, func
+      ✅ exists: Method defined
+
+    _calculate_entrypoint_score()
+      Line: 1538 | Args: self, func
+      ✅ exists: Method defined
+
+    _calculate_class_entrypoint_score()
+      Line: 1568 | Args: self, cls
+      ✅ exists: Method defined
+
+    _has_entrypoint_decorators()
+      Line: 1589 | Args: self, func
+      ✅ exists: Method defined
+
+    _has_framework_inheritance()
+      Line: 1600 | Args: self, cls
+      ✅ exists: Method defined
+
+    _has_singleton_pattern()
+      Line: 1607 | Args: self, cls
+      ✅ exists: Method defined
+
+    _has_test_decorators()
+      Line: 1611 | Args: self, func
+      ✅ exists: Method defined
+
+    _is_called_from_main_block()
+      Line: 1622 | Args: self, func
+      ✅ exists: Method defined
+
+    _is_property_method()
+      Line: 1631 | Args: self, method
+      ✅ exists: Method defined
+
+    _calculate_nesting_depth()
+      Line: 1641 | Args: self, func
+      ✅ exists: Method defined
+
+    _calculate_typed_parameters_ratio()
+      Line: 1667 | Args: self, func
+      ✅ exists: Method defined
+
+    _calculate_function_maintainability()
+      Line: 1675 | Args: self, func
+      ✅ exists: Method defined
+
+    _calculate_file_complexity()
+      Line: 1689 | Args: self, file_obj
+      ✅ exists: Method defined
+
+    _calculate_maintainability_index()
+      Line: 1700 | Args: self, file_obj
+      ✅ exists: Method defined
+
+    _calculate_file_doc_coverage()
+      Line: 1715 | Args: self, file_obj
+      ✅ exists: Method defined
+
+    _detect_circular_imports()
+      Line: 1726 | Args: self, file_obj
+      ✅ exists: Method defined
+
+    _get_function_summary()
+      Line: 1754 | Args: self, func
+      ✅ exists: Method defined
+
+    _get_class_summary()
+      Line: 1766 | Args: self, cls
+      ✅ exists: Method defined
+
+    _get_import_summary()
+      Line: 1778 | Args: self, imp
+      ✅ exists: Method defined
+
+    _get_symbol_summary()
+      Line: 1789 | Args: self, symbol
+      ✅ exists: Method defined
+
+    _get_method_summary()
+      Line: 1799 | Args: self, method
+      ✅ exists: Method defined
+
+    _get_attribute_summary()
+      Line: 1811 | Args: self, attr
+      ✅ exists: Method defined
+
+    _get_symbol_context()
+      Line: 1821 | Args: self, symbol
+      ✅ exists: Method defined
+
+  class AnalysisEngine
+    Line: 1952 | Methods: 40
+
+    __init__()
+      Line: 1957 | Args: self, codebase, language
+      ✅ exists: Method defined
+
+    _analyze_errors_with_graph_sitter_enhanced()
+      Line: 2044 | Args: self, codebase, lsp_diagnostics
+      ✅ exists: Method defined
+
+    _analyze_error_patterns()
+      Line: 2172 | Args: self, detailed_errors
+      ✅ exists: Method defined
+
+    _get_resolution_strategy()
+      Line: 2210 | Args: self, category
+      ✅ exists: Method defined
+
+    _generate_resolution_recommendations()
+      Line: 2229 | Args: self, errors
+      ✅ exists: Method defined
+
+    _analyze_entrypoints_with_graph_sitter_enhanced()
+      Line: 2319 | Args: self, codebase
+      ✅ exists: Method defined
+
+    _get_function_parameters_details()
+      Line: 2521 | Args: self, func
+      ✅ exists: Method defined
+
+    _get_function_return_type_details()
+      Line: 2573 | Args: self, func
+      ✅ exists: Method defined
+
+    _get_function_local_variables_details()
+      Line: 2609 | Args: self, func
+      ✅ exists: Method defined
+
+    _is_test_function_enhanced()
+      Line: 2637 | Args: self, func
+      ✅ exists: Method defined
+
+    _is_entrypoint_class_enhanced()
+      Line: 2666 | Args: self, cls
+      ✅ exists: Method defined
+
+    _is_api_entrypoint_class()
+      Line: 2705 | Args: self, cls
+      ✅ exists: Method defined
+
+    _calculate_entrypoint_score()
+      Line: 2732 | Args: self, func
+      ✅ exists: Method defined
+
+    _estimate_test_coverage()
+      Line: 2782 | Args: self, func
+      ✅ exists: Method defined
+
+    _analyze_entrypoint_dependencies()
+      Line: 2802 | Args: self, all_entrypoints, codebase
+      ✅ exists: Method defined
+
+    _analyze_entrypoint_call_flows()
+      Line: 2870 | Args: self, all_entrypoints, codebase
+      ✅ exists: Method defined
+
+    _calculate_call_depth()
+      Line: 2906 | Args: self, func, codebase, visited, depth
+      ✅ exists: Method defined
+
+    _has_recursive_calls()
+      Line: 2930 | Args: self, func
+      ✅ exists: Method defined
+
+    _calculate_class_entrypoint_score()
+      Line: 2938 | Args: self, cls
+      ✅ exists: Method defined
+
+    _classify_test_type()
+      Line: 2969 | Args: self, func
+      ✅ exists: Method defined
+
+    _build_tree_structure_from_graph_sitter()
+      Line: 2982 | Args: self, codebase, all_lsp_diagnostics
+      ✅ exists: Method defined
+
+    _build_directory_nodes_recursive()
+      Line: 3201 | Args: self, dir_structure, current_path
+      ✅ exists: Method defined
+
+    _build_dependency_graph_from_graph_sitter()
+      Line: 3273 | Args: self, codebase
+      ✅ exists: Method defined
+
+    _calculate_code_quality_metrics()
+      Line: 3326 | Args: self, codebase
+      ✅ exists: Method defined
+
+    _analyze_architectural_patterns()
+      Line: 3413 | Args: self, codebase
+      ✅ exists: Method defined
+
+    _analyze_security_patterns()
+      Line: 3470 | Args: self, codebase
+      ✅ exists: Method defined
+
+    _analyze_performance_patterns()
+      Line: 3528 | Args: self, codebase
+      ✅ exists: Method defined
+
+    _detect_file_errors_graph_sitter()
+      Line: 3578 | Args: self, file_obj, lsp_diagnostics
+      ✅ exists: Method defined
+
+    _detect_function_errors_graph_sitter()
+      Line: 3617 | Args: self, func, lsp_diagnostics
+      ✅ exists: Method defined
+
+    _detect_class_errors_graph_sitter()
+      Line: 3659 | Args: self, cls, lsp_diagnostics
+      ✅ exists: Method defined
+
+    _is_entrypoint_file()
+      Line: 3698 | Args: self, file_obj
+      ✅ exists: Method defined
+
+    _is_entrypoint_function()
+      Line: 3710 | Args: self, func
+      ✅ exists: Method defined
+
+    _is_entrypoint_class()
+      Line: 3718 | Args: self, cls
+      ✅ exists: Method defined
+
+    _is_test_function()
+      Line: 3730 | Args: self, func
+      ✅ exists: Method defined
+
+    _is_test_class()
+      Line: 3734 | Args: self, cls
+      ✅ exists: Method defined
+
+    _is_special_function()
+      Line: 3738 | Args: self, func
+      ✅ exists: Method defined
+
+    _calculate_file_complexity()
+      Line: 3750 | Args: self, file_obj
+      ✅ exists: Method defined
+
+    _calculate_function_complexity()
+      Line: 3763 | Args: self, func
+      ✅ exists: Method defined
+
+    _calculate_class_complexity()
+      Line: 3784 | Args: self, cls
+      ✅ exists: Method defined
+
+    _calculate_maintainability_index()
+      Line: 3797 | Args: self, file_obj
+      ✅ exists: Method defined
+
+  class EnhancedVisualizationEngine
+    Line: 3829 | Methods: 18
+
+    __init__()
+      Line: 3832 | Args: self, codebase
+      ✅ exists: Method defined
+
+    create_dynamic_dependency_graph()
+      Line: 3835 | Args: self, target_type, target_name, scope, max_depth, include_external
+      ✅ exists: Method defined
+
+    create_class_hierarchy_graph()
+      Line: 3861 | Args: self, target_class, include_methods
+      ✅ exists: Method defined
+
+    create_module_dependency_graph()
+      Line: 3881 | Args: self, target_module, max_depth
+      ✅ exists: Method defined
+
+    create_function_call_trace()
+      Line: 3897 | Args: self, entry_function, target_function, max_depth
+      ✅ exists: Method defined
+
+    create_data_flow_graph()
+      Line: 3918 | Args: self, entry_point, max_depth
+      ✅ exists: Method defined
+
+    create_blast_radius_graph()
+      Line: 3931 | Args: self, entry_point, max_depth
+      ✅ exists: Method defined
+
+    _get_target_symbol()
+      Line: 3944 | Args: self, target_type, target_name
+      ✅ exists: Method defined
+
+    _get_scope_symbols()
+      Line: 3957 | Args: self, scope, target_symbol
+      ✅ exists: Method defined
+
+    _build_scoped_dependency_graph()
+      Line: 3992 | Args: self, graph, symbol, scope_symbols, max_depth, include_external, depth
+      ✅ exists: Method defined
+
+    _build_class_hierarchy_subgraph()
+      Line: 4036 | Args: self, graph, cls, include_methods, depth
+      ✅ exists: Method defined
+
+    _build_module_dependency_subgraph()
+      Line: 4097 | Args: self, graph, module_files, max_depth
+      ✅ exists: Method defined
+
+    _build_call_trace_subgraph()
+      Line: 4140 | Args: self, graph, start_func, end_func, max_depth
+      ✅ exists: Method defined
+
+    _build_data_flow_subgraph()
+      Line: 4180 | Args: self, graph, symbol, max_depth, depth
+      ✅ exists: Method defined
+
+    _build_blast_radius_subgraph()
+      Line: 4236 | Args: self, graph, symbol, max_depth, depth
+      ✅ exists: Method defined
+
+    _serialize_enhanced_graph()
+      Line: 4271 | Args: self, graph, target_info, graph_type
+      ✅ exists: Method defined
+
+    _serialize_graph()
+      Line: 4309 | Args: self, graph
+      ✅ exists: Method defined
+
+    _calculate_function_complexity()
+      Line: 4330 | Args: self, func
+      ✅ exists: Method defined
+
+  class TransformationEngine
+    Line: 4349 | Methods: 9
+
+    __init__()
+      Line: 4352 | Args: self, codebase
+      ✅ exists: Method defined
+
+    move_symbol()
+      Line: 4356 | Args: self, symbol_name, target_file, include_dependencies, strategy
+      ✅ exists: Method defined
+
+    remove_symbol()
+      Line: 4407 | Args: self, symbol_name, safe_mode
+      ✅ exists: Method defined
+
+    rename_symbol()
+      Line: 4447 | Args: self, old_name, new_name
+      ✅ exists: Method defined
+
+    resolve_imports()
+      Line: 4482 | Args: self, file_path
+      ✅ exists: Method defined
+
+    add_type_annotations()
+      Line: 4519 | Args: self, symbol_name, return_type, parameter_types
+      ✅ exists: Method defined
+
+    extract_function()
+      Line: 4566 | Args: self, source_function, new_function_name, start_line, end_line
+      ✅ exists: Method defined
+
+    get_transformation_log()
+      Line: 4623 | Args: self
+      ✅ exists: Method defined
+
+    clear_transformation_log()
+      Line: 4627 | Args: self
+      ✅ exists: Method defined
+
+  class EnhancedTransformationEngine
+    Line: 4632 | Methods: 9
+
+    __init__()
+      Line: 4635 | Args: self, codebase
+      ✅ exists: Method defined
+
+    _resolve_all_types()
+      Line: 4649 | Args: self
+      ✅ exists: Method defined
+
+    _resolve_all_imports()
+      Line: 4654 | Args: self
+      ✅ exists: Method defined
+
+    _resolve_all_function_calls()
+      Line: 4659 | Args: self
+      ✅ exists: Method defined
+
+    _resolve_method_implementations()
+      Line: 4667 | Args: self
+      ✅ exists: Method defined
+
+    _resolve_class_attributes()
+      Line: 4675 | Args: self
+      ✅ exists: Method defined
+
+    _resolve_variable_definitions()
+      Line: 4683 | Args: self
+      ✅ exists: Method defined
+
+    _resolve_parameter_types()
+      Line: 4691 | Args: self
+      ✅ exists: Method defined
+
+    _resolve_argument_types()
+      Line: 4696 | Args: self
+      ✅ exists: Method defined
+
+================================================================================
+MODULE: analyzer.py
+================================================================================
+
+
+📦 CLASSES (10)
+--------------------------------------------------------------------------------
+
+  class AnalysisError
+    Line: 89 | Methods: 1
+
+    to_dict()
+      Line: 104 | Args: self
+      ✅ exists: Method defined
+
+  class ToolConfig
+    Line: 122 | Methods: 0
+
+  class GraphSitterAnalysis
+    Line: 135 | Methods: 11
+
+    __init__()
+      Line: 138 | Args: self, target_path
+      ✅ exists: Method defined
+
+    _initialize_codebase()
+      Line: 148 | Args: self
+      ✅ exists: Method defined
+
+    functions()
+      Line: 165 | Args: self
+      ✅ exists: Method defined
+
+    classes()
+      Line: 172 | Args: self
+      ✅ exists: Method defined
+
+    imports()
+      Line: 179 | Args: self
+      ✅ exists: Method defined
+
+    files()
+      Line: 186 | Args: self
+      ✅ exists: Method defined
+
+    symbols()
+      Line: 193 | Args: self
+      ✅ exists: Method defined
+
+    external_modules()
+      Line: 200 | Args: self
+      ✅ exists: Method defined
+
+    get_codebase_summary()
+      Line: 206 | Args: self
+      ✅ exists: Method defined
+
+    get_function_analysis()
+      Line: 223 | Args: self, function_name
+      ✅ exists: Method defined
+
+    get_class_analysis()
+      Line: 245 | Args: self, class_name
+      ✅ exists: Method defined
+
+  class RuffIntegration
+    Line: 267 | Methods: 4
+
+    __init__()
+      Line: 270 | Args: self, target_path
+      ✅ exists: Method defined
+
+    run_comprehensive_analysis()
+      Line: 273 | Args: self
+      ✅ exists: Method defined
+
+    _map_ruff_severity()
+      Line: 381 | Args: self, code
+      ✅ exists: Method defined
+
+    _categorize_ruff_error()
+      Line: 392 | Args: self, code
+      ✅ exists: Method defined
+
+  class LSPDiagnosticsCollector
+    Line: 417 | Methods: 3
+
+    __init__()
+      Line: 420 | Args: self, target_path
+      ✅ exists: Method defined
+
+    collect_python_diagnostics()
+      Line: 425 | Args: self
+      ✅ exists: Method defined
+
+    _map_lsp_severity()
+      Line: 508 | Args: self, severity
+      ✅ exists: Method defined
+
+  class ErrorDatabase
+    Line: 514 | Methods: 6
+
+    __init__()
+      Line: 517 | Args: self, db_path
+      ✅ exists: Method defined
+
+    _init_database()
+      Line: 521 | Args: self
+      ✅ exists: Method defined
+
+    create_session()
+      Line: 570 | Args: self, target_path, tools_used, config
+      ✅ exists: Method defined
+
+    store_errors()
+      Line: 588 | Args: self, errors, session_id
+      ✅ exists: Method defined
+
+    update_session()
+      Line: 615 | Args: self, session_id, total_errors
+      ✅ exists: Method defined
+
+    query_errors()
+      Line: 627 | Args: self, filters
+      ✅ exists: Method defined
+
+  class AutoGenLibFixer
+    Line: 643 | Methods: 3
+
+    __init__()
+      Line: 646 | Args: self
+      ✅ exists: Method defined
+
+    generate_fix_for_error()
+      Line: 658 | Args: self, error, source_code
+      ✅ exists: Method defined
+
+    apply_fix_to_file()
+      Line: 689 | Args: self, file_path, fixed_code
+      ✅ exists: Method defined
+
+  class ComprehensiveAnalyzer
+    Line: 710 | Methods: 22
+
+    __init__()
+      Line: 817 | Args: self, target_path, config, verbose
+      ✅ exists: Method defined
+
+    _initialize_components()
+      Line: 842 | Args: self
+      ✅ exists: Method defined
+
+    _load_config()
+      Line: 875 | Args: self
+      ✅ exists: Method defined
+
+    run_comprehensive_analysis()
+      Line: 905 | Args: self
+      ✅ exists: Method defined
+
+    _run_graph_sitter_analysis()
+      Line: 989 | Args: self
+      ✅ exists: Method defined
+
+    _collect_lsp_diagnostics()
+      Line: 1025 | Args: self
+      ✅ exists: Method defined
+
+    _run_ruff_analysis()
+      Line: 1036 | Args: self
+      ✅ exists: Method defined
+
+    _run_traditional_tools()
+      Line: 1047 | Args: self
+      ✅ exists: Method defined
+
+    _run_single_tool()
+      Line: 1079 | Args: self, tool_name, tool_config
+      ✅ exists: Method defined
+
+    _parse_mypy_output()
+      Line: 1118 | Args: self, output
+      ✅ exists: Method defined
+
+    _parse_pylint_output()
+      Line: 1163 | Args: self, output
+      ✅ exists: Method defined
+
+    _parse_bandit_output()
+      Line: 1187 | Args: self, output
+      ✅ exists: Method defined
+
+    _parse_safety_output()
+      Line: 1211 | Args: self, output
+      ✅ exists: Method defined
+
+    _parse_semgrep_output()
+      Line: 1235 | Args: self, output
+      ✅ exists: Method defined
+
+    _parse_generic_output()
+      Line: 1259 | Args: self, tool_name, result
+      ✅ exists: Method defined
+
+    _categorize_errors()
+      Line: 1288 | Args: self, errors
+      ✅ exists: Method defined
+
+    _detect_dead_code()
+      Line: 1344 | Args: self, graph_sitter_results
+      ✅ exists: Method defined
+
+    _calculate_metrics()
+      Line: 1402 | Args: self, errors, graph_sitter_results
+      ✅ exists: Method defined
+
+    _generate_summary()
+      Line: 1439 | Args: self, errors, categorized_errors, metrics
+      ✅ exists: Method defined
+
+    _calculate_quality_score()
+      Line: 1463 | Args: self, errors, metrics
+      ✅ exists: Method defined
+
+    _categorize_pylint_error()
+      Line: 1492 | Args: self, message_id
+      ✅ exists: Method defined
+
+    fix_errors_with_autogenlib()
+      Line: 1505 | Args: self, max_fixes
+      ✅ exists: Method defined
+
+  class InteractiveAnalyzer
+    Line: 1564 | Methods: 8
+
+    __init__()
+      Line: 1567 | Args: self, analyzer
+      ✅ exists: Method defined
+
+    start_interactive_session()
+      Line: 1571 | Args: self
+      ✅ exists: Method defined
+
+    _show_summary()
+      Line: 1616 | Args: self
+      ✅ exists: Method defined
+
+    _show_errors()
+      Line: 1640 | Args: self, category
+      ✅ exists: Method defined
+
+    _show_function_analysis()
+      Line: 1658 | Args: self, func_name
+      ✅ exists: Method defined
+
+    _show_class_analysis()
+      Line: 1676 | Args: self, class_name
+      ✅ exists: Method defined
+
+    _apply_fixes()
+      Line: 1694 | Args: self
+      ✅ exists: Method defined
+
+    _export_results()
+      Line: 1712 | Args: self, format_type
+      ✅ exists: Method defined
+
+  class ReportGenerator
+    Line: 1739 | Methods: 7
+
+    __init__()
+      Line: 1742 | Args: self, results
+      ✅ exists: Method defined
+
+    generate_terminal_report()
+      Line: 1745 | Args: self
+      ✅ exists: Method defined
+
+    generate_html_report()
+      Line: 1818 | Args: self
+      ✅ exists: Method defined
+
+    _generate_error_categories_html()
+      Line: 1896 | Args: self
+      ✅ exists: Method defined
+
+    _generate_dead_code_html()
+      Line: 1925 | Args: self
+      ✅ exists: Method defined
+
+    _generate_structure_html()
+      Line: 1949 | Args: self
+      ✅ exists: Method defined
+
+    _generate_metrics_html()
+      Line: 1970 | Args: self
+      ✅ exists: Method defined
+
+
+================================================================================
+OVERALL STATISTICS
+================================================================================
+
+Modules Analyzed: 5
+Total Functions: 32
+Total Classes: 25
+Total Methods: 249
+Total Callables: 281

@@ -1,0 +1,4426 @@
+[
+  {
+    "module": "static_libs",
+    "path": "/tmp/Zeeeepa/analyzer/Libraries/static_libs.py",
+    "functions": {},
+    "classes": {}
+  },
+  {
+    "module": "lsp_adapter",
+    "path": "/tmp/Zeeeepa/analyzer/Libraries/lsp_adapter.py",
+    "functions": {},
+    "classes": {
+      "EnhancedDiagnostic": {
+        "lineno": 24,
+        "methods": {}
+      },
+      "RuntimeErrorCollector": {
+        "lineno": 40,
+        "methods": {
+          "__init__": {
+            "name": "__init__",
+            "type": "method",
+            "lineno": 43,
+            "args": [
+              "self",
+              "codebase"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "collect_python_runtime_errors": {
+            "name": "collect_python_runtime_errors",
+            "type": "method",
+            "lineno": 49,
+            "args": [
+              "self",
+              "log_file_path"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "collect_ui_interaction_errors": {
+            "name": "collect_ui_interaction_errors",
+            "type": "method",
+            "lineno": 98,
+            "args": [
+              "self",
+              "ui_log_path"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "collect_network_errors": {
+            "name": "collect_network_errors",
+            "type": "method",
+            "lineno": 160,
+            "args": [
+              "self"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_collect_in_memory_errors": {
+            "name": "_collect_in_memory_errors",
+            "type": "method",
+            "lineno": 185,
+            "args": [
+              "self"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_collect_browser_console_errors": {
+            "name": "_collect_browser_console_errors",
+            "type": "method",
+            "lineno": 191,
+            "args": [
+              "self"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          }
+        }
+      },
+      "LSPDiagnosticsManager": {
+        "lineno": 198,
+        "methods": {
+          "__init__": {
+            "name": "__init__",
+            "type": "method",
+            "lineno": 201,
+            "args": [
+              "self",
+              "codebase",
+              "language",
+              "log_level"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "start_server": {
+            "name": "start_server",
+            "type": "method",
+            "lineno": 214,
+            "args": [
+              "self"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "open_file": {
+            "name": "open_file",
+            "type": "method",
+            "lineno": 224,
+            "args": [
+              "self",
+              "relative_file_path",
+              "content"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "change_file": {
+            "name": "change_file",
+            "type": "method",
+            "lineno": 231,
+            "args": [
+              "self",
+              "relative_file_path",
+              "content"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "get_diagnostics": {
+            "name": "get_diagnostics",
+            "type": "method",
+            "lineno": 238,
+            "args": [
+              "self",
+              "relative_file_path"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "get_all_enhanced_diagnostics": {
+            "name": "get_all_enhanced_diagnostics",
+            "type": "method",
+            "lineno": 247,
+            "args": [
+              "self",
+              "runtime_log_path",
+              "ui_log_path"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_get_relevant_code_for_diagnostic": {
+            "name": "_get_relevant_code_for_diagnostic",
+            "type": "method",
+            "lineno": 331,
+            "args": [
+              "self",
+              "file_content",
+              "diagnostic_range",
+              "context_lines"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_get_error_history": {
+            "name": "_get_error_history",
+            "type": "method",
+            "lineno": 363,
+            "args": [
+              "self",
+              "error_key"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_extract_component_errors": {
+            "name": "_extract_component_errors",
+            "type": "method",
+            "lineno": 367,
+            "args": [
+              "self",
+              "ui_errors"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "collect_runtime_diagnostics": {
+            "name": "collect_runtime_diagnostics",
+            "type": "method",
+            "lineno": 382,
+            "args": [
+              "self",
+              "runtime_log_path",
+              "ui_log_path"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "get_error_statistics": {
+            "name": "get_error_statistics",
+            "type": "method",
+            "lineno": 459,
+            "args": [
+              "self"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "add_runtime_error": {
+            "name": "add_runtime_error",
+            "type": "method",
+            "lineno": 490,
+            "args": [
+              "self",
+              "error_data"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "add_ui_error": {
+            "name": "add_ui_error",
+            "type": "method",
+            "lineno": 495,
+            "args": [
+              "self",
+              "error_data"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "clear_diagnostics": {
+            "name": "clear_diagnostics",
+            "type": "method",
+            "lineno": 500,
+            "args": [
+              "self"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "shutdown_server": {
+            "name": "shutdown_server",
+            "type": "method",
+            "lineno": 508,
+            "args": [
+              "self"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_categorize_diagnostics_by_severity": {
+            "name": "_categorize_diagnostics_by_severity",
+            "type": "method",
+            "lineno": 540,
+            "args": [
+              "self",
+              "all_diagnostics"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_calculate_resolution_success_rate": {
+            "name": "_calculate_resolution_success_rate",
+            "type": "method",
+            "lineno": 553,
+            "args": [
+              "self"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "mark_error_resolved": {
+            "name": "mark_error_resolved",
+            "type": "method",
+            "lineno": 561,
+            "args": [
+              "self",
+              "error_key",
+              "success",
+              "method"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  {
+    "module": "autogenlib_adapter",
+    "path": "/tmp/Zeeeepa/analyzer/Libraries/autogenlib_adapter.py",
+    "functions": {
+      "get_llm_codebase_overview": {
+        "name": "get_llm_codebase_overview",
+        "type": "function",
+        "lineno": 45,
+        "args": [
+          "codebase"
+        ],
+        "tests": {
+          "import": {
+            "status": "\u274c",
+            "message": "\u274c Import error: No module named 'openai'"
+          }
+        }
+      },
+      "get_comprehensive_symbol_context": {
+        "name": "get_comprehensive_symbol_context",
+        "type": "function",
+        "lineno": 52,
+        "args": [
+          "codebase",
+          "symbol_name",
+          "filepath"
+        ],
+        "tests": {
+          "import": {
+            "status": "\u274c",
+            "message": "\u274c Import error: No module named 'openai'"
+          }
+        }
+      },
+      "get_file_context": {
+        "name": "get_file_context",
+        "type": "function",
+        "lineno": 82,
+        "args": [
+          "codebase",
+          "filepath"
+        ],
+        "tests": {
+          "import": {
+            "status": "\u274c",
+            "message": "\u274c Import error: No module named 'openai'"
+          }
+        }
+      },
+      "get_autogenlib_enhanced_context": {
+        "name": "get_autogenlib_enhanced_context",
+        "type": "function",
+        "lineno": 108,
+        "args": [
+          "enhanced_diagnostic"
+        ],
+        "tests": {
+          "import": {
+            "status": "\u274c",
+            "message": "\u274c Import error: No module named 'openai'"
+          }
+        }
+      },
+      "get_ai_fix_context": {
+        "name": "get_ai_fix_context",
+        "type": "function",
+        "lineno": 162,
+        "args": [
+          "enhanced_diagnostic",
+          "codebase"
+        ],
+        "tests": {
+          "import": {
+            "status": "\u274c",
+            "message": "\u274c Import error: No module named 'openai'"
+          }
+        }
+      },
+      "_extract_relevant_code_snippets": {
+        "name": "_extract_relevant_code_snippets",
+        "type": "function",
+        "lineno": 252,
+        "args": [
+          "caller_code",
+          "enhanced_diagnostic"
+        ],
+        "tests": {
+          "import": {
+            "status": "\u274c",
+            "message": "\u274c Import error: No module named 'openai'"
+          }
+        }
+      },
+      "_analyze_module_dependencies": {
+        "name": "_analyze_module_dependencies",
+        "type": "function",
+        "lineno": 280,
+        "args": [
+          "module_name",
+          "all_cached_modules"
+        ],
+        "tests": {
+          "import": {
+            "status": "\u274c",
+            "message": "\u274c Import error: No module named 'openai'"
+          }
+        }
+      },
+      "_find_related_modules": {
+        "name": "_find_related_modules",
+        "type": "function",
+        "lineno": 307,
+        "args": [
+          "module_name",
+          "all_cached_modules"
+        ],
+        "tests": {
+          "import": {
+            "status": "\u274c",
+            "message": "\u274c Import error: No module named 'openai'"
+          }
+        }
+      },
+      "_count_import_statements": {
+        "name": "_count_import_statements",
+        "type": "function",
+        "lineno": 322,
+        "args": [
+          "file_content"
+        ],
+        "tests": {
+          "import": {
+            "status": "\u274c",
+            "message": "\u274c Import error: No module named 'openai'"
+          }
+        }
+      },
+      "_count_function_definitions": {
+        "name": "_count_function_definitions",
+        "type": "function",
+        "lineno": 328,
+        "args": [
+          "file_content"
+        ],
+        "tests": {
+          "import": {
+            "status": "\u274c",
+            "message": "\u274c Import error: No module named 'openai'"
+          }
+        }
+      },
+      "_count_class_definitions": {
+        "name": "_count_class_definitions",
+        "type": "function",
+        "lineno": 333,
+        "args": [
+          "file_content"
+        ],
+        "tests": {
+          "import": {
+            "status": "\u274c",
+            "message": "\u274c Import error: No module named 'openai'"
+          }
+        }
+      },
+      "_determine_file_role": {
+        "name": "_determine_file_role",
+        "type": "function",
+        "lineno": 338,
+        "args": [
+          "filepath"
+        ],
+        "tests": {
+          "import": {
+            "status": "\u274c",
+            "message": "\u274c Import error: No module named 'openai'"
+          }
+        }
+      },
+      "_find_related_symbols_in_file": {
+        "name": "_find_related_symbols_in_file",
+        "type": "function",
+        "lineno": 366,
+        "args": [
+          "codebase",
+          "filepath",
+          "error_line"
+        ],
+        "tests": {
+          "import": {
+            "status": "\u274c",
+            "message": "\u274c Import error: No module named 'openai'"
+          }
+        }
+      },
+      "_calculate_simple_complexity": {
+        "name": "_calculate_simple_complexity",
+        "type": "function",
+        "lineno": 400,
+        "args": [
+          "func"
+        ],
+        "tests": {
+          "import": {
+            "status": "\u274c",
+            "message": "\u274c Import error: No module named 'openai'"
+          }
+        }
+      },
+      "_categorize_error": {
+        "name": "_categorize_error",
+        "type": "function",
+        "lineno": 407,
+        "args": [
+          "diagnostic"
+        ],
+        "tests": {
+          "import": {
+            "status": "\u274c",
+            "message": "\u274c Import error: No module named 'openai'"
+          }
+        }
+      },
+      "_get_common_fixes_for_error": {
+        "name": "_get_common_fixes_for_error",
+        "type": "function",
+        "lineno": 428,
+        "args": [
+          "diagnostic"
+        ],
+        "tests": {
+          "import": {
+            "status": "\u274c",
+            "message": "\u274c Import error: No module named 'openai'"
+          }
+        }
+      },
+      "_estimate_resolution_confidence": {
+        "name": "_estimate_resolution_confidence",
+        "type": "function",
+        "lineno": 444,
+        "args": [
+          "diagnostic",
+          "symbol_context"
+        ],
+        "tests": {
+          "import": {
+            "status": "\u274c",
+            "message": "\u274c Import error: No module named 'openai'"
+          }
+        }
+      },
+      "_requires_manual_review": {
+        "name": "_requires_manual_review",
+        "type": "function",
+        "lineno": 465,
+        "args": [
+          "diagnostic"
+        ],
+        "tests": {
+          "import": {
+            "status": "\u274c",
+            "message": "\u274c Import error: No module named 'openai'"
+          }
+        }
+      },
+      "_has_automated_fix": {
+        "name": "_has_automated_fix",
+        "type": "function",
+        "lineno": 478,
+        "args": [
+          "diagnostic"
+        ],
+        "tests": {
+          "import": {
+            "status": "\u274c",
+            "message": "\u274c Import error: No module named 'openai'"
+          }
+        }
+      },
+      "_get_visualization_context": {
+        "name": "_get_visualization_context",
+        "type": "function",
+        "lineno": 486,
+        "args": [
+          "analyzer",
+          "symbol"
+        ],
+        "tests": {
+          "import": {
+            "status": "\u274c",
+            "message": "\u274c Import error: No module named 'openai'"
+          }
+        }
+      },
+      "get_error_pattern_context": {
+        "name": "get_error_pattern_context",
+        "type": "function",
+        "lineno": 514,
+        "args": [
+          "codebase",
+          "error_category",
+          "max_examples"
+        ],
+        "tests": {
+          "import": {
+            "status": "\u274c",
+            "message": "\u274c Import error: No module named 'openai'"
+          }
+        }
+      },
+      "_get_common_causes_for_error_category": {
+        "name": "_get_common_causes_for_error_category",
+        "type": "function",
+        "lineno": 550,
+        "args": [
+          "category"
+        ],
+        "tests": {
+          "import": {
+            "status": "\u274c",
+            "message": "\u274c Import error: No module named 'openai'"
+          }
+        }
+      },
+      "_get_resolution_strategies_for_error_category": {
+        "name": "_get_resolution_strategies_for_error_category",
+        "type": "function",
+        "lineno": 563,
+        "args": [
+          "category"
+        ],
+        "tests": {
+          "import": {
+            "status": "\u274c",
+            "message": "\u274c Import error: No module named 'openai'"
+          }
+        }
+      },
+      "_get_search_terms_for_error_category": {
+        "name": "_get_search_terms_for_error_category",
+        "type": "function",
+        "lineno": 576,
+        "args": [
+          "category"
+        ],
+        "tests": {
+          "import": {
+            "status": "\u274c",
+            "message": "\u274c Import error: No module named 'openai'"
+          }
+        }
+      },
+      "resolve_diagnostic_with_ai": {
+        "name": "resolve_diagnostic_with_ai",
+        "type": "function",
+        "lineno": 596,
+        "args": [
+          "enhanced_diagnostic",
+          "codebase"
+        ],
+        "tests": {
+          "import": {
+            "status": "\u274c",
+            "message": "\u274c Import error: No module named 'openai'"
+          }
+        }
+      },
+      "resolve_runtime_error_with_ai": {
+        "name": "resolve_runtime_error_with_ai",
+        "type": "function",
+        "lineno": 772,
+        "args": [
+          "runtime_error",
+          "codebase"
+        ],
+        "tests": {
+          "import": {
+            "status": "\u274c",
+            "message": "\u274c Import error: No module named 'openai'"
+          }
+        }
+      },
+      "resolve_ui_error_with_ai": {
+        "name": "resolve_ui_error_with_ai",
+        "type": "function",
+        "lineno": 829,
+        "args": [
+          "ui_error",
+          "codebase"
+        ],
+        "tests": {
+          "import": {
+            "status": "\u274c",
+            "message": "\u274c Import error: No module named 'openai'"
+          }
+        }
+      },
+      "resolve_multiple_errors_with_ai": {
+        "name": "resolve_multiple_errors_with_ai",
+        "type": "function",
+        "lineno": 882,
+        "args": [
+          "enhanced_diagnostics",
+          "codebase",
+          "max_fixes"
+        ],
+        "tests": {
+          "import": {
+            "status": "\u274c",
+            "message": "\u274c Import error: No module named 'openai'"
+          }
+        }
+      },
+      "generate_comprehensive_fix_strategy": {
+        "name": "generate_comprehensive_fix_strategy",
+        "type": "function",
+        "lineno": 996,
+        "args": [
+          "codebase",
+          "error_analysis"
+        ],
+        "tests": {
+          "import": {
+            "status": "\u274c",
+            "message": "\u274c Import error: No module named 'openai'"
+          }
+        }
+      },
+      "validate_fix_with_context": {
+        "name": "validate_fix_with_context",
+        "type": "function",
+        "lineno": 1063,
+        "args": [
+          "fixed_code",
+          "enhanced_diagnostic",
+          "codebase"
+        ],
+        "tests": {
+          "import": {
+            "status": "\u274c",
+            "message": "\u274c Import error: No module named 'openai'"
+          }
+        }
+      },
+      "_analyze_code_style": {
+        "name": "_analyze_code_style",
+        "type": "function",
+        "lineno": 1114,
+        "args": [
+          "code"
+        ],
+        "tests": {
+          "import": {
+            "status": "\u274c",
+            "message": "\u274c Import error: No module named 'openai'"
+          }
+        }
+      },
+      "_styles_compatible": {
+        "name": "_styles_compatible",
+        "type": "function",
+        "lineno": 1124,
+        "args": [
+          "style1",
+          "style2"
+        ],
+        "tests": {
+          "import": {
+            "status": "\u274c",
+            "message": "\u274c Import error: No module named 'openai'"
+          }
+        }
+      }
+    },
+    "classes": {}
+  },
+  {
+    "module": "graph_sitter_adapter",
+    "path": "/tmp/Zeeeepa/analyzer/Libraries/graph_sitter_adapter.py",
+    "functions": {},
+    "classes": {
+      "AnalyzeRequest": {
+        "lineno": 226,
+        "methods": {}
+      },
+      "ErrorAnalysisResponse": {
+        "lineno": 239,
+        "methods": {}
+      },
+      "EntrypointAnalysisResponse": {
+        "lineno": 250,
+        "methods": {}
+      },
+      "TransformationRequest": {
+        "lineno": 263,
+        "methods": {}
+      },
+      "VisualizationRequest": {
+        "lineno": 271,
+        "methods": {}
+      },
+      "DeadCodeAnalysisResponse": {
+        "lineno": 286,
+        "methods": {}
+      },
+      "CodeQualityMetrics": {
+        "lineno": 296,
+        "methods": {}
+      },
+      "GraphSitterAnalyzer": {
+        "lineno": 309,
+        "methods": {
+          "__init__": {
+            "name": "__init__",
+            "type": "method",
+            "lineno": 315,
+            "args": [
+              "self",
+              "codebase"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "get_codebase_overview": {
+            "name": "get_codebase_overview",
+            "type": "method",
+            "lineno": 324,
+            "args": [
+              "self"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "get_file_details": {
+            "name": "get_file_details",
+            "type": "method",
+            "lineno": 348,
+            "args": [
+              "self",
+              "filepath"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "get_function_details": {
+            "name": "get_function_details",
+            "type": "method",
+            "lineno": 378,
+            "args": [
+              "self",
+              "function_name",
+              "filepath"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "get_class_details": {
+            "name": "get_class_details",
+            "type": "method",
+            "lineno": 422,
+            "args": [
+              "self",
+              "class_name",
+              "filepath"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "get_symbol_details": {
+            "name": "get_symbol_details",
+            "type": "method",
+            "lineno": 465,
+            "args": [
+              "self",
+              "symbol_name",
+              "filepath"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "create_blast_radius_visualization": {
+            "name": "create_blast_radius_visualization",
+            "type": "method",
+            "lineno": 508,
+            "args": [
+              "self",
+              "symbol_name",
+              "filepath",
+              "max_depth"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "create_call_trace_visualization": {
+            "name": "create_call_trace_visualization",
+            "type": "method",
+            "lineno": 539,
+            "args": [
+              "self",
+              "function_name",
+              "filepath",
+              "max_depth"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "create_dependency_trace_visualization": {
+            "name": "create_dependency_trace_visualization",
+            "type": "method",
+            "lineno": 570,
+            "args": [
+              "self",
+              "symbol_name",
+              "filepath",
+              "max_depth"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "create_method_relationships_visualization": {
+            "name": "create_method_relationships_visualization",
+            "type": "method",
+            "lineno": 601,
+            "args": [
+              "self",
+              "class_name",
+              "filepath"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "view_file_content": {
+            "name": "view_file_content",
+            "type": "method",
+            "lineno": 635,
+            "args": [
+              "self",
+              "filepath",
+              "line_numbers",
+              "start_line",
+              "end_line",
+              "max_lines"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "list_directory_contents": {
+            "name": "list_directory_contents",
+            "type": "method",
+            "lineno": 647,
+            "args": [
+              "self",
+              "path",
+              "depth"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "add_line_numbers_to_content": {
+            "name": "add_line_numbers_to_content",
+            "type": "method",
+            "lineno": 651,
+            "args": [
+              "self",
+              "content"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "reveal_symbol_relationships": {
+            "name": "reveal_symbol_relationships",
+            "type": "method",
+            "lineno": 659,
+            "args": [
+              "self",
+              "symbol_name",
+              "filepath",
+              "max_depth",
+              "max_tokens",
+              "collect_dependencies",
+              "collect_usages"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "get_symbol_info_detailed": {
+            "name": "get_symbol_info_detailed",
+            "type": "method",
+            "lineno": 673,
+            "args": [
+              "self",
+              "symbol",
+              "max_tokens"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "get_extended_symbol_context": {
+            "name": "get_extended_symbol_context",
+            "type": "method",
+            "lineno": 677,
+            "args": [
+              "self",
+              "symbol",
+              "degree",
+              "max_tokens",
+              "collect_dependencies",
+              "collect_usages"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "generate_docstrings_for_undocumented": {
+            "name": "generate_docstrings_for_undocumented",
+            "type": "method",
+            "lineno": 692,
+            "args": [
+              "self"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "generate_structured_docs": {
+            "name": "generate_structured_docs",
+            "type": "method",
+            "lineno": 716,
+            "args": [
+              "self",
+              "head_commit",
+              "raise_on_missing_docstring"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "generate_mdx_documentation": {
+            "name": "generate_mdx_documentation",
+            "type": "method",
+            "lineno": 720,
+            "args": [
+              "self",
+              "target_classes",
+              "output_dir"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "find_dead_code": {
+            "name": "find_dead_code",
+            "type": "method",
+            "lineno": 765,
+            "args": [
+              "self"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "validate_bash_command": {
+            "name": "validate_bash_command",
+            "type": "method",
+            "lineno": 889,
+            "args": [
+              "self",
+              "command"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "run_bash_command": {
+            "name": "run_bash_command",
+            "type": "method",
+            "lineno": 893,
+            "args": [
+              "self",
+              "command",
+              "is_background"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "perform_reflection": {
+            "name": "perform_reflection",
+            "type": "method",
+            "lineno": 901,
+            "args": [
+              "self",
+              "context_summary",
+              "findings_so_far",
+              "current_challenges",
+              "reflection_focus"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "parse_reflection_response": {
+            "name": "parse_reflection_response",
+            "type": "method",
+            "lineno": 912,
+            "args": [
+              "self",
+              "response"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "get_workspace_tools": {
+            "name": "get_workspace_tools",
+            "type": "method",
+            "lineno": 920,
+            "args": [
+              "self"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "get_current_code_codebase": {
+            "name": "get_current_code_codebase",
+            "type": "method",
+            "lineno": 928,
+            "args": [
+              "self",
+              "config",
+              "secrets",
+              "subdirectories"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "get_codegen_sdk_codebase": {
+            "name": "get_codegen_sdk_codebase",
+            "type": "method",
+            "lineno": 932,
+            "args": [
+              "self"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "import_all_sdk_modules": {
+            "name": "import_all_sdk_modules",
+            "type": "method",
+            "lineno": 936,
+            "args": [
+              "self"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "get_documented_objects": {
+            "name": "get_documented_objects",
+            "type": "method",
+            "lineno": 940,
+            "args": [
+              "self"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "analyze_function_complexity": {
+            "name": "analyze_function_complexity",
+            "type": "method",
+            "lineno": 948,
+            "args": [
+              "self",
+              "function_name",
+              "filepath"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "analyze_class_structure": {
+            "name": "analyze_class_structure",
+            "type": "method",
+            "lineno": 978,
+            "args": [
+              "self",
+              "class_name",
+              "filepath"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "analyze_import_relationships": {
+            "name": "analyze_import_relationships",
+            "type": "method",
+            "lineno": 1028,
+            "args": [
+              "self",
+              "filepath"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_resolve_symbol_with_filepath": {
+            "name": "_resolve_symbol_with_filepath",
+            "type": "method",
+            "lineno": 1075,
+            "args": [
+              "self",
+              "symbols",
+              "filepath",
+              "expected_type"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_identify_entrypoints": {
+            "name": "_identify_entrypoints",
+            "type": "method",
+            "lineno": 1085,
+            "args": [
+              "self"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_get_dead_code_summary": {
+            "name": "_get_dead_code_summary",
+            "type": "method",
+            "lineno": 1126,
+            "args": [
+              "self"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_get_complexity_overview": {
+            "name": "_get_complexity_overview",
+            "type": "method",
+            "lineno": 1136,
+            "args": [
+              "self"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_get_function_parameters_details": {
+            "name": "_get_function_parameters_details",
+            "type": "method",
+            "lineno": 1153,
+            "args": [
+              "self",
+              "func"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_get_function_return_type_details": {
+            "name": "_get_function_return_type_details",
+            "type": "method",
+            "lineno": 1192,
+            "args": [
+              "self",
+              "func"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_get_function_local_variables_details": {
+            "name": "_get_function_local_variables_details",
+            "type": "method",
+            "lineno": 1222,
+            "args": [
+              "self",
+              "func"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_symbol_to_dict": {
+            "name": "_symbol_to_dict",
+            "type": "method",
+            "lineno": 1236,
+            "args": [
+              "self",
+              "symbol_info"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_call_site_to_dict": {
+            "name": "_call_site_to_dict",
+            "type": "method",
+            "lineno": 1244,
+            "args": [
+              "self",
+              "call_site"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_function_call_to_dict": {
+            "name": "_function_call_to_dict",
+            "type": "method",
+            "lineno": 1252,
+            "args": [
+              "self",
+              "function_call"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_class_to_dict": {
+            "name": "_class_to_dict",
+            "type": "method",
+            "lineno": 1260,
+            "args": [
+              "self",
+              "cls"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_calculate_function_complexity": {
+            "name": "_calculate_function_complexity",
+            "type": "method",
+            "lineno": 1273,
+            "args": [
+              "self",
+              "func"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_calculate_cyclomatic_complexity": {
+            "name": "_calculate_cyclomatic_complexity",
+            "type": "method",
+            "lineno": 1277,
+            "args": [
+              "self",
+              "func"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_calculate_halstead_metrics": {
+            "name": "_calculate_halstead_metrics",
+            "type": "method",
+            "lineno": 1299,
+            "args": [
+              "self",
+              "func"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_get_complexity_rank": {
+            "name": "_get_complexity_rank",
+            "type": "method",
+            "lineno": 1329,
+            "args": [
+              "self",
+              "complexity"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_calculate_function_complexity_metrics": {
+            "name": "_calculate_function_complexity_metrics",
+            "type": "method",
+            "lineno": 1344,
+            "args": [
+              "self",
+              "func"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_calculate_function_quality_metrics": {
+            "name": "_calculate_function_quality_metrics",
+            "type": "method",
+            "lineno": 1354,
+            "args": [
+              "self",
+              "func"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_calculate_class_complexity_metrics": {
+            "name": "_calculate_class_complexity_metrics",
+            "type": "method",
+            "lineno": 1363,
+            "args": [
+              "self",
+              "cls"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_calculate_inheritance_metrics": {
+            "name": "_calculate_inheritance_metrics",
+            "type": "method",
+            "lineno": 1375,
+            "args": [
+              "self",
+              "cls"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_calculate_class_cohesion": {
+            "name": "_calculate_class_cohesion",
+            "type": "method",
+            "lineno": 1384,
+            "args": [
+              "self",
+              "cls"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_build_blast_radius_graph": {
+            "name": "_build_blast_radius_graph",
+            "type": "method",
+            "lineno": 1421,
+            "args": [
+              "self",
+              "graph",
+              "symbol",
+              "max_depth",
+              "depth"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_build_call_trace_graph": {
+            "name": "_build_call_trace_graph",
+            "type": "method",
+            "lineno": 1440,
+            "args": [
+              "self",
+              "graph",
+              "func",
+              "max_depth",
+              "depth"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_build_dependency_trace_graph": {
+            "name": "_build_dependency_trace_graph",
+            "type": "method",
+            "lineno": 1458,
+            "args": [
+              "self",
+              "graph",
+              "symbol",
+              "max_depth",
+              "depth"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_build_method_relationships_graph": {
+            "name": "_build_method_relationships_graph",
+            "type": "method",
+            "lineno": 1477,
+            "args": [
+              "self",
+              "graph",
+              "cls"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_is_entrypoint_function": {
+            "name": "_is_entrypoint_function",
+            "type": "method",
+            "lineno": 1497,
+            "args": [
+              "self",
+              "func"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_is_entrypoint_class": {
+            "name": "_is_entrypoint_class",
+            "type": "method",
+            "lineno": 1507,
+            "args": [
+              "self",
+              "cls"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_is_entrypoint_file": {
+            "name": "_is_entrypoint_file",
+            "type": "method",
+            "lineno": 1516,
+            "args": [
+              "self",
+              "file_obj"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_is_test_function": {
+            "name": "_is_test_function",
+            "type": "method",
+            "lineno": 1521,
+            "args": [
+              "self",
+              "func"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_is_test_class": {
+            "name": "_is_test_class",
+            "type": "method",
+            "lineno": 1529,
+            "args": [
+              "self",
+              "cls"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_is_special_function": {
+            "name": "_is_special_function",
+            "type": "method",
+            "lineno": 1533,
+            "args": [
+              "self",
+              "func"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_calculate_entrypoint_score": {
+            "name": "_calculate_entrypoint_score",
+            "type": "method",
+            "lineno": 1538,
+            "args": [
+              "self",
+              "func"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_calculate_class_entrypoint_score": {
+            "name": "_calculate_class_entrypoint_score",
+            "type": "method",
+            "lineno": 1568,
+            "args": [
+              "self",
+              "cls"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_has_entrypoint_decorators": {
+            "name": "_has_entrypoint_decorators",
+            "type": "method",
+            "lineno": 1589,
+            "args": [
+              "self",
+              "func"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_has_framework_inheritance": {
+            "name": "_has_framework_inheritance",
+            "type": "method",
+            "lineno": 1600,
+            "args": [
+              "self",
+              "cls"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_has_singleton_pattern": {
+            "name": "_has_singleton_pattern",
+            "type": "method",
+            "lineno": 1607,
+            "args": [
+              "self",
+              "cls"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_has_test_decorators": {
+            "name": "_has_test_decorators",
+            "type": "method",
+            "lineno": 1611,
+            "args": [
+              "self",
+              "func"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_is_called_from_main_block": {
+            "name": "_is_called_from_main_block",
+            "type": "method",
+            "lineno": 1622,
+            "args": [
+              "self",
+              "func"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_is_property_method": {
+            "name": "_is_property_method",
+            "type": "method",
+            "lineno": 1631,
+            "args": [
+              "self",
+              "method"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_calculate_nesting_depth": {
+            "name": "_calculate_nesting_depth",
+            "type": "method",
+            "lineno": 1641,
+            "args": [
+              "self",
+              "func"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_calculate_typed_parameters_ratio": {
+            "name": "_calculate_typed_parameters_ratio",
+            "type": "method",
+            "lineno": 1667,
+            "args": [
+              "self",
+              "func"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_calculate_function_maintainability": {
+            "name": "_calculate_function_maintainability",
+            "type": "method",
+            "lineno": 1675,
+            "args": [
+              "self",
+              "func"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_calculate_file_complexity": {
+            "name": "_calculate_file_complexity",
+            "type": "method",
+            "lineno": 1689,
+            "args": [
+              "self",
+              "file_obj"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_calculate_maintainability_index": {
+            "name": "_calculate_maintainability_index",
+            "type": "method",
+            "lineno": 1700,
+            "args": [
+              "self",
+              "file_obj"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_calculate_file_doc_coverage": {
+            "name": "_calculate_file_doc_coverage",
+            "type": "method",
+            "lineno": 1715,
+            "args": [
+              "self",
+              "file_obj"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_detect_circular_imports": {
+            "name": "_detect_circular_imports",
+            "type": "method",
+            "lineno": 1726,
+            "args": [
+              "self",
+              "file_obj"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_get_function_summary": {
+            "name": "_get_function_summary",
+            "type": "method",
+            "lineno": 1754,
+            "args": [
+              "self",
+              "func"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_get_class_summary": {
+            "name": "_get_class_summary",
+            "type": "method",
+            "lineno": 1766,
+            "args": [
+              "self",
+              "cls"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_get_import_summary": {
+            "name": "_get_import_summary",
+            "type": "method",
+            "lineno": 1778,
+            "args": [
+              "self",
+              "imp"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_get_symbol_summary": {
+            "name": "_get_symbol_summary",
+            "type": "method",
+            "lineno": 1789,
+            "args": [
+              "self",
+              "symbol"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_get_method_summary": {
+            "name": "_get_method_summary",
+            "type": "method",
+            "lineno": 1799,
+            "args": [
+              "self",
+              "method"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_get_attribute_summary": {
+            "name": "_get_attribute_summary",
+            "type": "method",
+            "lineno": 1811,
+            "args": [
+              "self",
+              "attr"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_get_symbol_context": {
+            "name": "_get_symbol_context",
+            "type": "method",
+            "lineno": 1821,
+            "args": [
+              "self",
+              "symbol"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          }
+        }
+      },
+      "AnalysisEngine": {
+        "lineno": 1952,
+        "methods": {
+          "__init__": {
+            "name": "__init__",
+            "type": "method",
+            "lineno": 1957,
+            "args": [
+              "self",
+              "codebase",
+              "language"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_analyze_errors_with_graph_sitter_enhanced": {
+            "name": "_analyze_errors_with_graph_sitter_enhanced",
+            "type": "method",
+            "lineno": 2044,
+            "args": [
+              "self",
+              "codebase",
+              "lsp_diagnostics"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_analyze_error_patterns": {
+            "name": "_analyze_error_patterns",
+            "type": "method",
+            "lineno": 2172,
+            "args": [
+              "self",
+              "detailed_errors"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_get_resolution_strategy": {
+            "name": "_get_resolution_strategy",
+            "type": "method",
+            "lineno": 2210,
+            "args": [
+              "self",
+              "category"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_generate_resolution_recommendations": {
+            "name": "_generate_resolution_recommendations",
+            "type": "method",
+            "lineno": 2229,
+            "args": [
+              "self",
+              "errors"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_analyze_entrypoints_with_graph_sitter_enhanced": {
+            "name": "_analyze_entrypoints_with_graph_sitter_enhanced",
+            "type": "method",
+            "lineno": 2319,
+            "args": [
+              "self",
+              "codebase"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_get_function_parameters_details": {
+            "name": "_get_function_parameters_details",
+            "type": "method",
+            "lineno": 2521,
+            "args": [
+              "self",
+              "func"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_get_function_return_type_details": {
+            "name": "_get_function_return_type_details",
+            "type": "method",
+            "lineno": 2573,
+            "args": [
+              "self",
+              "func"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_get_function_local_variables_details": {
+            "name": "_get_function_local_variables_details",
+            "type": "method",
+            "lineno": 2609,
+            "args": [
+              "self",
+              "func"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_is_test_function_enhanced": {
+            "name": "_is_test_function_enhanced",
+            "type": "method",
+            "lineno": 2637,
+            "args": [
+              "self",
+              "func"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_is_entrypoint_class_enhanced": {
+            "name": "_is_entrypoint_class_enhanced",
+            "type": "method",
+            "lineno": 2666,
+            "args": [
+              "self",
+              "cls"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_is_api_entrypoint_class": {
+            "name": "_is_api_entrypoint_class",
+            "type": "method",
+            "lineno": 2705,
+            "args": [
+              "self",
+              "cls"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_calculate_entrypoint_score": {
+            "name": "_calculate_entrypoint_score",
+            "type": "method",
+            "lineno": 2732,
+            "args": [
+              "self",
+              "func"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_estimate_test_coverage": {
+            "name": "_estimate_test_coverage",
+            "type": "method",
+            "lineno": 2782,
+            "args": [
+              "self",
+              "func"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_analyze_entrypoint_dependencies": {
+            "name": "_analyze_entrypoint_dependencies",
+            "type": "method",
+            "lineno": 2802,
+            "args": [
+              "self",
+              "all_entrypoints",
+              "codebase"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_analyze_entrypoint_call_flows": {
+            "name": "_analyze_entrypoint_call_flows",
+            "type": "method",
+            "lineno": 2870,
+            "args": [
+              "self",
+              "all_entrypoints",
+              "codebase"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_calculate_call_depth": {
+            "name": "_calculate_call_depth",
+            "type": "method",
+            "lineno": 2906,
+            "args": [
+              "self",
+              "func",
+              "codebase",
+              "visited",
+              "depth"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_has_recursive_calls": {
+            "name": "_has_recursive_calls",
+            "type": "method",
+            "lineno": 2930,
+            "args": [
+              "self",
+              "func"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_calculate_class_entrypoint_score": {
+            "name": "_calculate_class_entrypoint_score",
+            "type": "method",
+            "lineno": 2938,
+            "args": [
+              "self",
+              "cls"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_classify_test_type": {
+            "name": "_classify_test_type",
+            "type": "method",
+            "lineno": 2969,
+            "args": [
+              "self",
+              "func"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_build_tree_structure_from_graph_sitter": {
+            "name": "_build_tree_structure_from_graph_sitter",
+            "type": "method",
+            "lineno": 2982,
+            "args": [
+              "self",
+              "codebase",
+              "all_lsp_diagnostics"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_build_directory_nodes_recursive": {
+            "name": "_build_directory_nodes_recursive",
+            "type": "method",
+            "lineno": 3201,
+            "args": [
+              "self",
+              "dir_structure",
+              "current_path"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_build_dependency_graph_from_graph_sitter": {
+            "name": "_build_dependency_graph_from_graph_sitter",
+            "type": "method",
+            "lineno": 3273,
+            "args": [
+              "self",
+              "codebase"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_calculate_code_quality_metrics": {
+            "name": "_calculate_code_quality_metrics",
+            "type": "method",
+            "lineno": 3326,
+            "args": [
+              "self",
+              "codebase"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_analyze_architectural_patterns": {
+            "name": "_analyze_architectural_patterns",
+            "type": "method",
+            "lineno": 3413,
+            "args": [
+              "self",
+              "codebase"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_analyze_security_patterns": {
+            "name": "_analyze_security_patterns",
+            "type": "method",
+            "lineno": 3470,
+            "args": [
+              "self",
+              "codebase"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_analyze_performance_patterns": {
+            "name": "_analyze_performance_patterns",
+            "type": "method",
+            "lineno": 3528,
+            "args": [
+              "self",
+              "codebase"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_detect_file_errors_graph_sitter": {
+            "name": "_detect_file_errors_graph_sitter",
+            "type": "method",
+            "lineno": 3578,
+            "args": [
+              "self",
+              "file_obj",
+              "lsp_diagnostics"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_detect_function_errors_graph_sitter": {
+            "name": "_detect_function_errors_graph_sitter",
+            "type": "method",
+            "lineno": 3617,
+            "args": [
+              "self",
+              "func",
+              "lsp_diagnostics"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_detect_class_errors_graph_sitter": {
+            "name": "_detect_class_errors_graph_sitter",
+            "type": "method",
+            "lineno": 3659,
+            "args": [
+              "self",
+              "cls",
+              "lsp_diagnostics"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_is_entrypoint_file": {
+            "name": "_is_entrypoint_file",
+            "type": "method",
+            "lineno": 3698,
+            "args": [
+              "self",
+              "file_obj"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_is_entrypoint_function": {
+            "name": "_is_entrypoint_function",
+            "type": "method",
+            "lineno": 3710,
+            "args": [
+              "self",
+              "func"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_is_entrypoint_class": {
+            "name": "_is_entrypoint_class",
+            "type": "method",
+            "lineno": 3718,
+            "args": [
+              "self",
+              "cls"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_is_test_function": {
+            "name": "_is_test_function",
+            "type": "method",
+            "lineno": 3730,
+            "args": [
+              "self",
+              "func"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_is_test_class": {
+            "name": "_is_test_class",
+            "type": "method",
+            "lineno": 3734,
+            "args": [
+              "self",
+              "cls"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_is_special_function": {
+            "name": "_is_special_function",
+            "type": "method",
+            "lineno": 3738,
+            "args": [
+              "self",
+              "func"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_calculate_file_complexity": {
+            "name": "_calculate_file_complexity",
+            "type": "method",
+            "lineno": 3750,
+            "args": [
+              "self",
+              "file_obj"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_calculate_function_complexity": {
+            "name": "_calculate_function_complexity",
+            "type": "method",
+            "lineno": 3763,
+            "args": [
+              "self",
+              "func"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_calculate_class_complexity": {
+            "name": "_calculate_class_complexity",
+            "type": "method",
+            "lineno": 3784,
+            "args": [
+              "self",
+              "cls"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_calculate_maintainability_index": {
+            "name": "_calculate_maintainability_index",
+            "type": "method",
+            "lineno": 3797,
+            "args": [
+              "self",
+              "file_obj"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          }
+        }
+      },
+      "EnhancedVisualizationEngine": {
+        "lineno": 3829,
+        "methods": {
+          "__init__": {
+            "name": "__init__",
+            "type": "method",
+            "lineno": 3832,
+            "args": [
+              "self",
+              "codebase"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "create_dynamic_dependency_graph": {
+            "name": "create_dynamic_dependency_graph",
+            "type": "method",
+            "lineno": 3835,
+            "args": [
+              "self",
+              "target_type",
+              "target_name",
+              "scope",
+              "max_depth",
+              "include_external"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "create_class_hierarchy_graph": {
+            "name": "create_class_hierarchy_graph",
+            "type": "method",
+            "lineno": 3861,
+            "args": [
+              "self",
+              "target_class",
+              "include_methods"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "create_module_dependency_graph": {
+            "name": "create_module_dependency_graph",
+            "type": "method",
+            "lineno": 3881,
+            "args": [
+              "self",
+              "target_module",
+              "max_depth"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "create_function_call_trace": {
+            "name": "create_function_call_trace",
+            "type": "method",
+            "lineno": 3897,
+            "args": [
+              "self",
+              "entry_function",
+              "target_function",
+              "max_depth"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "create_data_flow_graph": {
+            "name": "create_data_flow_graph",
+            "type": "method",
+            "lineno": 3918,
+            "args": [
+              "self",
+              "entry_point",
+              "max_depth"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "create_blast_radius_graph": {
+            "name": "create_blast_radius_graph",
+            "type": "method",
+            "lineno": 3931,
+            "args": [
+              "self",
+              "entry_point",
+              "max_depth"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_get_target_symbol": {
+            "name": "_get_target_symbol",
+            "type": "method",
+            "lineno": 3944,
+            "args": [
+              "self",
+              "target_type",
+              "target_name"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_get_scope_symbols": {
+            "name": "_get_scope_symbols",
+            "type": "method",
+            "lineno": 3957,
+            "args": [
+              "self",
+              "scope",
+              "target_symbol"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_build_scoped_dependency_graph": {
+            "name": "_build_scoped_dependency_graph",
+            "type": "method",
+            "lineno": 3992,
+            "args": [
+              "self",
+              "graph",
+              "symbol",
+              "scope_symbols",
+              "max_depth",
+              "include_external",
+              "depth"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_build_class_hierarchy_subgraph": {
+            "name": "_build_class_hierarchy_subgraph",
+            "type": "method",
+            "lineno": 4036,
+            "args": [
+              "self",
+              "graph",
+              "cls",
+              "include_methods",
+              "depth"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_build_module_dependency_subgraph": {
+            "name": "_build_module_dependency_subgraph",
+            "type": "method",
+            "lineno": 4097,
+            "args": [
+              "self",
+              "graph",
+              "module_files",
+              "max_depth"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_build_call_trace_subgraph": {
+            "name": "_build_call_trace_subgraph",
+            "type": "method",
+            "lineno": 4140,
+            "args": [
+              "self",
+              "graph",
+              "start_func",
+              "end_func",
+              "max_depth"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_build_data_flow_subgraph": {
+            "name": "_build_data_flow_subgraph",
+            "type": "method",
+            "lineno": 4180,
+            "args": [
+              "self",
+              "graph",
+              "symbol",
+              "max_depth",
+              "depth"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_build_blast_radius_subgraph": {
+            "name": "_build_blast_radius_subgraph",
+            "type": "method",
+            "lineno": 4236,
+            "args": [
+              "self",
+              "graph",
+              "symbol",
+              "max_depth",
+              "depth"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_serialize_enhanced_graph": {
+            "name": "_serialize_enhanced_graph",
+            "type": "method",
+            "lineno": 4271,
+            "args": [
+              "self",
+              "graph",
+              "target_info",
+              "graph_type"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_serialize_graph": {
+            "name": "_serialize_graph",
+            "type": "method",
+            "lineno": 4309,
+            "args": [
+              "self",
+              "graph"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_calculate_function_complexity": {
+            "name": "_calculate_function_complexity",
+            "type": "method",
+            "lineno": 4330,
+            "args": [
+              "self",
+              "func"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          }
+        }
+      },
+      "TransformationEngine": {
+        "lineno": 4349,
+        "methods": {
+          "__init__": {
+            "name": "__init__",
+            "type": "method",
+            "lineno": 4352,
+            "args": [
+              "self",
+              "codebase"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "move_symbol": {
+            "name": "move_symbol",
+            "type": "method",
+            "lineno": 4356,
+            "args": [
+              "self",
+              "symbol_name",
+              "target_file",
+              "include_dependencies",
+              "strategy"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "remove_symbol": {
+            "name": "remove_symbol",
+            "type": "method",
+            "lineno": 4407,
+            "args": [
+              "self",
+              "symbol_name",
+              "safe_mode"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "rename_symbol": {
+            "name": "rename_symbol",
+            "type": "method",
+            "lineno": 4447,
+            "args": [
+              "self",
+              "old_name",
+              "new_name"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "resolve_imports": {
+            "name": "resolve_imports",
+            "type": "method",
+            "lineno": 4482,
+            "args": [
+              "self",
+              "file_path"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "add_type_annotations": {
+            "name": "add_type_annotations",
+            "type": "method",
+            "lineno": 4519,
+            "args": [
+              "self",
+              "symbol_name",
+              "return_type",
+              "parameter_types"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "extract_function": {
+            "name": "extract_function",
+            "type": "method",
+            "lineno": 4566,
+            "args": [
+              "self",
+              "source_function",
+              "new_function_name",
+              "start_line",
+              "end_line"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "get_transformation_log": {
+            "name": "get_transformation_log",
+            "type": "method",
+            "lineno": 4623,
+            "args": [
+              "self"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "clear_transformation_log": {
+            "name": "clear_transformation_log",
+            "type": "method",
+            "lineno": 4627,
+            "args": [
+              "self"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          }
+        }
+      },
+      "EnhancedTransformationEngine": {
+        "lineno": 4632,
+        "methods": {
+          "__init__": {
+            "name": "__init__",
+            "type": "method",
+            "lineno": 4635,
+            "args": [
+              "self",
+              "codebase"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_resolve_all_types": {
+            "name": "_resolve_all_types",
+            "type": "method",
+            "lineno": 4649,
+            "args": [
+              "self"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_resolve_all_imports": {
+            "name": "_resolve_all_imports",
+            "type": "method",
+            "lineno": 4654,
+            "args": [
+              "self"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_resolve_all_function_calls": {
+            "name": "_resolve_all_function_calls",
+            "type": "method",
+            "lineno": 4659,
+            "args": [
+              "self"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_resolve_method_implementations": {
+            "name": "_resolve_method_implementations",
+            "type": "method",
+            "lineno": 4667,
+            "args": [
+              "self"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_resolve_class_attributes": {
+            "name": "_resolve_class_attributes",
+            "type": "method",
+            "lineno": 4675,
+            "args": [
+              "self"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_resolve_variable_definitions": {
+            "name": "_resolve_variable_definitions",
+            "type": "method",
+            "lineno": 4683,
+            "args": [
+              "self"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_resolve_parameter_types": {
+            "name": "_resolve_parameter_types",
+            "type": "method",
+            "lineno": 4691,
+            "args": [
+              "self"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_resolve_argument_types": {
+            "name": "_resolve_argument_types",
+            "type": "method",
+            "lineno": 4696,
+            "args": [
+              "self"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  {
+    "module": "analyzer",
+    "path": "/tmp/Zeeeepa/analyzer/Libraries/analyzer.py",
+    "functions": {},
+    "classes": {
+      "AnalysisError": {
+        "lineno": 89,
+        "methods": {
+          "to_dict": {
+            "name": "to_dict",
+            "type": "method",
+            "lineno": 104,
+            "args": [
+              "self"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          }
+        }
+      },
+      "ToolConfig": {
+        "lineno": 122,
+        "methods": {}
+      },
+      "GraphSitterAnalysis": {
+        "lineno": 135,
+        "methods": {
+          "__init__": {
+            "name": "__init__",
+            "type": "method",
+            "lineno": 138,
+            "args": [
+              "self",
+              "target_path"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_initialize_codebase": {
+            "name": "_initialize_codebase",
+            "type": "method",
+            "lineno": 148,
+            "args": [
+              "self"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "functions": {
+            "name": "functions",
+            "type": "method",
+            "lineno": 165,
+            "args": [
+              "self"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "classes": {
+            "name": "classes",
+            "type": "method",
+            "lineno": 172,
+            "args": [
+              "self"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "imports": {
+            "name": "imports",
+            "type": "method",
+            "lineno": 179,
+            "args": [
+              "self"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "files": {
+            "name": "files",
+            "type": "method",
+            "lineno": 186,
+            "args": [
+              "self"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "symbols": {
+            "name": "symbols",
+            "type": "method",
+            "lineno": 193,
+            "args": [
+              "self"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "external_modules": {
+            "name": "external_modules",
+            "type": "method",
+            "lineno": 200,
+            "args": [
+              "self"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "get_codebase_summary": {
+            "name": "get_codebase_summary",
+            "type": "method",
+            "lineno": 206,
+            "args": [
+              "self"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "get_function_analysis": {
+            "name": "get_function_analysis",
+            "type": "method",
+            "lineno": 223,
+            "args": [
+              "self",
+              "function_name"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "get_class_analysis": {
+            "name": "get_class_analysis",
+            "type": "method",
+            "lineno": 245,
+            "args": [
+              "self",
+              "class_name"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          }
+        }
+      },
+      "RuffIntegration": {
+        "lineno": 267,
+        "methods": {
+          "__init__": {
+            "name": "__init__",
+            "type": "method",
+            "lineno": 270,
+            "args": [
+              "self",
+              "target_path"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "run_comprehensive_analysis": {
+            "name": "run_comprehensive_analysis",
+            "type": "method",
+            "lineno": 273,
+            "args": [
+              "self"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_map_ruff_severity": {
+            "name": "_map_ruff_severity",
+            "type": "method",
+            "lineno": 381,
+            "args": [
+              "self",
+              "code"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_categorize_ruff_error": {
+            "name": "_categorize_ruff_error",
+            "type": "method",
+            "lineno": 392,
+            "args": [
+              "self",
+              "code"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          }
+        }
+      },
+      "LSPDiagnosticsCollector": {
+        "lineno": 417,
+        "methods": {
+          "__init__": {
+            "name": "__init__",
+            "type": "method",
+            "lineno": 420,
+            "args": [
+              "self",
+              "target_path"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "collect_python_diagnostics": {
+            "name": "collect_python_diagnostics",
+            "type": "method",
+            "lineno": 425,
+            "args": [
+              "self"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_map_lsp_severity": {
+            "name": "_map_lsp_severity",
+            "type": "method",
+            "lineno": 508,
+            "args": [
+              "self",
+              "severity"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          }
+        }
+      },
+      "ErrorDatabase": {
+        "lineno": 514,
+        "methods": {
+          "__init__": {
+            "name": "__init__",
+            "type": "method",
+            "lineno": 517,
+            "args": [
+              "self",
+              "db_path"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_init_database": {
+            "name": "_init_database",
+            "type": "method",
+            "lineno": 521,
+            "args": [
+              "self"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "create_session": {
+            "name": "create_session",
+            "type": "method",
+            "lineno": 570,
+            "args": [
+              "self",
+              "target_path",
+              "tools_used",
+              "config"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "store_errors": {
+            "name": "store_errors",
+            "type": "method",
+            "lineno": 588,
+            "args": [
+              "self",
+              "errors",
+              "session_id"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "update_session": {
+            "name": "update_session",
+            "type": "method",
+            "lineno": 615,
+            "args": [
+              "self",
+              "session_id",
+              "total_errors"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "query_errors": {
+            "name": "query_errors",
+            "type": "method",
+            "lineno": 627,
+            "args": [
+              "self",
+              "filters"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          }
+        }
+      },
+      "AutoGenLibFixer": {
+        "lineno": 643,
+        "methods": {
+          "__init__": {
+            "name": "__init__",
+            "type": "method",
+            "lineno": 646,
+            "args": [
+              "self"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "generate_fix_for_error": {
+            "name": "generate_fix_for_error",
+            "type": "method",
+            "lineno": 658,
+            "args": [
+              "self",
+              "error",
+              "source_code"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "apply_fix_to_file": {
+            "name": "apply_fix_to_file",
+            "type": "method",
+            "lineno": 689,
+            "args": [
+              "self",
+              "file_path",
+              "fixed_code"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          }
+        }
+      },
+      "ComprehensiveAnalyzer": {
+        "lineno": 710,
+        "methods": {
+          "__init__": {
+            "name": "__init__",
+            "type": "method",
+            "lineno": 817,
+            "args": [
+              "self",
+              "target_path",
+              "config",
+              "verbose"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_initialize_components": {
+            "name": "_initialize_components",
+            "type": "method",
+            "lineno": 842,
+            "args": [
+              "self"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_load_config": {
+            "name": "_load_config",
+            "type": "method",
+            "lineno": 875,
+            "args": [
+              "self"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "run_comprehensive_analysis": {
+            "name": "run_comprehensive_analysis",
+            "type": "method",
+            "lineno": 905,
+            "args": [
+              "self"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_run_graph_sitter_analysis": {
+            "name": "_run_graph_sitter_analysis",
+            "type": "method",
+            "lineno": 989,
+            "args": [
+              "self"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_collect_lsp_diagnostics": {
+            "name": "_collect_lsp_diagnostics",
+            "type": "method",
+            "lineno": 1025,
+            "args": [
+              "self"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_run_ruff_analysis": {
+            "name": "_run_ruff_analysis",
+            "type": "method",
+            "lineno": 1036,
+            "args": [
+              "self"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_run_traditional_tools": {
+            "name": "_run_traditional_tools",
+            "type": "method",
+            "lineno": 1047,
+            "args": [
+              "self"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_run_single_tool": {
+            "name": "_run_single_tool",
+            "type": "method",
+            "lineno": 1079,
+            "args": [
+              "self",
+              "tool_name",
+              "tool_config"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_parse_mypy_output": {
+            "name": "_parse_mypy_output",
+            "type": "method",
+            "lineno": 1118,
+            "args": [
+              "self",
+              "output"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_parse_pylint_output": {
+            "name": "_parse_pylint_output",
+            "type": "method",
+            "lineno": 1163,
+            "args": [
+              "self",
+              "output"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_parse_bandit_output": {
+            "name": "_parse_bandit_output",
+            "type": "method",
+            "lineno": 1187,
+            "args": [
+              "self",
+              "output"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_parse_safety_output": {
+            "name": "_parse_safety_output",
+            "type": "method",
+            "lineno": 1211,
+            "args": [
+              "self",
+              "output"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_parse_semgrep_output": {
+            "name": "_parse_semgrep_output",
+            "type": "method",
+            "lineno": 1235,
+            "args": [
+              "self",
+              "output"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_parse_generic_output": {
+            "name": "_parse_generic_output",
+            "type": "method",
+            "lineno": 1259,
+            "args": [
+              "self",
+              "tool_name",
+              "result"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_categorize_errors": {
+            "name": "_categorize_errors",
+            "type": "method",
+            "lineno": 1288,
+            "args": [
+              "self",
+              "errors"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_detect_dead_code": {
+            "name": "_detect_dead_code",
+            "type": "method",
+            "lineno": 1344,
+            "args": [
+              "self",
+              "graph_sitter_results"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_calculate_metrics": {
+            "name": "_calculate_metrics",
+            "type": "method",
+            "lineno": 1402,
+            "args": [
+              "self",
+              "errors",
+              "graph_sitter_results"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_generate_summary": {
+            "name": "_generate_summary",
+            "type": "method",
+            "lineno": 1439,
+            "args": [
+              "self",
+              "errors",
+              "categorized_errors",
+              "metrics"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_calculate_quality_score": {
+            "name": "_calculate_quality_score",
+            "type": "method",
+            "lineno": 1463,
+            "args": [
+              "self",
+              "errors",
+              "metrics"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_categorize_pylint_error": {
+            "name": "_categorize_pylint_error",
+            "type": "method",
+            "lineno": 1492,
+            "args": [
+              "self",
+              "message_id"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "fix_errors_with_autogenlib": {
+            "name": "fix_errors_with_autogenlib",
+            "type": "method",
+            "lineno": 1505,
+            "args": [
+              "self",
+              "max_fixes"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          }
+        }
+      },
+      "InteractiveAnalyzer": {
+        "lineno": 1564,
+        "methods": {
+          "__init__": {
+            "name": "__init__",
+            "type": "method",
+            "lineno": 1567,
+            "args": [
+              "self",
+              "analyzer"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "start_interactive_session": {
+            "name": "start_interactive_session",
+            "type": "method",
+            "lineno": 1571,
+            "args": [
+              "self"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_show_summary": {
+            "name": "_show_summary",
+            "type": "method",
+            "lineno": 1616,
+            "args": [
+              "self"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_show_errors": {
+            "name": "_show_errors",
+            "type": "method",
+            "lineno": 1640,
+            "args": [
+              "self",
+              "category"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_show_function_analysis": {
+            "name": "_show_function_analysis",
+            "type": "method",
+            "lineno": 1658,
+            "args": [
+              "self",
+              "func_name"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_show_class_analysis": {
+            "name": "_show_class_analysis",
+            "type": "method",
+            "lineno": 1676,
+            "args": [
+              "self",
+              "class_name"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_apply_fixes": {
+            "name": "_apply_fixes",
+            "type": "method",
+            "lineno": 1694,
+            "args": [
+              "self"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_export_results": {
+            "name": "_export_results",
+            "type": "method",
+            "lineno": 1712,
+            "args": [
+              "self",
+              "format_type"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          }
+        }
+      },
+      "ReportGenerator": {
+        "lineno": 1739,
+        "methods": {
+          "__init__": {
+            "name": "__init__",
+            "type": "method",
+            "lineno": 1742,
+            "args": [
+              "self",
+              "results"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "generate_terminal_report": {
+            "name": "generate_terminal_report",
+            "type": "method",
+            "lineno": 1745,
+            "args": [
+              "self"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "generate_html_report": {
+            "name": "generate_html_report",
+            "type": "method",
+            "lineno": 1818,
+            "args": [
+              "self"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_generate_error_categories_html": {
+            "name": "_generate_error_categories_html",
+            "type": "method",
+            "lineno": 1896,
+            "args": [
+              "self"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_generate_dead_code_html": {
+            "name": "_generate_dead_code_html",
+            "type": "method",
+            "lineno": 1925,
+            "args": [
+              "self"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_generate_structure_html": {
+            "name": "_generate_structure_html",
+            "type": "method",
+            "lineno": 1949,
+            "args": [
+              "self"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          },
+          "_generate_metrics_html": {
+            "name": "_generate_metrics_html",
+            "type": "method",
+            "lineno": 1970,
+            "args": [
+              "self"
+            ],
+            "tests": {
+              "exists": {
+                "status": "\u2705",
+                "message": "Method defined"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+]
