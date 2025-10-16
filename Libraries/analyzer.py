@@ -76,10 +76,10 @@ except ImportError as e:
 # AutoGenLib integration
 # Enhanced AutoGenLib Fixer - Safe runtime error fixing
 try:
-    from autogenlib_fixer_enhanced import AutoGenLibFixer
-    AUTOGENLIB_FIXER_AVAILABLE = True
+    from autogenlib_adapter import AutoGenLibAdapter
+    AUTOGENLIB_ADAPTER_AVAILABLE = True
 except ImportError as e:
-    AUTOGENLIB_FIXER_AVAILABLE = False
+    AUTOGENLIB_ADAPTER_AVAILABLE = False
     logging.debug(f"Enhanced AutoGenLib fixer not available: {e}")
 
 try:
@@ -657,7 +657,7 @@ class AutoGenLibFixerLegacy:
 
     def __init__(self):
         """Initialize using enhanced fixer if available, otherwise raise error."""
-        if AUTOGENLIB_FIXER_AVAILABLE:
+        if AUTOGENLIB_ADAPTER_AVAILABLE:
             # Use enhanced fixer with full safety features
             self._fixer = AutoGenLibFixer(codebase=None)
             logging.info("✅ Using enhanced AutoGenLibFixer")
