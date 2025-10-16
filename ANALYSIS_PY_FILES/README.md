@@ -139,3 +139,17 @@ Due to GitHub's file size limits (~100MB), this repository contains a curated se
 
 Total uncompressed size: ~200 MB
 Total compressed size: ~16 MB
+
+---
+
+## 🆕 Latest Updates
+
+See **[UPDATES.md](UPDATES.md)** for the latest additions!
+
+### Recent Additions (992 new files):
+- ✅ **__modal/.debug_shell** (747 files) - Complete debug environment with Python 3.12
+- ✅ **All codegen files** (172 files) - Expanded codegen collection
+- ✅ **Modal SDK** (61 files) - Modal framework and runtime
+- ✅ **LLM/Model files** (12 files) - Anthropic, OpenAI, Claude integrations
+
+**New Total: 2,289 Python files (33MB)**
