@@ -37,6 +37,40 @@ logger = logging.getLogger(__name__)
 
 
 # ================================================================================
+# AI CLIENT CONFIGURATION
+# ================================================================================
+
+def get_ai_client():
+    """Get configured AI client (Z.AI Anthropic endpoint or OpenAI fallback).
+    
+    Returns:
+        tuple: (client, model) or (None, None) if not configured
+    """
+    # Try Z.AI Anthropic endpoint first
+    api_key = os.environ.get("ANTHROPIC_AUTH_TOKEN")
+    base_url = os.environ.get("ANTHROPIC_BASE_URL")
+    model = os.environ.get("ANTHROPIC_MODEL", "glm-4.6")
+    
+    if api_key and base_url:
+        logger.info(f"✅ Using Z.AI Anthropic endpoint: {model}")
+        client = openai.OpenAI(api_key=api_key, base_url=base_url)
+        return client, model
+    
+    # Fallback to OpenAI
+    api_key = os.environ.get("OPENAI_API_KEY")
+    base_url = os.environ.get("OPENAI_API_BASE_URL")
+    model = os.environ.get("OPENAI_MODEL", "gpt-4o")
+    
+    if api_key:
+        logger.info(f"⚠️  Using OpenAI endpoint (fallback): {model}")
+        client = openai.OpenAI(api_key=api_key, base_url=base_url)
+        return client, model
+    
+    logger.error("❌ No AI API configuration found")
+    return None, None
+
+
+# ================================================================================
 # CONTEXT ENRICHMENT FUNCTIONS
 # ================================================================================
 
@@ -595,15 +629,10 @@ def _get_search_terms_for_error_category(category: str) -> list[str]:
 
 def resolve_diagnostic_with_ai(enhanced_diagnostic: EnhancedDiagnostic, codebase: Codebase) -> dict[str, Any]:
     """Generates a fix for a given LSP diagnostic using an AI model, with comprehensive context."""
-    api_key = os.environ.get("OPENAI_API_KEY")
-    if not api_key:
-        logger.error("OPENAI_API_KEY environment variable not set.")
-        return {"status": "error", "message": "OpenAI API key not configured."}
-
-    base_url = os.environ.get("OPENAI_API_BASE_URL")
-    model = os.environ.get("OPENAI_MODEL", "gpt-4o")  # Using gpt-4o for better code generation
-
-    client = openai.OpenAI(api_key=api_key, base_url=base_url)
+    # Get configured AI client
+    client, model = get_ai_client()
+    if not client:
+        return {"status": "error", "message": "AI API not configured. Set ANTHROPIC_AUTH_TOKEN or OPENAI_API_KEY."}
 
     # Prepare comprehensive context for the LLM
     diag = enhanced_diagnostic["diagnostic"]
@@ -771,11 +800,13 @@ def resolve_diagnostic_with_ai(enhanced_diagnostic: EnhancedDiagnostic, codebase
 
 def resolve_runtime_error_with_ai(runtime_error: dict[str, Any], codebase: Codebase) -> dict[str, Any]:
     """Resolve runtime errors using AI with full context."""
-    api_key = os.environ.get("OPENAI_API_KEY")
-    if not api_key:
-        return {"status": "error", "message": "OpenAI API key not configured."}
+    # Get configured AI client
 
-    client = openai.OpenAI(api_key=api_key, base_url=os.environ.get("OPENAI_API_BASE_URL"))
+    client, model = get_ai_client()
+
+    if not client:
+
+        return {"status": "error", "message": "AI API not configured. Set ANTHROPIC_AUTH_TOKEN or OPENAI_API_KEY."}
 
     system_message = """
     You are an expert Python developer specializing in runtime error resolution.
@@ -828,11 +859,13 @@ def resolve_runtime_error_with_ai(runtime_error: dict[str, Any], codebase: Codeb
 
 def resolve_ui_error_with_ai(ui_error: dict[str, Any], codebase: Codebase) -> dict[str, Any]:
     """Resolve UI interaction errors using AI with full context."""
-    api_key = os.environ.get("OPENAI_API_KEY")
-    if not api_key:
-        return {"status": "error", "message": "OpenAI API key not configured."}
+    # Get configured AI client
 
-    client = openai.OpenAI(api_key=api_key, base_url=os.environ.get("OPENAI_API_BASE_URL"))
+    client, model = get_ai_client()
+
+    if not client:
+
+        return {"status": "error", "message": "AI API not configured. Set ANTHROPIC_AUTH_TOKEN or OPENAI_API_KEY."}
 
     system_message = """
     You are an expert frontend developer specializing in React/JavaScript error resolution.
@@ -885,11 +918,13 @@ def resolve_multiple_errors_with_ai(
     max_fixes: int = 10,
 ) -> dict[str, Any]:
     """Resolve multiple errors in batch using AI with pattern recognition."""
-    api_key = os.environ.get("OPENAI_API_KEY")
-    if not api_key:
-        return {"status": "error", "message": "OpenAI API key not configured."}
+    # Get configured AI client
 
-    client = openai.OpenAI(api_key=api_key, base_url=os.environ.get("OPENAI_API_BASE_URL"))
+    client, model = get_ai_client()
+
+    if not client:
+
+        return {"status": "error", "message": "AI API not configured. Set ANTHROPIC_AUTH_TOKEN or OPENAI_API_KEY."}
 
     # Group errors by category and file
     error_groups = {}
@@ -995,11 +1030,13 @@ def resolve_multiple_errors_with_ai(
 
 def generate_comprehensive_fix_strategy(codebase: Codebase, error_analysis: dict[str, Any]) -> dict[str, Any]:
     """Generate a comprehensive fix strategy for all errors in the codebase."""
-    api_key = os.environ.get("OPENAI_API_KEY")
-    if not api_key:
-        return {"status": "error", "message": "OpenAI API key not configured."}
+    # Get configured AI client
 
-    client = openai.OpenAI(api_key=api_key, base_url=os.environ.get("OPENAI_API_BASE_URL"))
+    client, model = get_ai_client()
+
+    if not client:
+
+        return {"status": "error", "message": "AI API not configured. Set ANTHROPIC_AUTH_TOKEN or OPENAI_API_KEY."}
 
     system_message = """
     You are a senior software architect and code quality expert.
@@ -1127,4 +1164,3 @@ def _styles_compatible(style1: dict[str, Any], style2: dict[str, Any]) -> bool:
 
 
 import time
-
