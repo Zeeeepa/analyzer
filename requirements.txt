@@ -1,86 +1,27 @@
-# ============================================================================
-# Analyzer Dependencies
-# ============================================================================
-# Generated automatically from Library imports
-# Install: pip install -r requirements.txt
+# Core dependencies
+openai>=1.0.0
+requests>=2.28.0
 
-# ============================================================================
-# Core AI & LLM Dependencies
-# ============================================================================
-anthropic>=0.25.0
-openai>=1.30.0
-tiktoken>=0.7.0
-pydantic>=2.7.0
+# Code analysis
+ruff>=0.1.0
+mypy>=1.0.0
+pylint>=2.15.0
 
-# ============================================================================
-# Code Analysis & AST
-# ============================================================================
+# LSP and parsing
+pygls>=1.0.0
 tree-sitter>=0.20.0
-tree-sitter-python>=0.20.0
-jedi>=0.19.0
-astroid>=3.2.0
 
-# ============================================================================
-# Static Analysis Tools
-# ============================================================================
-mypy>=1.10.0
-pylint>=3.2.0
-ruff>=0.4.0
-bandit>=1.7.0
-flake8>=7.0.0
-pyflakes>=3.2.0
-vulture>=2.11.0
-radon>=6.0.0
-mccabe>=0.7.0
-
-# Optional advanced tools (install separately if needed)
-# pytype>=2024.4.11  # Requires specific system dependencies
-# pyre-check>=0.9.19  # Requires OCaml
-# semgrep>=1.70.0     # Large download
-# safety>=3.2.0       # For vulnerability scanning
-
-# ============================================================================
-# Code Formatting & Quality
-# ============================================================================
-black>=24.4.0
-isort>=5.13.0
-autopep8>=2.1.0
-
-# ============================================================================
-# Visualization & Reporting
-# ============================================================================
-networkx>=3.3.0
-plotly>=5.22.0
-rich>=13.7.0
-
-# ============================================================================
-# LSP & Language Server
-# ============================================================================
-pygls>=1.3.0
-lsprotocol>=2024.0.0
-
-# ============================================================================
-# Async & Performance
-# ============================================================================
-aiohttp>=3.9.0
-uvloop>=0.19.0; sys_platform != 'win32'
-
-# ============================================================================
-# Additional Utilities
-# ============================================================================
+# Utilities
+pyyaml>=6.0
+rich>=13.0.0
 click>=8.1.0
-requests>=2.31.0
-pyyaml>=6.0.1
-rope>=1.13.0
+tqdm>=4.64.0
 
-# ============================================================================
-# Submodules (Development Installation)
-# ============================================================================
-# Install these with: pip install -e .
-# Or clone and install manually:
-#   git clone https://github.com/Zeeeepa/autogenlib.git
-#   cd autogenlib && pip install -e .
-#
-# -e git+https://github.com/Zeeeepa/autogenlib.git#egg=autogenlib
-# -e git+https://github.com/Zeeeepa/graph-sitter.git#egg=graph-sitter  
-# -e git+https://github.com/Zeeeepa/serena.git#egg=serena
+# Database
+sqlalchemy>=2.0.0
+
+# Testing
+pytest>=7.0.0
+pytest-asyncio>=0.21.0
+pytest-cov>=4.0.0
+
