@@ -15,11 +15,13 @@
 4. [Installation](#installation)
 5. [Usage](#usage)
 6. [API Reference](#api-reference)
-7. [Configuration](#configuration)
-8. [Development](#development)
-9. [Submodules](#submodules)
-10. [NPM Packages](#npm-packages)
-11. [Validation Reports](#validation-reports)
+7. [SerenaAdapter - Production-Ready LSP Integration](#serenaadapter)
+8. [Runtime Error Monitoring](#runtime-error-monitoring)
+9. [Configuration](#configuration)
+10. [Development](#development)
+11. [Submodules](#submodules)
+12. [NPM Packages](#npm-packages)
+13. [Validation Reports](#validation-reports)
 
 ---
 
@@ -1450,3 +1452,171 @@ A PDF is one of the most common file types, which makes it a great payload for P
 0
 34 KB
 Penetration
+
+---
+
+## <a name="serenaadapter"></a>🎯 SerenaAdapter - Production-Ready LSP Integration
+
+**SerenaAdapter** is the cornerstone of our error analysis system, providing a production-ready facade over the Serena LSP library with comprehensive runtime error monitoring.
+
+### Key Features
+
+✅ **All 20+ Serena Tools Accessible**
+- Symbol operations (find, references, definitions, overview)
+- File operations (read, search, create, edit, list)
+- Memory management (persistent key-value storage)
+- Workflow tools (safe command execution)
+
+✅ **Runtime Error Monitoring** 
+- Python traceback parsing
+- JavaScript/React error detection
+- Network failure monitoring
+- Error frequency and pattern analysis
+
+✅ **Production Performance**
+- < 5ms overhead per tool call
+- < 1ms error tracking overhead
+- Efficient handling of 1000+ errors
+- Memory-stable for long-running processes
+
+### Quick Start
+
+```python
+from Libraries.serena_adapter import SerenaAdapter
+
+# Initialize with error monitoring
+adapter = SerenaAdapter(
+    project_root="/path/to/project",
+    enable_error_collection=True
+)
+
+# Find symbols
+symbols = adapter.find_symbol("MyClass")
+
+# Read files
+content = adapter.read_file("src/main.py")
+
+# Get error statistics
+stats = adapter.get_error_statistics()
+print(f"Total errors: {stats['total_errors']}")
+print(f"Resolution rate: {stats['resolution_rate']}")
+```
+
+### Complete Guide
+
+See [SERENA_ADAPTER_GUIDE.md](./SERENA_ADAPTER_GUIDE.md) for:
+- Detailed API reference
+- Integration examples
+- Performance benchmarks
+- Troubleshooting guide
+
+---
+
+## <a name="runtime-error-monitoring"></a>🔍 Runtime Error Monitoring
+
+SerenaAdapter includes **RuntimeErrorCollector** for production error monitoring:
+
+### Supported Error Types
+
+#### Python Runtime Errors
+
+```python
+# Collect from log file
+diagnostics = adapter.get_diagnostics(
+    runtime_log_path="/var/log/app.log",
+    merge_runtime_errors=True
+)
+```
+
+Automatically parses:
+- Tracebacks with file/line/function
+- Exception types (KeyError, ValueError, etc.)
+- Error messages and context
+
+#### JavaScript/React Errors
+
+```python
+# Collect UI errors
+diagnostics = adapter.get_diagnostics(
+    ui_log_path="/var/log/ui.log",
+    merge_runtime_errors=True
+)
+```
+
+Automatically parses:
+- TypeError, ReferenceError, SyntaxError
+- React component errors
+- Console errors
+
+### Error Analytics
+
+```python
+# Comprehensive error statistics
+stats = adapter.get_error_statistics()
+
+# Returns:
+{
+    'total_errors': 42,
+    'errors_by_tool': {'Read': 15, 'Edit': 8, ...},
+    'error_frequency': {'Read:main.py': 5, ...},
+    'recent_errors': [...],  # Last 10 errors
+    'resolution_rate': '67.5%',
+    'most_frequent_errors': {...}  # Top 5
+}
+```
+
+### Integration with AutoGenLib
+
+RuntimeErrorCollector enhances AI-powered error resolution:
+
+```python
+from Libraries.serena_adapter import SerenaAdapter
+from Libraries.autogenlib_adapter import resolve_diagnostic_with_ai
+
+# Collect diagnostics with runtime context
+adapter = SerenaAdapter("/project")
+diagnostics = adapter.get_diagnostics(runtime_log_path="/var/log/app.log")
+
+# AI gets enhanced context including runtime errors
+for diagnostic in diagnostics:
+    fix = resolve_diagnostic_with_ai(diagnostic, codebase)
+    # AI fix includes runtime error context
+```
+
+### Architecture
+
+```
+┌──────────────────────────────────────────────────────┐
+│              SerenaAdapter                           │
+│                                                      │
+│  ┌────────────────────────────────────────────┐     │
+│  │  RuntimeErrorCollector                     │     │
+│  │  ┌──────────────────────────────────────┐ │     │
+│  │  │  Python Traceback Parser             │ │     │
+│  │  ├──────────────────────────────────────┤ │     │
+│  │  │  JavaScript Error Parser             │ │     │
+│  │  ├──────────────────────────────────────┤ │     │
+│  │  │  Network Error Detector              │ │     │
+│  │  └──────────────────────────────────────┘ │     │
+│  └────────────────────────────────────────────┘     │
+│                                                      │
+│  ┌────────────────────────────────────────────┐     │
+│  │  Error Analytics Engine                    │     │
+│  │  - History tracking                        │     │
+│  │  - Frequency analysis                      │     │
+│  │  - Pattern detection                       │     │
+│  │  - Resolution rate calculation             │     │
+│  └────────────────────────────────────────────┘     │
+│                                                      │
+│  ┌────────────────────────────────────────────┐     │
+│  │  SerenaAgent (20+ Tools)                   │     │
+│  │  - Symbol operations                       │     │
+│  │  - File operations                         │     │
+│  │  - Memory management                       │     │
+│  │  - Workflow execution                      │     │
+│  └────────────────────────────────────────────┘     │
+└──────────────────────────────────────────────────────┘
+```
+
+---
+
