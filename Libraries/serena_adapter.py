@@ -700,3 +700,494 @@ class EnhancedRuntimeErrorCollector:
             "last_error_time": self.last_error_time,
         }
 
+
+
+# ================================================================================
+# COMPREHENSIVE DIAGNOSTIC ENHANCEMENTS
+# ================================================================================
+
+from pathlib import Path
+from fnmatch import fnmatch
+from collections import defaultdict
+from dataclasses import dataclass, field
+from typing import Callable, Iterator
+import glob as glob_module
+
+
+@dataclass
+class DiagnosticPriority:
+    """Priority scoring for diagnostics"""
+    score: float
+    severity_weight: float = 1.0
+    frequency_weight: float = 0.5
+    context_weight: float = 0.3
+    
+    @classmethod
+    def calculate(cls, diagnostic: EnhancedDiagnostic, frequency: int, has_symbol_context: bool) -> float:
+        """Calculate priority score for a diagnostic"""
+        severity_map = {"error": 10, "warning": 5, "information": 2, "hint": 1}
+        severity = diagnostic["diagnostic"].severity if hasattr(diagnostic["diagnostic"], 'severity') else "error"
+        severity_score = severity_map.get(severity, 5)
+        
+        frequency_score = min(frequency, 10) / 10.0
+        context_score = 1.0 if has_symbol_context else 0.5
+        
+        total = (severity_score * 1.0) + (frequency_score * 0.5) + (context_score * 0.3)
+        return total
+
+
+@dataclass  
+class DiagnosticDiff:
+    """Comparison result between two diagnostic sets"""
+    new_errors: list[EnhancedDiagnostic] = field(default_factory=list)
+    fixed_errors: list[EnhancedDiagnostic] = field(default_factory=list)
+    changed_severity: list[tuple[EnhancedDiagnostic, EnhancedDiagnostic]] = field(default_factory=list)
+    unchanged: list[EnhancedDiagnostic] = field(default_factory=list)
+    
+    def summary(self) -> dict[str, Any]:
+        """Get summary statistics"""
+        return {
+            "new": len(self.new_errors),
+            "fixed": len(self.fixed_errors),
+            "changed": len(self.changed_severity),
+            "unchanged": len(self.unchanged),
+            "total": len(self.new_errors) + len(self.fixed_errors) + len(self.changed_severity) + len(self.unchanged)
+        }
+
+
+class UnifiedDiagnosticsManager:
+    """Unified manager for LSP + Runtime + Symbol-enriched diagnostics"""
+    
+    def __init__(self, lsp_manager: LSPDiagnosticsManager, runtime_collector: EnhancedRuntimeErrorCollector):
+        self.lsp_manager = lsp_manager
+        self.runtime_collector = runtime_collector
+        self.diagnostic_cache: dict[str, list[EnhancedDiagnostic]] = {}
+        self.symbol_cache: dict[str, dict[str, Any]] = {}
+        
+    async def get_unified_diagnostics(
+        self,
+        include_runtime: bool = True,
+        include_symbol_context: bool = True,
+        priority_threshold: float = 0.0
+    ) -> list[EnhancedDiagnostic]:
+        """Get unified diagnostics from all sources with deduplication"""
+        
+        # Collect LSP diagnostics
+        lsp_diagnostics = self.lsp_manager.get_all_enhanced_diagnostics()
+        
+        # Collect runtime errors if enabled
+        runtime_diagnostics = []
+        if include_runtime:
+            runtime_errors = self.runtime_collector.get_runtime_errors()
+            runtime_diagnostics = self._convert_runtime_to_diagnostics(runtime_errors)
+        
+        # Merge and deduplicate
+        all_diagnostics = self._merge_diagnostics(lsp_diagnostics, runtime_diagnostics)
+        
+        # Enrich with symbol context if enabled
+        if include_symbol_context:
+            all_diagnostics = await self._enrich_with_symbol_context(all_diagnostics)
+        
+        # Calculate priorities and filter
+        scored_diagnostics = []
+        for diag in all_diagnostics:
+            file_path = diag["relative_file_path"]
+            line = diag["diagnostic"].range.line
+            error_key = f"{file_path}:{line}"
+            frequency = self.lsp_manager.error_frequency.get(error_key, 1)
+            has_symbols = bool(diag.get("symbol_context"))
+            
+            priority = DiagnosticPriority.calculate(diag, frequency, has_symbols)
+            if priority >= priority_threshold:
+                scored_diagnostics.append((priority, diag))
+        
+        # Sort by priority (highest first)
+        scored_diagnostics.sort(key=lambda x: x[0], reverse=True)
+        return [diag for _, diag in scored_diagnostics]
+    
+    def _merge_diagnostics(
+        self, 
+        lsp_diags: list[EnhancedDiagnostic],
+        runtime_diags: list[EnhancedDiagnostic]
+    ) -> list[EnhancedDiagnostic]:
+        """Merge diagnostics from different sources with deduplication"""
+        merged: dict[str, EnhancedDiagnostic] = {}
+        
+        # Add LSP diagnostics
+        for diag in lsp_diags:
+            key = self._diagnostic_key(diag)
+            merged[key] = diag
+        
+        # Add runtime diagnostics (avoid duplicates)
+        for diag in runtime_diags:
+            key = self._diagnostic_key(diag)
+            if key not in merged:
+                merged[key] = diag
+            else:
+                # Merge runtime context into existing diagnostic
+                existing = merged[key]
+                existing["runtime_context"] = {
+                    **existing.get("runtime_context", {}),
+                    **diag.get("runtime_context", {})
+                }
+        
+        return list(merged.values())
+    
+    def _diagnostic_key(self, diag: EnhancedDiagnostic) -> str:
+        """Generate unique key for diagnostic deduplication"""
+        file_path = diag["relative_file_path"]
+        diag_obj = diag["diagnostic"]
+        line = diag_obj.range.line
+        col = diag_obj.range.character
+        message = diag_obj.message[:50]  # First 50 chars
+        return f"{file_path}:{line}:{col}:{message}"
+    
+    def _convert_runtime_to_diagnostics(self, runtime_errors: list[dict[str, Any]]) -> list[EnhancedDiagnostic]:
+        """Convert runtime errors to EnhancedDiagnostic format"""
+        diagnostics = []
+        
+        for error in runtime_errors:
+            # Create a mock Diagnostic object
+            mock_diagnostic = type('Diagnostic', (), {
+                'range': type('Range', (), {
+                    'line': error.get('line', 0) - 1,  # LSP is 0-indexed
+                    'character': 0
+                })(),
+                'message': f"{error.get('error_type', 'RuntimeError')}: {error.get('message', '')}",
+                'severity': 'error',
+                'source': 'runtime'
+            })()
+            
+            enhanced = EnhancedDiagnostic(
+                diagnostic=mock_diagnostic,
+                file_content="",  # Will be filled later if needed
+                relevant_code_snippet=error.get('traceback', '')[:200],
+                file_path=error.get('file_path', ''),
+                relative_file_path=Path(error.get('file_path', '')).name,
+                graph_sitter_context={},
+                autogenlib_context={},
+                runtime_context={
+                    "error_type": error.get('error_type'),
+                    "function": error.get('function'),
+                    "traceback": error.get('traceback'),
+                    "timestamp": error.get('timestamp'),
+                    "frames": error.get('frames', [])
+                },
+                ui_interaction_context={}
+            )
+            diagnostics.append(enhanced)
+        
+        return diagnostics
+    
+    async def _enrich_with_symbol_context(self, diagnostics: list[EnhancedDiagnostic]) -> list[EnhancedDiagnostic]:
+        """Enrich diagnostics with symbol context using Serena tools
+        
+        This method will be fully functional once Serena library is installed.
+        For now, it provides the integration point with placeholder logic.
+        """
+        try:
+            # Attempt to import Serena symbol tools
+            from serena.tools.symbol_tools import FindSymbolTool, GetSymbolDefinitionTool, GetSymbolReferencesTool
+            serena_available = True
+        except ImportError:
+            logger.warning("Serena library not available - symbol context enrichment disabled")
+            serena_available = False
+        
+        if not serena_available:
+            # Return diagnostics with empty symbol context
+            for diag in diagnostics:
+                diag["symbol_context"] = {"available": False, "reason": "Serena not installed"}
+            return diagnostics
+        
+        # Enrich each diagnostic with symbol information
+        for diag in diagnostics:
+            file_path = diag["relative_file_path"]
+            line = diag["diagnostic"].range.line
+            
+            # Check cache first
+            cache_key = f"{file_path}:{line}"
+            if cache_key in self.symbol_cache:
+                diag["symbol_context"] = self.symbol_cache[cache_key]
+                continue
+            
+            try:
+                # Find symbol at error location
+                symbol_context = await self._get_symbol_at_location(file_path, line)
+                
+                # Get symbol definition
+                if symbol_context.get("symbol_name"):
+                    definition = await self._get_symbol_definition(file_path, line)
+                    symbol_context["definition"] = definition
+                    
+                    # Get symbol references
+                    references = await self._get_symbol_references(file_path, line)
+                    symbol_context["references"] = references
+                    symbol_context["reference_count"] = len(references)
+                
+                # Cache the result
+                self.symbol_cache[cache_key] = symbol_context
+                diag["symbol_context"] = symbol_context
+                
+            except Exception as e:
+                logger.warning(f"Failed to enrich symbol context for {file_path}:{line}: {e}")
+                diag["symbol_context"] = {"error": str(e)}
+        
+        return diagnostics
+    
+    async def _get_symbol_at_location(self, file_path: str, line: int) -> dict[str, Any]:
+        """Get symbol information at specific location using Serena FindSymbolTool"""
+        # This will be implemented with actual Serena tool when library is installed
+        # Placeholder implementation:
+        return {
+            "symbol_name": None,
+            "symbol_kind": None,
+            "symbol_range": None,
+            "container_name": None
+        }
+    
+    async def _get_symbol_definition(self, file_path: str, line: int) -> dict[str, Any]:
+        """Get symbol definition using Serena GetSymbolDefinitionTool"""
+        # Placeholder - will use Serena tool when available
+        return {
+            "definition_file": None,
+            "definition_line": None,
+            "definition_body": None
+        }
+    
+    async def _get_symbol_references(self, file_path: str, line: int) -> list[dict[str, Any]]:
+        """Get all references to symbol using Serena GetSymbolReferencesTool"""
+        # Placeholder - will use Serena tool when available
+        return []
+    
+    def compare_diagnostics(
+        self,
+        before: list[EnhancedDiagnostic],
+        after: list[EnhancedDiagnostic]
+    ) -> DiagnosticDiff:
+        """Compare two sets of diagnostics to find changes"""
+        diff = DiagnosticDiff()
+        
+        before_keys = {self._diagnostic_key(d): d for d in before}
+        after_keys = {self._diagnostic_key(d): d for d in after}
+        
+        # Find new errors
+        for key in after_keys:
+            if key not in before_keys:
+                diff.new_errors.append(after_keys[key])
+        
+        # Find fixed errors
+        for key in before_keys:
+            if key not in after_keys:
+                diff.fixed_errors.append(before_keys[key])
+        
+        # Find changed severity
+        for key in before_keys:
+            if key in after_keys:
+                before_sev = getattr(before_keys[key]["diagnostic"], 'severity', None)
+                after_sev = getattr(after_keys[key]["diagnostic"], 'severity', None)
+                if before_sev != after_sev:
+                    diff.changed_severity.append((before_keys[key], after_keys[key]))
+                else:
+                    diff.unchanged.append(after_keys[key])
+        
+        return diff
+
+
+class MultiFileDiagnosticsCollector:
+    """Collect diagnostics across multiple files with glob pattern support"""
+    
+    def __init__(self, unified_manager: UnifiedDiagnosticsManager, project_root: str):
+        self.unified_manager = unified_manager
+        self.project_root = Path(project_root)
+        self.progress_callbacks: list[Callable[[int, int, str], None]] = []
+    
+    def add_progress_callback(self, callback: Callable[[int, int, str], None]) -> None:
+        """Add callback for progress reporting: callback(current, total, file_path)"""
+        self.progress_callbacks.append(callback)
+    
+    def _report_progress(self, current: int, total: int, file_path: str) -> None:
+        """Report progress to all registered callbacks"""
+        for callback in self.progress_callbacks:
+            try:
+                callback(current, total, file_path)
+            except Exception as e:
+                logger.warning(f"Progress callback failed: {e}")
+    
+    async def collect_diagnostics_by_patterns(
+        self,
+        patterns: list[str] = ["**/*.py"],
+        exclude_patterns: list[str] = ["**/venv/**", "**/__pycache__/**", "**/node_modules/**"],
+        max_files: int | None = None,
+        include_warnings: bool = True,
+        include_info: bool = False
+    ) -> dict[str, list[EnhancedDiagnostic]]:
+        """Collect diagnostics for files matching glob patterns"""
+        
+        # Find all matching files
+        matching_files = self._find_matching_files(patterns, exclude_patterns, max_files)
+        total_files = len(matching_files)
+        
+        logger.info(f"🔍 Collecting diagnostics for {total_files} files...")
+        
+        # Collect diagnostics for each file
+        all_diagnostics: dict[str, list[EnhancedDiagnostic]] = {}
+        
+        for idx, file_path in enumerate(matching_files, 1):
+            self._report_progress(idx, total_files, str(file_path))
+            
+            try:
+                # Get file-specific diagnostics
+                relative_path = file_path.relative_to(self.project_root)
+                file_diagnostics = await self._get_file_diagnostics(
+                    str(relative_path),
+                    include_warnings,
+                    include_info
+                )
+                
+                if file_diagnostics:
+                    all_diagnostics[str(relative_path)] = file_diagnostics
+                    
+            except Exception as e:
+                logger.warning(f"Failed to collect diagnostics for {file_path}: {e}")
+        
+        logger.info(f"✅ Collected diagnostics from {len(all_diagnostics)} files with issues")
+        return all_diagnostics
+    
+    def _find_matching_files(
+        self,
+        patterns: list[str],
+        exclude_patterns: list[str],
+        max_files: int | None
+    ) -> list[Path]:
+        """Find all files matching the given patterns"""
+        matching_files = set()
+        
+        for pattern in patterns:
+            # Use glob to find files
+            full_pattern = self.project_root / pattern
+            for file_path in glob_module.glob(str(full_pattern), recursive=True):
+                path_obj = Path(file_path)
+                
+                # Check if file should be excluded
+                should_exclude = False
+                for exclude in exclude_patterns:
+                    if fnmatch(str(path_obj), exclude) or fnmatch(str(path_obj.relative_to(self.project_root)), exclude):
+                        should_exclude = True
+                        break
+                
+                if not should_exclude and path_obj.is_file():
+                    matching_files.add(path_obj)
+        
+        # Sort for consistent ordering
+        sorted_files = sorted(matching_files)
+        
+        # Apply max_files limit if specified
+        if max_files is not None:
+            sorted_files = sorted_files[:max_files]
+        
+        return sorted_files
+    
+    async def _get_file_diagnostics(
+        self,
+        relative_path: str,
+        include_warnings: bool,
+        include_info: bool
+    ) -> list[EnhancedDiagnostic]:
+        """Get diagnostics for a specific file"""
+        
+        # Get unified diagnostics (LSP + runtime + symbol context)
+        all_diags = await self.unified_manager.get_unified_diagnostics(
+            include_runtime=True,
+            include_symbol_context=True
+        )
+        
+        # Filter to this file only
+        file_diags = [d for d in all_diags if d["relative_file_path"] == relative_path]
+        
+        # Filter by severity if needed
+        if not include_warnings:
+            file_diags = [d for d in file_diags if getattr(d["diagnostic"], 'severity', None) == 'error']
+        
+        if not include_info:
+            file_diags = [d for d in file_diags if getattr(d["diagnostic"], 'severity', None) not in ['information', 'hint']]
+        
+        return file_diags
+    
+    def group_diagnostics_by_root_cause(
+        self,
+        diagnostics: list[EnhancedDiagnostic]
+    ) -> dict[str, list[EnhancedDiagnostic]]:
+        """Group diagnostics by potential root cause"""
+        groups: dict[str, list[EnhancedDiagnostic]] = defaultdict(list)
+        
+        for diag in diagnostics:
+            # Group by error pattern
+            message = diag["diagnostic"].message
+            error_pattern = self._extract_error_pattern(message)
+            
+            # Also consider symbol context for grouping
+            symbol_context = diag.get("symbol_context", {})
+            if symbol_context.get("symbol_name"):
+                group_key = f"{error_pattern}::{symbol_context['symbol_name']}"
+            else:
+                group_key = error_pattern
+            
+            groups[group_key].append(diag)
+        
+        # Sort groups by size (most frequent first)
+        sorted_groups = dict(sorted(groups.items(), key=lambda x: len(x[1]), reverse=True))
+        return sorted_groups
+    
+    def _extract_error_pattern(self, message: str) -> str:
+        """Extract error pattern from diagnostic message"""
+        # Remove specific names/values to get general pattern
+        pattern = re.sub(r"'[^']+'", "'<name>'", message)
+        pattern = re.sub(r"\d+", "<num>", pattern)
+        pattern = re.sub(r"\b0x[0-9a-fA-F]+\b", "<addr>", pattern)
+        return pattern[:100]  # Limit length
+
+
+# ================================================================================
+# CONVENIENCE FUNCTIONS
+# ================================================================================
+
+async def create_comprehensive_diagnostics_system(
+    project_root: str,
+    language: Language = Language.PYTHON
+) -> tuple[UnifiedDiagnosticsManager, MultiFileDiagnosticsCollector]:
+    """Create a complete diagnostics system with all components
+    
+    Returns:
+        (unified_manager, multi_file_collector) tuple
+        
+    Usage:
+        manager, collector = await create_comprehensive_diagnostics_system("/path/to/project")
+        
+        # Get unified diagnostics
+        diagnostics = await manager.get_unified_diagnostics()
+        
+        # Collect from multiple files
+        collector.add_progress_callback(lambda c, t, f: print(f"{c}/{t}: {f}"))
+        file_diagnostics = await collector.collect_diagnostics_by_patterns(["**/*.py"])
+    """
+    from graph_sitter import Codebase
+    
+    # Create codebase
+    codebase = Codebase.from_root(project_root)
+    
+    # Create LSP manager
+    lsp_manager = LSPDiagnosticsManager(codebase, language)
+    lsp_manager.start_server()
+    
+    # Create runtime collector
+    runtime_collector = EnhancedRuntimeErrorCollector(project_root)
+    runtime_collector.install_exception_hook()
+    
+    # Create unified manager
+    unified_manager = UnifiedDiagnosticsManager(lsp_manager, runtime_collector)
+    
+    # Create multi-file collector
+    multi_file_collector = MultiFileDiagnosticsCollector(unified_manager, project_root)
+    
+    return unified_manager, multi_file_collector
+
