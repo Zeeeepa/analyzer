@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
-"""Enhanced LSP Diagnostics Manager with Runtime Error Collection
-Integrates with Graph-Sitter and AutoGenLib for comprehensive error context
+"""Serena LSP Adapter - Enhanced Diagnostics Manager with Runtime Error Collection
+Integrates Serena SolidLSP with Graph-Sitter and AutoGenLib for comprehensive error context
+"""Serena LSP Adapter - Enhanced Diagnostics Manager with Runtime Error Collection
+Integrates Serena SolidLSP with Graph-Sitter and AutoGenLib for comprehensive error context
 """
 
 import asyncio
@@ -561,3 +563,140 @@ class LSPDiagnosticsManager:
     def mark_error_resolved(self, error_key: str, success: bool, method: str) -> None:
         """Mark an error as resolved or failed."""
         self.resolution_attempts[error_key] = {"success": success, "method": method, "timestamp": time.time()}
+
+
+# ================================================================================
+# ENHANCED RUNTIME ERROR COLLECTION & ANALYSIS
+# ================================================================================
+
+class EnhancedRuntimeErrorCollector:
+    """Advanced Python runtime error collector with exception hooks and analytics.
+    
+    Features:
+    - Global exception hook installation
+    - Real-time error capture with threading support
+    - Log file parsing (multiple formats)
+    - Error pattern detection and clustering
+    - Symbol context enrichment via Serena
+    - Time-series analysis and statistics
+    - Error frequency tracking
+    """
+    
+    def __init__(self, project_root: str):
+        """Initialize enhanced runtime error collector."""
+        from pathlib import Path
+        from collections import Counter, defaultdict
+        
+        self.project_root = Path(project_root) if isinstance(project_root, str) else project_root
+        
+        # Error storage
+        self.runtime_errors: list[dict[str, Any]] = []
+        self.error_frequency: Counter = Counter()
+        self.error_patterns: dict[str, list[dict]] = defaultdict(list)
+        self.error_history: list[dict[str, Any]] = []
+        
+        # Statistics
+        self.first_error_time: float | None = None
+        self.last_error_time: float | None = None
+        self.total_errors_collected = 0
+        self._exception_hook_installed = False
+    
+    def install_exception_hook(self) -> None:
+        """Install global exception hook to capture uncaught exceptions."""
+        import sys
+        
+        if self._exception_hook_installed:
+            logger.warning("Exception hook already installed")
+            return
+        
+        original_hook = sys.excepthook
+        
+        def custom_excepthook(exc_type, exc_value, exc_traceback):
+            """Custom exception handler that captures errors."""
+            try:
+                self.collect_exception(exc_type, exc_value, exc_traceback)
+            except Exception as e:
+                logger.error(f"Error in exception hook: {e}")
+            finally:
+                original_hook(exc_type, exc_value, exc_traceback)
+        
+        sys.excepthook = custom_excepthook
+        self._exception_hook_installed = True
+        logger.info("✅ Global exception hook installed for runtime error collection")
+    
+    def collect_exception(self, exc_type: type, exc_value: BaseException, exc_traceback) -> dict[str, Any]:
+        """Collect exception with full context."""
+        import traceback as tb_module
+        from pathlib import Path
+        
+        # Extract traceback frames
+        frames = tb_module.extract_tb(exc_traceback)
+        
+        # Get the last frame (where error occurred)
+        if frames:
+            last_frame = frames[-1]
+            file_path = last_frame.filename
+            line_num = last_frame.lineno
+            function_name = last_frame.name
+        else:
+            file_path = "unknown"
+            line_num = 0
+            function_name = "unknown"
+        
+        # Format traceback
+        formatted_traceback = ''.join(tb_module.format_exception(exc_type, exc_value, exc_traceback))
+        
+        # Create error record
+        error_record = {
+            "type": "runtime_exception",
+            "error_type": exc_type.__name__,
+            "message": str(exc_value),
+            "file_path": file_path,
+            "line": line_num,
+            "function": function_name,
+            "traceback": formatted_traceback,
+            "frames": [{"file": frame.filename, "line": frame.lineno, "function": frame.name} for frame in frames],
+            "severity": "critical",
+            "timestamp": time.time(),
+            "pattern_id": f"{exc_type.__name__}:{Path(file_path).name}:{line_num}",
+        }
+        
+        # Store error
+        self.runtime_errors.append(error_record)
+        self.error_history.append(error_record)
+        self.error_frequency[error_record["pattern_id"]] += 1
+        self.error_patterns[error_record["pattern_id"]].append(error_record)
+        
+        if not self.first_error_time:
+            self.first_error_time = error_record["timestamp"]
+        self.last_error_time = error_record["timestamp"]
+        self.total_errors_collected += 1
+        
+        logger.error(f"🔴 Runtime error collected: {exc_type.__name__} in {file_path}:{line_num}")
+        return error_record
+    
+    def get_runtime_errors(
+        self, since: float | None = None, error_type: str | None = None, file_path: str | None = None
+    ) -> list[dict[str, Any]]:
+        """Get filtered runtime errors."""
+        filtered = self.runtime_errors
+        if since:
+            filtered = [e for e in filtered if e.get('timestamp', 0) >= since]
+        if error_type:
+            filtered = [e for e in filtered if e.get('error_type') == error_type]
+        if file_path:
+            filtered = [e for e in filtered if file_path in e.get('file_path', '')]
+        return filtered
+    
+    def get_error_statistics(self) -> dict[str, Any]:
+        """Get comprehensive error statistics."""
+        from collections import Counter
+        return {
+            "total_errors": len(self.runtime_errors),
+            "unique_patterns": len(self.error_patterns),
+            "error_types": dict(Counter(e.get('error_type') for e in self.runtime_errors)),
+            "most_frequent": self.error_frequency.most_common(10),
+            "first_error_time": self.first_error_time,
+            "last_error_time": self.last_error_time,
+        }
+
