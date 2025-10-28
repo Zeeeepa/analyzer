@@ -109,7 +109,9 @@ https://github.com/Zeeeepa/uwu
 *  https://github.com/Zeeeepa/dyad
 
 ---------------------Agents---------------------
+
 *  https://github.com/Zeeeepa/AutoGPT/pull/1
+*  https://github.com/Zeeeepa/Repo2Run  ( BUILD AND DOCKER BUILD from whole repo AGENT)
 *  https://github.com/Zeeeepa/open_codegen
 *  https://github.com/Zeeeepa/nekro-edge-template 
 *  https://github.com/Zeeeepa/coding-agent-template
@@ -166,6 +168,7 @@ https://github.com/Zeeeepa/flareprox/
 *  https://github.com/Zeeeepa/astron-agent
 *  https://github.com/Zeeeepa/dexto
 *  https://github.com/Zeeeepa/humanlayer
+*  https://github.com/Zeeeepa/cedar-OS
 
 ---------------------UI-TASKER---------------------
 
