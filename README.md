@@ -53,7 +53,8 @@ https://github.com/codegen-sh/claude-code-sdk-python
 *  https://github.com/codegen-sh/TinyGen-prama-yudistara
 *  https://github.com/codegen-sh/tinygen-lucas-hendren
 *  https://github.com/Zeeeepa\catnip
-*  
+*  https://github.com/Zeeeepa/sandbox-runtime
+
 ---------------------Evolution And Intelligence---------------------
 
 *  https://github.com/SakanaAI/ShinkaEvolve
@@ -111,6 +112,11 @@ https://github.com/Zeeeepa/uwu
 ---------------------Agents---------------------
 
 *  https://github.com/Zeeeepa/AutoGPT/pull/1
+*  https://github.com/Zeeeepa/sleepless-agent
+*  https://github.com/Zeeeepa/ContextAgent
+*  https://github.com/Zeeeepa/aipyapp
+*  https://github.com/Zeeeepa/RepoMaster
+
 *  https://github.com/Zeeeepa/Repo2Run  ( BUILD AND DOCKER BUILD from whole repo AGENT)
 *  https://github.com/Zeeeepa/open_codegen
 *  https://github.com/Zeeeepa/nekro-edge-template 
