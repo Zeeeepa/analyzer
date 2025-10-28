@@ -34,4 +34,7 @@ vcedar-os	AI Framework	React-based AI-native apps
 * @contrast/agentify{ -const DEFAULT_INSTALL_ORDER = [  'reporter',  'telemetry',  'contrastMethods',  'deadzones',  'scopes',  'secObs',  'sources',  'architectureComponents',  'assess',  'protect',  'depHooks',  'routeCoverage',  'libraryAnalysis',  'heapSnapshots',  'metrics',  'rewriteHooks',  'functionHooks',  'esmHooks',  'diagnostics'}
 * @workos-inc/node
 * claude-flow@alpha
-feqa - npm
+* feqa - npm
+* https://www.npmjs.com/package/fr3k
+* https://www.npmjs.com/package/@nogataka/coding-agent-mgr
+* 
