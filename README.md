@@ -133,7 +133,8 @@ https://github.com/Zeeeepa/uwu
 *  https://github.com/Zeeeepa/DeepResearchAgent
 *  https://github.com/zeeeepa/ROMA
 ---------------------APIs---------------------
-
+   
+*  https://github.com/Zeeeepa/CodeWebChat  (CHAT 2 RESPONSE PROGRAMICALLY)
 *  https://github.com/Zeeeepa/droid2api
 *  
 *  https://github.com/Zeeeepa/qwen-api
