@@ -19,6 +19,7 @@ https://github.com/codegen-sh/claude-code-sdk-python
 *  https://github.com/charmbracelet/x/tree/main/powernap/pkg/lsp   (LSP)
 *  https://github.com/charmbracelet/crush/tree/main/internal/lsp    (LSP)
 *  https://github.com/oraios/serena     (LSP)
+*  https://github.com/Zeeeepa/mcp-lsp    (LSP)
 *  https://github.com/Zeeeepa/cocoindex (Indexing)
 *  https://github.com/Zeeeepa/CodeFuse-Embeddings
 *  https://github.com/Zeeeepa/ck   (Semantic Code Search)
