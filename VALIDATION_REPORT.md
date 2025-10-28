@@ -14,7 +14,7 @@
 |------|--------|-----------|---------|---------|-----------------|
 | autogenlib_adapter.py | ✅ VALID | 32 | 0 | 0 | 32 |
 | graph_sitter_adapter.py | ✅ VALID | 172 | 12 | 172 | 172 |
-| lsp_adapter.py | ✅ VALID | 24 | 3 | 24 | 24 |
+| serena_adapter.py | ✅ VALID | 24 | 3 | 24 | 24 |
 | analyzer.py | ✅ VALID | 66 | 10 | 66 | 66 |
 | static_libs.py | ✅ VALID | 102 | 23 | 102 | 102 |
 | **TOTAL** | **5/5** | **396** | **48** | **364** | **760** |
@@ -40,7 +40,7 @@
   - Dependency graph generation
   - 12 specialized analyzer classes
 
-### 3. lsp_adapter.py ✅
+### 3. serena_adapter.py ✅
 - **Purpose:** Language Server Protocol integration
 - **Callables:** 24 methods across 3 classes
 - **Key Features:**

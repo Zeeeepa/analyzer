@@ -74,13 +74,36 @@ pyyaml>=6.0.1
 rope>=1.13.0
 
 # ============================================================================
-# Submodules (Development Installation)
+# Core Analyzer Libraries (Required)
 # ============================================================================
-# Install these with: pip install -e .
-# Or clone and install manually:
-#   git clone https://github.com/Zeeeepa/autogenlib.git
-#   cd autogenlib && pip install -e .
-#
-# -e git+https://github.com/Zeeeepa/autogenlib.git#egg=autogenlib
-# -e git+https://github.com/Zeeeepa/graph-sitter.git#egg=graph-sitter  
-# -e git+https://github.com/Zeeeepa/serena.git#egg=serena
+# These are the foundational libraries for the analyzer system
+# Install directly from GitHub repositories
+
+# Serena - LSP adapter with symbol tools and diagnostics
+git+https://github.com/Zeeeepa/serena.git@main#egg=serena
+
+# Graph-Sitter - Advanced AST analysis and code navigation
+git+https://github.com/Zeeeepa/graph-sitter.git@main#egg=graph-sitter
+
+# AutoGenLib - AI-powered code generation and analysis
+git+https://github.com/Zeeeepa/autogenlib.git@main#egg=autogenlib
+
+# ============================================================================
+# Advanced Static Analysis Libraries (From static_libs.py)
+# ============================================================================
+# These libraries provide comprehensive error detection capabilities
+
+# Type inference and checking
+pytype>=2024.4.11; platform_system != 'Windows'  # Google's type inference
+# pyre-check>=0.9.19  # Facebook's type checker (requires OCaml, install separately)
+pyanalyze>=0.12.0  # Quora's semi-static analyzer
+
+# Code quality and refactoring
+rope>=1.13.0  # Python refactoring with advanced analysis
+jedi>=0.19.0  # Code completion and analysis
+vulture>=2.11.0  # Dead code detection
+astroid>=3.2.0  # Enhanced AST analysis
+
+# Additional analysis tools
+semgrep>=1.70.0  # Pattern-based code analysis
+safety>=3.2.0  # Dependency vulnerability scanning
