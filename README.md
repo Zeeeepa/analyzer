@@ -1,748 +1,641 @@
-# WrtnLabs Full-Stack Deployment System
+# Enterprise WrtnLabs Deployment System
 
-**Complete setup system for AutoBE + AutoView + Agentica ecosystem with Z.ai GLM-4.6/4.5V integration**
+**Production-grade deployment orchestrator with advanced automation and validation**
 
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Python](https://img.shields.io/badge/python-3.8+-blue.svg)](https://python.org)
 [![Node.js](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen.svg)](https://nodejs.org)
-[![Python](https://img.shields.io/badge/python-%3E%3D3.8-blue.svg)](https://python.org)
-[![AutoBE](https://img.shields.io/badge/AutoBE-686%E2%AD%90-orange.svg)](https://github.com/wrtnlabs/autobe)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Enterprise](https://img.shields.io/badge/grade-enterprise-purple.svg)]()
 
 ---
 
-## 📋 Table of Contents
-
-- [Overview](#overview)
-- [Features](#features)
-- [Quick Start](#quick-start)
-- [Detailed Setup](#detailed-setup)
-- [System Requirements](#system-requirements)
-- [Configuration](#configuration)
-- [Usage Examples](#usage-examples)
-- [Troubleshooting](#troubleshooting)
-- [Architecture](#architecture)
-- [Contributing](#contributing)
-
----
-
-## 🎯 Overview
-
-This repository provides **production-ready deployment tools** for the WrtnLabs ecosystem:
-
-- **AutoBE** - AI-powered backend code generator (NestJS + Prisma)
-- **AutoView** - Frontend application generator (React + TypeScript)
-- **Agentica** - Multi-agent AI orchestration framework
-- **Vector Store** - RAG (Retrieval-Augmented Generation) capabilities
-- **Backend** - Production API service
-- **Connectors** - 400+ API integrations
-
-### What Makes This Different?
-
-✅ **Intelligent Setup** - Automatic prerequisite checking and validation  
-✅ **Production-Ready** - Comprehensive error handling and security  
-✅ **Z.ai Integration** - Full support for GLM-4.6 (text) and GLM-4.5V (vision)  
-✅ **Zero Configuration** - Smart defaults for rapid development  
-✅ **Type-Safe** - Full TypeScript throughout  
-✅ **Validated** - Code quality checks and health monitoring  
-
----
-
-## 🚀 Features
-
-### Setup System (`setup.py`)
-
-- **Automated Prerequisite Checking**
-  - Node.js v18+ detection
-  - Package manager validation (pnpm/npm)
-  - Docker daemon status
-  - Disk space verification (2GB+)
-  - Git availability
-
-- **Interactive Configuration**
-  - Z.ai API key validation
-  - Database connection testing
-  - Security secret generation
-  - Smart defaults for quick setup
-
-- **Intelligent Installation**
-  - Parallel dependency installation
-  - Progress tracking with colored output
-  - Error recovery and detailed logging
-  - Timeout handling for large packages
-
-- **Health Checks**
-  - API endpoint validation
-  - Database connectivity testing
-  - Configuration validation
-  - Readiness assessment
-
-### Deployment Script (`deploy-wrtnlabs.sh`)
-
-- **769 lines of production-grade bash**
-- Interactive or automated deployment
-- Support for all 7 WrtnLabs repositories
-- Environment variable management
-- Database setup automation
-- WebUI launcher integration
-
----
-
-## ⚡ Quick Start
-
-### Method 1: Python Setup (Recommended)
+## 🚀 Quick Start
 
 ```bash
-# 1. Clone repositories (if not already cloned)
-git clone https://github.com/wrtnlabs/autobe
-git clone https://github.com/wrtnlabs/autoview
-git clone https://github.com/wrtnlabs/agentica
-# ... (other repos)
+# Validate system prerequisites
+python3 enterprise_setup.py validate
 
-# 2. Run intelligent setup
-python3 setup.py --quick
+# Run full installation
+python3 enterprise_setup.py install
 
-# 3. Build and generate
-cd autobe
-pnpm run build
-cd ..
-node generate-todo-anthropic.js
+# Run in test mode (CI/CD friendly)
+python3 enterprise_setup.py test
 
-# 4. Check output
-ls -la output/
-```
+# Create configuration backup
+python3 enterprise_setup.py backup --name my_backup
 
-### Method 2: Bash Script
-
-```bash
-# Make script executable
-chmod +x deploy-wrtnlabs.sh
-
-# Run interactive setup
-./deploy-wrtnlabs.sh
-
-# Or automated with environment variables
-ANTHROPIC_AUTH_TOKEN="your-key" \
-ANTHROPIC_BASE_URL="https://api.z.ai/api/anthropic" \
-./deploy-wrtnlabs.sh --auto
+# Restore from backup
+python3 enterprise_setup.py restore my_backup
 ```
 
 ---
 
-## 📦 Detailed Setup
-
-### Step 1: System Requirements
-
-Ensure you have the following installed:
-
-| Requirement | Minimum Version | Recommended |
-|-------------|----------------|-------------|
-| **Node.js** | 18.0.0 | 22.x (LTS) |
-| **pnpm/npm** | pnpm 8.0+ or npm 9.0+ | pnpm 10.x |
-| **Git** | 2.30+ | Latest |
-| **Docker** | 20.0+ (optional) | Latest |
-| **Python** | 3.8+ | 3.11+ |
-| **PostgreSQL** | 14+ | 16+ |
-| **Disk Space** | 2 GB | 10 GB+ |
-
-#### Installation Guides
-
-**macOS (via Homebrew):**
-```bash
-brew install node@22 pnpm git docker python@3.11 postgresql@16
-```
-
-**Ubuntu/Debian:**
-```bash
-curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
-sudo apt-get install -y nodejs git docker.io python3.11 postgresql-16
-npm install -g pnpm
-```
-
-**Windows (via Chocolatey):**
-```powershell
-choco install nodejs-lts pnpm git docker-desktop python postgresql
-```
-
-### Step 2: Get Z.ai API Key
-
-1. Visit [Z.ai](https://z.ai) and create an account
-2. Navigate to API settings
-3. Generate a new API key
-4. Save it securely (you'll need it during setup)
-
-**API Details:**
-- Model: `glm-4.6` (text generation)
-- Vision Model: `glm-4.5-flash-v` (image understanding)
-- Endpoint: `https://api.z.ai/api/anthropic`
-
-### Step 3: Clone Repositories
-
-```bash
-# Create workspace
-mkdir wrtnlabs-workspace
-cd wrtnlabs-workspace
-
-# Clone all repositories
-git clone https://github.com/wrtnlabs/autobe.git
-git clone https://github.com/wrtnlabs/autoview.git
-git clone https://github.com/wrtnlabs/agentica.git
-git clone https://github.com/wrtnlabs/vector-store.git
-git clone https://github.com/wrtnlabs/backend.git
-git clone https://github.com/wrtnlabs/connectors.git
-git clone https://github.com/wrtnlabs/schema.git
-```
-
-### Step 4: Run Setup
-
-#### Option A: Interactive Setup
-
-```bash
-python3 setup.py
-```
-
-This will guide you through:
-1. **Prerequisite validation** - Automatic system checks
-2. **Z.ai configuration** - API key and model selection
-3. **Database setup** - PostgreSQL connection details
-4. **AutoBE settings** - Parallel compilers, output directory
-5. **Security** - Auto-generated JWT secrets
-6. **API configuration** - Ports, CORS, endpoints
-
-#### Option B: Quick Setup (Defaults)
-
-```bash
-python3 setup.py --quick
-```
-
-Uses smart defaults:
-- Database: `localhost:5432/wrtnlabs`
-- API Port: `3000`
-- AutoBE Compilers: `4`
-- Security secrets: Auto-generated
-
-#### Option C: Validate Only
-
-```bash
-python3 setup.py --validate-only
-```
-
-Checks prerequisites without configuration.
-
-### Step 5: Build Packages
-
-```bash
-# Build AutoBE
-cd autobe
-pnpm run build
-cd ..
-
-# Build AutoView (optional)
-cd autoview
-pnpm run build
-cd ..
-```
-
-**Note:** Building may take 5-10 minutes on first run due to TypeScript compilation and Prisma generation.
-
-### Step 6: Test Generation
-
-```bash
-# Generate a Todo API
-node generate-todo-anthropic.js
-
-# Check output
-ls -la output/todo-api-zai/
-```
-
-Expected output:
-```
-schema.prisma          (Database schema)
-openapi.yaml           (API specification)
-todo.controller.ts     (NestJS controller)
-todo.service.ts        (Business logic)
-package.json           (Dependencies)
-README.md              (Documentation)
-```
-
----
-
-## ⚙️ Configuration
-
-### Environment Variables
-
-The setup system generates a `.env` file with 60+ variables organized into sections:
-
-#### 1. Z.ai API Configuration
-
-```bash
-ANTHROPIC_AUTH_TOKEN=your-api-token-here
-ANTHROPIC_BASE_URL=https://api.z.ai/api/anthropic
-MODEL=glm-4.6
-VISION_MODEL=glm-4.5-flash-v
-API_TIMEOUT_MS=3000000  # 50 minutes
-```
-
-#### 2. Database Configuration
-
-```bash
-DATABASE_URL=postgresql://user:password@localhost:5432/wrtnlabs
-DB_HOST=localhost
-DB_PORT=5432
-DB_NAME=wrtnlabs
-DB_SCHEMA=public
-DB_USER=postgres
-DB_PASSWORD=your-secure-password
-```
-
-#### 3. AutoBE Configuration
-
-```bash
-AUTOBE_PARALLEL_COMPILERS=4
-AUTOBE_CONCURRENT_OPS=4
-AUTOBE_OUTPUT_DIR=./output
-```
-
-#### 4. Security Configuration
-
-```bash
-JWT_SECRET=auto-generated-32-char-secret
-JWT_REFRESH_KEY=auto-generated-16-char-key
-JWT_EXPIRES_IN=7d
-JWT_REFRESH_EXPIRES_IN=30d
-```
-
-#### 5. API Configuration
-
-```bash
-API_PORT=3000
-API_PREFIX=/api
-CORS_ORIGINS=*
-```
-
-### Configuration File Locations
-
-```
-.
-├── .env                    # Main environment file (auto-generated)
-├── setup.py                # Intelligent setup system
-├── deploy-wrtnlabs.sh      # Bash deployment script
-├── autobe/
-│   └── .env               # AutoBE-specific config
-├── autoview/
-│   └── .env               # AutoView-specific config
-└── backend/
-    └── .env               # Backend API config
-```
-
----
-
-## 💻 Usage Examples
-
-### Example 1: Generate Todo API
-
-```javascript
-// generate-todo-anthropic.js
-const https = require('https');
-const fs = require('fs');
-require('dotenv').config();
-
-async function generateTodoAPI() {
-  // Configure Z.ai
-  const options = {
-    hostname: 'api.z.ai',
-    path: '/api/anthropic/v1/messages',
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-api-key': process.env.ANTHROPIC_AUTH_TOKEN,
-      'anthropic-version': '2023-06-01'
-    }
-  };
-
-  // Generate schema
-  const schemaPrompt = `Generate a Prisma schema for a Todo API with:
-- User model (id, email, password, name, createdAt)
-- Todo model (id, title, description, completed, userId, createdAt, updatedAt)
-- Proper relations between User and Todo`;
-
-  // Make request to Z.ai
-  // ... (see full example in generated files)
-}
-
-generateTodoAPI();
-```
-
-**Run:**
-```bash
-node generate-todo-anthropic.js
-```
-
-**Output:** Complete NestJS + Prisma Todo API in 30-40 seconds
-
-### Example 2: Using AutoBE Programmatically
-
-```typescript
-import { createAutoBeApplication } from '@autobe/agent';
-
-const app = await createAutoBeApplication({
-  requirements: 'Build a REST API for a blog with users, posts, and comments',
-  model: 'glm-4.6',
-  apiKey: process.env.ANTHROPIC_AUTH_TOKEN,
-  baseUrl: process.env.ANTHROPIC_BASE_URL
-});
-
-// Generate application
-const result = await app.generate();
-
-console.log(`Generated ${result.files.length} files`);
-console.log(`Output: ${result.outputPath}`);
-```
-
-### Example 3: Batch Generation
-
-```bash
-# Generate multiple backends in parallel
-for api in todo blog ecommerce; do
-  MODEL=glm-4.6 node generate-$api-api.js &
-done
-wait
-
-echo "All APIs generated!"
-ls -la output/
-```
-
----
-
-## 🔧 Troubleshooting
-
-### Common Issues
-
-#### 1. `Node.js not found`
-
-**Error:**
-```
-✗ Node.js not found or not executable
-```
-
-**Solution:**
-```bash
-# Install Node.js 22.x
-curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
-sudo apt-get install -y nodejs
-
-# Verify installation
-node --version  # Should show v22.x.x
-```
-
-#### 2. `pnpm/npm not found`
-
-**Error:**
-```
-✗ No package manager found (pnpm or npm required)
-```
-
-**Solution:**
-```bash
-# Install pnpm globally
-npm install -g pnpm
-
-# Or use npm (comes with Node.js)
-npm --version
-```
-
-#### 3. `Docker daemon not running`
-
-**Error:**
-```
-⚠ Docker installed but daemon not running
-```
-
-**Solution:**
-```bash
-# Start Docker daemon
-sudo systemctl start docker  # Linux
-open -a Docker               # macOS
-
-# Verify
-docker ps
-```
-
-#### 4. `Invalid Z.ai API key`
-
-**Error:**
-```
-✗ Invalid Z.ai API key
-```
-
-**Solution:**
-1. Check API key format (should be 30+ characters)
-2. Verify key is active at https://z.ai/settings
-3. Ensure no extra spaces or newlines
-4. Try regenerating the key
-
-#### 5. `Database connection failed`
-
-**Error:**
-```
-✗ Could not connect to PostgreSQL
-```
-
-**Solution:**
-```bash
-# Check PostgreSQL is running
-sudo systemctl status postgresql  # Linux
-brew services list | grep postgres  # macOS
-
-# Test connection
-psql -h localhost -U postgres -d wrtnlabs
-
-# Create database if missing
-createdb wrtnlabs
-```
-
-#### 6. `Build timeout`
-
-**Error:**
-```
-✗ Timeout installing autobe dependencies
-```
-
-**Solution:**
-```bash
-# Increase timeout and retry
-cd autobe
-pnpm install --network-timeout 600000
-
-# Or use npm cache
-npm cache clean --force
-pnpm install
-```
-
-### Debug Mode
-
-Enable verbose logging:
-
-```bash
-# Python setup
-DEBUG=1 python3 setup.py
-
-# Bash script
-bash -x deploy-wrtnlabs.sh
-
-# Node.js generation
-NODE_DEBUG=http node generate-todo-anthropic.js
-```
-
-### Getting Help
-
-1. **Check logs:** `.env`, `autobe/logs/`, `output/*/README.md`
-2. **Run validation:** `python3 setup.py --validate-only`
-3. **Discord:** https://discord.gg/aMhRmzkqCx
-4. **GitHub Issues:** https://github.com/wrtnlabs/autobe/issues
+## 📋 Features
+
+### ✅ Full argparse CLI
+- **5 Commands:** validate, install, backup, restore, test
+- **Global Options:** --verbose, --timeout
+- **Subcommand Arguments:** Custom backup names, specific restore points
+- **Default Command:** Runs validation if no command specified
+
+### ✅ Type Hints Throughout
+- Full type annotations with `typing` module
+- `@dataclass` for structured validation results
+- `Optional`, `Dict`, `List`, `Tuple`, `Any` types
+- Type-safe return values
+
+### ✅ Comprehensive Error Handling
+- Try-catch blocks at all critical operations
+- Timeout handling (5-second default, configurable)
+- Graceful degradation for optional features
+- Detailed error messages with suggestions
+- Exception logging to file
+
+### ✅ Modular Class Design
+- **SystemChecker** - Pre-flight validation
+- **DependencyInstaller** - Auto-detection & installation
+- **BackupManager** - Backup/restore operations
+- **EnterpriseSetup** - Main orchestrator
+
+### ✅ Beautiful Colored Output
+- 10 ANSI color codes (red, green, yellow, blue, magenta, cyan, white, bold, dim, underline)
+- Status indicators: ✓ (success), ✗ (error), ⚠ (warning), → (info)
+- Progress tracking with clear visual separation
+- Color-coded command results
+
+### ✅ Detailed Logging
+- Timestamped logs to `logs/setup_YYYYMMDD_HHMMSS.log`
+- Log levels: DEBUG (verbose), INFO (normal)
+- Structured logging with module names
+- Exception stack traces
+- Automatic log directory creation
+
+### ✅ 5-Second Timeouts
+- Configurable timeout for all subprocess calls
+- Prevents hanging on network issues
+- Can be adjusted via `--timeout` flag
+- Separate timeout for dependency installation (300s)
+
+### ✅ Non-Interactive Test Mode
+- CI/CD friendly test command
+- Runs validation without user interaction
+- Returns proper exit codes (0=success, 1=failure, 130=interrupted)
+- Compatible with automated testing
 
 ---
 
 ## 🏗️ Architecture
 
-### System Overview
+### Class Structure
 
 ```
-┌─────────────────────────────────────────────────────────┐
-│                    User Requirements                     │
-│                  (Natural Language)                      │
-└────────────────────┬────────────────────────────────────┘
-                     │
-                     ▼
-┌─────────────────────────────────────────────────────────┐
-│              Z.ai GLM-4.6 / GLM-4.5V                    │
-│         (API: https://api.z.ai/api/anthropic)           │
-└────────────────────┬────────────────────────────────────┘
-                     │
-                     ▼
-┌─────────────────────────────────────────────────────────┐
-│                  Agentica Framework                      │
-│    ┌───────────┬───────────┬───────────┬──────────┐    │
-│    │ Function  │Multi-Agent│  Prompt   │ Context  │    │
-│    │ Calling   │Orchestrate│  Cache    │ Optimize │    │
-│    └───────────┴───────────┴───────────┴──────────┘    │
-└────────────────────┬────────────────────────────────────┘
-                     │
-          ┌──────────┼──────────┐
-          │          │          │
-          ▼          ▼          ▼
-    ┌─────────┬─────────┬─────────┐
-    │ AutoBE  │AutoView │ Vector  │
-    │Backend  │Frontend │  Store  │
-    │Generator│Generator│   RAG   │
-    └────┬────┴────┬────┴────┬────┘
-         │         │         │
-         ▼         ▼         ▼
-    ┌─────────────────────────────┐
-    │   Generated Application     │
-    │  • Database Schema (Prisma) │
-    │  • API Spec (OpenAPI)       │
-    │  • Controllers (NestJS)     │
-    │  • Services (TypeScript)    │
-    │  • Frontend (React)         │
-    │  • Tests (Jest)             │
-    └─────────────────────────────┘
+EnterpriseSetup (Main Orchestrator)
+├── SystemChecker (Validation)
+│   ├── check_node()
+│   ├── check_package_manager()
+│   ├── check_git()
+│   ├── check_docker()
+│   ├── check_disk_space()
+│   └── check_python()
+│
+├── DependencyInstaller (Installation)
+│   ├── detect_package_manager()
+│   ├── install_repo(repo)
+│   └── install_all()
+│
+└── BackupManager (Backup/Restore)
+    ├── create_backup(name?)
+    ├── list_backups()
+    └── restore_backup(name)
 ```
-
-### AutoBE Pipeline
-
-```
-Requirements → Analyze → Prisma → OpenAPI → Tests → Implementation
-    ↓            ↓         ↓         ↓        ↓          ↓
-Natural      Parse      Design   Generate  Create     NestJS
-Language    Intent     Schema   Endpoints  E2E Tests Controllers
-                                                    & Services
-```
-
-**Key Features:**
-- **Waterfall + Spiral:** 5-phase pipeline with self-healing loops
-- **Compiler-Driven:** 3-tier validation (Prisma → OpenAPI → TypeScript)
-- **Vibe Coding:** Natural language → Working code in minutes
 
 ### Data Flow
 
 ```
-HTTP Request
-    │
-    ├─→ NestJS Router
-    │       │
-    │       ├─→ Auth Guard (JWT)
-    │       │       │
-    │       │       ├─→ Controller
-    │       │       │       │
-    │       │       │       ├─→ Service
-    │       │       │       │       │
-    │       │       │       │       ├─→ Prisma Client
-    │       │       │       │       │       │
-    │       │       │       │       │       └─→ PostgreSQL
-    │       │       │       │       │
-    │       │       │       │       └─→ Response
-    │       │       │       │
-    │       │       │       └─→ Error Handling
-    │       │       │
-    │       │       └─→ Validation (DTO)
-    │       │
-    │       └─→ CORS Middleware
-    │
-    └─→ Response to Client
+CLI Arguments → EnterpriseSetup.__init__()
+                       ↓
+              _setup_logging()
+                       ↓
+              SystemChecker (timeout=5s)
+                       ↓
+              BackupManager (script_dir)
+                       ↓
+              DependencyInstaller (auto-detect PM)
+                       ↓
+              Command Router (validate/install/backup/restore/test)
+                       ↓
+              Exit Code (0=success, 1=error, 130=interrupt)
 ```
 
 ---
 
-## 📊 Performance & Benchmarks
+## 💻 CLI Commands
 
-### Generation Speed
+### 1. Validate
 
-| API Complexity | LOC | Generation Time | Cost |
-|----------------|-----|-----------------|------|
-| Simple (Todo) | 667 | 33.5s | $0.04 |
-| Medium (Blog) | 1,200 | 58s | $0.08 |
-| Complex (E-commerce) | 3,500 | 4m 32s | $0.25 |
+**Check system prerequisites without making changes**
 
-### Code Quality Scores
+```bash
+python3 enterprise_setup.py validate
 
-| Metric | Score | Description |
-|--------|-------|-------------|
-| **Architecture** | 9/10 | Clean separation of concerns |
-| **Error Handling** | 9/10 | Comprehensive try-catch blocks |
-| **Documentation** | 10/10 | Complete OpenAPI + inline docs |
-| **Type Safety** | 10/10 | Full TypeScript, no `any` |
-| **Security** | 9/10 | JWT auth, password hashing |
+# With verbose logging
+python3 enterprise_setup.py --verbose validate
 
-### Resource Usage
+# With custom timeout
+python3 enterprise_setup.py --timeout 10 validate
+```
 
-- **Memory:** 2-8 GB during generation (depends on complexity)
-- **CPU:** Multi-threaded, utilizes 2-8 cores
-- **Disk:** 100-500 MB per generated project
-- **Network:** 10-50 requests to Z.ai API
+**Checks:**
+- ✓ Node.js v18+
+- ✓ Package manager (pnpm/npm)
+- ✓ Git installation
+- ✓ Python 3.8+
+- ✓ Disk space (2GB+)
+- ✓ Docker daemon (optional)
+
+**Exit Codes:**
+- `0` - All checks passed
+- `1` - One or more checks failed
+
+### 2. Install
+
+**Run full installation with validation and backup**
+
+```bash
+python3 enterprise_setup.py install
+
+# With verbose output
+python3 enterprise_setup.py --verbose install
+```
+
+**Steps:**
+1. **Validation** - Run all prerequisite checks
+2. **Backup** - Create .env backup if exists
+3. **Installation** - Install dependencies for all repos
+
+**Exit Codes:**
+- `0` - Installation successful
+- `1` - Validation failed or installation errors
+
+### 3. Backup
+
+**Create configuration backup**
+
+```bash
+# Auto-generated timestamp name
+python3 enterprise_setup.py backup
+
+# Custom backup name
+python3 enterprise_setup.py backup --name pre_upgrade
+
+# Short form
+python3 enterprise_setup.py backup -n production_config
+```
+
+**Backup Location:** `.backups/`
+
+**Exit Codes:**
+- `0` - Backup created
+- `1` - No .env file or backup failed
+
+### 4. Restore
+
+**Restore configuration from backup**
+
+```bash
+# List available backups
+python3 enterprise_setup.py restore
+
+# Restore specific backup
+python3 enterprise_setup.py restore env_backup_20251114_153000
+
+# Restore custom named backup
+python3 enterprise_setup.py restore pre_upgrade
+```
+
+**Safety:** Creates `pre_restore` backup before restoring
+
+**Exit Codes:**
+- `0` - Restore successful
+- `1` - Backup not found or restore failed
+
+### 5. Test
+
+**Non-interactive test mode for CI/CD**
+
+```bash
+python3 enterprise_setup.py test
+```
+
+**Behavior:**
+- Runs validation checks
+- No user interaction required
+- Proper exit codes for automation
+- CI/CD friendly
+
+---
+
+## 🎨 Output Examples
+
+### Validation Success
+
+```
+══════════════════════════════════════════════════════════════════
+  Enterprise WrtnLabs Deployment System
+  
+  AutoBE + AutoView + Agentica + Vector Store
+  Powered by Z.ai GLM-4.6 / GLM-4.5V
+══════════════════════════════════════════════════════════════════
+
+System Validation
+──────────────────────────────────────────────────────────────────
+
+✓ Node.js: Node.js 22.14.0
+  Version requirement satisfied
+✓ Package Manager: pnpm 10.15.0
+  Package manager available
+✓ Git: git version 2.43.0
+  Git available
+✓ Python: Python 3.11.5
+  Version 3.8+ satisfied
+✓ Disk Space: 45.2 GB available
+  Exceeds 2.0 GB requirement
+✓ Docker: Docker version 25.0.3, build 4debf41
+  Docker daemon running
+
+✓ All checks passed!
+```
+
+### Installation Progress
+
+```
+Step 3: Dependencies
+──────────────────────────────────────────────────────────────────
+
+Dependency Installation
+============================================================
+
+📦 Installing autobe...
+✓ autobe complete
+
+📦 Installing autoview...
+✓ autoview complete
+
+📦 Installing agentica...
+✓ agentica complete
+
+📦 Installing vector-store...
+✓ vector-store complete
+
+📦 Installing backend...
+✓ backend complete
+
+📦 Installing connectors...
+✓ connectors complete
+
+Results: 6 success, 0 failed
+
+✓ Installation complete!
+```
+
+### Backup Operation
+
+```
+Creating Backup
+──────────────────────────────────────────────────────────────────
+
+✓ Backup created: env_backup_20251114_153000
+```
+
+### Restore Operation
+
+```
+Available Backups
+──────────────────────────────────────────────────────────────────
+
+1. pre_restore (2025-11-14 15:30:45)
+2. pre_upgrade (2025-11-14 14:20:30)
+3. env_backup_20251114_120000 (2025-11-14 12:00:00)
+
+✓ Backup created: pre_restore
+✓ Restored from: pre_upgrade
+```
+
+---
+
+## 🔧 Configuration
+
+### Global Options
+
+| Option | Short | Type | Default | Description |
+|--------|-------|------|---------|-------------|
+| `--verbose` | `-v` | flag | False | Enable verbose output |
+| `--timeout` | `-t` | int | 5 | Command timeout in seconds |
+
+### Command-Specific Options
+
+**backup:**
+- `--name` / `-n` - Custom backup name (default: timestamp)
+
+**restore:**
+- `backup_name` - Backup to restore (positional, optional for listing)
+
+---
+
+## 📊 Validation Details
+
+### SystemChecker Class
+
+**Pre-flight validation with intelligent checks**
+
+```python
+checker = SystemChecker(timeout=5)
+result = checker.check_node()
+
+# ValidationResult dataclass
+result.success  # bool
+result.message  # str (version or error)
+result.details  # Optional[str] (additional info)
+```
+
+**Validation Checks:**
+
+1. **Node.js Check**
+   - Runs: `node --version`
+   - Requires: v18+
+   - Parses version, extracts major number
+
+2. **Package Manager Check**
+   - Tests: pnpm, npm (in order)
+   - Returns: First available
+   - Suggests: `npm install -g pnpm`
+
+3. **Git Check**
+   - Runs: `git --version`
+   - Verifies: Installation exists
+
+4. **Python Check**
+   - Uses: `sys.version`
+   - Requires: 3.8+
+
+5. **Disk Space Check**
+   - Uses: `shutil.disk_usage('/')`
+   - Requires: 2GB+
+   - Reports: Available space in GB
+
+6. **Docker Check** (Optional)
+   - Runs: `docker --version`
+   - Tests: `docker ps` (daemon running)
+   - Non-blocking: Doesn't fail validation
+
+---
+
+## 🗂️ File Structure
+
+```
+analyzer/
+├── enterprise_setup.py       ← Main script (647 lines)
+├── README_ENTERPRISE.md       ← This file
+├── logs/                      ← Auto-generated logs
+│   └── setup_YYYYMMDD_HHMMSS.log
+├── .backups/                  ← Configuration backups
+│   ├── env_backup_YYYYMMDD_HHMMSS
+│   └── pre_restore
+├── autobe/                    ← Repositories
+├── autoview/
+├── agentica/
+├── vector-store/
+├── backend/
+└── connectors/
+```
+
+---
+
+## 🔒 Security Features
+
+### Backup System
+- **Automatic backup** before restore operations
+- **Timestamped backups** for version control
+- **Custom names** for important configurations
+- **Isolated directory** (.backups/)
+
+### Logging
+- **Secure log directory** with proper permissions
+- **Timestamped log files** for audit trail
+- **Exception stack traces** for debugging
+- **No sensitive data** in logs (designed carefully)
+
+### Error Handling
+- **Timeout protection** prevents hanging
+- **Graceful degradation** for optional features
+- **Clear error messages** without exposing internals
+- **Exit codes** for automation safety
+
+---
+
+## 🧪 Testing
+
+### Unit Testing
+
+```bash
+# Run in test mode
+python3 enterprise_setup.py test
+
+# Test with verbose logging
+python3 enterprise_setup.py --verbose test
+
+# Test with custom timeout
+python3 enterprise_setup.py --timeout 10 test
+```
+
+### CI/CD Integration
+
+```yaml
+# GitHub Actions example
+- name: Validate environment
+  run: python3 enterprise_setup.py test
+  timeout-minutes: 2
+
+- name: Install dependencies
+  run: python3 enterprise_setup.py install
+  timeout-minutes: 15
+  if: steps.validate.outcome == 'success'
+```
+
+### Exit Code Handling
+
+```bash
+# Bash script example
+if python3 enterprise_setup.py validate; then
+    echo "Validation passed"
+    python3 enterprise_setup.py install
+else
+    echo "Validation failed" >&2
+    exit 1
+fi
+```
+
+---
+
+## 📚 Advanced Usage
+
+### Custom Timeout
+
+```bash
+# For slow networks
+python3 enterprise_setup.py --timeout 30 validate
+
+# For fast systems
+python3 enterprise_setup.py --timeout 2 validate
+```
+
+### Verbose Mode
+
+```bash
+# See all subprocess output
+python3 enterprise_setup.py --verbose install
+
+# Debug logging to file + console
+python3 enterprise_setup.py -v validate
+```
+
+### Backup Management
+
+```bash
+# Create named backup before major changes
+python3 enterprise_setup.py backup --name pre_v2_upgrade
+
+# List all backups
+python3 enterprise_setup.py restore
+
+# Restore after testing
+python3 enterprise_setup.py restore pre_v2_upgrade
+```
+
+### Automation Scripts
+
+```bash
+#!/bin/bash
+# deployment.sh
+
+set -e
+
+echo "Step 1: Validation"
+python3 enterprise_setup.py test || exit 1
+
+echo "Step 2: Backup"
+python3 enterprise_setup.py backup --name pre_deploy
+
+echo "Step 3: Install"
+python3 enterprise_setup.py --timeout 60 install || {
+    echo "Installation failed, restoring backup"
+    python3 enterprise_setup.py restore pre_deploy
+    exit 1
+}
+
+echo "Deployment complete!"
+```
+
+---
+
+## 🐛 Troubleshooting
+
+### "Command timed out after 5s"
+
+**Solution:** Increase timeout
+```bash
+python3 enterprise_setup.py --timeout 30 validate
+```
+
+### "No package manager found"
+
+**Solution:** Install pnpm
+```bash
+npm install -g pnpm
+```
+
+### "Node.js not found"
+
+**Solution:** Install Node.js v18+
+```bash
+# macOS
+brew install node@22
+
+# Ubuntu
+curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
+sudo apt-get install -y nodejs
+```
+
+### "Backup not found"
+
+**Solution:** List available backups
+```bash
+python3 enterprise_setup.py restore
+```
+
+### Installation errors
+
+**Solution:** Run with verbose mode
+```bash
+python3 enterprise_setup.py --verbose install
+```
+
+Check logs:
+```bash
+cat logs/setup_*.log | tail -100
+```
 
 ---
 
 ## 🤝 Contributing
 
-We welcome contributions! Here's how:
-
-### Setup Development Environment
-
-```bash
-# Clone repository
-git clone https://github.com/Zeeeepa/analyzer
-cd analyzer
-
-# Install dev dependencies
-pip install -r requirements-dev.txt
-
-# Run tests
-python -m pytest tests/
-
-# Run linters
-pylint setup.py
-black setup.py --check
-mypy setup.py
-```
-
-### Contribution Guidelines
-
-1. **Fork the repository**
-2. **Create a feature branch:** `git checkout -b feature/amazing-feature`
-3. **Make your changes**
-4. **Add tests:** Ensure code coverage stays above 80%
-5. **Run quality checks:**
-   ```bash
-   black setup.py
-   pylint setup.py
-   mypy setup.py
-   pytest tests/
-   ```
-6. **Commit:** `git commit -m "Add amazing feature"`
-7. **Push:** `git push origin feature/amazing-feature`
-8. **Create Pull Request**
-
 ### Code Style
 
-- **Python:** PEP 8, Black formatter, type hints
-- **JavaScript/TypeScript:** ESLint, Prettier
-- **Bash:** ShellCheck validation
+- **PEP 8** compliant
+- **Type hints** throughout
+- **Docstrings** for all classes and methods
+- **4-space indentation**
+- **Class-based design**
+
+### Adding New Checks
+
+```python
+def check_new_tool(self) -> ValidationResult:
+    """Check new tool installation"""
+    self.logger.info("Checking new tool...")
+    code, stdout, stderr = self.run_command(['newtool', '--version'])
+    
+    if code == 0:
+        return ValidationResult(True, stdout.strip(), "Tool available")
+    
+    return ValidationResult(
+        False,
+        "Tool not found",
+        "Install from: https://newtool.example.com"
+    )
+```
+
+Add to `run_all_checks()`:
+```python
+checks = [
+    # ... existing checks ...
+    ("New Tool", self.check_new_tool),
+]
+```
 
 ---
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+MIT License - See LICENSE file
 
 ---
 
 ## 🙏 Acknowledgments
 
-- **WrtnLabs** - For creating the AutoBE ecosystem
-- **Z.ai** - For providing GLM-4.6 and GLM-4.5V models
-- **Anthropic** - For Claude API compatibility
-- **OpenAI** - For SDK compatibility layer
-
----
-
-## 📚 Additional Resources
-
-### Documentation
-
-- **AutoBE Docs:** https://autobe.dev/docs
-- **Agentica Guide:** https://github.com/wrtnlabs/agentica#readme
-- **Z.ai API Docs:** https://docs.z.ai/
-
-### Community
-
-- **Discord:** https://discord.gg/aMhRmzkqCx
-- **GitHub Discussions:** https://github.com/wrtnlabs/autobe/discussions
-- **Twitter:** @wrtnlabs
-
-### Tutorials
-
-- [Building Your First Backend with AutoBE](https://autobe.dev/tutorials/first-backend)
-- [Z.ai API Integration Guide](https://docs.z.ai/integration)
-- [Multi-Agent Orchestration with Agentica](https://github.com/wrtnlabs/agentica/wiki)
+- **WrtnLabs** - AutoBE ecosystem
+- **Z.ai** - GLM-4.6/4.5V models
+- **Python** - argparse, typing, pathlib
 
 ---
 
@@ -750,13 +643,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - **Repository:** https://github.com/Zeeeepa/analyzer
 - **AutoBE:** https://github.com/wrtnlabs/autobe
-- **AutoView:** https://github.com/wrtnlabs/autoview
-- **Agentica:** https://github.com/wrtnlabs/agentica
-- **Z.ai:** https://z.ai
+- **Documentation:** https://autobe.dev/docs
 
 ---
 
-**Made with ❤️ by the community**
-
-**Questions?** Open an issue or join our [Discord](https://discord.gg/aMhRmzkqCx)!
-
+**Made with ❤️ for enterprise deployments**
