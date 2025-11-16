@@ -88,33 +88,59 @@ class GitSync:
     
     def _get_repo_category(self, repo_name: str) -> Tuple[str, List[str]]:
         """
-        Determine repository category and tags
+        Determine repository category and tags using keyword matching
         
         Returns:
             Tuple of (category_name, list_of_tags)
         """
         repo_name_lower = repo_name.lower()
         
+        # Score each category based on keyword matches
+        category_scores = {}
+        
         for category_name, category_data in self.categories.get('categories', {}).items():
-            repos_in_category = [r.lower() for r in category_data.get('repos', [])]
-            if repo_name_lower in repos_in_category:
-                # Generate tags from category name
-                tags = [category_name.lower().replace(' ', '-')]
+            score = 0
+            keywords = category_data.get('keywords', [])
+            
+            # Check each keyword against repo name
+            for keyword in keywords:
+                keyword_lower = keyword.lower()
+                if keyword_lower in repo_name_lower:
+                    # Exact match or substring match
+                    if keyword_lower == repo_name_lower:
+                        score += 100  # Exact match
+                    elif repo_name_lower.startswith(keyword_lower):
+                        score += 50  # Prefix match
+                    elif keyword_lower.replace('-', '_') in repo_name_lower or keyword_lower.replace('_', '-') in repo_name_lower:
+                        score += 40  # Variant match
+                    else:
+                        score += 20  # Substring match
+            
+            if score > 0:
+                category_scores[category_name] = score
+        
+        # Select category with highest score
+        if category_scores:
+            best_category = max(category_scores.items(), key=lambda x: x[1])[0]
+            
+            # Generate tags
+            tags = [best_category.lower().replace(' ', '-')]
+            
+            # Add additional tags based on repo name patterns
+            if 'agent' in repo_name_lower:
+                tags.append('agent')
+            if 'mcp' in repo_name_lower:
+                tags.append('mcp')
+            if 'claude' in repo_name_lower:
+                tags.append('claude')
+            if any(word in repo_name_lower for word in ['security', 'hack', 'pentest', 'osint']):
+                tags.append('security')
+            if 'api' in repo_name_lower or '2api' in repo_name_lower:
+                tags.append('api')
+            if 'bot' in repo_name_lower:
+                tags.append('bot')
                 
-                # Add additional tags based on keywords
-                desc = category_data.get('description', '').lower()
-                if 'agent' in desc or 'agent' in repo_name_lower:
-                    tags.append('agent')
-                if 'mcp' in desc or 'mcp' in repo_name_lower:
-                    tags.append('mcp')
-                if 'claude' in desc or 'claude' in repo_name_lower:
-                    tags.append('claude')
-                if 'security' in desc or 'penetration' in desc:
-                    tags.append('security')
-                if 'api' in desc or 'api' in repo_name_lower:
-                    tags.append('api')
-                    
-                return (category_name, list(set(tags)))
+            return (best_category, list(set(tags)))
         
         return ('Other', ['uncategorized'])
     
@@ -479,4 +505,3 @@ Examples:
 
 if __name__ == '__main__':
     sys.exit(main())
-
