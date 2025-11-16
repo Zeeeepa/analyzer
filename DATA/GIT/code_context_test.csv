@@ -1,0 +1,6 @@
+number,repository_name,full_name,primary_language,total_files,total_directories,total_size_bytes,code_files,code_lines,code_extensions,doc_files,doc_types,modules_count,module_types,config_files,config_types,test_files,test_frameworks,has_ci,ci_systems,build_systems,max_depth,largest_file,largest_file_size
+1,athena-protocol,Zeeeepa/athena-protocol,TypeScript,75,20,733814,55,13324,js|ts,6,md,1,npm,6,json|yml,0,,False,,,4,package-lock.json,223451
+2,mcpb,Zeeeepa/mcpb,Python,76,23,4076743,40,7582,js|py|ts,6,md|txt,3,npm|python|yarn,20,json|toml|yml,8,jest,True,github-actions,,3,.yarn/releases/yarn-4.10.3.cjs,2990158
+3,tokligence-gateway,Zeeeepa/tokligence-gateway,TypeScript,107,50,762060,70,14459,go|js|sh|ts|tsx,17,html|md|txt,2,go|npm,10,ini|json|yml,17,go-test|jest,False,,make,4,fe/package-lock.json,204307
+4,Skill_Seekers,Zeeeepa/Skill_Seekers,Python,125,12,1148131,58,19646,py|sh,36,md|txt,1,python,29,ini|json,29,go-test|pytest,True,github-actions,,2,cli/doc_scraper.py,69800
+5,youtu-graphrag,Zeeeepa/youtu-graphrag,Python,63,17,12948751,16,9004,py|sh,8,html|md|txt,1,python,13,json|yaml,0,,False,,,3,assets/retrieval_demo.png,2788821
