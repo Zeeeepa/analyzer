@@ -69,41 +69,27 @@ export GITHUB_TOKEN=your_github_personal_access_token
 
 ## Usage
 
-### Basic Commands
+### Automatic Execution
 
-#### 1. Analyze Entire Organization
+GitSync is configured to automatically analyze ALL repositories from the Zeeeepa organization:
 
 ```bash
-python scripts/gitsync.py --org Zeeeepa
+python scripts/gitsync.py
 ```
 
-This will:
-- Fetch all repositories from the Zeeeepa organization
+That's it! The script will:
+- Automatically fetch all repositories from Zeeeepa
 - Clone each repository (shallow)
-- Analyze file structure and code
-- Generate `DATA/GIT/git.csv` with results
+- Analyze file structure and code statistics  
+- Generate `DATA/GIT/git.csv` with complete results
 
-#### 2. Analyze Specific Repositories
+### Using GitHub Token (Recommended)
 
-```bash
-python scripts/gitsync.py --repos Zeeeepa/codegen Zeeeepa/analyzer Zeeeepa/agents
-```
-
-#### 3. Custom Output Location
+For higher API rate limits (5000 vs 60 requests/hour):
 
 ```bash
-python scripts/gitsync.py --org Zeeeepa --output results/analysis.csv
-```
-
-#### 4. Using GitHub Token
-
-```bash
-# Method 1: Environment variable
 export GITHUB_TOKEN=ghp_xxxxxxxxxxxx
-python scripts/gitsync.py --org Zeeeepa
-
-# Method 2: Command line argument
-python scripts/gitsync.py --org Zeeeepa --token ghp_xxxxxxxxxxxx
+python scripts/gitsync.py
 ```
 
 ### Advanced Usage
@@ -176,11 +162,14 @@ The generated CSV file contains the following columns:
 | `category` | Assigned category | Codegen |
 | `tags` | Pipe-separated tags | codegen\|sdk\|python |
 
-### Example Output
+### Example Output (DATA/GIT/git.csv)
 
 ```csv
 number,repository_name,full_name,description,language,origin_repo_stars,updated_at,url,file_number,unpacked_size,total_code_files,total_code_lines,module_number,total_doc_files,category,tags
-1,codegen,Zeeeepa/codegen,Python SDK to Interact with Intelligent Code Generation Agents,Python,15,2025-11-15T10:30:00Z,https://github.com/Zeeeepa/codegen,153,2547890,87,12450,5,12,Codegen,codegen|sdk|python|agent
+1,codegen,Zeeeepa/codegen,Python SDK to Interact with Intelligent Code Generation Agents,Python,1,2025-10-13T14:57:52Z,https://github.com/Zeeeepa/codegen,319,16844495,169,15407,30,14,Codegen,codegen
+2,AutoGPT,Zeeeepa/AutoGPT,AutoGPT is the vision of accessible AI for everyone; to use and to build on.,Python,0,2025-11-08T20:53:09Z,https://github.com/Zeeeepa/AutoGPT,4061,231131219,1579,356260,103,168,AI Agents,ai-agents
+3,mcp-chrome,Zeeeepa/mcp-chrome,Chrome MCP Server is a Chrome extension-based Model Context Protocol server,TypeScript,0,2025-10-29T01:43:49Z,https://github.com/Zeeeepa/mcp-chrome,159,44786883,89,28506,6,23,MCP Servers,mcp|mcp-servers
+4,claude-code-studio,Zeeeepa/claude-code-studio,Transform Claude Code into a complete development studio with 40+ specialized AI agents,Not specified,0,2025-08-13T15:04:32Z,https://github.com/Zeeeepa/claude-code-studio,76,390206,1,138,0,71,Claude Code,claude-code|claude
 ```
 
 ## Code Structure
@@ -503,4 +492,3 @@ MIT License - See repository LICENSE file
 **Last Updated**: 2025-11-16  
 **Version**: 1.0.0  
 **Maintainer**: Codegen Team
-

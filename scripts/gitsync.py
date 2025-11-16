@@ -379,10 +379,10 @@ class GitSync:
 
 def load_repos_from_github_api(org: str, token: Optional[str] = None) -> List[Tuple[str, str]]:
     """
-    Load all repositories from a GitHub organization
+    Load all repositories from a GitHub user (treating as user, not org)
     
     Args:
-        org: Organization name
+        org: Username
         token: Optional GitHub token
         
     Returns:
@@ -395,11 +395,10 @@ def load_repos_from_github_api(org: str, token: Optional[str] = None) -> List[Tu
     repos = []
     page = 1
     
-    print(f"Fetching repositories from {org}...")
-    
+    # Try user repos endpoint instead of org
     while True:
-        url = f"https://api.github.com/orgs/{org}/repos"
-        params = {'page': page, 'per_page': 100}
+        url = f"https://api.github.com/users/{org}/repos"
+        params = {'page': page, 'per_page': 100, 'type': 'all'}
         
         try:
             response = requests.get(url, headers=headers, params=params, timeout=30)
@@ -416,89 +415,59 @@ def load_repos_from_github_api(org: str, token: Optional[str] = None) -> List[Tu
             page += 1
             
         except requests.RequestException as e:
-            print(f"Error fetching repos: {e}")
+            print(f"  API Error on page {page}: {e}")
             break
     
-    print(f"Total repositories found: {len(repos)}\n")
+    print(f"  Total repositories found: {len(repos)}\n")
     return repos
 
 
 def main():
-    """Main entry point"""
-    import argparse
+    """Main entry point - automatically analyzes all Zeeeepa repositories"""
     
-    parser = argparse.ArgumentParser(
-        description='Synchronize and analyze GitHub repositories',
-        formatter_class=argparse.RawDescriptionHelpFormatter,
-        epilog="""
-Examples:
-  # Analyze Zeeeepa organization
-  python gitsync.py --org Zeeeepa
-  
-  # Analyze specific repositories
-  python gitsync.py --repos Zeeeepa/codegen Zeeeepa/analyzer
-  
-  # Use custom output file
-  python gitsync.py --org Zeeeepa --output custom.csv
-  
-  # Use GitHub token for higher API limits
-  export GITHUB_TOKEN=your_token_here
-  python gitsync.py --org Zeeeepa
-        """
-    )
+    print("=" * 80)
+    print("GitSync - Automatic Repository Analysis")
+    print("Organization: Zeeeepa")
+    print("Output: DATA/GIT/git.csv")
+    print("=" * 80)
+    print()
     
-    parser.add_argument(
-        '--org',
-        help='GitHub organization to analyze'
-    )
-    parser.add_argument(
-        '--repos',
-        nargs='+',
-        help='Specific repositories to analyze (format: owner/repo)'
-    )
-    parser.add_argument(
-        '--output',
-        default='DATA/GIT/git.csv',
-        help='Output CSV file path (default: DATA/GIT/git.csv)'
-    )
-    parser.add_argument(
-        '--token',
-        help='GitHub token (or use GITHUB_TOKEN env var)'
-    )
-    
-    args = parser.parse_args()
-    
-    # Validate arguments
-    if not args.org and not args.repos:
-        parser.error('Either --org or --repos must be specified')
+    # Get GitHub token
+    token = os.environ.get('GITHUB_TOKEN')
+    if not token:
+        print("Warning: No GITHUB_TOKEN environment variable set.")
+        print("API rate limits will be restrictive (60 requests/hour).")
+        print("Set GITHUB_TOKEN for 5000 requests/hour.\n")
     
     # Initialize GitSync
-    token = args.token or os.environ.get('GITHUB_TOKEN')
-    if not token:
-        print("Warning: No GitHub token provided. API rate limits will be restrictive.")
-        print("Set GITHUB_TOKEN environment variable or use --token option.\n")
-    
     syncer = GitSync(github_token=token)
     
-    # Build repository list
-    if args.org:
-        repos = load_repos_from_github_api(args.org, token)
-    else:
-        repos = []
-        for repo_spec in args.repos:
-            parts = repo_spec.split('/')
-            if len(parts) != 2:
-                print(f"Invalid repo format: {repo_spec} (should be owner/repo)")
-                continue
-            repos.append((parts[0], parts[1]))
+    # Hardcoded organization
+    org = "Zeeeepa"
+    
+    # Load all repositories from organization
+    print(f"Fetching all repositories from {org}...")
+    repos = load_repos_from_github_api(org, token)
     
     if not repos:
-        print("No repositories to analyze!")
+        print(f"\nERROR: Could not fetch repositories from {org}")
+        print("This might be because:")
+        print("  1. The organization doesn't exist")
+        print("  2. API access is restricted")
+        print("  3. Network connectivity issues")
         return 1
     
+    # Hardcoded output path
+    output_path = Path('DATA/GIT/git.csv')
+    
     # Perform synchronization
-    output_path = Path(args.output)
     syncer.sync_repositories(repos, output_path)
+    
+    print("\n" + "=" * 80)
+    print("✓ Analysis complete!")
+    print(f"✓ Total repositories analyzed: {len(repos)}")
+    print(f"✓ Results saved to: {output_path.absolute()}")
+    print("=" * 80)
     
     return 0
 
