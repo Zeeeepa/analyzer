@@ -13,15 +13,35 @@
 
 
 4 - Plan Board which allows iteratively upgrade Project requirements via Q&A with chat interface with agent that has very advanced instructions for PRD creation
-In this board to initialize PRD implementation. In this board to define CICD component sequencial flows. In this board to be able to setup sandbox environments & their pre-installed libraries (cache) which would be used for selected project initialization agent's computer box. In this board to be able to set secrets variables which would be used globally accross all spawned agents. Rule setting for selected projects for agents to act accordingly. !!VERY IMPORTANT!! Humanlayer /useragent- User gives request - > That is routed to highest level orchestrator validator of progress and makes sure if resolutions provided by it's called sub-agents complete user's initial request -> if no, then it sends all contexts to planner agent which creates required steps plan needed to achieve user's request -> and sends them to sub-agent creator agent which then selects agents most appropriate for task accomplishment with their initial rules/ context knowledgebases with different domains / clear reqquirements for each agent to achieve to be able to create many parallel agents = then progressions should be tracked by validator agent - And it should cycle iteratively in cyclical manner until user's initial PRD/Requirements are achieved(this should include seamless sandboxed environment spawning/ git branching for parallel development /
+In this board to initialize PRD implementation. In this board to define CICD component sequencial flows. In this board to be able to setup sandbox environments & their pre-installed libraries (cache) which would be used for selected project initialization agent's computer box. In this board to be able to set secrets variables which would be used globally accross all spawned agents. Rule setting for selected projects for agents to act accordingly. !!VERY IMPORTANT!! Humanlayer /useragent- User gives request - > That is routed to highest level orchestrator validator of progress and makes sure if resolutions provided by it's called sub-agents complete user's initial request -> if no, then it sends all contexts to planner agent which creates required steps plan needed to achieve user's request -> and sends them to sub-agent creator agent which then selects agents most appropriate for task accomplishment with their initial rules/ context knowledgebases with different domains / clear reqquirements for each agent to achieve to be able to create many parallel agents = then progressions should be tracked by validator agent - And it should cycle iteratively in cyclical manner until user's initial PRD/Requirements are achieved(this should include seamless sandboxed environment spawning/ git branching for parallel development /   ADVANCED COORDINATION PATTERNS ⚠️ MEDIUM 
+Sequential pipelines for predictable workflows  Parallel execution for speed  Hierarchical structures (Supervisor-Worker, Planner-Executor patterns)  State management across agent interactions  Communication protocols for agent handoffs
+
+4. Secure Code Execution: Sandboxes that spin up in under 200ms with full isolation, preventing unsafe code from affecting production systems. Platforms like E2B and Koyeb provide ephemeral containers for each executio Code Execution Infrastructure: Robust Java sandboxes that compile projects and run tests without human intervention, achieving over 95% accuracy through RL with code execution feedback loops
+
+5 - Memory modules Multi-tiered Memory System:
+Short-term memory (working context within sessions)
+Long-term memory (persistent across sessions)
+Shared memory (coordination across multi-agent systems)
+Semantic memory with vector embeddings
+Forgetting Mechanism: Implementation of Ebbinghaus forgetting curve-based memory optimization to selectively retain key information and reduce cognitive load
+Memory Engineering: Advanced systems use memory block coordination for synchronized access, cost optimization through KV-cache hit rates, and hierarchical summarization to compress inter-agent communication
+
+6 - Evolution and continuous improvement tools REFLECTION & SELF-IMPROVEMENT LOOPS Self-Reflection Capabilities: Modern agents use reflection to analyze past actions, recognize mistakes, and refine strategies. This includes meta-level process control where agents monitor and modify their own planning strategies Multi-stage Reasoning: Agents should generate initial responses then enter dedicated reflection phases to critically assess outputs using comprehensive rubrics, with feedback loops for iterative improvemen Reflexion Framework: Enables agents to critique their own outputs and refine approaches without human intervention, achieving 91% success rates on complex tasks 
 
 
-5 - Web2OpenAIapi request responders - 
+6 - Repo2Skill to add 2nd level spawned sub-agents orchestrators with highest relevance suitable repositories as their skills/tools (meaning sub-agents created and selected for specific task category in mind would be responsible for their own cycle of sub-sub-agemt creation & providing them with corresponding repositories as skills/ Knowledgebase contexts for their task scope/ MCP servers to attach indexes of variational information as memory modules for specified agents for higher accuracy scope knowledge & more proper context saving. TOOL INTEGRATION & MCP SERVERS ⚠️ MEDIUM PRIORITY
+Agentic RAG: Advanced retrieval where agents proactively decide when and from which sources to retrieve information, iteratively refine search queries, validate retrieved information, and synthesize facts from multiple documents Apideck
 
-6 - Repo2Skill to add 2nd level spawned sub-agents orchestrators with highest relevance suitable repositories as their skills/tools (meaning sub-agents created and selected for specific task category in mind would be responsible for their own cycle of sub-sub-agemt creation & providing them with corresponding repositories as skills/ Knowledgebase contexts for their task scope/ MCP servers to attach indexes of variational information as memory modules for specified agents for higher accuracy scope knowledge & more proper context saving.
+7 - Benchmarking testing capabilities of coding agents frameworks/ or research frameworks. EVALUATION & BENCHMARKING SYSTEM ⚠️ CRITICAL
+Comprehensive Benchmarking: Modern systems use benchmarks like SWE-Bench (code generation), AgentBench (multi-environment agents), WebArena (web tasks), ToolBench (API use), and ProjectEval (project-level code generation)
 
-7 - Benchmarking testing capabilities of coding agents frameworks/ or research frameworks.
+7. AUTONOMOUS TESTING & VALIDATION ⚠️ HIGH PRIORITY
+Agentic Testing Platforms: Systems that autonomously discover, generate, and execute tests with features like self-healing scripts, visual testing, dynamic locators, and predictive risk analysis Test-Driven Agentic Development: Specification-as-code framework combining TDD, contract-driven development, and architectural fitness functions to provide guardrails for AI agents
 
+8 - Web2OpenAIapi request responders - 
+
+9 - CONTEXT ENGINEERING & PROMPT OPTIMIZATION ⚠️ MEDIUM PRIORITY
+Context Window Management: Advanced systems address the challenge that multi-agent systems use 15× more tokens than single chats. This requires hierarchical summarization, selective preservation, and temporal coordination MongoDB
 
 ---------------------CODEGEN---------------------
 https://github.com/zeeeepa/codegen
