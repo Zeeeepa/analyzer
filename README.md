@@ -1,4 +1,26 @@
-REPOS LIST:
+
+
+1 RESEARCH - for Provided Topic / Focus Points. - To be able to set highly extensive continuous researching & analysis & further researching whilst modifying search request given the resolution of previous findings (Overall evolving reseearch storing all findings)
+
+
+2 Data Source Streaming to database/knowledgebase- To retrieve content appearing on set web sources like github trending repos everyday from 3 scopes 1 day / 7 days / 30 days or to stream and save npm changes endpoint data / or fetch articles from specified websites that publish articles - fetch all newly appearing ones/  
+
+
+
+
+3 Comprehensive full data context analysis analyzing thousands of github repositories, npm projects, searching for code patterns, - considering their contents, rating component comprehensiveness and effectiveness - and if they would provide additional value for set evolutionary goals of the system -> Like to upgrade current research module / Upgrade current analysis module / Upgrade top level orchestrator requirements completedness - verificator.
+
+
+
+4 - Plan Board which allows iteratively upgrade Project requirements via Q&A with chat interface with agent that has very advanced instructions for PRD creation
+In this board to initialize PRD implementation. In this board to define CICD component sequencial flows. In this board to be able to setup sandbox environments & their pre-installed libraries (cache) which would be used for selected project initialization agent's computer box. In this board to be able to set secrets variables which would be used globally accross all spawned agents. Rule setting for selected projects for agents to act accordingly. !!VERY IMPORTANT!! Humanlayer /useragent- User gives request - > That is routed to highest level orchestrator validator of progress and makes sure if resolutions provided by it's called sub-agents complete user's initial request -> if no, then it sends all contexts to planner agent which creates required steps plan needed to achieve user's request -> and sends them to sub-agent creator agent which then selects agents most appropriate for task accomplishment with their initial rules/ context knowledgebases with different domains / clear reqquirements for each agent to achieve to be able to create many parallel agents = then progressions should be tracked by validator agent - And it should cycle iteratively in cyclical manner until user's initial PRD/Requirements are achieved(this should include seamless sandboxed environment spawning/ git branching for parallel development /
+
+
+5 - Web2OpenAIapi request responders - 
+
+6 - Repo2Skill to add 2nd level spawned sub-agents orchestrators with highest relevance suitable repositories as their skills/tools (meaning sub-agents created and selected for specific task category in mind would be responsible for their own cycle of sub-sub-agemt creation & providing them with corresponding repositories as skills/ Knowledgebase contexts for their task scope/ MCP servers to attach indexes of variational information as memory modules for specified agents for higher accuracy scope knowledge & more proper context saving.
+
+7 - Benchmarking testing capabilities of coding agents frameworks/ or research frameworks.
 
 
 ---------------------CODEGEN---------------------
