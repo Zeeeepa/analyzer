@@ -37,11 +37,48 @@ vcedar-os	AI Framework	React-based AI-native apps
 * feqa - npm
 * https://www.npmjs.com/package/fr3k
 * https://www.npmjs.com/package/@nogataka/coding-agent-mgr
-* 
+@mcpmarket/mcp-auto-install
+@cherrystudio/embedjs-anthropic
+@cherrystudio/embedjs
+@cherrystudio/embedjs-lancedb
+@cherrystudio/embedjs-loader-image
+@cherrystudio/embedjs-loader-sitemap
+@cherrystudio/embedjs-loader-csv
+@cherrystudio/embedjs-loader-pdf
+@cherrystudio/embedjs-loader-xml
+@cherrystudio/embedjs-loader-youtube
+@cherrystudio/embedjs-loader-web
+https://www.npmjs.com/package/snow-flow
+https://www.npmjs.com/package/@portel/ncp   ------<HELPS CHOOSE FROM ALOT>
+https://www.npmjs.com/package/@wrtnlabs/web-content-extractor
 @iflow-mcp
 apify
+https://www.npmjs.com/package/myaidev-method
+https://www.npmjs.com/package/@amrhas82/agentic-kit
+https://www.npmjs.com/package/@notbeastr/powerai
+https://www.npmjs.com/package/shipit-team
+https://www.npmjs.com/package/@wll8/mini-code-cli
+https://www.npmjs.com/package/@brewedbytes/turbocache-js
 
+https://www.npmjs.com/package/pageindex-mcp
+https://www.npmjs.com/package/shipit-team
+https://www.npmjs.com/package/spellbookx
+https://www.npmjs.com/package/@waldzellai/exa-mcp-docs   (RAG SemantiC)
+https://www.npmjs.com/package/mcp-to-skill-transformer   (SKILLS)
+https://www.npmjs.com/package/flow-agent
+https://www.npmjs.com/package/claude-flow
+https://www.npmjs.com/package/agentic-qe
+https://www.npmjs.com/package/secretscout
+https://www.npmjs.com/package/@agentica/vector-selector
+https://www.npmjs.com/package/es-jsonkit
 
+https://www.npmjs.com/package/puaro
+https://www.npmjs.com/package/@robinson_ai_systems/thinking-tools-mcp
+https://www.npmjs.com/package/@robinson_ai_systems/github-mcp
+https://www.npmjs.com/package/@robinson_ai_systems/neon-mcp
+https://www.npmjs.com/package/adaptive-parallel-reasoning-mcp
+https://www.npmjs.com/package/deepthinking-mcp
+https://www.npmjs.com/package/@jcmrs/claude-agent-os
 # @airia-in/drcode
 @d-kuehn/eslint-config
 /@flowuent-org/diagramming-core
