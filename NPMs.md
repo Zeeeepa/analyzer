@@ -1,4 +1,14 @@
 Project Name              Category                 Key Feature
+
+https://www.npmjs.com/package/@webneat/codewiki
+https://www.npmjs.com/package/@qwe8652591/abap-parser
+https://www.npmjs.com/package/@dbestai/mcp-of-mcps
+https://www.npmjs.com/package/deepv-code
+https://www.npmjs.com/package/@fortium/ai-mesh
+https://www.npmjs.com/package/@apart-tech/code-index
+https://www.npmjs.com/package/@foxruv/agent-learning-core
+
+
 * @antinomyhq/forge	AI Coding Assistant	Multi-model AI support
 * @byterover/cipher	             AI Agent Framework	Memory layer for agents
 * @circuitorg/agent-cli	             CLI Tool	Agent deployment
