@@ -14,6 +14,12 @@ https://www.npmjs.com/package/@foxruv/agent-learning-core
 @robinson_ai_systems/rad-crawler-core
 @robinson_ai_systems/shared-pipeline
 
+https://www.npmjs.com/package/projax
+https://www.npmjs.com/package/bc-code-intelligence-mcp
+https://www.npmjs.com/package/@sylphx/flow
+https://www.npmjs.com/package/reepoe
+https://www.npmjs.com/package/ultrascript-tools-mcp
+
 * @antinomyhq/forge	AI Coding Assistant	Multi-model AI support
 * @byterover/cipher	             AI Agent Framework	Memory layer for agents
 * @circuitorg/agent-cli	             CLI Tool	Agent deployment
