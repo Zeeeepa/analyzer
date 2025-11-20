@@ -8,6 +8,11 @@ https://www.npmjs.com/package/@fortium/ai-mesh
 https://www.npmjs.com/package/@apart-tech/code-index
 https://www.npmjs.com/package/@foxruv/agent-learning-core
 
+@robinson_ai_systems/thinking-tools-mcp
+@robinson_ai_systems/robinsons-toolkit-mcp
+@robinson_ai_systems/shared-utils
+@robinson_ai_systems/rad-crawler-core
+@robinson_ai_systems/shared-pipeline
 
 * @antinomyhq/forge	AI Coding Assistant	Multi-model AI support
 * @byterover/cipher	             AI Agent Framework	Memory layer for agents
