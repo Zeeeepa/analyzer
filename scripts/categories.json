@@ -1,0 +1,125 @@
+{
+  "categories": {
+    "Codegen": {
+      "description": "Core Codegen ecosystem tools and SDKs",
+      "keywords": ["codegen", "sdk", "api-client"]
+    },
+    "Testing & Fix": {
+      "description": "Testing frameworks and automated error fixing tools",
+      "keywords": ["test", "testing", "fix", "autogen", "cli"]
+    },
+    "Code Analysis - LSP": {
+      "description": "Language Server Protocol implementations and tools",
+      "keywords": ["lsp", "language-server", "lynlang", "serena"]
+    },
+    "Code Analysis - RAG": {
+      "description": "Retrieval-Augmented Generation for code understanding",
+      "keywords": ["rag", "retrieval", "code-graph", "pai-rag", "youtu-graphrag", "cipher"]
+    },
+    "Code Analysis - Indexing": {
+      "description": "Code indexing and semantic search tools",
+      "keywords": ["index", "search", "cocoindex", "bloop", "graphiti"]
+    },
+    "Code Analysis - Static Analysis": {
+      "description": "Static analysis and code quality tools",
+      "keywords": ["auditor", "ast", "static", "analysis", "filescopemc", "pink", "perfetto"]
+    },
+    "Code Analysis - Refactoring": {
+      "description": "Code refactoring and dead code detection",
+      "keywords": ["refactor", "deepcode", "pyversity"]
+    },
+    "JET": {
+      "description": "JET ecosystem modules and tools",
+      "keywords": ["jet_", "jet-"]
+    },
+    "Sandboxing": {
+      "description": "Code execution sandboxing and isolation",
+      "keywords": ["sandbox", "grainchain", "tinygen", "catnip"]
+    },
+    "Evolution & Intelligence": {
+      "description": "Self-evolving AI and meta-learning systems",
+      "keywords": ["evolve", "evolution", "shinka", "episodic", "neosgenesis", "r-zero"]
+    },
+    "Claude Code": {
+      "description": "Claude Code enhancements and extensions",
+      "keywords": ["claude-code", "claude-agent", "archon", "opcode", "superpowers", "claude-skill"]
+    },
+    "CLI Agents": {
+      "description": "Command-line AI coding agents",
+      "keywords": ["qwen-code", "langchain-code", "gemini-cli", "opencode", "code_just"]
+    },
+    "IDE": {
+      "description": "AI-powered IDEs and development environments",
+      "keywords": ["bolt", "lovable", "dyad", "continue", "codegen-ide"]
+    },
+    "AI Agents": {
+      "description": "General-purpose AI agents and frameworks",
+      "keywords": ["agent", "autogpt", "agno", "autogen", "agentic"]
+    },
+    "APIs & Proxies": {
+      "description": "API conversion, proxy, and routing tools",
+      "keywords": ["api", "proxy", "2api", "chat2api", "adapter", "gateway", "router"]
+    },
+    "Enterprise": {
+      "description": "Enterprise-grade automation and RPA",
+      "keywords": ["astron", "rpa", "enterprise", "dexto", "humanlayer"]
+    },
+    "UI & Chat": {
+      "description": "User interface components and chat systems",
+      "keywords": ["chatkit", "chat-ui", "chatgpt", "ag-ui", "interface"]
+    },
+    "MCP Servers": {
+      "description": "Model Context Protocol servers and tools",
+      "keywords": ["mcp", "model-context", "protocol"]
+    },
+    "Browser Automation": {
+      "description": "Browser automation and web interaction tools",
+      "keywords": ["browser", "playwright", "chrome", "web", "automation", "vimium", "surf", "phantom"]
+    },
+    "Penetration & Security": {
+      "description": "Penetration testing and security tools",
+      "keywords": ["pentest", "security", "hack", "osint", "vulnerability", "exploit", "stealer", "grabber", "phish"]
+    },
+    "Vision & Multimodal": {
+      "description": "Computer vision and multimodal AI",
+      "keywords": ["vision", "image", "video", "multimodal", "tts", "voice", "banana"]
+    },
+    "Knowledge Base": {
+      "description": "Knowledge management and documentation",
+      "keywords": ["knowledge", "wiki", "memori", "khoj", "deepwiki", "leann"]
+    },
+    "Research": {
+      "description": "Research tools and frameworks",
+      "keywords": ["research", "gpt-researcher", "paper", "proof"]
+    },
+    "Data & Analytics": {
+      "description": "Data processing and analytics tools",
+      "keywords": ["data", "analytics", "pathway", "mineru", "wandb", "weave", "crawler"]
+    },
+    "Infrastructure & DevOps": {
+      "description": "Infrastructure, deployment, and DevOps tools",
+      "keywords": ["deploy", "infra", "devops", "docker", "cloudflare", "kestra", "pipeline"]
+    },
+    "Trading & Finance": {
+      "description": "Trading bots and financial tools",
+      "keywords": ["trading", "trader", "bot", "finance", "crypto", "solana", "hyperliquid"]
+    },
+    "Gaming": {
+      "description": "Game development and gaming tools",
+      "keywords": ["game", "gaming", "mindustry", "bevy"]
+    },
+    "Productivity": {
+      "description": "Productivity and automation tools",
+      "keywords": ["productivity", "prompt", "cursor", "augment", "qoder"]
+    },
+    "Communication": {
+      "description": "Email, messaging, and communication tools",
+      "keywords": ["email", "mail", "message", "communication", "airi"]
+    },
+    "Other": {
+      "description": "Miscellaneous and uncategorized projects",
+      "keywords": []
+    }
+  }
+}
+
