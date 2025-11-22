@@ -1,9 +1,9 @@
 repoFullName,description,language,stargazers_count,updated_at,fileCount,codeFileCount,docFileCount,linesOfCode,lastAnalyzed
-"Zeeeepa/analyzer","analyzer","Python",2,"2025-11-22T13:56:30Z",0,0,0,0,""
+"Zeeeepa/Kosmos","Kosmos: An AI Scientist for Autonomous Discovery - An implementation and adaptation to be driven by Claude Code or API - Based on the Kosmos AI Paper -  https://arxiv.org/abs/2511.02824","Python",0,"2025-11-22T14:30:23Z",0,0,0,0,""
+"Zeeeepa/analyzer","analyzer","Python",2,"2025-11-22T14:12:18Z",0,0,0,0,""
 "Zeeeepa/sandbox-sdk","Run sandboxed code environments on Cloudflare's edge network","TypeScript",0,"2025-11-22T10:54:51Z",0,0,0,0,""
 "Zeeeepa/neuralagent","The AI Agent That Lives On Your Desktop And Uses It Like You Do!","JavaScript",1,"2025-11-21T00:34:42Z",0,0,0,0,""
 "Zeeeepa/amq2api","","",0,"2025-11-20T12:24:33Z",0,0,0,0,""
-"Zeeeepa/Kosmos","Kosmos: An AI Scientist for Autonomous Discovery - An implementation and adaptation to be driven by Claude Code or API - Based on the Kosmos AI Paper -  https://arxiv.org/abs/2511.02824","",0,"2025-11-20T12:06:55Z",0,0,0,0,""
 "Zeeeepa/openskills","Universal skills loader for AI coding agents - npm i -g openskills","",0,"2025-11-20T02:41:30Z",0,0,0,0,""
 "Zeeeepa/edmunds-claude-code","","",0,"2025-11-20T02:41:15Z",0,0,0,0,""
 "Zeeeepa/MJ","Main MemberJunction Repository","TSQL",1,"2025-11-20T02:34:32Z",0,0,0,0,""
