@@ -1,5 +1,6 @@
 @webneat/codewiki
 @qwe8652591/abap-parser
+@continual/integrations
 @dbestai/mcp-of-mcps
 deepv-code
 @fortium/ai-mesh
