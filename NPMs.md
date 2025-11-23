@@ -1,4 +1,10 @@
 @webneat/codewiki
+@pimzino/spec-workflow-mcp
+@kodebase/cli
+specweave
+
+
+hey-fr3k
 @qwe8652591/abap-parser
 @continual/integrations
 @dbestai/mcp-of-mcps
