@@ -10,11 +10,16 @@ puppeteer-extra-plugin-captcha-forward
 @wundr.io/analysis-engine
 @mat3ra/tede
 
+@dzhng/claude-agent
+openskills
+@mixedbread/mgrep 
+
 
 meego-client
 specweave
 contextcode-cli
 morphik
+
 @morphik/mcp
 hey-fr3k
 @qwe8652591/abap-parser
@@ -147,7 +152,6 @@ parse-server
 hexam
 claude-ai-cr
 agentlangcli
-https://github.com/yuusoft-org/kanbatte
 klaude
 @deepractice-ai/agent-sdk
 @askman-dev/
