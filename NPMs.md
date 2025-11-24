@@ -1,6 +1,8 @@
 @webneat/codewiki
 @pimzino/spec-workflow-mcp
 @kodebase/cli
+
+meego-client
 specweave
 contextcode-cli
 morphik
