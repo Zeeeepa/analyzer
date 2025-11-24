@@ -2,8 +2,9 @@
 @pimzino/spec-workflow-mcp
 @kodebase/cli
 specweave
-
-
+contextcode-cli
+morphik
+@morphik/mcp
 hey-fr3k
 @qwe8652591/abap-parser
 @continual/integrations
