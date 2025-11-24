@@ -2,6 +2,13 @@
 @pimzino/spec-workflow-mcp
 @kodebase/cli
 
+@wundr.io/rag-utils
+puppeteer-extra-plugin-captcha-forward
+@wundr.io/plugin-system
+@wundr.io/ai-integration
+@wundr.io/computer-setup
+@wundr.io/analysis-engine
+
 meego-client
 specweave
 contextcode-cli
