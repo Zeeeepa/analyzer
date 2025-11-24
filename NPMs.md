@@ -8,6 +8,8 @@ puppeteer-extra-plugin-captcha-forward
 @wundr.io/ai-integration
 @wundr.io/computer-setup
 @wundr.io/analysis-engine
+@mat3ra/tede
+
 
 meego-client
 specweave
