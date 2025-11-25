@@ -7,7 +7,7 @@ https://cdn.jsdelivr.net/npm
 https://api.npmjs.org
 https://cdn.skypack.dev
 https://api.skypack.dev
-
+https://cdnjs.cloudflare.com
 
 
 https://unpkg.com/wabt
