@@ -10,16 +10,27 @@ puppeteer-extra-plugin-captcha-forward
 @wundr.io/analysis-engine
 @mat3ra/tede
 
+
+agent-ide
 @dzhng/claude-agent
 openskills
 @mixedbread/mgrep 
 
+@fluxgraph/knowledge
+memedge
+htrag
+@subclaude/cli
 
 meego-client
 specweave
 contextcode-cli
 morphik
+@ruvector/core
 
+@agi-cli/server
+@agi-cli/api
+
+@knowledge-stack/public-api-client
 @morphik/mcp
 hey-fr3k
 @qwe8652591/abap-parser
