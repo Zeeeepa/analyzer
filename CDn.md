@@ -1,0 +1,9 @@
+https://aistudiocdn.com
+https://bundlephobia.com/api
+https://jsr.io/
+https://esm.sh
+https://api.github.com/repos
+https://cdn.jsdelivr.net/npm
+https://api.npmjs.org
+https://cdn.skypack.dev
+https://api.skypack.dev
