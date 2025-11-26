@@ -20,7 +20,9 @@ openskills
 memedge
 htrag
 @subclaude/cli
+dashcam
 
+claude-hydra
 meego-client
 specweave
 contextcode-cli
