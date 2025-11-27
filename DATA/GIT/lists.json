@@ -1,10 +1,5 @@
 [
   {
-    "id": "1",
-    "name": "Frontend",
-    "color": "#60A5FA"
-  },
-  {
     "id": "2",
     "name": "Backend",
     "color": "#34D399"
