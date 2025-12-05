@@ -31,7 +31,7 @@ from graph_sitter.extensions.autogenlib._generator import (
 )
 from graph_sitter.extensions.lsp.solidlsp.lsp_protocol_handler.lsp_types import Diagnostic
 from graph_sitter_analysis import GraphSitterAnalyzer
-from lsp_diagnostics import EnhancedDiagnostic
+from serena_adapter import EnhancedDiagnostic
 
 logger = logging.getLogger(__name__)
 
