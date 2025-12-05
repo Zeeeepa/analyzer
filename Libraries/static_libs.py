@@ -87,6 +87,48 @@ logger = logging.getLogger(__name__)
 
 
 # ============================================================================
+# ERROR REPRESENTATION
+# ============================================================================
+
+@dataclass
+class AnalysisError:
+    """Represents a detected error with comprehensive metadata"""
+    file_path: str
+    category: str
+    severity: str
+    message: str
+    line: Optional[int] = None
+    column: Optional[int] = None
+    end_line: Optional[int] = None
+    end_column: Optional[int] = None
+    code_snippet: Optional[str] = None
+    rule_id: Optional[str] = None
+    confidence: str = "high"
+    source: str = "static_analyzer"
+
+
+class ErrorCategory(Enum):
+    """Categories of actual code errors"""
+    RUNTIME = "Runtime Error"
+    TYPE = "Type Error"
+    PARAMETER = "Parameter Error"
+    FLOW = "Control Flow Error"
+    IMPORT = "Import Error"
+    SYNTAX = "Syntax Error"
+    REFERENCE = "Reference Error"
+    EXCEPTION = "Exception Handling"
+    LOGIC = "Logic Error"
+
+
+class Severity(Enum):
+    """Issue severity levels"""
+    CRITICAL = ("🔴", "CRITICAL", 10)
+    ERROR = ("❌", "ERROR", 8)
+    WARNING = ("⚠️", "WARNING", 5)
+    INFO = ("ℹ️", "INFO", 3)
+
+
+# ============================================================================
 # ADVANCED LIBRARY IMPORTS WITH FALLBACKS
 # ============================================================================
 
