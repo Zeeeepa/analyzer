@@ -1,0 +1,22 @@
+{
+  "id": "1765087704212",
+  "name": "Project Alpha 1",
+  "description": "New autonomous research project.",
+  "status": "active",
+  "architecture": "",
+  "techStack": [],
+  "libraries": [],
+  "researchContexts": [],
+  "chatHistory": [
+    {
+      "id": "init",
+      "role": "assistant",
+      "content": "System Online. Define your objective.",
+      "timestamp": "2025-12-07T06:08:24.212Z",
+      "type": "text"
+    }
+  ],
+  "lastUpdated": "2025-12-07T06:08:24.212Z",
+  "upgrades": [],
+  "evolutionStatus": "idle"
+}
