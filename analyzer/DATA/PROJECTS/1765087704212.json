@@ -81,7 +81,7 @@
       "type": "workflow_step"
     }
   ],
-  "lastUpdated": "2025-12-07T06:44:59.848Z",
+  "lastUpdated": "2025-12-07T06:46:11.280Z",
   "upgrades": [],
   "evolutionStatus": "idle",
   "activeWorkflow": {
@@ -101,14 +101,69 @@
         "name": "Architect",
         "agentType": "ARCHITECT",
         "description": "Executing Architect protocol...",
-        "status": "running"
+        "status": "completed",
+        "output": {
+          "architecture": "# System Blueprint: Autonomous Orchestration & Configuration Nexus\n\n## 1. System Overview\nThis architecture implements a modular, autonomous workflow system consisting of a configuration management layer for 'Claude' and a rigorous orchestration engine responsible for executing the *Researcher → Architect → Coder → Council* lifecycle.\n\n## 2. Directory Structure\n\nThe project follows the **Standard Go Project Layout** adapted for modular monoliths.\n\n```bash\nproject-root/\n├── cmd/\n│   └── server/\n│       └── main.go                 # Application Entry Point (Wires modules)\n├── internal/\n│   ├── shared/                     # Domain primitives shared across modules\n│   │   ├── domain/\n│   │   └── infrastructure/\n│   ├── modules/\n│   │   ├── claude_config/          # [Module] Configuration Management\n│   │   │   ├── delivery/           # HTTP Handlers (Gin/Echo)\n│   │   │   ├── domain/             # Entity: ClaudeConfiguration\n│   │   │   └── usecase/            # Logic: Validate & Persist Config\n│   │   ├── orchestration/          # [Module] Workflow Orchestration\n│   │   │   ├── engine/             # State Machine (The \"Brain\")\n│   │   │   ├── lifecycle/          # Step implementations\n│   │   │   │   ├── researcher.go\n│   │   │   │   ├── architect.go\n│   │   │   │   ├── coder.go\n│   │   │   │   └── council.go\n│   │   │   └── scheduler/          # Autonomous triggers (Cron/Tickers)\n│   │   └── hooks_manager/          # [Module] Integration Hooks\n│   │       ├── registry/           # Hook Storage\n│   │       └── dispatcher/         # Execution Logic\n│   └── infrastructure/             # Global Infra (DB Connection, Logger)\n├── web/                            # Frontend (React/TypeScript)\n│   ├── src/\n│   │   ├── components/           # UI Components\n│   │   │   └── config-view/    # 'Claude Config' View & Form\n│   │   └── services/             # API Clients\n├── configs/                        # Environment Variables / Static Configs\n└── docker-compose.yml              # Container orchestration\n```\n\n## 3. Module Responsibilities\n\n| Module ID | Module Name | Core Responsibility | Key Dependencies |\n| :--- | :--- | :--- | :--- |\n| **MOD-001** | **Claude Config** | Manages persistence and validation of AI settings. | Shared Kernel |\n| **MOD-002** | **Orchestrator** | Enforces the 4-step lifecycle and triggers autonomous actions. | Claude Config, Hooks Manager |\n| **MOD-003** | **Hooks Manager** | Dispatches synchronous/asynchronous events to external systems. | Shared Kernel |\n| **UI-001** | **Web Client** | Provides a visual interface for configuration and monitoring. | HTTP API (MOD-001) |\n\n## 4. API Endpoints (Primary)\n\n| Method | Endpoint | Module | Description |\n| :--- | :--- | :--- | :--- |\n| `GET` | `/api/v1/config/claude` | MOD-001 | Retrieve current Claude configuration. |\n| `PUT` | `/api/v1/config/claude` | MOD-001 | Update and validate configuration. |\n| `GET` | `/api/v1/workflow/status` | MOD-002 | Get current state of the autonomous engine. |\n| `POST` | `/api/v1/hooks/register` | MOD-003 | Register a new integration hook. |",
+          "mermaidGraph": "graph TD\n    subgraph Frontend [Web Client UI-001]\n        UI_View[Config View] -->|GET /config| API_GW\n        UI_Save[Config Save] -->|PUT /config| API_GW\n    end\n\n    subgraph Backend [Go Application]\n        API_GW[API Gateway / Router]\n        \n        subgraph ConfigMod [MOD-001 Claude Config]\n            CC_Handler[HTTP Handler]\n            CC_UC[UseCase Logic]\n            CC_Repo[(DB Repository)]\n        end\n\n        subgraph OrchMod [MOD-002 Orchestration]\n            Scheduler[Auto Scheduler]\n            Engine[Lifecycle Engine]\n            \n            subgraph Lifecycle [Autonomous Steps]\n                Step1[1. Researcher]\n                Step2[2. Architect]\n                Step3[3. Coder]\n                Step4[4. Council]\n            end\n        end\n\n        subgraph HooksMod [MOD-003 Hooks Manager]\n            Registry[Hook Registry]\n            Dispatcher[Event Dispatcher]\n        end\n    end\n\n    %% Connections\n    API_GW --> CC_Handler\n    CC_Handler --> CC_UC\n    CC_UC --> CC_Repo\n\n    Scheduler --> Engine\n    Engine --> Step1 --> Step2 --> Step3 --> Step4\n    Step4 -.->|Loop| Step1\n\n    Engine --Reads--> CC_UC\n    Engine --Triggers--> Dispatcher\n    Dispatcher --Lookup--> Registry",
+          "techStack": [
+            "Go (Golang) 1.21+",
+            "TypeScript",
+            "React",
+            "PostgreSQL",
+            "Docker"
+          ],
+          "libraries": [
+            {
+              "name": "Gin Gonic",
+              "description": "High-performance HTTP web framework for Go.",
+              "category": "Backend Framework",
+              "synergies": [
+                "Go Standard Library"
+              ]
+            },
+            {
+              "name": "GORM",
+              "description": "The fantastic ORM library for Golang.",
+              "category": "Database",
+              "synergies": [
+                "PostgreSQL",
+                "Gin Gonic"
+              ]
+            },
+            {
+              "name": "Robfig/Cron",
+              "description": "A cron library for Go to handle autonomous scheduling.",
+              "category": "Scheduling",
+              "synergies": [
+                "Orchestration Module"
+              ]
+            },
+            {
+              "name": "Viper",
+              "description": "Go configuration with fangs - handles env vars and config files.",
+              "category": "Configuration",
+              "synergies": [
+                "Claude Config Module"
+              ]
+            },
+            {
+              "name": "React Query (TanStack Query)",
+              "description": "Powerful asynchronous state management for React.",
+              "category": "Frontend State",
+              "synergies": [
+                "React",
+                "Axios"
+              ]
+            }
+          ]
+        }
       },
       {
         "id": "step-2",
         "name": "Coder",
         "agentType": "CODER",
         "description": "Executing Coder protocol...",
-        "status": "pending"
+        "status": "running"
       },
       {
         "id": "step-3",
@@ -118,7 +173,7 @@
         "status": "pending"
       }
     ],
-    "currentStepIndex": 1,
+    "currentStepIndex": 2,
     "status": "planning"
   },
   "mermaidGraph": "graph TD\n    subgraph ClientLayer [Client Layer]\n        UI[Web UI / CLI]\n    end\n\n    subgraph GatewayLayer [API Gateway & Middleware]\n        Auth[Identity & Auth]\n        Router[Request Router]\n    end\n\n    subgraph DomainLayer [Domain Modules]\n        Config[MOD_CONFIG: Configuration]\n        Orch[MOD_ORCHESTRATION: Workflow]\n        Hooks[MOD_HOOKS: Automation]\n    end\n\n    subgraph SidecarLayer [Async Processors]\n        Audit[MOD_AUDIT: Logging]\n        JobQueue[Job Worker]\n    end\n\n    subgraph DataLayer [Persistence]\n        DB[(Primary DB - Postgres)]\n        Redis[(Cache / Queue)]\n    end\n\n    %% Flows\n    UI -->|HTTPS| Auth\n    Auth -->|Valid Context| Router\n    \n    Router -->|CRUD| Config\n    Router -->|Execute| Orch\n    Router -->|Manage| Hooks\n\n    %% Cross-Module Data Flow\n    Orch -->|Fetch Config| Config\n    Orch -->|Trigger Event| Hooks\n\n    %% Event Bus & Async\n    Config -- Publish Event --> JobQueue\n    Orch -- Publish Event --> JobQueue\n    Hooks -- Publish Event --> JobQueue\n    \n    JobQueue -- Consume --> Audit\n    JobQueue -- Consume (Retry) --> Hooks\n\n    %% Persistence\n    Config --> DB\n    Orch --> DB\n    Hooks --> DB\n    Audit --> DB\n    JobQueue --> Redis"
