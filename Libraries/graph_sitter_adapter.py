@@ -183,7 +183,7 @@ from graph_sitter.core.parameter import Parameter
 from graph_sitter.core.function_call import FunctionCall
 from graph_sitter.core.usage import Usage
 
-from lsp_diagnostics import LSPDiagnosticsManager
+from serena_adapter import LSPDiagnosticsManager
 from autogenlib_adapter import resolve_diagnostic_with_ai
 from serena.solidlsp.lsp_protocol_handler.lsp_types import Diagnostic, DocumentUri, Range
 from serena.solidlsp.ls_config import Language

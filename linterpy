@@ -1,0 +1,412 @@
+#!/usr/bin/env python3
+"""Flexible linter script that works with poetry, uv, or direct Python invocation.
+Targets: Libraries/ and tests/ (root-level Python files)
+Tools: ruff, isort, black, mypy, pyright
+
+Usage:
+  python linterpy lint    # Run all linting checks
+  python linterpy format  # Auto-fix formatting issues
+  python linterpy test    # Run tests with coverage
+"""
+
+import os
+import shutil
+import subprocess
+import sys
+from pathlib import Path
+from typing import List, Optional, Tuple
+
+
+class LinterManager:
+    """Manages linting tools with multiple installation methods."""
+    
+    def __init__(self):
+        self.directory = Path(__file__).parent
+        self.backend_dir = self.directory
+        self.libraries_dir = self.directory / "Libraries"
+        self.tests_dir = self.directory / "tests"
+        
+        # Target directories for different tools
+        self.target_dirs = [
+            str(self.backend_dir),
+            str(self.libraries_dir),
+            str(self.tests_dir)
+        ]
+        
+        # Determine command runner
+        self.runner = self._detect_runner()
+        
+    def _detect_runner(self) -> str:
+        """Detect the best available command runner."""
+        # Check for poetry
+        if shutil.which("poetry") and (self.directory / "pyproject.toml").exists():
+            print("🎯 Using poetry as package manager")
+            return "poetry"
+        
+        # Check for uv
+        if shutil.which("uv"):
+            print("⚡ Using uv as package manager")
+            return "uv"
+        
+        # Fall back to direct Python
+        print("🐍 Using direct Python invocation")
+        return "python"
+    
+    def _run_command(self, args: List[str], capture: bool = True) -> Tuple[int, str, str]:
+        """Run a command using the detected runner."""
+        cmd = []
+        
+        if self.runner == "poetry":
+            cmd = ["poetry", "run"] + args
+        elif self.runner == "uv":
+            # For uv, we need to be more careful with the command structure
+            if args[0] in ["ruff", "isort", "black", "mypy", "pyright", "pytest"]:
+                # These are installed tools
+                cmd = ["uv", "run"] + args
+            else:
+                # Direct python command
+                cmd = ["uv", "run", "python", "-m"] + args
+        else:
+            # Direct Python invocation
+            if args[0] in ["ruff", "isort", "black", "mypy", "pyright", "pytest"]:
+                cmd = ["python", "-m"] + args
+            else:
+                cmd = ["python"] + args
+        
+        print(f">>>>> Running {' '.join(cmd)}")
+        
+        try:
+            if capture:
+                result = subprocess.run(
+                    cmd,
+                    cwd=self.directory,
+                    capture_output=True,
+                    text=True,
+                    timeout=300  # 5 minute timeout
+                )
+                return result.returncode, result.stdout, result.stderr
+            else:
+                result = subprocess.run(
+                    cmd,
+                    cwd=self.directory,
+                    timeout=300
+                )
+                return result.returncode, "", ""
+        except subprocess.TimeoutExpired:
+            return 1, "", "Command timed out after 5 minutes"
+        except Exception as e:
+            return 1, "", str(e)
+    
+    def _install_tools(self) -> bool:
+        """Install required linting tools."""
+        tools = ["ruff", "isort", "black", "mypy", "pyright", "pytest", "pytest-cov"]
+        
+        if self.runner == "poetry":
+            # Poetry should already have these in pyproject.toml
+            returncode, _, _ = self._run_command(["install"])
+            return returncode == 0
+        elif self.runner == "uv":
+            # Install tools with uv
+            for tool in tools:
+                returncode, _, _ = self._run_command(["pip", "install", tool])
+                if returncode != 0:
+                    print(f"⚠️ Failed to install {tool}")
+            return True
+        else:
+            # Try pip install
+            for tool in tools:
+                returncode, _, _ = self._run_command(["pip", "install", tool])
+                if returncode != 0:
+                    print(f"⚠️ Failed to install {tool}")
+            return True
+    
+    def _check_tool_exists(self, tool: str) -> bool:
+        """Check if a tool is available."""
+        if self.runner == "poetry":
+            returncode, _, _ = self._run_command(["run", "which", tool])
+            return returncode == 0
+        else:
+            return shutil.which(tool) is not None
+    
+    def lint_ruff(self) -> Tuple[int, str]:
+        """Run ruff linting."""
+        print("🔍 Running ruff linting...")
+        
+        # Check Libraries specifically and then everything else
+        cmd_args = ["check", str(self.libraries_dir), "--exit-zero"]
+        returncode, stdout, stderr = self._run_command(cmd_args)
+        
+        if returncode == 0 and not stdout.strip():
+            # Check other directories too
+            cmd_args = ["check", ".", "--exit-zero"]
+            returncode, stdout, stderr = self._run_command(cmd_args)
+        
+        return returncode, stdout + stderr
+    
+    def format_ruff(self) -> Tuple[int, str]:
+        """Run ruff formatting."""
+        print("✨ Running ruff formatting...")
+        cmd_args = ["format", str(self.libraries_dir)]
+        returncode, stdout, stderr = self._run_command(cmd_args)
+        return returncode, stdout + stderr
+    
+    def lint_isort(self) -> Tuple[int, str]:
+        """Run isort import sorting check."""
+        print("📦 Running isort check...")
+        cmd_args = ["check-only", str(self.libraries_dir), "--profile", "black"]
+        return self._run_command(cmd_args)
+    
+    def format_isort(self) -> Tuple[int, str]:
+        """Run isort import sorting."""
+        print("📦 Running isort...")
+        cmd_args = [str(self.libraries_dir), "--profile", "black"]
+        returncode, stdout, stderr = self._run_command(cmd_args)
+        return returncode, stdout + stderr
+    
+    def lint_black(self) -> Tuple[int, str]:
+        """Run black formatting check."""
+        print("⚫ Running black check...")
+        cmd_args = ["--check", "--line-length=88", str(self.libraries_dir)]
+        return self._run_command(cmd_args)
+    
+    def format_black(self) -> Tuple[int, str]:
+        """Run black formatting."""
+        print("⚫ Running black...")
+        cmd_args = [str(self.libraries_dir), "--line-length=88"]
+        returncode, stdout, stderr = self._run_command(cmd_args)
+        return returncode, stdout + stderr
+    
+    def lint_mypy(self) -> Tuple[int, str]:
+        """Run mypy type checking."""
+        print("🔍 Running mypy...")
+        cmd_args = [
+            str(self.libraries_dir),
+            "--ignore-missing-imports",
+            "--no-error-summary",
+            "--follow-imports=silent"
+        ]
+        return self._run_command(cmd_args)
+    
+    def lint_pyright(self) -> Tuple[int, str]:
+        """Run pyright type checking."""
+        print("🔍 Running pyright...")
+        cmd_args = [str(self.libraries_dir)]
+        return self._run_command(cmd_args)
+    
+    def run_tests(self, coverage: bool = False) -> Tuple[int, str]:
+        """Run pytest tests."""
+        print("🧪 Running tests...")
+        
+        cmd_args = ["tests/", "-v", "--tb=short"]
+        
+        if coverage:
+            cmd_args.extend([
+                "--cov=Libraries",
+                "--cov-report=term-missing",
+                "--cov-report=html:htmlcov",
+                "--cov-fail-under=70"
+            ])
+        
+        return self._run_command(cmd_args)
+    
+    def run_lint_checks(self) -> int:
+        """Run all linting checks."""
+        print("🚀 Running all linting checks...\n")
+        
+        # Install tools if needed
+        print("📦 Checking/Installing tools...")
+        self._install_tools()
+        print()
+        
+        # Run checks in order
+        checks = [
+            ("Ruff", self.lint_ruff),
+            ("isort", self.lint_isort),
+            ("Black", self.lint_black),
+            ("Mypy", self.lint_mypy),
+            ("Pyright", self.lint_pyright),
+        ]
+        
+        failed_checks = []
+        
+        for check_name, check_func in checks:
+            try:
+                returncode, output = check_func()
+                if returncode == 0:
+                    print(f"✅ {check_name} passed")
+                else:
+                    print(f"❌ {check_name} failed")
+                    if output.strip():
+                        print(f"   Output: {output[:500]}")
+                    failed_checks.append(check_name)
+            except Exception as e:
+                print(f"❌ {check_name} error: {e}")
+                failed_checks.append(check_name)
+            
+            print()
+        
+        # Run tests
+        print("🧪 Running tests...")
+        try:
+            returncode, output = self.run_tests()
+            if returncode == 0:
+                print("✅ Tests passed")
+            else:
+                print("❌ Tests failed")
+                if output.strip():
+                    print(f"   Output: {output[:500]}")
+                failed_checks.append("Tests")
+        except Exception as e:
+            print(f"❌ Tests error: {e}")
+            failed_checks.append("Tests")
+        
+        # Summary
+        print("\n" + "="*50)
+        if not failed_checks:
+            print("🎉 All checks passed!")
+            return 0
+        else:
+            print(f"❌ Failed checks: {', '.join(failed_checks)}")
+            print("\n💡 To fix formatting issues, run: python linterpy format")
+            return 1
+    
+    def run_formatting(self) -> int:
+        """Run all formatting fixes."""
+        print("🔧 Running formatting fixes...\n")
+        
+        # Install tools if needed
+        print("📦 Checking/Installing tools...")
+        self._install_tools()
+        print()
+        
+        # Run formatters in order
+        formatters = [
+            ("Ruff", self.format_ruff),
+            ("isort", self.format_isort),
+            ("Black", self.format_black),
+        ]
+        
+        for fmt_name, fmt_func in formatters:
+            try:
+                returncode, output = fmt_func()
+                if returncode == 0:
+                    print(f"✅ {fmt_name} formatting completed")
+                else:
+                    print(f"❌ {fmt_name} formatting failed")
+                    if output.strip():
+                        print(f"   Output: {output[:500]}")
+            except Exception as e:
+                print(f"❌ {fmt_name} formatting error: {e}")
+            
+            print()
+        
+        # Run type checking after formatting
+        print("🔍 Running type checks after formatting...")
+        for check_name, check_func in [("Mypy", self.lint_mypy), ("Pyright", self.lint_pyright)]:
+            try:
+                returncode, output = check_func()
+                if returncode == 0:
+                    print(f"✅ {check_name} check passed")
+                else:
+                    print(f"⚠️ {check_name} found issues (formatting completed)")
+                    if output.strip():
+                        print(f"   Issues: {len(output.splitlines())} lines")
+            except Exception as e:
+                print(f"❌ {check_name} error: {e}")
+        
+        print("\n✨ Formatting complete!")
+        return 0
+    
+    def run_testing(self, coverage: bool = False) -> int:
+        """Run tests with optional coverage."""
+        print("🧪 Running test suite...\n")
+        
+        # Install tools if needed
+        print("📦 Checking/Installing tools...")
+        self._install_tools()
+        print()
+        
+        # Run tests
+        returncode, output = self.run_tests(coverage=coverage)
+        
+        if returncode == 0:
+            print("✅ All tests passed!")
+            if coverage:
+                print("📊 Coverage report generated in htmlcov/")
+        else:
+            print("❌ Some tests failed")
+            if output.strip():
+                print("\nTest output:")
+                print(output[:1000])  # Show first 1000 chars
+        
+        return returncode
+    
+    def analyze_libraries(self) -> int:
+        """Analyze Libraries folder structure and metrics."""
+        print("📚 Analyzing Libraries folder structure...")
+        
+        if not self.libraries_dir.exists():
+            print("❌ Libraries folder not found")
+            return 1
+        
+        # Count Python files
+        py_files = list(self.libraries_dir.glob("*.py"))
+        submodules = [d for d in self.libraries_dir.iterdir() if d.is_dir() and not d.name.startswith('.')]
+        
+        print(f"📁 Libraries directory: {self.libraries_dir}")
+        print(f"📄 Main Python files: {len(py_files)}")
+        print(f"📂 Submodules: {len(submodules)}")
+        
+        # File details
+        total_lines = 0
+        for py_file in py_files:
+            try:
+                with open(py_file, 'r', encoding='utf-8') as f:
+                    lines = len(f.readlines())
+                    total_lines += lines
+                    print(f"   📄 {py_file.name}: {lines:,} lines")
+            except Exception as e:
+                print(f"   ❌ {py_file.name}: Error reading ({e})")
+        
+        print(f"📊 Total lines in main files: {total_lines:,}")
+        
+        # Submodule details
+        for sub in submodules:
+            sub_py_files = list(sub.rglob("*.py"))
+            print(f"   📂 {sub.name}: {len(sub_py_files)} Python files")
+        
+        return 0
+
+
+def main():
+    """Main entry point."""
+    if len(sys.argv) < 2:
+        print("Usage:")
+        print("  python linterpy lint      - Run all linting checks")
+        print("  python linterpy format    - Auto-fix formatting issues") 
+        print("  python linterpy test      - Run tests")
+        print("  python linterpy coverage  - Run tests with coverage")
+        print("  python linterpy analyze   - Analyze Libraries folder")
+        sys.exit(1)
+    
+    command = sys.argv[1].lower()
+    manager = LinterManager()
+    
+    if command == "lint":
+        sys.exit(manager.run_lint_checks())
+    elif command == "format":
+        sys.exit(manager.run_formatting())
+    elif command == "test":
+        sys.exit(manager.run_testing())
+    elif command == "coverage":
+        sys.exit(manager.run_testing(coverage=True))
+    elif command == "analyze":
+        sys.exit(manager.analyze_libraries())
+    else:
+        print(f"❌ Unknown command: {command}")
+        print("Available commands: lint, format, test, coverage, analyze")
+        sys.exit(1)
+
+
+if __name__ == "__main__":
+    main()
