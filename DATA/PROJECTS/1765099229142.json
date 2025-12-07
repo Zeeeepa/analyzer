@@ -14,10 +14,52 @@
       "content": "**System Online.** Project initialized with goal: \"PRD -> To Project. User interface. Multi Project Management -> wnhere each project gets multi- threaded git worktree feature developmental threads. allows adding reference projects (github/npmjs/or uploaded codefiles/ or youtube transcripts or any other contexts).\".\n\nStandby for Architect Analysis...",
       "timestamp": "2025-12-07T09:20:29.142Z",
       "type": "text"
+    },
+    {
+      "id": "1765099292428",
+      "role": "assistant",
+      "content": "**Orchestrator**: Autonomous Workflow Initiated.\n**Objective**: Design the architecture for this project goal.\n**Strategy**: Researcher → Architect → Coder → Council",
+      "timestamp": "2025-12-07T09:21:32.428Z"
     }
   ],
-  "lastUpdated": "2025-12-07T09:20:29.142Z",
+  "lastUpdated": "2025-12-07T09:21:32.438Z",
   "files": {},
   "upgrades": [],
-  "evolutionStatus": "idle"
+  "evolutionStatus": "idle",
+  "activeWorkflow": {
+    "id": "wf-1765099292423",
+    "intent": "Design the architecture for this project goal.",
+    "steps": [
+      {
+        "id": "step-0",
+        "name": "Researcher",
+        "agentType": "EXPLORER",
+        "description": "Executing Researcher protocol...",
+        "status": "running"
+      },
+      {
+        "id": "step-1",
+        "name": "Architect",
+        "agentType": "ARCHITECT",
+        "description": "Executing Architect protocol...",
+        "status": "pending"
+      },
+      {
+        "id": "step-2",
+        "name": "Coder",
+        "agentType": "CODER",
+        "description": "Executing Coder protocol...",
+        "status": "pending"
+      },
+      {
+        "id": "step-3",
+        "name": "Council",
+        "agentType": "COUNCIL",
+        "description": "Executing Council protocol...",
+        "status": "pending"
+      }
+    ],
+    "currentStepIndex": 0,
+    "status": "planning"
+  }
 }
