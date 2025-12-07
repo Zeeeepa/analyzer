@@ -74,6 +74,14 @@ except ImportError as e:
     SOLIDLSP_AVAILABLE = False
 
 # AutoGenLib integration
+# Enhanced AutoGenLib Fixer - Safe runtime error fixing
+try:
+    from autogenlib_adapter import AutoGenLibAdapter
+    AUTOGENLIB_ADAPTER_AVAILABLE = True
+except ImportError as e:
+    AUTOGENLIB_ADAPTER_AVAILABLE = False
+    logging.debug(f"Enhanced AutoGenLib fixer not available: {e}")
+
 try:
     from graph_sitter.extensions import autogenlib
     from graph_sitter.extensions.autogenlib._cache import cache_module
@@ -640,36 +648,46 @@ class ErrorDatabase:
             return [dict(row) for row in cursor.fetchall()]
 
 
-class AutoGenLibFixer:
-    """Integration with AutoGenLib for AI-powered error fixing."""
+class AutoGenLibFixerLegacy:
+    """Legacy wrapper for AutoGenLibFixer - now uses enhanced version.
+    
+    This class maintains backward compatibility while delegating to the
+    new enhanced AutoGenLibFixer for safe runtime error fixing.
+    """
 
     def __init__(self):
-        if not AUTOGENLIB_AVAILABLE:
+        """Initialize using enhanced fixer if available, otherwise raise error."""
+        if AUTOGENLIB_ADAPTER_AVAILABLE:
+            # Use enhanced fixer with full safety features
+            self._fixer = AutoGenLibFixer(codebase=None)
+            logging.info("✅ Using enhanced AutoGenLibFixer")
+        elif AUTOGENLIB_AVAILABLE:
+            # Fallback to basic autogenlib
+            logging.warning("⚠️  Using basic AutoGenLib (enhanced fixer not available)")
+            autogenlib.init(
+                "Advanced Python code analysis and error fixing system",
+                enable_exception_handler=True,
+                enable_caching=True,
+            )
+            self._fixer = None
+        else:
             msg = "AutoGenLib not available"
             raise ImportError(msg)
 
-        # Initialize AutoGenLib for code fixing
-        autogenlib.init(
-            "Advanced Python code analysis and error fixing system",
-            enable_exception_handler=True,
-            enable_caching=True,
-        )
-
     def generate_fix_for_error(self, error: AnalysisError, source_code: str) -> dict[str, Any] | None:
-        """Generate a fix for a specific error using AutoGenLib's LLM integration."""
+        """Generate a fix using enhanced fixer if available."""
+        if self._fixer:
+            return self._fixer.generate_fix_for_error(error, source_code)
+        
+        # Fallback to basic generation (legacy code)
         try:
-            # Create a mock exception for the error
             mock_exception_type = type(error.error_type, (Exception,), {})
             mock_exception_value = Exception(error.message)
-
-            # Create a simplified traceback string
             mock_traceback = f"""
 File "{error.file_path}", line {error.line}, in <module>
-    {error.context or "# Error context not available"}
+    {getattr(error, 'context', None) or "# Error context not available"}
 {error.error_type}: {error.message}
 """
-
-            # Use AutoGenLib's fix generation
             fix_info = generate_fix(
                 module_name=os.path.basename(error.file_path).replace(".py", ""),
                 current_code=source_code,
@@ -679,31 +697,27 @@ File "{error.file_path}", line {error.line}, in <module>
                 is_autogenlib=False,
                 source_file=error.file_path,
             )
-
             return fix_info
-
         except Exception as e:
             logging.exception(f"Failed to generate fix for error: {e}")
             return None
 
     def apply_fix_to_file(self, file_path: str, fixed_code: str) -> bool:
-        """Apply a fix to a file (with backup)."""
+        """Apply fix using enhanced fixer if available."""
+        if self._fixer:
+            return self._fixer.apply_fix_to_file(file_path, fixed_code)
+        
+        # Fallback to basic application
         try:
-            # Create backup
             backup_path = f"{file_path}.backup_{int(time.time())}"
             with open(file_path) as original:
                 with open(backup_path, "w") as backup:
                     backup.write(original.read())
-
-            # Apply fix
             with open(file_path, "w") as f:
                 f.write(fixed_code)
-
-            logging.info(f"Applied fix to {file_path} (backup: {backup_path})")
             return True
-
         except Exception as e:
-            logging.exception(f"Failed to apply fix to {file_path}: {e}")
+            logging.exception(f"Failed to apply fix: {e}")
             return False
 
 
