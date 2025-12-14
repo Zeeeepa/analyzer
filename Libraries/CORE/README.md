@@ -1230,3 +1230,708 @@ Most modules depend on `@ruvector/core` and `ruvector`. Start with these, then a
 This architecture is modular and extensible. As new modules are added or roles evolve, update this documentation to reflect current system design. Always verify integration points when upgrading dependencies.
 
 **Last Updated**: December 2024
+## Complete NPM Package Registry (161 Packages)
+
+This section documents ALL 161 packages published by @ruvnet on NPM, organized by category for easy reference.
+
+**Last Updated**: 2025-12-09
+**Total Packages**: 161
+
+---
+
+### Core Orchestration & Flow (4 packages)
+
+#### **agentic-flow** v1.10.2
+- Production-ready AI agent orchestration platform with 66 specialized agents, 213 MCP tools, ReasoningBank learning memory, and autonomous multi-agent ...
+- `npm install agentic-flow`
+
+#### **claude-flow** v2.7.47
+- Enterprise-grade AI agent orchestration with WASM-powered ReasoningBank memory and AgentDB vector database (always uses latest agentic-flow)...
+- `npm install claude-flow`
+
+#### **flow-nexus** v0.1.128
+- 🚀 AI-Powered Swarm Intelligence Platform - Gamified MCP Development with 70+ Tools...
+- `npm install flow-nexus`
+
+#### **ruv-swarm** v1.0.20
+- High-performance neural network swarm orchestration in WebAssembly...
+- `npm install ruv-swarm`
+
+---
+
+### Vector Database (RuVector Core) (12 packages)
+
+#### **@ruvector/cli** v0.1.25
+- Command-line interface for RuVector vector database...
+- `npm install @ruvector/cli`
+
+#### **@ruvector/cluster** v0.1.0
+- Distributed clustering and coordination for RuVector - auto-sharding, Raft consensus integration...
+- `npm install @ruvector/cluster`
+
+#### **@ruvector/core** v0.1.28
+- High-performance vector database with HNSW indexing - 50k+ inserts/sec, built in Rust for AI/ML similarity search and semantic search applications...
+- `npm install @ruvector/core`
+
+#### **@ruvector/node** v0.1.18
+- High-performance Rust vector database for Node.js with HNSW indexing and SIMD optimizations...
+- `npm install @ruvector/node`
+
+#### **@ruvector/postgres-cli** v0.2.6
+- Advanced AI vector database CLI for PostgreSQL - pgvector drop-in replacement with 53+ SQL functions, 39 attention mechanisms, GNN layers, hyperbolic ...
+- `npm install @ruvector/postgres-cli`
+
+#### **@ruvector/router** v0.1.25
+- Semantic router for AI agents - vector-based intent matching with HNSW indexing and SIMD acceleration...
+- `npm install @ruvector/router`
+
+#### **@ruvector/rvlite** v0.2.4
+- Standalone vector database with SQL, SPARQL, and Cypher - powered by RuVector WASM...
+- `npm install @ruvector/rvlite`
+
+#### **@ruvector/server** v0.1.0
+- HTTP/gRPC server for RuVector - REST API with streaming support...
+- `npm install @ruvector/server`
+
+#### **ruvector** v0.1.35
+- High-performance vector database for Node.js with automatic native/WASM fallback...
+- `npm install ruvector`
+
+#### **ruvector-core** v0.1.26
+- High-performance vector database with HNSW indexing - 50k+ inserts/sec, built in Rust for AI/ML similarity search and semantic search applications...
+- `npm install ruvector-core`
+
+#### **ruvector-extensions** v0.1.0
+- Advanced features for ruvector: embeddings, UI, exports, temporal tracking, and persistence...
+- `npm install ruvector-extensions`
+
+#### **ruvector-sona** v0.1.4
+- Self-Optimizing Neural Architecture - Runtime-adaptive learning for LLM routers with two-tier LoRA, EWC++, and ReasoningBank...
+- `npm install ruvector-sona`
+
+---
+
+### Neural Trading Suite (25 packages)
+
+#### **@neural-trader/agentic-accounting-agents** v0.1.1
+- Multi-agent swarm orchestration for autonomous accounting operations with ReasoningBank self-learning, distributed task coordination, and intelligent ...
+- `npm install @neural-trader/agentic-accounting-agents`
+
+#### **@neural-trader/agentic-accounting-cli** v0.1.1
+- Command-line interface for neural-trader's agentic accounting system with interactive tax calculators, transaction management, compliance reports, and...
+- `npm install @neural-trader/agentic-accounting-cli`
+
+#### **@neural-trader/agentic-accounting-core** v0.1.1
+- Core TypeScript library for autonomous cryptocurrency accounting with transaction management, compliance automation, fraud detection, and AgentDB-powe...
+- `npm install @neural-trader/agentic-accounting-core`
+
+#### **@neural-trader/agentic-accounting-rust-core** v0.1.1
+- High-performance Rust native addon (NAPI) for cryptocurrency tax calculations with FIFO, LIFO, HIFO cost basis methods and optimized transaction proce...
+- `npm install @neural-trader/agentic-accounting-rust-core`
+
+#### **@neural-trader/agentic-accounting-types** v0.1.1
+- Comprehensive TypeScript type definitions and interfaces for neural-trader's agentic accounting system with cryptocurrency tax calculations, cost basi...
+- `npm install @neural-trader/agentic-accounting-types`
+
+#### **@neural-trader/backend** v2.2.1
+- High-performance Neural Trader backend with native Rust bindings via NAPI-RS...
+- `npm install @neural-trader/backend`
+
+#### **@neural-trader/backtesting** v2.6.0
+- Neural Trader backtesting engine and historical simulation...
+- `npm install @neural-trader/backtesting`
+
+#### **@neural-trader/benchoptimizer** v2.1.1
+- Comprehensive benchmarking, validation, and optimization tool for neural-trader packages...
+- `npm install @neural-trader/benchoptimizer`
+
+#### **@neural-trader/brokers** v2.1.1
+- Broker integrations for Neural Trader - Alpaca, Interactive Brokers, TD Ameritrade...
+- `npm install @neural-trader/brokers`
+
+#### **@neural-trader/core** v2.0.0
+- Ultra-low latency neural trading engine with Rust + Node.js bindings...
+- `npm install @neural-trader/core`
+
+#### **@neural-trader/e2b-strategies** v1.1.1
+- Production-ready E2B sandbox trading strategies with 10-50x performance improvements, circuit breakers, and comprehensive observability...
+- `npm install @neural-trader/e2b-strategies`
+
+#### **@neural-trader/execution** v2.6.0
+- Neural Trader trade execution and order management...
+- `npm install @neural-trader/execution`
+
+#### **@neural-trader/features** v2.1.2
+- Technical indicators for Neural Trader - SMA, RSI, MACD, Bollinger Bands, and 150+ indicators...
+- `npm install @neural-trader/features`
+
+#### **@neural-trader/market-data** v2.1.1
+- Market data providers for Neural Trader - Alpaca, Polygon, Yahoo Finance...
+- `npm install @neural-trader/market-data`
+
+#### **@neural-trader/neural** v2.6.0
+- Neural Trader neural network training and prediction...
+- `npm install @neural-trader/neural`
+
+#### **@neural-trader/neuro-divergent** v2.1.1
+- Neural forecasting library with 27+ models (NHITS, LSTM, Transformers) for time series prediction...
+- `npm install @neural-trader/neuro-divergent`
+
+#### **@neural-trader/news-trading** v2.1.1
+- News-driven trading for Neural Trader - real-time sentiment analysis and event-driven strategies...
+- `npm install @neural-trader/news-trading`
+
+#### **@neural-trader/portfolio** v2.6.0
+- Neural Trader portfolio management and optimization...
+- `npm install @neural-trader/portfolio`
+
+#### **@neural-trader/prediction-markets** v2.1.1
+- Prediction markets for Neural Trader - Polymarket, Augur integration with expected value calculations...
+- `npm install @neural-trader/prediction-markets`
+
+#### **@neural-trader/predictor** v0.1.0
+- Conformal prediction for neural trading with guaranteed intervals...
+- `npm install @neural-trader/predictor`
+
+#### **@neural-trader/risk** v2.6.0
+- Neural Trader risk management and analysis...
+- `npm install @neural-trader/risk`
+
+#### **@neural-trader/sports-betting** v2.1.1
+- Sports betting for Neural Trader - arbitrage detection, Kelly sizing, syndicate management...
+- `npm install @neural-trader/sports-betting`
+
+#### **@neural-trader/strategies** v2.6.0
+- Neural Trader strategy management and backtesting functionality...
+- `npm install @neural-trader/strategies`
+
+#### **@neural-trader/syndicate** v2.1.1
+- Investment syndicate management with Kelly Criterion allocation, voting, and performance tracking...
+- `npm install @neural-trader/syndicate`
+
+#### **neural-trader** v2.7.1
+- High-performance neural trading system with native HNSW vector search + SIMD optimization (150x faster), complete NAPI API (178 functions), advanced C...
+- `npm install neural-trader`
+
+---
+
+### Graph Neural Networks (2 packages)
+
+#### **@ruvector/gnn** v0.1.22
+- Graph Neural Network capabilities for Ruvector - Node.js bindings...
+- `npm install @ruvector/gnn`
+
+#### **@ruvector/graph-node** v0.1.25
+- Native Node.js bindings for RuVector Graph Database with hypergraph support, Cypher queries, and persistence - 10x faster than WASM...
+- `npm install @ruvector/graph-node`
+
+---
+
+### Attention Mechanisms (1 packages)
+
+#### **@ruvector/attention** v0.1.3
+- High-performance attention mechanisms for Node.js...
+- `npm install @ruvector/attention`
+
+---
+
+### Agentic Systems & Robotics (15 packages)
+
+#### **@agentic-robotics/cli** v0.2.3
+- CLI tools for agentic robotics framework...
+- `npm install @agentic-robotics/cli`
+
+#### **@agentic-robotics/core** v0.2.1
+- High-performance agentic robotics framework - Core bindings...
+- `npm install @agentic-robotics/core`
+
+#### **@agentic-robotics/linux-x64-gnu** v0.2.0
+- agentic-robotics native bindings for Linux x64 (GNU)...
+- `npm install @agentic-robotics/linux-x64-gnu`
+
+#### **@agentic-robotics/self-learning** v1.0.0
+- AI-powered self-learning optimization system with swarm intelligence, PSO, NSGA-II, evolutionary algorithms for autonomous robotics, multi-agent syste...
+- `npm install @agentic-robotics/self-learning`
+
+#### **@agentics.org/sparc2** v2.0.25
+- SPARC 2.0 - Autonomous Vector Coding Agent + MCP. SPARC 2.0, vectorized AI code analysis, is an intelligent coding agent framework built to automate a...
+- `npm install @agentics.org/sparc2`
+
+#### **@foxruv/iris-agentic-synth** v1.0.5
+- ⚡ High-performance synthetic prompt generation with genetic evolution, streaming, and multi-model routing. 90%+ cache hit rate, <15ms P99 latency, no ...
+- `npm install @foxruv/iris-agentic-synth`
+
+#### **@ruvector/agentic-synth** v0.1.6
+- High-performance synthetic data generator for AI/ML training, RAG systems, and agentic workflows with DSPy.ts, Gemini, OpenRouter, and vector database...
+- `npm install @ruvector/agentic-synth`
+
+#### **agent-booster** v0.2.2
+- Ultra-fast code editing engine - 52x faster than Morph LLM at $0 cost...
+- `npm install agent-booster`
+
+#### **agentdb** v1.6.1
+- AgentDB - Frontier Memory Features with MCP Integration and Direct Vector Search: Causal reasoning, reflexion memory, skill library, automated learnin...
+- `npm install agentdb`
+
+#### **agentic-jujutsu** v2.3.6
+- AI agent coordination for Jujutsu VCS with quantum-ready architecture, QuantumDAG consensus, AgentDB learning, and zero-dependency deployment...
+- `npm install agentic-jujutsu`
+
+#### **agentic-payments** v0.1.13
+- Dual-protocol payment infrastructure for autonomous AI commerce (AP2 + ACP)...
+- `npm install agentic-payments`
+
+#### **agentic-robotics** v0.2.4
+- High-performance agentic robotics framework with ROS2 compatibility - Complete toolkit...
+- `npm install agentic-robotics`
+
+#### **agentics-hackathon** v1.3.4
+- CLI and MCP server for the Agentics Foundation TV5 Hackathon - Build the future of agentic AI with Google Cloud, Gemini, Claude, and open-source tools...
+- `npm install agentics-hackathon`
+
+#### **agenticsjs** v1.0.5
+- AgenticJS is a powerful and flexible JavaScript library designed to provide an intelligent and interactive search experience with real-time results an...
+- `npm install agenticsjs`
+
+#### **lean-agentic** v0.3.2
+- High-performance WebAssembly theorem prover with dependent types, hash-consing (150x faster), Ed25519 proof signatures, MCP support for Claude Code, A...
+- `npm install lean-agentic`
+
+---
+
+### Model Context Protocol (MCP) Servers (9 packages)
+
+#### **@agentic-robotics/mcp** v0.2.2
+- Model Context Protocol server for agentic robotics with AgentDB integration...
+- `npm install @agentic-robotics/mcp`
+
+#### **@agentics.org/agentic-mcp** v1.0.4
+- Agentic MCP Server with advanced AI capabilities including web search, summarization, database querying, and customer support. Built by the Agentics F...
+- `npm install @agentics.org/agentic-mcp`
+
+#### **@neural-trader/agentic-accounting-mcp** v0.1.1
+- Model Context Protocol (MCP) server for Claude Desktop integration, exposing intelligent accounting tools, tax calculators, and autonomous agents for ...
+- `npm install @neural-trader/agentic-accounting-mcp`
+
+#### **@neural-trader/mcp** v2.1.0
+- Model Context Protocol (MCP) server for Neural Trader with 87+ trading tools...
+- `npm install @neural-trader/mcp`
+
+#### **@neural-trader/mcp-protocol** v2.0.0
+- Model Context Protocol (MCP) JSON-RPC 2.0 protocol types for Neural Trader...
+- `npm install @neural-trader/mcp-protocol`
+
+#### **@qudag/mcp-sse** v0.1.0
+- QuDAG MCP Server with Streamable HTTP transport for web integration...
+- `npm install @qudag/mcp-sse`
+
+#### **@qudag/mcp-stdio** v0.1.0
+- QuDAG MCP server with STDIO transport for Claude Desktop integration...
+- `npm install @qudag/mcp-stdio`
+
+#### **strange-loops-mcp** v1.0.0
+- MCP server for Strange Loops framework - nano-agent swarm with temporal consciousness...
+- `npm install strange-loops-mcp`
+
+#### **vscode-remote-mcp** v1.0.4
+- Enhanced MCP server for VSCode Remote integration...
+- `npm install vscode-remote-mcp`
+
+---
+
+### WebAssembly (WASM) Modules (9 packages)
+
+#### **@ruvector/attention-wasm** v0.1.0
+- WebAssembly bindings for ruvector-attention - high-performance attention mechanisms...
+- `npm install @ruvector/attention-wasm`
+
+#### **@ruvector/gnn-wasm** v0.1.0
+- WebAssembly bindings for ruvector-gnn - Graph Neural Network layers for browsers...
+- `npm install @ruvector/gnn-wasm`
+
+#### **@ruvector/graph-wasm** v0.1.25
+- WebAssembly bindings for RuVector graph database with Neo4j-inspired API and Cypher support...
+- `npm install @ruvector/graph-wasm`
+
+#### **@ruvector/router-wasm** v0.1.0
+- WebAssembly bindings for ruvector-router - Semantic router with HNSW vector search for browsers...
+- `npm install @ruvector/router-wasm`
+
+#### **@ruvector/tiny-dancer-wasm** v0.1.0
+- WebAssembly bindings for Tiny Dancer - FastGRNN neural inference for AI routing in browsers...
+- `npm install @ruvector/tiny-dancer-wasm`
+
+#### **@ruvector/wasm** v0.1.16
+- High-performance Rust vector database for browsers via WASM...
+- `npm install @ruvector/wasm`
+
+#### **bmssp-wasm** v1.0.0
+- Blazing fast graph pathfinding SDK powered by WebAssembly. 10-15x faster than JavaScript implementations....
+- `npm install bmssp-wasm`
+
+#### **cuda-wasm** v1.1.1
+- High-performance CUDA to WebAssembly/WebGPU transpiler with Rust safety - Run GPU kernels in browsers and Node.js...
+- `npm install cuda-wasm`
+
+#### **ruvector-attention-wasm** v0.1.0
+- High-performance attention mechanisms for WebAssembly - Transformer, Hyperbolic, Flash, MoE, and Graph attention...
+- `npm install ruvector-attention-wasm`
+
+---
+
+### Self-Learning & Optimization (4 packages)
+
+#### **@ruvector/ruvllm** v0.2.3
+- Self-learning LLM orchestration with TRM recursive reasoning, SONA adaptive learning, HNSW memory, FastGRNN routing, and SIMD inference...
+- `npm install @ruvector/ruvllm`
+
+#### **@ruvector/sona** v0.1.4
+- Self-Optimizing Neural Architecture (SONA) - Runtime-adaptive learning with LoRA, EWC++, and ReasoningBank for LLM routers and AI systems. Sub-millise...
+- `npm install @ruvector/sona`
+
+#### **@ruvector/sona-linux-x64-musl** v0.1.4
+- No description...
+- `npm install @ruvector/sona-linux-x64-musl`
+
+#### **@ruvector/tiny-dancer** v0.1.15
+- Neural router for AI agent orchestration - FastGRNN-based intelligent routing with circuit breaker, uncertainty estimation, and hot-reload...
+- `npm install @ruvector/tiny-dancer`
+
+---
+
+### CLI & Developer Tools (1 packages)
+
+#### **@qudag/cli** v0.1.0
+- Command-line interface for QuDAG quantum-resistant DAG operations...
+- `npm install @qudag/cli`
+
+---
+
+### Example Implementations (12 packages)
+
+#### **@neural-trader/example-dynamic-pricing** v1.0.0
+- Self-learning dynamic pricing with RL optimization and swarm strategy exploration...
+- `npm install @neural-trader/example-dynamic-pricing`
+
+#### **@neural-trader/example-energy-forecasting** v1.0.0
+- Self-learning energy forecasting with conformal prediction and swarm-based ensemble models...
+- `npm install @neural-trader/example-energy-forecasting`
+
+#### **@neural-trader/example-energy-grid-optimization** v0.1.0
+- Self-learning energy grid optimization with load forecasting, unit commitment, and swarm scheduling...
+- `npm install @neural-trader/example-energy-grid-optimization`
+
+#### **@neural-trader/example-evolutionary-game-theory** v1.0.0
+- Self-learning evolutionary game theory with multi-agent tournaments, replicator dynamics, and ESS calculation...
+- `npm install @neural-trader/example-evolutionary-game-theory`
+
+#### **@neural-trader/example-healthcare-optimization** v1.0.0
+- Healthcare optimization with self-learning patient forecasting and swarm-based staff scheduling...
+- `npm install @neural-trader/example-healthcare-optimization`
+
+#### **@neural-trader/example-logistics-optimization** v1.0.0
+- Self-learning vehicle routing optimization with multi-agent swarm coordination...
+- `npm install @neural-trader/example-logistics-optimization`
+
+#### **@neural-trader/example-market-microstructure** v1.0.0
+- Self-learning market microstructure analysis with AI-powered order book prediction, swarm-based feature engineering, and real-time liquidity optimizat...
+- `npm install @neural-trader/example-market-microstructure`
+
+#### **@neural-trader/example-neuromorphic-computing** v1.0.0
+- Neuromorphic computing with Spiking Neural Networks, STDP learning, and reservoir computing for ultra-low-power ML...
+- `npm install @neural-trader/example-neuromorphic-computing`
+
+#### **@neural-trader/example-portfolio-optimization** v1.0.0
+- Self-learning portfolio optimization with benchmark swarms and multi-objective optimization...
+- `npm install @neural-trader/example-portfolio-optimization`
+
+#### **@neural-trader/example-quantum-optimization** v1.0.0
+- Quantum-inspired optimization algorithms with swarm-based circuit exploration for combinatorial and constraint problems...
+- `npm install @neural-trader/example-quantum-optimization`
+
+#### **@neural-trader/example-supply-chain-prediction** v1.0.0
+- Self-learning demand forecasting and swarm-based inventory optimization with uncertainty quantification...
+- `npm install @neural-trader/example-supply-chain-prediction`
+
+#### **@ruvector/agentic-synth-examples** v0.1.6
+- Production-ready examples for @ruvector/agentic-synth - DSPy training, multi-model benchmarking, and advanced synthetic data generation patterns...
+- `npm install @ruvector/agentic-synth-examples`
+
+---
+
+### Native Platform Bindings (41 packages)
+
+#### **@ruvector/attention-darwin-arm64** v0.1.1
+- No description...
+- `npm install @ruvector/attention-darwin-arm64`
+
+#### **@ruvector/attention-darwin-x64** v0.1.1
+- No description...
+- `npm install @ruvector/attention-darwin-x64`
+
+#### **@ruvector/attention-linux-arm64-gnu** v0.1.1
+- No description...
+- `npm install @ruvector/attention-linux-arm64-gnu`
+
+#### **@ruvector/attention-linux-x64-gnu** v0.1.1
+- No description...
+- `npm install @ruvector/attention-linux-x64-gnu`
+
+#### **@ruvector/attention-win32-x64-msvc** v0.1.1
+- No description...
+- `npm install @ruvector/attention-win32-x64-msvc`
+
+#### **@ruvector/gnn-darwin-arm64** v0.1.19
+- Graph Neural Network capabilities for Ruvector - darwin-arm64 platform...
+- `npm install @ruvector/gnn-darwin-arm64`
+
+#### **@ruvector/gnn-darwin-x64** v0.1.19
+- Graph Neural Network capabilities for Ruvector - darwin-x64 platform...
+- `npm install @ruvector/gnn-darwin-x64`
+
+#### **@ruvector/gnn-linux-arm64-gnu** v0.1.19
+- Graph Neural Network capabilities for Ruvector - linux-arm64-gnu platform...
+- `npm install @ruvector/gnn-linux-arm64-gnu`
+
+#### **@ruvector/gnn-linux-x64-gnu** v0.1.22
+- Graph Neural Network capabilities for Ruvector - linux-x64-gnu platform...
+- `npm install @ruvector/gnn-linux-x64-gnu`
+
+#### **@ruvector/gnn-win32-x64-msvc** v0.1.19
+- Graph Neural Network capabilities for Ruvector - win32-x64-msvc platform...
+- `npm install @ruvector/gnn-win32-x64-msvc`
+
+#### **@ruvector/graph-node-darwin-arm64** v0.1.15
+- RuVector Graph Node.js bindings - darwin-arm64 platform...
+- `npm install @ruvector/graph-node-darwin-arm64`
+
+#### **@ruvector/graph-node-darwin-x64** v0.1.15
+- RuVector Graph Node.js bindings - darwin-x64 platform...
+- `npm install @ruvector/graph-node-darwin-x64`
+
+#### **@ruvector/graph-node-linux-arm64-gnu** v0.1.15
+- RuVector Graph Node.js bindings - linux-arm64-gnu platform...
+- `npm install @ruvector/graph-node-linux-arm64-gnu`
+
+#### **@ruvector/graph-node-linux-x64-gnu** v0.1.15
+- RuVector Graph Node.js bindings - linux-x64-gnu platform...
+- `npm install @ruvector/graph-node-linux-x64-gnu`
+
+#### **@ruvector/graph-node-win32-x64-msvc** v0.1.15
+- RuVector Graph Node.js bindings - win32-x64-msvc platform...
+- `npm install @ruvector/graph-node-win32-x64-msvc`
+
+#### **@ruvector/node-darwin-arm64** v0.1.18
+- High-performance Rust vector database for Node.js - darwin-arm64 platform...
+- `npm install @ruvector/node-darwin-arm64`
+
+#### **@ruvector/node-darwin-x64** v0.1.18
+- High-performance Rust vector database for Node.js - darwin-x64 platform...
+- `npm install @ruvector/node-darwin-x64`
+
+#### **@ruvector/node-linux-arm64-gnu** v0.1.18
+- High-performance Rust vector database for Node.js - linux-arm64-gnu platform...
+- `npm install @ruvector/node-linux-arm64-gnu`
+
+#### **@ruvector/node-linux-x64-gnu** v0.1.18
+- High-performance Rust vector database for Node.js - linux-x64-gnu platform...
+- `npm install @ruvector/node-linux-x64-gnu`
+
+#### **@ruvector/node-win32-x64-msvc** v0.1.18
+- High-performance Rust vector database for Node.js - win32-x64-msvc platform...
+- `npm install @ruvector/node-win32-x64-msvc`
+
+#### **@ruvector/router-darwin-arm64** v0.1.25
+- macOS ARM64 (Apple Silicon) native bindings for @ruvector/router...
+- `npm install @ruvector/router-darwin-arm64`
+
+#### **@ruvector/router-linux-arm64-gnu** v0.1.25
+- Linux ARM64 (glibc) native bindings for @ruvector/router...
+- `npm install @ruvector/router-linux-arm64-gnu`
+
+#### **@ruvector/router-linux-x64-gnu** v0.1.25
+- Linux x64 (glibc) native bindings for @ruvector/router...
+- `npm install @ruvector/router-linux-x64-gnu`
+
+#### **@ruvector/router-win32-x64-msvc** v0.1.25
+- Windows x64 native bindings for @ruvector/router...
+- `npm install @ruvector/router-win32-x64-msvc`
+
+#### **@ruvector/ruvllm-darwin-arm64** v0.2.3
+- RuvLLM native SIMD acceleration - darwin-arm64 (Apple Silicon) platform...
+- `npm install @ruvector/ruvllm-darwin-arm64`
+
+#### **@ruvector/ruvllm-darwin-x64** v0.2.3
+- RuvLLM native SIMD acceleration - darwin-x64 (Intel Mac) platform...
+- `npm install @ruvector/ruvllm-darwin-x64`
+
+#### **@ruvector/ruvllm-linux-arm64-gnu** v0.2.3
+- RuvLLM native SIMD acceleration - linux-arm64-gnu platform...
+- `npm install @ruvector/ruvllm-linux-arm64-gnu`
+
+#### **@ruvector/ruvllm-linux-x64-gnu** v0.2.3
+- RuvLLM native SIMD acceleration - linux-x64-gnu platform...
+- `npm install @ruvector/ruvllm-linux-x64-gnu`
+
+#### **@ruvector/ruvllm-win32-x64-msvc** v0.2.3
+- RuvLLM native SIMD acceleration - win32-x64-msvc (Windows) platform...
+- `npm install @ruvector/ruvllm-win32-x64-msvc`
+
+#### **@ruvector/sona-darwin-arm64** v0.1.4
+- No description...
+- `npm install @ruvector/sona-darwin-arm64`
+
+#### **@ruvector/sona-darwin-x64** v0.1.4
+- No description...
+- `npm install @ruvector/sona-darwin-x64`
+
+#### **@ruvector/sona-linux-arm64-gnu** v0.1.4
+- No description...
+- `npm install @ruvector/sona-linux-arm64-gnu`
+
+#### **@ruvector/sona-linux-x64-gnu** v0.1.4
+- SONA Linux x64 GNU native binding...
+- `npm install @ruvector/sona-linux-x64-gnu`
+
+#### **@ruvector/sona-win32-arm64-msvc** v0.1.4
+- No description...
+- `npm install @ruvector/sona-win32-arm64-msvc`
+
+#### **@ruvector/sona-win32-x64-msvc** v0.1.4
+- No description...
+- `npm install @ruvector/sona-win32-x64-msvc`
+
+#### **@ruvector/tiny-dancer-linux-x64-gnu** v0.1.15
+- Linux x64 (glibc) native bindings for @ruvector/tiny-dancer...
+- `npm install @ruvector/tiny-dancer-linux-x64-gnu`
+
+#### **ruvector-core-darwin-arm64** v0.1.25
+- macOS ARM64 (Apple Silicon M1/M2/M3) native binding for ruvector-core - High-performance vector database with HNSW indexing built in Rust...
+- `npm install ruvector-core-darwin-arm64`
+
+#### **ruvector-core-darwin-x64** v0.1.25
+- macOS x64 (Intel) native binding for ruvector-core - High-performance vector database with HNSW indexing built in Rust...
+- `npm install ruvector-core-darwin-x64`
+
+#### **ruvector-core-linux-arm64-gnu** v0.1.25
+- Linux ARM64 GNU native binding for ruvector-core - High-performance vector database with HNSW indexing built in Rust...
+- `npm install ruvector-core-linux-arm64-gnu`
+
+#### **ruvector-core-linux-x64-gnu** v0.1.26
+- Linux x64 GNU native binding for ruvector-core - High-performance vector database with HNSW indexing built in Rust...
+- `npm install ruvector-core-linux-x64-gnu`
+
+#### **ruvector-core-win32-x64-msvc** v0.1.25
+- Windows x64 MSVC native binding for ruvector-core - High-performance vector database with HNSW indexing built in Rust...
+- `npm install ruvector-core-win32-x64-msvc`
+
+---
+
+### Specialized AI Tools (26 packages)
+
+#### **@foxruv/e2b-runner** v2.0.1
+- Production-grade E2B sandbox orchestration with agentic-flow swarms and AgentDB caching for distributed AI agent execution...
+- `npm install @foxruv/e2b-runner`
+
+#### **@foxruv/iris** v1.8.19
+- AI-guided LLM optimization. Install → Tell Claude 'Read .claude/agents/iris.md' → Claude becomes your optimization guide. DSPy prompts, Ax hyperparame...
+- `npm install @foxruv/iris`
+
+#### **@foxruv/iris-core** v1.0.0
+- Intelligent AI orchestration with multi-provider LM management, drift detection, auto-retraining, and performance tracking for production AI systems...
+- `npm install @foxruv/iris-core`
+
+#### **@foxruv/iris-ultrathink** v1.0.0
+- Standalone MCP server with agentic-flow and agentdb integration...
+- `npm install @foxruv/iris-ultrathink`
+
+#### **@foxruv/nova-medicina** v1.0.0
+- AI-powered medical analysis system with anti-hallucination safeguards - supplement to professional healthcare...
+- `npm install @foxruv/nova-medicina`
+
+#### **@qudag/napi-core** v0.1.0
+- N-API bindings for QuDAG quantum-resistant DAG and cryptography...
+- `npm install @qudag/napi-core`
+
+#### **@ruv/sparc-ui** v0.1.4
+- SPARC (Specification, Pseudocode, Architecture, Refinement, and Completion) Framework UI Components...
+- `npm install @ruv/sparc-ui`
+
+#### **@ruvnet/bmssp** v1.0.0
+- Blazing fast graph pathfinding SDK powered by WebAssembly. 10-15x faster than JavaScript implementations....
+- `npm install @ruvnet/bmssp`
+
+#### **@ruvnet/strange-loop** v0.3.1
+- Hyper-optimized strange loops with temporal consciousness and quantum-classical hybrid computing. NPX: npx strange-loops...
+- `npm install @ruvnet/strange-loop`
+
+#### **aidefence** v2.1.1
+- AI Defence - Production-ready adversarial defense system for AI applications...
+- `npm install aidefence`
+
+#### **aidefense** v2.1.1
+- AI Defense - Wrapper for aidefence (American spelling). Production-ready adversarial defense system for AI applications with real-time threat detectio...
+- `npm install aidefense`
+
+#### **consciousness-explorer** v1.1.1
+- Advanced consciousness exploration SDK with genuine emergence detection, entity communication, and MCP tools...
+- `npm install consciousness-explorer`
+
+#### **create-sparc** v1.2.4
+- NPX package to scaffold new projects with SPARC methodology structure...
+- `npm install create-sparc`
+
+#### **dspy.ts** v2.1.1
+- DSPy.ts 2.1 - 100% DSPy Python compliant TypeScript framework with multi-agent orchestration, self-learning capabilities, MIPROv2 optimizer, and compr...
+- `npm install dspy.ts`
+
+#### **goalie** v1.3.1
+- AI-powered research assistant with REAL Ed25519 cryptographic signatures, GOAP planning, and Perplexity API integration...
+- `npm install goalie`
+
+#### **midstreamer** v0.2.4
+- WebAssembly-powered temporal analysis toolkit - DTW, LCS, scheduling, and meta-learning...
+- `npm install midstreamer`
+
+#### **psycho-symbolic-integration** v0.2.0
+- Unified integration layer combining ultra-fast symbolic AI reasoning with intelligent synthetic data generation for context-aware applications...
+- `npm install psycho-symbolic-integration`
+
+#### **psycho-symbolic-reasoner** v1.0.7
+- A psycho-symbolic reasoning framework combining symbolic AI with psychological context using Rust WASM and FastMCP integration...
+- `npm install psycho-symbolic-reasoner`
+
+#### **qudag** v1.2.1
+- QuDAG - Quantum-Resistant Distributed Communication Platform...
+- `npm install qudag`
+
+#### **research-swarm** v1.2.2
+- 🔬 Local SQLite-based AI research agent swarm with GOAP planning, multi-perspective analysis, long-horizon recursive framework, AgentDB self-learning, ...
+- `npm install research-swarm`
+
+#### **ruvi** v1.1.0
+- rUv CLI - Agentic Engineering Console with MCP integration...
+- `npm install ruvi`
+
+#### **spiking-neural** v1.0.1
+- High-performance Spiking Neural Network (SNN) with SIMD optimization - CLI & SDK...
+- `npm install spiking-neural`
+
+#### **strange-loops** v1.0.3
+- Emergent intelligence through temporal consciousness - thousands of nano-agents collaborating in real-time with 500K+ ops/sec...
+- `npm install strange-loops`
+
+#### **sublinear-time-solver** v1.5.0
+- The Ultimate Mathematical & AI Toolkit: Sublinear algorithms, consciousness exploration, psycho-symbolic reasoning, chaos analysis, and temporal predi...
+- `npm install sublinear-time-solver`
+
+#### **temporal-lead-solver** v0.1.0
+- Achieve temporal computational lead through sublinear-time algorithms for diagonally dominant systems...
+- `npm install temporal-lead-solver`
+
+#### **temporal-neural-solver** v0.1.3
+- ⚡ Ultra-fast neural network inference in WebAssembly - sub-microsecond latency...
+- `npm install temporal-neural-solver`
+
+---
+
