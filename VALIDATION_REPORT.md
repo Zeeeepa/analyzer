@@ -147,7 +147,7 @@
 
 4. **Start Using the Analyzer**
    ```bash
-   python Libraries/analyzer.py --help
+   python Libraries/Analysis/analyzer.py --help
    ```
 
 ---
