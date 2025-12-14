@@ -16,13 +16,24 @@ Build a **universal programmatic interface** that converts any AI API request fo
 
 **Convert ANY AI request format → Web chat interface interaction**
 
-- Accept standard AI API request formats (OpenAI, Anthropic, etc.)
+- Accept standard AI API request formats (OpenAI, Anthropic, Gemini, etc.)
 - Parse request parameters (messages, temperature, model, tools, etc.)
 - Map to equivalent web interface actions
 - Support streaming and non-streaming modes
 - Handle multi-turn conversations with context preservation
 - Support system prompts, user messages, assistant messages
-- Handle function calling / tool use requests
+- **Handle function calling / tool use requests**:
+  - Detect tool definitions in request
+  - Map to web interface tool/plugin activation
+  - Execute tool calls via web interface
+  - Return tool results in correct format
+  - Support parallel tool calls
+  - Handle tool call errors gracefully
+- **System message conformance**:
+  - Inject system messages into web interface
+  - Maintain system context across turns
+  - Handle system message updates
+  - Validate system message limits
 - Preserve message formatting (markdown, code blocks, etc.)
 
 ### 2. Dynamic Endpoint Discovery & Management
@@ -152,9 +163,9 @@ Build a **universal programmatic interface** that converts any AI API request fo
   - CAPTCHA detection
   - Error message extraction
 
-### 7. Format Conversion
+### 7. Format Conversion & Matching
 
-**Convert responses back to original AI format**
+**Convert responses back to EXACT original AI format**
 
 - **OpenAI format**:
   ```json
@@ -196,27 +207,214 @@ Build a **universal programmatic interface** that converts any AI API request fo
   - Chunked responses
   - WebSocket streams
 
+- **Format matching guarantees**:
+  - Field-by-field validation
+  - Type checking (string, number, boolean, array)
+  - Required vs optional fields
+  - Nested object structure
+  - Token counting accuracy
+  - Usage statistics accuracy
+
+---
+
+## ⚖️ Load Balancing & Scaling Requirements
+
+### 1. Dynamic Scaling
+
+**Automatically scale infrastructure based on request volume**
+
+- **Auto-scaling triggers**:
+  - Request queue depth > threshold
+  - Average response time > target
+  - CPU/Memory utilization > 80%
+  - Browser instance pool exhaustion
+  
+- **Scaling strategies**:
+  - **Horizontal scaling**: Add/remove browser instances
+  - **Vertical scaling**: Adjust browser instance resources
+  - **Geographic scaling**: Deploy to multiple regions
+  - **CDN integration**: Cache static responses
+  
+- **Scaling metrics**:
+  - Current request rate (req/s)
+  - Average response time (ms)
+  - Active connections count
+  - Browser instance utilization (%)
+  - Queue depth (pending requests)
+  
+- **Scaling policies**:
+  - Scale up: +20% capacity when queue > 100 requests
+  - Scale down: -20% capacity when utilization < 30% for 5 min
+  - Min instances: 2 (high availability)
+  - Max instances: 100 (cost control)
+  - Cooldown period: 2 minutes between scale operations
+
+### 2. Load Balancing
+
+**Distribute requests intelligently across endpoints**
+
+- **Balancing algorithms**:
+  - **Round-robin**: Simple sequential distribution
+  - **Least connections**: Send to endpoint with fewest active requests
+  - **Weighted round-robin**: Distribute based on endpoint capacity
+  - **Response time**: Send to fastest endpoint
+  - **Priority-based**: Use highest priority available endpoint first
+  
+- **Health checking**:
+  - Periodic health probes (every 30s)
+  - Automatic endpoint removal on failure
+  - Automatic endpoint restoration on recovery
+  - Circuit breaker pattern (fail-fast)
+  - Exponential backoff for retries
+  
+- **Session affinity**:
+  - Sticky sessions for multi-turn conversations
+  - Session persistence across requests
+  - Session migration on endpoint failure
+  - Load-aware session distribution
+
+### 3. Priority System
+
+**Sequential failover based on endpoint priority**
+
+- **Priority levels**: 1-10 (1 = highest priority, 10 = lowest)
+  
+- **Priority-based routing**:
+  ```
+  Request arrives
+    ↓
+  Get all ENABLED endpoints
+    ↓
+  Sort by priority (1 → 10)
+    ↓
+  Try priority 1 endpoints first
+    ↓
+  If all fail, try priority 2
+    ↓
+  Continue until success or all fail
+  ```
+
+- **Priority configuration**:
+  - Set per-endpoint priority via UI
+  - Update priority without restart (hot reload)
+  - Priority inheritance for API token endpoints
+  - Emergency priority override (manual)
+  
+- **Priority use cases**:
+  - **Priority 1**: Premium paid endpoints
+  - **Priority 2**: Free tier with high limits
+  - **Priority 3**: Rate-limited free endpoints
+  - **Priority 4**: Experimental/beta endpoints
+  - **Priority 5-10**: Backup endpoints
+
+### 4. Endpoint On/Off Control
+
+**Granular control over endpoint availability**
+
+- **Per-endpoint toggle**:
+  - ON: Endpoint receives requests (if healthy)
+  - OFF: Endpoint excluded from load balancing
+  - MAINTENANCE: Drain existing connections, reject new
+  
+- **Bulk operations**:
+  - Enable/disable all endpoints
+  - Enable/disable by priority level
+  - Enable/disable by endpoint type (web vs API)
+  - Enable/disable by region/provider
+  
+- **Automated toggling**:
+  - Auto-disable on repeated failures (> 5 in 1 min)
+  - Auto-enable after successful health check
+  - Scheduled maintenance windows
+  - Rate limit triggered disable (auto re-enable after cooldown)
+
+### 5. Request Routing Intelligence
+
+**Smart request distribution based on capabilities**
+
+- **Capability matching**:
+  - Route tool-calling requests to tool-capable endpoints
+  - Route streaming requests to streaming-capable endpoints
+  - Route high-token requests to high-limit endpoints
+  - Route specific model requests to compatible endpoints
+  
+- **Cost optimization**:
+  - Route simple requests to free endpoints
+  - Route complex requests to paid endpoints
+  - Balance cost vs performance
+  - Track cost per request
+  
+- **Performance optimization**:
+  - Cache frequently requested responses
+  - Pre-warm browser instances
+  - Connection pooling
+  - Request deduplication
+
 ---
 
 ## 🎛️ Dashboard Requirements
 
 ### 1. Visual Endpoint Management
 
-**Manage all configured web chat endpoints**
+**Manage all configured web chat endpoints + API token endpoints**
 
 - **Endpoint list view**:
   - Platform name/URL
-  - Status (active/inactive/error)
+  - Endpoint type (Web Chat / API Token)
+  - Status (🟢 active / 🔴 inactive / ⚠️ error / 🔧 maintenance)
+  - **ON/OFF toggle** (enable/disable instantly)
+  - **Priority number** (1-10, drag-to-reorder)
   - Last used timestamp
-  - Success rate
-  - Average response time
+  - Success rate (%)
+  - Average response time (ms)
+  - Current load (active requests)
+  - Cost per 1K tokens (for cost tracking)
   
-- **Endpoint configuration**:
-  - Add/edit/delete endpoints
-  - Test endpoint connectivity
-  - View endpoint capabilities
-  - Configure authentication
-  - Set rate limits
+- **Endpoint configuration panel**:
+  - **Add new endpoint**:
+    - Web chat endpoint (URL + auth)
+    - API token endpoint (API key)
+    - Hybrid (API key for web interface)
+  - **Edit existing endpoint**:
+    - Update URL/tokens
+    - Modify authentication
+    - Adjust rate limits
+    - Change priority
+    - Set cost per token
+  - **Delete endpoint** (with confirmation)
+  - **Duplicate endpoint** (for A/B testing)
+  
+- **Test & Debug tools**:
+  - **Test connectivity** - Ping endpoint, verify auth
+  - **Test inference** - Send sample request, view response
+  - **Debug mode** - Live browser view for web endpoints
+  - **View logs** - Recent requests/responses
+  - **View capabilities** - Detected features (tools, streaming, etc.)
+  
+- **Parameter modification UI**:
+  - **Model selection** dropdown (detected models)
+  - **Temperature** slider (0.0 - 2.0)
+  - **Max tokens** input (1 - 128000)
+  - **Top P** slider (0.0 - 1.0)
+  - **Frequency penalty** slider (-2.0 - 2.0)
+  - **Presence penalty** slider (-2.0 - 2.0)
+  - **System message** text area
+  - **Tools/functions** JSON editor
+  - **Save as preset** button
+  
+- **API Token management**:
+  - Add multiple API keys per provider
+  - Rotate keys automatically
+  - Track key usage/quotas
+  - Expire/revoke keys
+  - Encrypted storage
+  
+- **Batch operations**:
+  - Select multiple endpoints
+  - Bulk enable/disable
+  - Bulk priority update
+  - Bulk test
+  - Export/import configurations
 
 ### 2. Live Debugging Interface
 
@@ -314,16 +512,33 @@ Build a **universal programmatic interface** that converts any AI API request fo
   - Authentication data (encrypted)
   - Feature maps
   - Usage statistics
+  - Priority settings
+  - On/off states
+  - Parameter presets
   
 - **Hot reload**:
   - Update configs without restart
   - A/B test changes
   - Rollback capability
+  - Zero-downtime updates
   
 - **Multi-tenant support**:
   - Per-user configurations
   - Shared team endpoints
   - Role-based access control
+  - Usage quotas per user/team
+  
+- **Configuration versioning**:
+  - Track all configuration changes
+  - Audit trail with timestamps
+  - Rollback to previous versions
+  - Compare configuration diffs
+  
+- **Configuration templates**:
+  - Pre-configured endpoint templates
+  - Industry-specific presets
+  - Quick-start configurations
+  - Import from community library
 
 ---
 
@@ -572,4 +787,3 @@ POST /v1/chat/completions
 - GraphQL API alternative
 - Webhook support for async operations
 - SDK libraries (Python, Node.js, Go, Rust)
-
