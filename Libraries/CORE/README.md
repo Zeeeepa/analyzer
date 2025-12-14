@@ -1195,6 +1195,414 @@ await flow.initialize();
 
 ---
 
+
+---
+
+## 🔄 Complete System Initialization & Deployment Flows
+
+This section provides comprehensive guidance on initializing, configuring, and deploying a fully-featured self-improving agentic system using the RuVector ecosystem.
+
+### 🎯 Architecture Overview: Self-Improving Agentic System
+
+The diagram below shows how all components interconnect in a production self-improving agentic system.
+
+**[View Full Mermaid Diagram](https://mermaid.live)** - Copy the code below into Mermaid Live Editor for interactive viewing.
+
+\`\`\`mermaid
+graph TB
+    subgraph "Entry Points"
+        USER[User Request]
+        NPX[NPX Commands]
+    end
+    
+    subgraph "Orchestration"
+        CF[claude-flow]
+        AF[agentic-flow]
+        RS[research-swarm]
+    end
+    
+    subgraph "Intelligence"
+        AJ[agentic-jujutsu]
+        SONA[@ruvector/sona]
+        IRIS[@foxruv/iris]
+        RUVLLM[@ruvector/ruvllm]
+    end
+    
+    subgraph "Routing"
+        ROUTER[@ruvector/router]
+        CLUSTER[@ruvector/cluster]
+        SERVER[@ruvector/server]
+    end
+    
+    subgraph "Storage"
+        RUVEC[ruvector]
+        CORE[@ruvector/core]
+        AGENTDB[agentdb]
+        PGCLI[@ruvector/postgres-cli]
+    end
+    
+    subgraph "Learning"
+        SELFLEARN[@agentic-robotics/self-learning]
+        AGENTBOOST[agent-booster]
+    end
+    
+    USER --> CF
+    NPX --> CF
+    CF --> AF
+    CF --> RS
+    AF --> SONA
+    AF --> IRIS
+    AF --> RUVLLM
+    AF --> AGENTDB
+    AJ --> ROUTER
+    ROUTER --> CLUSTER
+    RUVEC --> CORE
+    AGENTDB --> PGCLI
+    AGENTDB --> SELFLEARN
+    SELFLEARN --> SONA
+    RUVEC -.Feedback.-> SELFLEARN
+\`\`\`
+
+### 📦 NPX Quick Start Commands
+
+\`\`\`bash
+# 1. Create new project with SPARC methodology
+npx create-sparc my-agentic-system
+cd my-agentic-system
+
+# 2. Initialize Flow Nexus (Gamified MCP Platform with 256 free credits)
+npx flow-nexus
+
+# 3. Initialize Ruvi CLI (Agentic Engineering Console)
+npx ruvi init
+npx ruvi start --mcp
+
+# 4. Deploy Claude-Flow with full stack
+npx claude-flow init --full-stack
+npx claude-flow deploy --production
+
+# 5. Start Research Swarm
+npx research-swarm start --agents 10 --goap
+
+# 6. Launch Agentics Hackathon Environment
+npx agentics-hackathon init --gemini
+\`\`\`
+
+### 🔧 Step-by-Step Initialization
+
+#### Step 1: Foundation Layer (Core + Storage)
+
+\`\`\`bash
+# Install foundation
+npm install @ruvector/core ruvector agentdb @ruvector/postgres-cli
+\`\`\`
+
+\`\`\`javascript
+//  init.js - Foundation Layer
+const { Ruvector } = require('ruvector');
+const { AgentDB } = require('agentdb');
+
+// 1. Initialize RuVector
+const vectorDb = new Ruvector({
+  dimension: 1536,
+  backend: '@ruvector/postgres-cli',
+  connectionString: process.env.DATABASE_URL
+});
+await vectorDb.initialize();
+
+// 2. Initialize AgentDB
+const agentDb = new AgentDB({
+  persistence: true,
+  backend: vectorDb,
+  causality: true,
+  reflexion: true
+});
+await agentDb.initialize();
+
+console.log('✅ Foundation layer ready');
+\`\`\`
+
+#### Step 2: LLM Inference Layer
+
+\`\`\`bash
+# Install LLM components
+npm install @ruvector/ruvllm @ruvector/sona @foxruv/iris
+\`\`\`
+
+\`\`\`javascript
+// 1. Initialize RuvLLM
+const { RuvLLM } = require('@ruvector/ruvllm');
+const llm = new RuvLLM({
+  models: ['gpt-4', 'claude-3-opus'],
+  reasoningMode: 'trm',
+  cache: agentDb,
+  vectorStore: vectorDb
+});
+await llm.initialize();
+
+// 2. Initialize SONA
+const { SONA } = require('@ruvector/sona');
+const sona = new SONA({
+  llm: llm,
+  agentDb: agentDb,
+  adaptiveLearning: true,
+  reasoningBank: true
+});
+await sona.initialize();
+
+// 3. Initialize Iris
+const { Iris } = require('@foxruv/iris');
+const iris = new Iris({
+  llm: llm,
+  sona: sona,
+  driftDetection: true,
+  autoRetrain: true
+});
+await iris.initialize();
+
+console.log('✅ LLM layer ready');
+\`\`\`
+
+#### Step 3: Orchestration Layer
+
+\`\`\`bash
+# Install orchestration
+npm install agentic-flow agentic-jujutsu research-swarm claude-flow
+\`\`\`
+
+\`\`\`javascript
+// 1. Initialize Agentic-Flow
+const { AgenticFlow } = require('agentic-flow');
+const agenticFlow = new AgenticFlow({
+  agentDb: agentDb,
+  llm: llm,
+  vectorDb: vectorDb,
+  maxConcurrentAgents: 50
+});
+await agenticFlow.initialize();
+
+// 2. Initialize Agentic-Jujutsu
+const { AgenticJujutsu } = require('agentic-jujutsu');
+const coordinator = new AgenticJujutsu({
+  agenticFlow: agenticFlow,
+  agentDb: agentDb,
+  conflictResolution: 'priority-based'
+});
+await coordinator.initialize();
+
+// 3. Initialize Claude-Flow
+const { ClaudeFlow } = require('claude-flow');
+const claudeFlow = new ClaudeFlow({
+  agenticFlow: agenticFlow,
+  coordinator: coordinator,
+  llm: llm,
+  sona: sona,
+  iris: iris,
+  vectorDb: vectorDb,
+  agentDb: agentDb,
+  reasoningBank: true
+});
+await claudeFlow.initialize();
+
+console.log('✅ Orchestration layer ready');
+\`\`\`
+
+#### Step 4: Self-Learning Loop
+
+\`\`\`bash
+# Install self-learning
+npm install @agentic-robotics/self-learning agent-booster
+\`\`\`
+
+\`\`\`javascript
+const { SelfLearning } = require('@agentic-robotics/self-learning');
+const selfLearning = new SelfLearning({
+  agentDb: agentDb,
+  vectorDb: vectorDb,
+  reinforcementLearning: true,
+  swarmIntelligence: true
+});
+await selfLearning.initialize();
+
+// Connect feedback loop
+selfLearning.on('pattern-learned', async (pattern) => {
+  await agentDb.storePattern(pattern);
+  await sona.updateModel(pattern);
+});
+
+agentDb.on('execution-complete', async (trace) => {
+  await selfLearning.analyze(trace);
+});
+
+console.log('✅ Self-learning loop active');
+\`\`\`
+
+### 🚀 Complete Deployment Sequence Diagram
+
+\`\`\`mermaid
+sequenceDiagram
+    participant Dev
+    participant NPX
+    participant CF as Claude-Flow
+    participant AF as Agentic-Flow
+    participant RV as RuVector
+    participant ADB as AgentDB
+    participant RL as RuvLLM
+    participant SL as Self-Learning
+    
+    Dev->>NPX: npx claude-flow init
+    NPX->>CF: Initialize
+    CF->>RV: Setup vector DB
+    RV-->>CF: Ready
+    CF->>ADB: Setup agent DB
+    ADB-->>CF: Ready
+    CF->>RL: Setup LLM engine
+    RL-->>CF: Ready
+    CF->>AF: Setup agent lifecycle
+    AF-->>CF: Ready
+    CF->>SL: Setup learning loop
+    SL-->>CF: Ready
+    CF-->>Dev: System ready
+    
+    Dev->>CF: Submit task
+    CF->>AF: Create agents
+    AF->>RV: Query knowledge
+    AF->>RL: Generate response
+    AF->>ADB: Store results
+    ADB->>SL: Trigger learning
+    SL->>RL: Update model
+    CF-->>Dev: Task complete
+\`\`\`
+
+### 🐳 Docker Compose Production Deployment
+
+\`\`\`yaml
+version: '3.8'
+
+services:
+  postgres:
+    image: ankane/pgvector:latest
+    environment:
+      POSTGRES_DB: agentic
+      POSTGRES_USER: ruvector
+      POSTGRES_PASSWORD: \${DB_PASSWORD}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+  
+  claude-flow:
+    image: ruvnet/claude-flow:latest
+    environment:
+      DATABASE_URL: postgres://ruvector:\${DB_PASSWORD}@postgres:5432/agentic
+      OPENAI_API_KEY: \${OPENAI_API_KEY}
+      ANTHROPIC_API_KEY: \${ANTHROPIC_API_KEY}
+      REASONING_BANK: "true"
+    depends_on:
+      - postgres
+    ports:
+      - "3001:3001"
+  
+  ruvi:
+    image: ruvnet/ruvi:latest
+    environment:
+      CLAUDE_FLOW_URL: http://claude-flow:3001
+    ports:
+      - "3000:3000"
+    depends_on:
+      - claude-flow
+
+volumes:
+  pgdata:
+\`\`\`
+
+**Deploy:**
+
+\`\`\`bash
+# Set environment variables
+export DB_PASSWORD="secure_password"
+export OPENAI_API_KEY="sk-..."
+export ANTHROPIC_API_KEY="sk-ant-..."
+
+# Start services
+docker-compose up -d
+
+# Check status
+docker-compose ps
+
+# View logs
+docker-compose logs -f claude-flow
+\`\`\`
+
+### ✅ System Verification
+
+\`\`\`javascript
+// verify.js - Complete system test
+const { ClaudeFlow } = require('claude-flow');
+
+async function verify() {
+  const flow = await ClaudeFlow.connect('http://localhost:3001');
+  
+  // Test vector DB
+  const vecTest = await flow.vectorDb.insert({
+    vector: new Array(1536).fill(0).map(() => Math.random()),
+    metadata: { test: true }
+  });
+  console.log('✅ RuVector operational');
+  
+  // Test AgentDB
+  const agent = await flow.agentDb.createAgent({
+    name: 'test',
+    capabilities: ['research']
+  });
+  console.log('✅ AgentDB operational');
+  
+  // Test LLM
+  const response = await flow.llm.generate({
+    prompt: 'Hello',
+    maxTokens: 10
+  });
+  console.log('✅ RuvLLM operational');
+  
+  // Test workflow
+  const result = await flow.execute({
+    task: 'Test task',
+    agents: 1
+  });
+  console.log('✅ Workflow operational');
+  
+  console.log('\n🎉 All systems operational!');
+}
+
+verify().catch(console.error);
+\`\`\`
+
+### 📚 Quick NPX Command Reference
+
+| Command | Purpose |
+|---------|---------|
+| `npx create-sparc <name>` | Scaffold new project |
+| `npx flow-nexus` | Start gamified MCP platform |
+| `npx claude-flow init` | Initialize Claude-Flow |
+| `npx ruvi start` | Start Ruvi dashboard |
+| `npx research-swarm start` | Start research swarm |
+| `npx @ruvector/cli query` | Query RuVector DB |
+| `npx goalie research <topic>` | AI research assistant |
+
+### 🔗 Self-Improving Cycle
+
+\`\`\`mermaid
+graph LR
+    A[Execute Task] --> B[Store Trace<br/>in AgentDB]
+    B --> C[Self-Learning<br/>Analyzes]
+    C --> D[Update SONA<br/>Model]
+    D --> E[Optimize<br/>Cache]
+    E --> F[Deploy<br/>Improvement]
+    F --> A
+\`\`\`
+
+---
+
 ## Development Guidelines
 
 ### When to Use Which Module
