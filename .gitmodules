@@ -1,9 +1,9 @@
-[submodule "Libraries/autogenlib"]
-	path = Libraries/autogenlib
+[submodule "Libraries/Analysis/autogenlib"]
+	path = Libraries/Analysis/autogenlib
 	url = https://github.com/Zeeeepa/autogenlib.git
-[submodule "Libraries/serena"]
-	path = Libraries/serena
+[submodule "Libraries/Analysis/serena"]
+	path = Libraries/Analysis/serena
 	url = https://github.com/Zeeeepa/serena.git
-[submodule "Libraries/graph-sitter"]
-	path = Libraries/graph-sitter
+[submodule "Libraries/Analysis/graph-sitter"]
+	path = Libraries/Analysis/graph-sitter
 	url = https://github.com/Zeeeepa/graph-sitter.git
