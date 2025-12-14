@@ -88,7 +88,732 @@ npm install qudag
 npm install agenticsjs
 ```
 
-**Note**: These are the only verified packages published by @ruvnet on NPM. Other packages mentioned in previous sections may be planned modules, experimental prototypes, or part of private repositories not yet published to the public NPM registry.
+**Note**: These are the only verified packages published by @ruvnet on NPM. Other packages mentioned in following sections may be planned modules, experimental prototypes, or part of private repositories not yet published to the public NPM registry.
+
+---
+
+## Complete Package Catalog with claude-flow Integration
+
+This section documents ALL packages in the ecosystem, including both published NPM packages and planned/private modules, with detailed explanations of how each integrates with claude-flow.
+
+### 📋 Integration Status Legend
+
+- ✅ **Published on NPM**: Available for installation via `npm install`
+- 🔄 **Planned/Private**: In development or private repository
+- 🔗 **Integration Level**: How deeply integrated with claude-flow
+  - **Core**: Essential for basic claude-flow operation
+  - **Enhanced**: Adds significant capabilities
+  - **Optional**: Specialized use cases
+
+---
+
+### 🎯 Orchestration & Framework Layer
+
+#### **claude-flow** ✅ Published | 🔗 Core
+- **NPM**: `npm install claude-flow` (v2.0.0-alpha.86)
+- **Purpose**: Primary orchestration framework for multi-agent AI workflows
+- **Usage in claude-flow**: 
+  - Acts as the main entry point and central coordinator
+  - Manages the complete agent lifecycle from creation to termination
+  - Orchestrates task distribution across all system layers
+  - Coordinates workflow execution and handles inter-module communication
+- **Integration Flow**:
+  ```
+  User Request → claude-flow → Task Planning → Agent Spawning (agentic-flow)
+                              ↓
+                       Route Tasks (@ruvector/router)
+                              ↓
+                       Execute on Compute Layer
+                              ↓
+                       Store Results (ruvector/agentdb)
+  ```
+- **Key Dependencies**: agentic-flow, ruvector, @ruvector/router, ruv-swarm
+
+#### **agentic-flow** 🔄 Planned | 🔗 Core
+- **Purpose**: Agent lifecycle and state management framework
+- **Usage in claude-flow**:
+  - Provides the agent runtime environment
+  - Handles agent spawning, configuration, and monitoring
+  - Manages state transitions and inter-agent communication protocols
+  - Implements agent supervision and health checking
+- **Integration Flow**:
+  ```
+  claude-flow creates workflow → agentic-flow spawns agents
+                                       ↓
+                         Registers with agentic-jujutsu for coordination
+                                       ↓
+                         Initializes state in agentdb
+                                       ↓
+                         Begins executing assigned tasks
+  ```
+- **Key Dependencies**: agentdb, agentic-jujutsu, @ruvector/router
+
+#### **research-swarm** 🔄 Planned | 🔗 Enhanced
+- **Purpose**: Multi-agent research and exploration framework
+- **Usage in claude-flow**:
+  - Enables distributed research workflows
+  - Coordinates swarms of specialized research agents for parallel information gathering
+  - Deployed when tasks require multi-source data synthesis
+  - Implements swarm intelligence algorithms for optimal task distribution
+- **Integration Flow**:
+  ```
+  Research Task → research-swarm creates agent swarm
+                           ↓
+           Agents query multiple sources in parallel
+                           ↓
+           Synthesis agent aggregates findings → ruvector storage
+  ```
+- **Key Dependencies**: agentic-flow, ruvector, agent-booster
+
+---
+
+### 🧠 Agent Intelligence & Capabilities
+
+#### **agent-booster** 🔄 Planned | 🔗 Enhanced
+- **Purpose**: Performance optimization and capability enhancement for AI agents
+- **Usage in claude-flow**:
+  - Provides runtime optimizations and intelligent caching strategies
+  - Extends agent capabilities with performance enhancements
+  - Implements response caching to reduce redundant LLM calls
+  - Optimizes agent execution paths based on historical performance
+- **Integration Flow**:
+  ```
+  Agent receives task → agent-booster checks cache
+                              ↓
+                    Cache hit? Return cached result
+                              ↓
+                    Cache miss? Execute + store in cache
+  ```
+- **Key Dependencies**: @ruvector/core, agentdb
+
+#### **lean-agentic** 🔄 Planned | 🔗 Enhanced
+- **Purpose**: Lightweight, resource-efficient agent implementation
+- **Usage in claude-flow**:
+  - Provides minimal-overhead agents for high-frequency, low-complexity tasks
+  - Deployed for tasks requiring fast execution and low memory footprint
+  - Alternative agent runtime optimized for efficiency over features
+  - Used in edge deployments or resource-constrained environments
+- **Integration Flow**:
+  ```
+  Simple task identified → claude-flow selects lean-agentic
+                                     ↓
+                         Spawns lightweight agent
+                                     ↓
+                         Fast execution with minimal resources
+  ```
+- **Key Dependencies**: @ruvector/rvlite, @ruvector/core
+
+#### **agentic-jujutsu** 🔄 Planned | 🔗 Enhanced
+- **Purpose**: Advanced agent coordination and conflict resolution
+- **Usage in claude-flow**:
+  - Manages complex multi-agent interactions
+  - Prevents deadlocks when agents compete for shared resources
+  - Implements resource arbitration and priority scheduling
+  - Ensures smooth coordination when multiple agents have interdependent tasks
+- **Integration Flow**:
+  ```
+  Multiple agents request same resource → agentic-jujutsu arbitrates
+                                                   ↓
+                                         Determines priority/scheduling
+                                                   ↓
+                                         Resolves conflicts in real-time
+  ```
+- **Key Dependencies**: agentic-flow, agentdb
+
+#### **@agentic-robotics/self-learning** 🔄 Planned | 🔗 Optional
+- **Purpose**: Self-improving agent capabilities through reinforcement learning
+- **Usage in claude-flow**:
+  - Enables agents to learn from execution history
+  - Improves agent decision-making quality over time
+  - Optional module for long-running deployments
+  - Stores learned patterns and applies them to future tasks
+- **Integration Flow**:
+  ```
+  Agent completes task → self-learning observes outcome
+                                   ↓
+                         Stores success/failure pattern in agentdb
+                                   ↓
+                         Updates agent model with learned behaviors
+  ```
+- **Key Dependencies**: agentdb, @ruvector/ruvllm
+
+#### **agentic-robotics** 🔄 Planned | 🔗 Optional
+- **Purpose**: Physical and virtual robotics agent framework
+- **Usage in claude-flow**:
+  - Provides specialized agents for robotic process automation (RPA)
+  - Used when workflows require integration with hardware/IoT
+  - Enables interaction with physical world through sensors/actuators
+  - Extends agentic-flow with robotics-specific primitives
+- **Key Dependencies**: agentic-flow, @ruvector/node
+
+---
+
+### 🚀 Routing, Clustering & Networking
+
+#### **@ruvector/router** 🔄 Planned | 🔗 Core
+- **Purpose**: High-performance request routing and load balancing
+- **Usage in claude-flow**:
+  - Distributes tasks across compute nodes
+  - Ensures load balancing for optimal resource utilization
+  - Routes agent requests to appropriate compute resources
+  - Sits between orchestration layer and compute layer
+- **Integration Flow**:
+  ```
+  Agent task → @ruvector/router analyzes load
+                         ↓
+           Selects optimal compute node (@ruvector/server)
+                         ↓
+           Routes request + monitors execution
+  ```
+- **Key Dependencies**: @ruvector/cluster, @ruvector/server
+
+#### **@ruvector/router-wasm** 🔄 Planned | 🔗 Optional
+- **Purpose**: WebAssembly-based router for edge deployments
+- **Usage in claude-flow**:
+  - Provides ultra-low-latency routing in browser and edge environments
+  - Enables client-side routing for distributed deployments
+  - Alternative to native router for edge/browser scenarios
+  - Runs in @ruvector/wasm environment
+- **Key Dependencies**: @ruvector/wasm, @ruvector/core
+
+#### **@ruvector/cluster** 🔄 Planned | 🔗 Core
+- **Purpose**: Distributed cluster management and coordination
+- **Usage in claude-flow**:
+  - Manages multi-node deployments
+  - Implements consensus protocols and cluster health monitoring
+  - Enables horizontal scaling of agent execution
+  - Coordinates distributed agent execution across nodes
+- **Integration Flow**:
+  ```
+  New node joins → @ruvector/cluster registers node
+                              ↓
+                   Distributes workload across cluster
+                              ↓
+                   Monitors health + rebalances on failures
+  ```
+- **Key Dependencies**: @ruvector/router, @ruvector/server
+
+#### **@ruvector/server** 🔄 Planned | 🔗 Core
+- **Purpose**: Core server runtime for agent execution nodes
+- **Usage in claude-flow**:
+  - Provides the execution environment for distributed agent workloads
+  - Each compute node runs an instance
+  - Executes agent tasks and manages local state
+  - Reports status to cluster coordinator
+- **Integration Flow**:
+  ```
+  Receives task from router → Executes agent code
+                                     ↓
+                         Updates local ruvector instance
+                                     ↓
+                         Reports completion to cluster
+  ```
+- **Key Dependencies**: ruvector, @ruvector/core
+
+---
+
+### ⚡ Compute & Processing Layer
+
+#### **@ruvector/ruvllm** 🔄 Planned | 🔗 Core
+- **Purpose**: High-performance LLM inference engine
+- **Usage in claude-flow**:
+  - Powers ALL LLM-based agent reasoning and generation tasks
+  - Provides optimized language model execution
+  - Optimized for multi-tenant usage with efficient batching
+  - Core inference engine for claude-flow's AI capabilities
+- **Integration Flow**:
+  ```
+  Agent needs LLM reasoning → Sends prompt to ruvllm
+                                       ↓
+                            Batches with other requests
+                                       ↓
+                            Returns generated response
+  ```
+- **Key Dependencies**: @ruvector/ruvllm-linux-x64-gnu (platform binary)
+
+#### **@ruvector/ruvllm-linux-x64-gnu** 🔄 Planned | 🔗 Core
+- **Purpose**: Linux-optimized LLM inference binary
+- **Usage in claude-flow**:
+  - Platform-specific build for production Linux deployments
+  - Deployed on Linux servers for optimal performance
+  - Binary dependency of @ruvector/ruvllm
+  - Compiled with platform-specific optimizations
+
+#### **@ruvector/rvlite** 🔄 Planned | 🔗 Optional
+- **Purpose**: Lightweight inference engine for resource-constrained environments
+- **Usage in claude-flow**:
+  - Provides minimal LLM inference for edge and mobile deployments
+  - Used in distributed edge deployments where resources are limited
+  - Alternative to full ruvllm for specific deployment scenarios
+  - Sacrifices some accuracy for significantly lower resource usage
+
+#### **@ruvector/wasm** 🔄 Planned | 🔗 Enhanced
+- **Purpose**: WebAssembly runtime and utilities
+- **Usage in claude-flow**:
+  - Provides WASM execution environment for portable compute kernels
+  - Enables cross-platform compute operations
+  - Host environment for all *-wasm modules
+  - Allows claude-flow to run compute-intensive tasks in browsers
+- **Integration Flow**:
+  ```
+  Need portable compute → Load WASM module in @ruvector/wasm
+                                     ↓
+                         Execute compute kernel
+                                     ↓
+                         Return results to calling agent
+  ```
+
+#### **@ruvector/tiny-dancer** 🔄 Planned | 🔗 Enhanced
+- **Purpose**: Efficient small model inference
+- **Usage in claude-flow**:
+  - Optimized inference for small, fast models (embeddings, classifiers)
+  - Handles high-frequency, low-complexity inference tasks
+  - Complements ruvllm for specialized workloads
+  - Used for embedding generation and fast classification
+- **Integration Flow**:
+  ```
+  Need text embedding → tiny-dancer generates embedding
+                                  ↓
+                       Store in ruvector for semantic search
+  ```
+
+#### **@ruvector/tiny-dancer-wasm** 🔄 Planned | 🔗 Optional
+- **Purpose**: WebAssembly build of tiny-dancer
+- **Usage in claude-flow**:
+  - Enables client-side embedding and classification
+  - Portable small model inference for browser/edge
+  - Runs in @ruvector/wasm environment
+
+#### **@ruvector/graph-node** 🔄 Planned | 🔗 Enhanced
+- **Purpose**: Graph computation engine for neural architectures
+- **Usage in claude-flow**:
+  - Executes graph-based neural network operations
+  - Powers graph neural networks and structured reasoning
+  - Provides computational backend for @ruvector/gnn
+- **Integration Flow**:
+  ```
+  GNN model needs computation → graph-node executes operations
+                                         ↓
+                              Returns computed graph embeddings
+  ```
+
+#### **@ruvector/graph-wasm** 🔄 Planned | 🔗 Optional
+- **Purpose**: WebAssembly graph computation kernels
+- **Usage in claude-flow**:
+  - Portable graph operations for cross-platform deployments
+  - Enables graph computations in browser and edge environments
+  - WASM alternative to @ruvector/graph-node
+
+#### **@ruvector/gnn** 🔄 Planned | 🔗 Enhanced
+- **Purpose**: Graph Neural Network framework
+- **Usage in claude-flow**:
+  - Enables reasoning over structured knowledge graphs and relational data
+  - Used for knowledge graph reasoning and dependency analysis
+  - Performs relational learning on code structures
+  - Powers advanced code understanding through graph analysis
+- **Integration Flow**:
+  ```
+  Analyze codebase structure → Build dependency graph
+                                      ↓
+                       GNN analyzes graph patterns
+                                      ↓
+                       Identifies architectural insights
+  ```
+- **Key Dependencies**: @ruvector/graph-node, agentdb
+
+#### **@ruvector/gnn-wasm** 🔄 Planned | 🔗 Optional
+- **Purpose**: WebAssembly GNN implementation
+- **Usage in claude-flow**:
+  - Client-side graph reasoning
+  - Portable GNN inference
+  - WASM build running in @ruvector/wasm
+
+#### **@ruvector/attention-wasm** 🔄 Planned | 🔗 Enhanced
+- **Purpose**: WebAssembly attention mechanism kernels
+- **Usage in claude-flow**:
+  - Efficient transformer attention operations in WASM
+  - Accelerates attention computations in portable environments
+  - Used by inference engines requiring attention mechanisms
+  - Optimized for browser/edge deployments
+
+#### **psycho-symbolic-integration** 🔄 Planned | 🔗 Optional
+- **Purpose**: Hybrid neural-symbolic reasoning framework
+- **Usage in claude-flow**:
+  - Combines neural networks with symbolic logic for enhanced reasoning
+  - Enables agents to perform both statistical learning and logical deduction
+  - Augments agent reasoning capabilities beyond pure neural approaches
+  - Used for tasks requiring formal logic and verifiable reasoning
+- **Integration Flow**:
+  ```
+  Complex reasoning task → Neural component generates candidates
+                                      ↓
+                         Symbolic component validates logic
+                                      ↓
+                         Returns verified reasoning chain
+  ```
+
+#### **spiking-neural** 🔄 Planned | 🔗 Optional
+- **Purpose**: Spiking neural network implementation
+- **Usage in claude-flow**:
+  - Energy-efficient neuromorphic computing for specialized tasks
+  - Experimental module for low-power, event-driven processing
+  - Alternative compute paradigm for specific agent behaviors
+  - Used in research and experimental deployments only
+
+---
+
+### 💾 Data, Storage & Memory
+
+#### **ruvector** 🔄 Planned | 🔗 Core
+- **Purpose**: High-performance vector database and embedding store
+- **Usage in claude-flow**:
+  - **CENTRAL TO ENTIRE SYSTEM**: Stores agent knowledge, code embeddings, semantic memory
+  - Enables RAG (Retrieval-Augmented Generation) workflows
+  - Provides semantic search and similarity matching
+  - Core dependency for virtually all agents
+- **Integration Flow**:
+  ```
+  Agent generates code → Create embeddings via @ruvector/core
+                                    ↓
+                         Store in ruvector with metadata
+                                    ↓
+                         Later: Semantic search for similar patterns
+  ```
+- **Key Dependencies**: @ruvector/core, @ruvector/postgres-cli
+
+#### **@ruvector/core** 🔄 Planned | 🔗 Core
+- **Purpose**: Core vector operations and primitives
+- **Usage in claude-flow**:
+  - **FOUNDATIONAL LIBRARY**: Provides low-level vector operations used by higher-level modules
+  - Implements distance metrics, indexing algorithms, and vector computations
+  - Dependency of ruvector and all vector-related modules
+  - Optimized implementations of HNSW, IVF, and other indexing strategies
+
+#### **agentdb** 🔄 Planned | 🔗 Core
+- **Purpose**: Specialized database for agent state, memory, and history
+- **Usage in claude-flow**:
+  - Persists agent configurations and execution history
+  - Stores learned patterns and conversation context
+  - Enables agent memory across sessions
+  - Stores execution traces for debugging and learning
+- **Integration Flow**:
+  ```
+  Agent starts → Loads state from agentdb
+                         ↓
+           Executes task + stores intermediate states
+                         ↓
+           Saves final state + execution trace to agentdb
+  ```
+- **Key Dependencies**: @ruvector/postgres-cli
+
+#### **@ruvector/postgres-cli** 🔄 Planned | 🔗 Core
+- **Purpose**: PostgreSQL integration and CLI tools
+- **Usage in claude-flow**:
+  - Provides PostgreSQL backend for structured data
+  - Enables hybrid vector-relational queries
+  - Stores structured metadata alongside vectors
+  - Backend for ruvector and agentdb
+- **Integration Flow**:
+  ```
+  Store vector + metadata → postgres-cli manages SQL storage
+                                       ↓
+                            Enables complex JOIN queries
+                                       ↓
+                            Returns combined vector + relational results
+  ```
+
+#### **ruvector-extensions** 🔄 Planned | 🔗 Optional
+- **Purpose**: Plugin system and extensions for ruvector
+- **Usage in claude-flow**:
+  - Provides extensibility points for custom vector operations
+  - Enables custom similarity metrics and indexing strategies
+  - Allows integration with external vector stores
+  - Loaded dynamically based on configuration
+- **Key Dependencies**: ruvector, @ruvector/core
+
+---
+
+### 🌐 Interface & Integration Modules
+
+#### **@ruvector/node** 🔄 Planned | 🔗 Core
+- **Purpose**: Node.js bindings and runtime integration
+- **Usage in claude-flow**:
+  - Provides JavaScript/TypeScript interface to ruvector and related modules
+  - Enables Node.js applications to use ruvector capabilities
+  - Wraps native modules for JavaScript consumption
+  - Used by all Node.js-based agents and services
+
+#### **ruvector-sona** 🔄 Planned | 🔗 Optional
+- **Purpose**: Audio and speech processing module
+- **Usage in claude-flow**:
+  - Provides speech recognition and synthesis
+  - Generates audio embeddings for voice search
+  - Enables voice-based agent interactions
+  - Optional module for voice workflows
+- **Integration Flow**:
+  ```
+  Voice input → ruvector-sona transcribes + embeds
+                            ↓
+                Store embedding in ruvector
+                            ↓
+                Agent processes voice command
+  ```
+
+#### **@foxruv/iris** 🔄 Planned | 🔗 Optional
+- **Purpose**: Visual understanding and image processing module
+- **Usage in claude-flow**:
+  - Provides computer vision and image embeddings
+  - Enables visual reasoning for multi-modal agents
+  - Generates visual embeddings stored in ruvector
+  - Used by agents that need to process images/screenshots
+- **Integration Flow**:
+  ```
+  Image input → iris extracts visual features
+                         ↓
+            Generates image embedding
+                         ↓
+            Agent uses embedding for visual reasoning
+  ```
+
+#### **midstreamer** 🔄 Planned | 🔗 Enhanced
+- **Purpose**: Real-time streaming and event processing
+- **Usage in claude-flow**:
+  - Provides streaming data pipelines
+  - Enables reactive agents that respond to streaming events
+  - Supports real-time dashboards and monitoring
+  - Streams data between agents for real-time collaboration
+- **Integration Flow**:
+  ```
+  Event occurs → midstreamer broadcasts to subscribed agents
+                              ↓
+                  Agents react in real-time
+                              ↓
+                  Results streamed to dashboard (ruvi)
+  ```
+- **Key Dependencies**: @ruvector/router
+
+#### **ruvi** 🔄 Planned | 🔗 Enhanced
+- **Purpose**: Visual interface and dashboard framework
+- **Usage in claude-flow**:
+  - Provides web-based UI for monitoring and interacting with claude-flow
+  - Enables visualization of agent workflows and execution traces
+  - Shows system health and performance metrics
+  - Provides control interface for manual orchestration
+- **Integration Flow**:
+  ```
+  User opens dashboard → ruvi queries agentdb + midstreamer
+                                    ↓
+                         Displays real-time agent status
+                                    ↓
+                         User can trigger workflows manually
+  ```
+- **Key Dependencies**: agentdb, midstreamer
+
+---
+
+### 🎨 Additional @ruvnet Packages (NPM Published)
+
+These packages are published on NPM under @ruvnet but serve different purposes outside the core claude-flow architecture:
+
+#### **ruv-swarm** ✅ Published | 🔗 Core
+- **NPM**: `npm install ruv-swarm` (v1.0.18)
+- **Purpose**: High-performance neural network swarm orchestration in WebAssembly
+- **Usage in claude-flow**:
+  - **DIRECTLY INTEGRATED**: claude-flow v2.0.0-alpha includes ruv-swarm integration
+  - Powers the distributed agent swarm capabilities
+  - Provides WASM-based high-performance parallel agent execution
+  - Enables complex swarm behaviors and emergent intelligence
+- **Integration**: Embedded within claude-flow as core swarm engine
+
+#### **cuda-wasm** ✅ Published | 🔗 Optional
+- **NPM**: `npm install cuda-wasm` (v1.1.1)
+- **Purpose**: CUDA to WebAssembly/WebGPU transpiler
+- **Usage in claude-flow**:
+  - Enables GPU acceleration for compute-intensive agent tasks
+  - Allows running GPU kernels in browsers via WebGPU
+  - Optional: Used when GPU acceleration is available
+  - Significantly speeds up vector operations and embeddings
+
+#### **@agentics.org/sparc2** ✅ Published | 🔗 Enhanced
+- **NPM**: `npm install @agentics.org/sparc2` (v2.0.25)
+- **Purpose**: SPARC 2.0 - Autonomous Vector Coding Agent + MCP
+- **Usage in claude-flow**:
+  - Can be integrated as a specialized coding agent
+  - Provides vectorized code analysis capabilities
+  - Implements MCP (Model Context Protocol) for agent communication
+  - Used for advanced code generation and analysis tasks
+
+#### **create-sparc** ✅ Published | 🔗 Optional
+- **NPM**: `npx create-sparc` (v1.2.4)
+- **Purpose**: Project scaffolding tool for SPARC methodology
+- **Usage in claude-flow**:
+  - CLI tool for creating new projects with SPARC structure
+  - Not directly integrated into runtime
+  - Used by developers to bootstrap claude-flow-based projects
+
+#### **@ruv/sparc-ui** ✅ Published | 🔗 Optional
+- **NPM**: `npm install @ruv/sparc-ui` (v0.1.4)
+- **Purpose**: UI components for SPARC framework
+- **Usage in claude-flow**:
+  - Can be used with ruvi for enhanced dashboard UI
+  - Provides pre-built components for workflow visualization
+  - Optional: Alternative to custom ruvi UI components
+
+#### **vscode-remote-mcp** ✅ Published | 🔗 Optional
+- **NPM**: `npm install vscode-remote-mcp` (v1.0.4)
+- **Purpose**: MCP server for VSCode Remote integration
+- **Usage in claude-flow**:
+  - Enables claude-flow agents to interact with VSCode remotely
+  - Allows agents to read/write code in VSCode workspaces
+  - Used when agents need direct IDE integration
+
+#### **@agentics.org/agentic-mcp** ✅ Published | 🔗 Enhanced
+- **NPM**: `npm install @agentics.org/agentic-mcp` (v1.0.4)
+- **Purpose**: Agentic MCP Server with advanced AI capabilities
+- **Usage in claude-flow**:
+  - Provides MCP tools for web search, summarization, database querying
+  - Can be integrated as an MCP tool provider for agents
+  - Extends agent capabilities with research and data access tools
+
+#### **dspy.ts** ✅ Published | 🔗 Enhanced
+- **NPM**: `npm install dspy.ts` (v0.1.3)
+- **Purpose**: Declarative Self-Learning TypeScript framework
+- **Usage in claude-flow**:
+  - Framework for compositional LM pipelines
+  - Can be used for self-improving prompt strategies
+  - Implements DSPy concepts in TypeScript
+  - Used for advanced prompt optimization within agents
+
+#### **qudag** ✅ Published | 🔗 Optional
+- **NPM**: `npm install qudag` (v1.2.1)
+- **Purpose**: Quantum-Resistant Distributed Communication Platform
+- **Usage in claude-flow**:
+  - Optional: Provides quantum-resistant communication between nodes
+  - Used when high security is required
+  - Implements post-quantum cryptography for agent communication
+
+#### **agenticsjs** ✅ Published | 🔗 Optional
+- **NPM**: `npm install agenticsjs` (v1.0.5)
+- **Purpose**: Intelligent interactive search library
+- **Usage in claude-flow**:
+  - Can be integrated for enhanced search capabilities
+  - Provides real-time search with visualization
+  - Optional: Used when agents need advanced search UI
+
+---
+
+## Complete System Flow: End-to-End Example
+
+### Task: "Analyze this codebase and suggest improvements"
+
+This example demonstrates how ALL the packages work together:
+
+1. **Entry Point** (claude-flow ✅)
+   - User submits task via ruvi dashboard
+   - claude-flow receives and parses request
+   - Creates workflow plan: parse → analyze → suggest
+
+2. **Agent Orchestration** (agentic-flow 🔄 + agentic-jujutsu 🔄)
+   - agentic-flow spawns specialized agents:
+     - Code Parser Agent (lean-agentic for speed)
+     - Analyzer Agent (full agent with GNN capabilities)
+     - Suggestion Agent (with ruvllm for generation)
+   - agentic-jujutsu registers agents and prevents conflicts
+
+3. **Task Distribution** (@ruvector/router 🔄 + @ruvector/cluster 🔄)
+   - Router analyzes current cluster load
+   - Distributes tasks to optimal @ruvector/server nodes
+   - Cluster manager ensures high availability
+
+4. **Code Parsing** (Agent + Compute Layer)
+   - Parser agent uses @ruvector/ruvllm 🔄 for code understanding
+   - Generates code embeddings via @ruvector/tiny-dancer 🔄
+   - Stores embeddings in ruvector 🔄 for semantic search
+   - Updates state in agentdb 🔄
+
+5. **Dependency Analysis** (@ruvector/gnn 🔄 + @ruvector/graph-node 🔄)
+   - Builds dependency graph of codebase
+   - GNN analyzes architectural patterns
+   - Identifies code smells and structural issues
+   - Uses psycho-symbolic-integration 🔄 for logical verification
+
+6. **Pattern Matching** (ruvector 🔄 + @ruvector/core 🔄)
+   - Analyzer queries ruvector for similar code patterns
+   - Finds best practices from knowledge base
+   - Uses agent-booster 🔄 to cache common queries
+   - Leverages @agentic-robotics/self-learning 🔄 for improved suggestions
+
+7. **Suggestion Generation** (@ruvector/ruvllm 🔄)
+   - Suggestion agent synthesizes findings
+   - Generates actionable improvements
+   - Validates suggestions through psycho-symbolic-integration 🔄
+
+8. **Real-time Streaming** (midstreamer 🔄)
+   - Results streamed in real-time to ruvi 🔄 dashboard
+   - User sees progress as agents work
+   - Can provide feedback mid-execution
+
+9. **Persistence** (agentdb 🔄 + ruvector 🔄)
+   - Execution trace stored in agentdb
+   - Learned patterns stored in ruvector
+   - @agentic-robotics/self-learning analyzes for future improvements
+
+10. **Optional Enhancements**:
+    - If images in codebase: @foxruv/iris 🔄 analyzes diagrams
+    - If voice command: ruvector-sona 🔄 processes audio
+    - If GPU available: cuda-wasm ✅ accelerates computations
+    - If VSCode integration: vscode-remote-mcp ✅ applies changes
+
+---
+
+## Installation Guide
+
+### Minimal Setup (Core Only)
+
+```bash
+# Published packages (currently available)
+npm install claude-flow          # Main orchestrator
+npm install ruv-swarm           # Swarm engine (integrated in claude-flow)
+
+# When other core packages are published:
+# npm install agentic-flow
+# npm install ruvector
+# npm install agentdb
+# npm install @ruvector/ruvllm
+# npm install @ruvector/core
+```
+
+### Enhanced Setup (Recommended)
+
+```bash
+# Core + performance enhancements
+npm install claude-flow
+npm install ruv-swarm
+npm install cuda-wasm            # GPU acceleration
+
+# When published:
+# npm install agent-booster
+# npm install @ruvector/router
+# npm install @ruvector/cluster
+```
+
+### Full Featured Setup
+
+```bash
+# All published packages
+npm install claude-flow ruv-swarm cuda-wasm
+npm install @agentics.org/sparc2 @agentics.org/agentic-mcp
+npm install dspy.ts qudag agenticsjs
+npm install vscode-remote-mcp
+npm install create-sparc @ruv/sparc-ui
+
+# When all planned packages publish:
+# npm install agentic-flow agent-booster lean-agentic
+# npm install ruvector @ruvector/core agentdb
+# npm install @ruvector/ruvllm @ruvector/router
+# npm install midstreamer ruvi
+# ... and all others listed above
+```
 
 ---
 
