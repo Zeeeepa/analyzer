@@ -4,6 +4,94 @@ This folder documents the core modules and libraries that form the foundation of
 
 ---
 
+## Official NPM Packages by @ruvnet
+
+The following packages are officially published and maintained by @ruvnet on NPM. These represent the production-ready, verified modules available for installation:
+
+### 📦 Published Packages (11 total)
+
+1. **[claude-flow](https://www.npmjs.com/package/claude-flow)** - v2.0.0-alpha.86
+   - Enterprise-grade AI agent orchestration with ruv-swarm integration (Alpha Release)
+   - Latest update: 12 days ago
+
+2. **[ruv-swarm](https://www.npmjs.com/package/ruv-swarm)** - v1.0.18
+   - High-performance neural network swarm orchestration in WebAssembly
+   - Latest update: 1 month ago
+
+3. **[cuda-wasm](https://www.npmjs.com/package/cuda-wasm)** - v1.1.1
+   - High-performance CUDA to WebAssembly/WebGPU transpiler with Rust safety
+   - Run GPU kernels in browsers and Node.js
+   - Latest update: 1 month ago
+
+4. **[@agentics.org/sparc2](https://www.npmjs.com/package/@agentics.org/sparc2)** - v2.0.25
+   - SPARC 2.0 - Autonomous Vector Coding Agent + MCP
+   - Vectorized AI code analysis and intelligent coding agent framework
+   - Latest update: 2 months ago
+
+5. **[qudag](https://www.npmjs.com/package/qudag)** - v1.2.1
+   - QuDAG - Quantum-Resistant Distributed Communication Platform
+   - Latest update: 2 months ago
+
+6. **[create-sparc](https://www.npmjs.com/package/create-sparc)** - v1.2.4
+   - NPX package to scaffold new projects with SPARC methodology structure
+   - Latest update: 3 months ago
+
+7. **[vscode-remote-mcp](https://www.npmjs.com/package/vscode-remote-mcp)** - v1.0.4
+   - Enhanced MCP server for VSCode Remote integration
+   - Latest update: 4 months ago
+
+8. **[@agentics.org/agentic-mcp](https://www.npmjs.com/package/@agentics.org/agentic-mcp)** - v1.0.4
+   - Agentic MCP Server with advanced AI capabilities
+   - Includes web search, summarization, database querying, and customer support
+   - Latest update: 5 months ago
+
+9. **[dspy.ts](https://www.npmjs.com/package/dspy.ts)** - v0.1.3
+   - DSPy.ts - Declarative Self-Learning TypeScript
+   - Framework for compositional LM pipelines with self-improving prompt strategies
+   - Latest update: 6 months ago
+
+10. **[@ruv/sparc-ui](https://www.npmjs.com/package/@ruv/sparc-ui)** - v0.1.4
+    - SPARC Framework UI Components
+    - Specification, Pseudocode, Architecture, Refinement, and Completion
+    - Latest update: 8 months ago
+
+11. **[agenticsjs](https://www.npmjs.com/package/agenticsjs)** - v1.0.5
+    - Powerful JavaScript library for intelligent interactive search with real-time results
+    - Advanced visualization capabilities
+    - Latest update: 1 year ago
+
+### Installation
+
+```bash
+# Install claude-flow (primary orchestrator)
+npm install claude-flow
+
+# Install swarm orchestration
+npm install ruv-swarm
+
+# Install GPU/WASM compute
+npm install cuda-wasm
+
+# Install SPARC framework tools
+npm install @agentics.org/sparc2 create-sparc @ruv/sparc-ui
+
+# Install MCP servers
+npm install @agentics.org/agentic-mcp vscode-remote-mcp
+
+# Install DSPy framework
+npm install dspy.ts
+
+# Install quantum-resistant communication
+npm install qudag
+
+# Install search utilities
+npm install agenticsjs
+```
+
+**Note**: These are the only verified packages published by @ruvnet on NPM. Other packages mentioned in previous sections may be planned modules, experimental prototypes, or part of private repositories not yet published to the public NPM registry.
+
+---
+
 ## System Architecture Overview
 
 **claude-flow** is a multi-agent AI development framework that orchestrates complex workflows through a layered architecture:
@@ -417,4 +505,3 @@ Most modules depend on `@ruvector/core` and `ruvector`. Start with these, then a
 This architecture is modular and extensible. As new modules are added or roles evolve, update this documentation to reflect current system design. Always verify integration points when upgrading dependencies.
 
 **Last Updated**: December 2024
-
