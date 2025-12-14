@@ -1,0 +1,196 @@
+# Iris Optimization Configuration for API-to-WebChat Middleware
+# Purpose: Optimize AI middleware that analyzes, debugs, routes, scales, and processes API calls to web chat interfaces
+
+optimization:
+  strategy: ['ax', 'dspy', 'grid']
+  
+  # Target components for optimization
+  targets:
+    - name: "api_gateway"
+      description: "Universal API Gateway with format detection and conversion"
+      searchSpace:
+        parameters:
+          - name: "request_timeout"
+            type: "range"
+            bounds: [1.0, 30.0]
+            log_scale: false
+          - name: "batch_size"
+            type: "range"
+            bounds: [1, 100]
+            log_scale: false
+          - name: "format_detection_confidence_threshold"
+            type: "range"
+            bounds: [0.7, 0.99]
+            log_scale: false
+    
+    - name: "load_balancer"
+      description: "Load balancer with priority routing and health checking"
+      searchSpace:
+        parameters:
+          - name: "health_check_interval_seconds"
+            type: "range"
+            bounds: [10, 120]
+            log_scale: false
+          - name: "circuit_breaker_failure_threshold"
+            type: "range"
+            bounds: [3, 20]
+            log_scale: false
+          - name: "circuit_breaker_timeout_seconds"
+            type: "range"
+            bounds: [30, 300]
+            log_scale: false
+          - name: "priority_weight_multiplier"
+            type: "range"
+            bounds: [1.0, 5.0]
+            log_scale: false
+          - name: "session_affinity_ttl_minutes"
+            type: "range"
+            bounds: [5, 60]
+            log_scale: false
+    
+    - name: "auto_scaler"
+      description: "Auto-scaling engine for dynamic resource allocation"
+      searchSpace:
+        parameters:
+          - name: "scale_up_threshold_percent"
+            type: "range"
+            bounds: [60, 90]
+            log_scale: false
+          - name: "scale_down_threshold_percent"
+            type: "range"
+            bounds: [10, 40]
+            log_scale: false
+          - name: "cooldown_minutes"
+            type: "range"
+            bounds: [1, 10]
+            log_scale: false
+          - name: "min_instances"
+            type: "range"
+            bounds: [1, 5]
+            log_scale: false
+          - name: "max_instances"
+            type: "range"
+            bounds: [10, 200]
+            log_scale: false
+    
+    - name: "response_processor"
+      description: "Response extraction and format conversion"
+      searchSpace:
+        parameters:
+          - name: "extraction_timeout_seconds"
+            type: "range"
+            bounds: [1.0, 15.0]
+            log_scale: false
+          - name: "retry_attempts"
+            type: "range"
+            bounds: [1, 5]
+            log_scale: false
+          - name: "retry_backoff_multiplier"
+            type: "range"
+            bounds: [1.5, 3.0]
+            log_scale: false
+
+  # Prompt optimization for AI components
+  prompts:
+    - name: "format_detection_prompt"
+      description: "Detect incoming API format (OpenAI/Anthropic/Gemini/Custom)"
+      initial: |
+        Analyze the following API request and determine its format:
+        Request: {request}
+        
+        Return one of: openai, anthropic, gemini, custom
+      
+      metrics:
+        - accuracy
+        - latency
+    
+    - name: "capability_matching_prompt"
+      description: "Match request capabilities to available endpoints"
+      initial: |
+        Given request requirements and available endpoints, select the best endpoint:
+        Request: {request}
+        Endpoints: {endpoints}
+        
+        Consider: tool support, model compatibility, rate limits, cost
+        Return: endpoint_id with reasoning
+      
+      metrics:
+        - success_rate
+        - cost_efficiency
+        - latency
+    
+    - name: "response_normalization_prompt"
+      description: "Normalize diverse web chat responses to standard format"
+      initial: |
+        Convert this web chat response to standard format:
+        Response: {raw_response}
+        Target Format: {target_format}
+        
+        Ensure all required fields are present and types match specification
+      
+      metrics:
+        - format_accuracy
+        - field_completeness
+
+  # Evaluation metrics
+  evaluation:
+    primary_metric: "throughput"
+    secondary_metrics:
+      - "latency_p99"
+      - "error_rate"
+      - "cost_per_request"
+    
+    constraints:
+      - metric: "latency_p99"
+        threshold: 5000  # ms
+      - metric: "error_rate"
+        threshold: 0.05  # 5%
+    
+    # Synthetic workload for testing
+    workload:
+      requests_per_second: 100
+      duration_minutes: 5
+      endpoint_distribution:
+        priority_1: 0.5
+        priority_2: 0.3
+        priority_3_to_10: 0.2
+
+  # DSPy specific configuration
+  dspy:
+    teleprompter: "MIPROv2"
+    num_candidates: 10
+    num_threads: 4
+    teacher_model: "gpt-4"
+    student_model: "gpt-3.5-turbo"
+    
+  # Ax Bayesian Optimization configuration
+  ax:
+    total_trials: 50
+    initialization_trials: 10
+    objective_threshold: 0.95
+    
+  # Grid search fallback
+  grid:
+    max_combinations: 100
+    sample_size: 0.2  # 20% of total space
+
+# AgentDB tracking configuration
+telemetry:
+  enabled: true
+  track_all_requests: false
+  sample_rate: 0.1  # Track 10% of requests
+  metrics:
+    - request_latency
+    - endpoint_selection_time
+    - format_conversion_time
+    - response_extraction_time
+    - total_pipeline_time
+    - cost_per_request
+    - success_rate
+  
+# Federated learning configuration
+federated:
+  enabled: false
+  share_learnings: false
+  sync_interval_hours: 24
+
