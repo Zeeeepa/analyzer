@@ -39,6 +39,18 @@ Comprehensive Benchmarking: Modern systems use benchmarks like SWE-Bench (code g
 Agentic Testing Platforms: Systems that autonomously discover, generate, and execute tests with features like self-healing scripts, visual testing, dynamic locators, and predictive risk analysis Test-Driven Agentic Development: Specification-as-code framework combining TDD, contract-driven development, and architectural fitness functions to provide guardrails for AI agents
 
 8 - Web2OpenAIapi request responders - 
+Make a more theral analysis viewing much more package files to be exactly sure -> 
+Flow should be like:
+"""" INITIALLY -> Agent vision model like for example z.ai glm-4.6v To Get 3 variables - ServiceURL / Login-Username-Email / Password
+It then should load url -> analyze with vision to find login page. Then input login/email and password - try pressing ok/confirm/submit or similar -> then visually inspect screenshot of webpage to confirm login wwas successfull. if no - for example captch to solve - it must visually resolve it like clicking coordinates, dragging etc. until it confirms that login was successful. THEN IT SAVES Cookies for the given account to use them everytime the account is used for inference retrieval. 
+Using These it should Create programically accessible flows
+
+1st flow send message - and retrieve response - this would translate as loading cookies - then visiting messaging url - inputting user's provided text to chat interface area field - submtting text - tracking "Send" button element state (indicating when response is retrieved - "the send button becomes of an initial state allowing user to send message as normally it changes state indicating that AI is responding - this allows knowing when response is finished" -> this response is copied and retrieved to the user. 
+ 2nd flow -> Change model - clicking on model selection interactive elemnt and selecting one fo available models.
+3rd flow -> new chat -> presses new chat or opens URL for new chat.
+FURTHER FLOWS SHOULD BE RETRIEVED DYNAMICALLY IN REGARDS TO THE SERVICE PROVIDER's specifics. Example qwen web chat interface allows selecting tools, or attaching files/images  etc these vary and should be verified by visual analysis step and then programically verified to be working and then actions saved and recorded into a single programically accessible action.
+
+
 
 9 - CONTEXT ENGINEERING & PROMPT OPTIMIZATION ⚠️ MEDIUM PRIORITY
 Context Window Management: Advanced systems address the challenge that multi-agent systems use 15× more tokens than single chats. This requires hierarchical summarization, selective preservation, and temporal coordination MongoDB
