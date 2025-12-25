@@ -858,5 +858,6 @@
 "@midscene/core",
 "midscene-pc",
 "@viz-js/viz",
-"@tokligence/gateway"
+"@tokligence/gateway",
+"@sylphx/coderag-mcp"
 ]
