@@ -28,9 +28,15 @@ from codegen.agents.agent import Agent
 # CONFIGURATION
 # ============================================================================
 
-# Codegen credentials
-ORG_ID = "323"
-API_TOKEN = "sk-92083737-4e5b-4a48-a2a1-f870a3a096a6"
+# Codegen credentials - MUST be set via environment variables for security
+ORG_ID = int(os.getenv("CODEGEN_ORG_ID", "0")) if os.getenv("CODEGEN_ORG_ID") else None
+API_TOKEN = os.getenv("CODEGEN_API_TOKEN")
+
+if not API_TOKEN:
+    print("❌ ERROR: CODEGEN_API_TOKEN environment variable not set")
+    print("   Please set: export CODEGEN_API_TOKEN='your-token'")
+    import sys
+    sys.exit(1)
 
 # Target location for analysis reports
 ANALYZER_REPO = "analyzer"
@@ -273,4 +279,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
