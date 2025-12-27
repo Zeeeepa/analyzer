@@ -244,7 +244,7 @@ def create_agent_run(
     repo_description: str,
     analysis_rules: str,
     dry_run: bool = False
-) -> Optional[str]:
+) -> Optional[Dict]:
     """
     Create a Codegen agent run for a specific repository analysis.
     
@@ -255,7 +255,7 @@ def create_agent_run(
         dry_run: If True, print prompt without creating agent run
         
     Returns:
-        Agent run ID if successful, None otherwise
+        Dict with task info if successful, None otherwise
     """
     prompt = create_analysis_prompt(repo_name, repo_description, analysis_rules)
     
@@ -273,20 +273,21 @@ def create_agent_run(
         # Create agent run with comprehensive prompt
         agent_task = agent.run(prompt=prompt)
         
-        # Get task/run information
-        if hasattr(agent_task, 'id'):
-            run_id = agent_task.id
-            print(f"✅ Agent run created: {run_id}")
-            return run_id
-        elif hasattr(agent_task, '__dict__'):
-            print(f"✅ Agent task created: {agent_task.__dict__}")
-            return str(agent_task)
-        else:
-            print(f"⚠️  Agent run created but format unknown: {agent_task}")
-            return str(agent_task)
+        # Return task object with proper tracking
+        task_info = {
+            'repo_name': repo_name,
+            'task': agent_task,
+            'task_id': getattr(agent_task, 'id', None),
+            'status': getattr(agent_task, 'status', 'unknown')
+        }
+        
+        print(f"✅ Agent run created: Task ID = {task_info['task_id']}, Status = {task_info['status']}")
+        return task_info
             
     except Exception as e:
         print(f"❌ Failed to create agent run for {repo_name}: {e}")
+        import traceback
+        traceback.print_exc()
         return None
 
 
@@ -351,6 +352,7 @@ def main():
     # Process each repository
     successful_runs = []
     failed_runs = []
+    active_tasks = []  # Track active tasks for monitoring
     
     for idx, repo in enumerate(repositories, 1):
         repo_name = repo.get('name', '')
@@ -366,15 +368,16 @@ def main():
         print(f"{'='*80}")
         
         # Create agent run
-        run_id = create_agent_run(
+        task_info = create_agent_run(
             repo_name=repo_name,
             repo_description=repo_description,
             analysis_rules=analysis_rules,
             dry_run=dry_run
         )
         
-        if run_id:
-            successful_runs.append((repo_name, run_id))
+        if task_info:
+            successful_runs.append((repo_name, task_info['task_id']))
+            active_tasks.append(task_info)
         else:
             failed_runs.append(repo_name)
         
@@ -382,6 +385,19 @@ def main():
         if idx < total_repos and not dry_run:
             print(f"⏳ Waiting {WAIT_BETWEEN_RUNS} seconds before next run...")
             time.sleep(WAIT_BETWEEN_RUNS)
+        
+        # Periodically check and log task statuses
+        if idx % 50 == 0 and active_tasks and not dry_run:
+            print(f"\n{'='*80}")
+            print(f"📊 Checking status of recent tasks...")
+            print(f"{'='*80}")
+            for task_info in active_tasks[-10:]:  # Check last 10 tasks
+                try:
+                    task_info['task'].refresh()
+                    status = task_info['task'].status
+                    print(f"  {task_info['repo_name']}: {status}")
+                except Exception as e:
+                    print(f"  {task_info['repo_name']}: Error checking status - {e}")
     
     # Summary
     print("\n" + "="*80)
@@ -404,17 +420,93 @@ def main():
     print(f"\n⏰ Completed at: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     print("="*80)
     
-    # Optional: Verify reports after completion
-    if "--verify" in sys.argv and not dry_run:
-        print("\n🔍 Verifying report creation...")
-        time.sleep(60)  # Wait for agents to complete
+    # Wait for tasks to complete and verify reports
+    if not dry_run and successful_runs:
+        print("\n" + "="*80)
+        print("⏳ WAITING FOR AGENT TASKS TO COMPLETE...")
+        print("="*80)
+        print(f"Created {len(successful_runs)} agent runs.")
+        print(f"Waiting for tasks to finish (checking every 30 seconds)...")
+        
+        # Save progress to file for resumability
+        progress_file = PROJECT_ROOT / "github_analysis" / "progress.json"
+        progress_data = {
+            'timestamp': datetime.now().isoformat(),
+            'total_repos': total_repos,
+            'successful_runs': [(name, task_id) for name, task_id in successful_runs],
+            'failed_runs': failed_runs
+        }
+        
+        try:
+            with open(progress_file, 'w') as f:
+                json.dump(progress_data, f, indent=2)
+            print(f"✅ Progress saved to {progress_file}")
+        except Exception as e:
+            print(f"⚠️  Could not save progress: {e}")
+        
+        # Periodic status checking
+        check_interval = 30  # seconds
+        max_wait_time = 7200  # 2 hours maximum
+        elapsed_time = 0
+        
+        while elapsed_time < max_wait_time:
+            time.sleep(check_interval)
+            elapsed_time += check_interval
+            
+            print(f"\n⏱️  Elapsed time: {elapsed_time // 60} minutes")
+            
+            # Check status of tasks
+            completed_count = 0
+            in_progress_count = 0
+            failed_count = 0
+            
+            for task_info in active_tasks[:10]:  # Sample first 10 tasks
+                try:
+                    task_info['task'].refresh()
+                    status = task_info['task'].status
+                    if status in ['completed', 'success']:
+                        completed_count += 1
+                    elif status in ['failed', 'error']:
+                        failed_count += 1
+                    else:
+                        in_progress_count += 1
+                except Exception as e:
+                    print(f"⚠️  Error checking task status: {e}")
+            
+            print(f"📊 Sample Status (first 10 tasks): Completed={completed_count}, In Progress={in_progress_count}, Failed={failed_count}")
+            
+            # Verify reports on disk
+            verified_count = 0
+            for repo_name, _ in successful_runs[:20]:  # Check first 20
+                if verify_report_exists(repo_name):
+                    verified_count += 1
+            
+            print(f"✅ Reports found on disk (first 20): {verified_count}/20")
+            
+            # If we have some reports, agents are working
+            if verified_count > 0:
+                print(f"✨ Great! Reports are being created. Continuing to monitor...")
+            
+            # Check if all sampled tasks are done
+            if completed_count + failed_count == 10:
+                print(f"\n🎉 Sample tasks completed! Agents are finishing up...")
+                break
+        
+        # Final verification
+        print("\n" + "="*80)
+        print("🔍 FINAL VERIFICATION")
+        print("="*80)
         
         verified_count = 0
         for repo_name, _ in successful_runs:
             if verify_report_exists(repo_name):
                 verified_count += 1
         
-        print(f"\n📊 Verification Results: {verified_count}/{len(successful_runs)} reports found")
+        print(f"\n📊 Final Results: {verified_count}/{len(successful_runs)} reports found on disk")
+        
+        if verified_count < len(successful_runs):
+            print(f"\n⚠️  {len(successful_runs) - verified_count} reports are still being generated or failed.")
+            print(f"Agent tasks continue running asynchronously. Check back later for complete results.")
 
 
 if __name__ == "__main__":
