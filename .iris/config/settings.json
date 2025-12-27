@@ -1,0 +1,37 @@
+{
+  "version": "0.6.0",
+  "project_name": "analyzer",
+  "user_id": "user_1765702373149",
+  "execution": {
+    "use_agentic_flow": true,
+    "use_agentdb": true,
+    "swarm_topology": "mesh",
+    "max_agents": 5,
+    "enable_learning": true,
+    "enable_caching": true,
+    "track_all_operations": true
+  },
+  "preferences": {
+    "auto_track_mcps": true,
+    "enable_agentdb": true,
+    "enable_supabase": false,
+    "cache_mcp_responses": true,
+    "max_cache_age_hours": 24
+  },
+  "claude_contexts": {
+    "strategy": "hierarchical_merge",
+    "auto_detect": true,
+    "priority_order": [
+      "local",
+      "parent",
+      "root"
+    ]
+  },
+  "iris_prime": {
+    "auto_evaluate": true,
+    "evaluation_interval_hours": 24,
+    "drift_threshold": 0.15,
+    "auto_optimize_wrappers": true,
+    "generate_compound_skills": true
+  }
+}
