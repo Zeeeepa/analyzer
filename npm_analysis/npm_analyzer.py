@@ -154,10 +154,7 @@ def create_agent_run(package_name: str) -> Dict:
     """
     try:
         # Initialize agent
-        agent = Agent(
-            org_id=ORG_ID,
-            api_token=API_TOKEN
-        )
+        agent = Agent(token=API_TOKEN, org_id=ORG_ID)
         
         # Format instructions with package details
         instructions = ANALYSIS_INSTRUCTIONS.format(
