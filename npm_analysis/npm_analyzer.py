@@ -164,10 +164,7 @@ def create_agent_run(package_name: str) -> Dict:
         )
         
         # Create agent run
-        run = agent.create_run(
-            message=instructions,
-            repo=ANALYZER_REPO
-        )
+        run = agent.run(prompt=instructions)
         
         return {
             "package": package_name,
