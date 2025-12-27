@@ -9,10 +9,11 @@ This document provides comprehensive instructions for analyzing NPM packages usi
 
 ### Target Repository Information
 - **Analyzer Repo**: `Zeeeepa/analyzer`
-- **Target Branch**: `npm_analysis`
+- **Target Branch**: `analysis` (NOT npm_analysis, NOT main)
 - **Reports Location**: `npm_analysis/packages/` directory
 - **Report Format**: Markdown (`.md`)
 - **Naming Convention**: `{package-name}_analysis.md`
+- **CRITICAL**: All reports MUST be saved to the `analysis` branch
 
 ### Data Sources
 1. **NPM.json**: Located at root of `Zeeeepa/analyzer` repository

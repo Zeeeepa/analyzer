@@ -201,15 +201,17 @@ npm_analysis/packages/<package-name>_analysis.md
 ## Monitoring
 
 - View all runs at: https://codegen.com/runs
-- Each agent commits to the `npm_analysis` branch
+- Each agent commits to the **`analysis`** branch (CRITICAL!)
 - Reports appear in `packages/` as agents complete
+- Verify reports with: `git fetch origin analysis && git checkout analysis`
 
 ## Statistics
 
-- **Total Packages**: 863 (from NPM.json)
-- **Estimated Time**: ~29 minutes (at 2s/package)
+- **Total Packages**: 861 (from NPM.json)
+- **Estimated Time**: ~43 minutes (at 3s/package)
 - **Reports Location**: `npm_analysis/packages/`
-- **Branch**: `npm_analysis`
+- **Target Branch**: **`analysis`** (NOT npm_analysis, NOT main!)
+- **Repository**: `Zeeeepa/analyzer`
 
 ## Notes
 

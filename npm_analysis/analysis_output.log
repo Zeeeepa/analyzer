@@ -1,0 +1,139 @@
+================================================================================
+NPM Package Analysis - Batch Processing
+================================================================================
+
+Configuration:
+  - Organization ID: 323
+  - Target Repo: analyzer
+  - Target Branch: npm_analysis
+  - Reports Folder: npm_analysis/packages
+  - Wait Between Runs: 2s
+  - NPM JSON Path: ../NPM.json
+================================================================================
+✅ Loaded 861 NPM packages from ../NPM.json
+
+🚀 Starting analysis for 861 NPM packages...
+⏱️  Estimated time: 28.7 minutes
+================================================================================
+
+[1/861] Processing: lean-agentic
+  NPM URL: https://www.npmjs.com/package/lean-agentic
+  ✅ Agent run created: 152938
+  🔗 View at: https://codegen.com/runs/152938
+  📊 Progress: 1 successful, 0 failed
+  ⏳ Waiting 2s before next run...
+
+[2/861] Processing: scordi-extension
+  NPM URL: https://www.npmjs.com/package/scordi-extension
+  ✅ Agent run created: 152939
+  🔗 View at: https://codegen.com/runs/152939
+  📊 Progress: 2 successful, 0 failed
+  ⏳ Waiting 2s before next run...
+
+[3/861] Processing: qevo
+  NPM URL: https://www.npmjs.com/package/qevo
+  ✅ Agent run created: 152940
+  🔗 View at: https://codegen.com/runs/152940
+  📊 Progress: 3 successful, 0 failed
+  ⏳ Waiting 2s before next run...
+
+[4/861] Processing: secretscout
+  NPM URL: https://www.npmjs.com/package/secretscout
+  ✅ Agent run created: 152941
+  🔗 View at: https://codegen.com/runs/152941
+  📊 Progress: 4 successful, 0 failed
+  ⏳ Waiting 2s before next run...
+
+[5/861] Processing: rag-system-pgvector
+  NPM URL: https://www.npmjs.com/package/rag-system-pgvector
+  ✅ Agent run created: 152942
+  🔗 View at: https://codegen.com/runs/152942
+  📊 Progress: 5 successful, 0 failed
+  ⏳ Waiting 2s before next run...
+
+[6/861] Processing: memento-mcp-server
+  NPM URL: https://www.npmjs.com/package/memento-mcp-server
+  ✅ Agent run created: 152943
+  🔗 View at: https://codegen.com/runs/152943
+  📊 Progress: 6 successful, 0 failed
+  ⏳ Waiting 2s before next run...
+
+[7/861] Processing: uniqhtt
+  NPM URL: https://www.npmjs.com/package/uniqhtt
+  ✅ Agent run created: 152944
+  🔗 View at: https://codegen.com/runs/152944
+  📊 Progress: 7 successful, 0 failed
+  ⏳ Waiting 2s before next run...
+
+[8/861] Processing: michie
+  NPM URL: https://www.npmjs.com/package/michie
+  ✅ Agent run created: 152945
+  🔗 View at: https://codegen.com/runs/152945
+  📊 Progress: 8 successful, 0 failed
+  ⏳ Waiting 2s before next run...
+
+[9/861] Processing: raverse-mcp-server
+  NPM URL: https://www.npmjs.com/package/raverse-mcp-server
+  ✅ Agent run created: 152946
+  🔗 View at: https://codegen.com/runs/152946
+  📊 Progress: 9 successful, 0 failed
+  ⏳ Waiting 2s before next run...
+
+[10/861] Processing: tinkaton
+  NPM URL: https://www.npmjs.com/package/tinkaton
+  ✅ Agent run created: 152947
+  🔗 View at: https://codegen.com/runs/152947
+  📊 Progress: 10 successful, 0 failed
+  ⏳ Waiting 2s before next run...
+
+[11/861] Processing: webcrack-unpack
+  NPM URL: https://www.npmjs.com/package/webcrack-unpack
+  ✅ Agent run created: 152948
+  🔗 View at: https://codegen.com/runs/152948
+  📊 Progress: 11 successful, 0 failed
+  ⏳ Waiting 2s before next run...
+
+[12/861] Processing: @xi0yu/jebmcp-proxy
+  NPM URL: https://www.npmjs.com/package/@xi0yu/jebmcp-proxy
+  ✅ Agent run created: 152949
+  🔗 View at: https://codegen.com/runs/152949
+  📊 Progress: 12 successful, 0 failed
+  ⏳ Waiting 2s before next run...
+
+[13/861] Processing: ignorant
+  NPM URL: https://www.npmjs.com/package/ignorant
+  ✅ Agent run created: 152951
+  🔗 View at: https://codegen.com/runs/152951
+  📊 Progress: 13 successful, 0 failed
+  ⏳ Waiting 2s before next run...
+
+[14/861] Processing: @roeintheglasses/re-script
+  NPM URL: https://www.npmjs.com/package/@roeintheglasses/re-script
+  ✅ Agent run created: 152953
+  🔗 View at: https://codegen.com/runs/152953
+  📊 Progress: 14 successful, 0 failed
+  ⏳ Waiting 2s before next run...
+
+[15/861] Processing: @sleeyax/webcrack
+  NPM URL: https://www.npmjs.com/package/@sleeyax/webcrack
+  ✅ Agent run created: 152955
+  🔗 View at: https://codegen.com/runs/152955
+  📊 Progress: 15 successful, 0 failed
+  ⏳ Waiting 2s before next run...
+
+[16/861] Processing: reverse-machine
+  NPM URL: https://www.npmjs.com/package/reverse-machine
+  ✅ Agent run created: 152957
+  🔗 View at: https://codegen.com/runs/152957
+  📊 Progress: 16 successful, 0 failed
+  ⏳ Waiting 2s before next run...
+
+[17/861] Processing: @rdmptv/claude-flow
+  NPM URL: https://www.npmjs.com/package/@rdmptv/claude-flow
+  ✅ Agent run created: 152958
+  🔗 View at: https://codegen.com/runs/152958
+  📊 Progress: 17 successful, 0 failed
+  ⏳ Waiting 2s before next run...
+
+[18/861] Processing: @cojacklabs/autoforge
+  NPM URL: https://www.npmjs.com/package/@cojacklabs/autoforge
