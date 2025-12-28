@@ -65,7 +65,7 @@ WAIT_BETWEEN_RUNS = 3  # seconds
 # Files
 NPM_JSON_PATH = "../NPM.json"
 ANALYSIS_RULES_PATH = "ANALYSIS_RULES.md"
-ANALYSIS_LOGS_PATH = "npm_analysis/analysis_logs.md"
+ANALYSIS_LOGS_PATH = "analysis_logs.md"
 
 # ============================================================================
 # ANALYSIS LOGS MANAGEMENT
@@ -171,8 +171,8 @@ def read_analysis_logs() -> Tuple[Dict[str, Dict], int]:
                 if status == '✓' and index > last_completed_index:
                     last_completed_index = index
     
-    completed = len([s for s in status_dict.values() if s['status'] == '✓'])
-    failed = len([s for s in status_dict.values() if s['status'] == '✗'])
+    completed = sum(1 for s in status_dict.values() if s['status'] == '✓')
+    failed = sum(1 for s in status_dict.values() if s['status'] == '✗')
     
     print(f"✅ Loaded analysis logs:")
     print(f"   - Completed: {completed}")
@@ -256,10 +256,10 @@ def get_pending_packages(all_packages: List[Dict], status_dict: Dict) -> List[Di
     for idx, package in enumerate(all_packages, 1):
         pkg_name = package.get("name", package) if isinstance(package, dict) else package
         
-        # Check if already processed
+        # Check if already successfully processed
         if pkg_name in status_dict:
-            if status_dict[pkg_name]['status'] in ['✓', '✗']:
-                continue  # Skip completed or failed
+            if status_dict[pkg_name]['status'] == '✓':
+                continue  # Skip completed (but not failed - allow retry)
         
         # Add with index
         pkg_dict = package if isinstance(package, dict) else {"name": package}
@@ -563,4 +563,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
