@@ -48,10 +48,10 @@ from codegen.agents.agent import Agent
 ORG_ID = int(os.getenv("CODEGEN_ORG_ID", "0")) if os.getenv("CODEGEN_ORG_ID") else None
 API_TOKEN = os.getenv("CODEGEN_API_TOKEN", "sk-92083737-4e5b-4a48-a2a1-f870a3a096a6")
 
-# Target configuration - UPDATED TO USE 'analysis' BRANCH
+# Target configuration - UPDATED TO USE 'repo-analysis' BRANCH
 ANALYZER_REPO = "analyzer"
 ANALYZER_OWNER = "Zeeeepa"
-ANALYSIS_BRANCH = "analysis"  # Changed from 'github_analysis'
+ANALYSIS_BRANCH = "repo-analysis"  # Branch for storing analysis reports
 REPORTS_FOLDER = "repos"
 
 # Paths
