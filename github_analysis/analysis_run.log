@@ -1,0 +1,81 @@
+================================================================================
+🤖 Codegen Repository Analysis Automation
+================================================================================
+Started at: 2025-12-27 23:29:11
+
+📂 Loading configuration files...
+✅ Loaded GIT.json: 971 repositories
+✅ Loaded ANALYSIS_RULES.md (18366 characters)
+
+📊 Found 971 repositories to analyze
+
+
+================================================================================
+📦 Processing (1/971): analyzer
+📝 Description: analyzer...
+================================================================================
+📝 Creating agent run for: analyzer
+✅ Agent run created: 153064
+⏳ Waiting 3 seconds before next run...
+
+================================================================================
+📦 Processing (2/971): snow-flow
+📝 Description: This mode serves as a code-first swarm orchestration layer, enabling SnowCode to write, edit, test, ...
+================================================================================
+📝 Creating agent run for: snow-flow
+✅ Agent run created: 153065
+⏳ Waiting 3 seconds before next run...
+
+================================================================================
+📦 Processing (3/971): APIJSON
+📝 Description: 🏆 实时 零代码、全功能、强安全 ORM 库 🚀 后端接口和文档零代码，前端(客户端) 定制返回 JSON 的数据和结构 🏆 Real-Time coding-free, powerful and s...
+================================================================================
+📝 Creating agent run for: APIJSON
+✅ Agent run created: 153066
+⏳ Waiting 3 seconds before next run...
+
+================================================================================
+📦 Processing (4/971): vectordatabase-sdk-python
+📝 Description: Tencent VectorDB Python SDK...
+================================================================================
+📝 Creating agent run for: vectordatabase-sdk-python
+✅ Agent run created: 153067
+⏳ Waiting 3 seconds before next run...
+
+================================================================================
+📦 Processing (5/971): hello-agents
+📝 Description: 📚 《从零开始构建智能体》——从零开始的智能体原理与实践教程...
+================================================================================
+📝 Creating agent run for: hello-agents
+✅ Agent run created: 153068
+⏳ Waiting 3 seconds before next run...
+
+================================================================================
+📦 Processing (6/971): rendercv
+📝 Description: CV/resume generator for academics and engineers, YAML to PDF...
+================================================================================
+📝 Creating agent run for: rendercv
+✅ Agent run created: 153069
+⏳ Waiting 3 seconds before next run...
+
+================================================================================
+📦 Processing (7/971): Yuxi-Know
+📝 Description: 结合LightRAG 知识库的知识图谱智能体平台。 An agent platform that integrates a LightRAG knowledge base and knowledge ...
+================================================================================
+📝 Creating agent run for: Yuxi-Know
+✅ Agent run created: 153070
+⏳ Waiting 3 seconds before next run...
+
+================================================================================
+📦 Processing (8/971): s-ui
+📝 Description: An advanced Web Panel • Built for SagerNet/Sing-Box...
+================================================================================
+📝 Creating agent run for: s-ui
+✅ Agent run created: 153071
+⏳ Waiting 3 seconds before next run...
+
+================================================================================
+📦 Processing (9/971): arxiv
+📝 Description: arxiv tool...
+================================================================================
+📝 Creating agent run for: arxiv

@@ -9,7 +9,7 @@ This document provides comprehensive instructions for analyzing GitHub repositor
 
 ### Target Repository Information
 - **Analyzer Repo**: `Zeeeepa/analyzer`
-- **Target Branch**: `github_analysis`
+- **Target Branch**: `analysis`
 - **Reports Location**: `repos/` directory
 - **Report Format**: Markdown (`.md`)
 
@@ -467,7 +467,7 @@ repomix --include "**/*.md,**/docs/**,README*,CONTRIBUTING*,CHANGELOG*" --output
 ### Report Naming Convention
 - Format: `{repo-name}-analysis.md`
 - Location: `analyzer/repos/{repo-name}-analysis.md`
-- Branch: `github_analysis`
+- Branch: `analysis`
 
 ### Evidence-Based Analysis Requirements
 1. **Quote Code Snippets**: Include relevant code examples
@@ -518,7 +518,7 @@ repomix --include "**/*.md,**/docs/**,README*,CONTRIBUTING*,CHANGELOG*" --output
    ```bash
    # Checkout analysis branch
    cd /path/to/analyzer
-   git checkout github_analysis
+   git checkout analysis
    
    # Save report
    cp /tmp/analysis/{REPO_NAME}-analysis.md repos/{REPO_NAME}-analysis.md
@@ -526,7 +526,7 @@ repomix --include "**/*.md,**/docs/**,README*,CONTRIBUTING*,CHANGELOG*" --output
    # Commit and push
    git add repos/{REPO_NAME}-analysis.md
    git commit -m "Add analysis report for {REPO_NAME}"
-   git push origin github_analysis
+   git push origin analysis
    ```
 
 3. **Verify All Reports Created**
@@ -658,4 +658,3 @@ This comprehensive guide provides everything needed to:
 5. ✅ Automate the entire analysis workflow
 
 Follow these rules systematically to produce high-quality, actionable repository analysis reports.
-
