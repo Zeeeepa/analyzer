@@ -2,14 +2,11 @@
 NPM Package Analysis Script using Codegen API
 ==============================================
 
-This script creates Codegen agent runs for multiple NPM packages sequentially.
-Each agent run receives instructions loaded from ANALYSIS_RULES.md to:
-1. Download the package compressed from npmjs.com
-2. Extract the package
-3. Run repomix on the package
-4. Analyze its structure following comprehensive rules
-5. Create a report in analyzer project npm_analysis/packages/<packagename>_analysis.md
-6. Save to the 'analysis' branch (CRITICAL!)
+This script creates Codegen agent runs for multiple NPM packages with:
+- Progress tracking in analysis_logs.md
+- Resume capability from last successful package
+- Proper error handling and logging
+- Reports saved to 'analysis' branch
 
 Prerequisites:
 - pip install codegen
@@ -21,11 +18,11 @@ Usage:
     # Test with first 5 packages
     python npm_analyzer.py --limit=5
     
-    # Resume from a specific package
-    python npm_analyzer.py --resume=50
+    # Resume from logs (automatic)
+    python npm_analyzer.py
     
-    # Dry run (no actual API calls)
-    python npm_analyzer.py --dry-run
+    # Force restart from beginning
+    python npm_analyzer.py --restart
 """
 
 import time
@@ -34,7 +31,7 @@ import os
 import sys
 import argparse
 from datetime import datetime
-from typing import List, Dict, Optional
+from typing import List, Dict, Optional, Tuple
 from pathlib import Path
 
 try:
@@ -48,7 +45,7 @@ except ImportError:
 # CONFIGURATION
 # ============================================================================
 
-# Codegen credentials - MUST be set via environment variables for security
+# Codegen credentials
 ORG_ID = int(os.getenv("CODEGEN_ORG_ID", "0")) if os.getenv("CODEGEN_ORG_ID") else None
 API_TOKEN = os.getenv("CODEGEN_API_TOKEN")
 
@@ -57,32 +54,226 @@ if not API_TOKEN:
     print("   Please set: export CODEGEN_API_TOKEN='your-token'")
     sys.exit(1)
 
-# Target location for analysis reports - CRITICAL: Use 'analysis' branch!
+# Target configuration
 ANALYZER_REPO = "Zeeeepa/analyzer"
-ANALYZER_BRANCH = "analysis"  # NOT npm_analysis, NOT main!
+ANALYZER_BRANCH = "analysis"  # CRITICAL: Must be 'analysis' branch!
 REPORTS_FOLDER = "npm_analysis/packages"
 
-# Timing configuration
-WAIT_BETWEEN_RUNS = 3  # seconds between creating agent runs
+# Timing
+WAIT_BETWEEN_RUNS = 3  # seconds
 
-# Path to NPM package list and analysis rules
+# Files
 NPM_JSON_PATH = "../NPM.json"
 ANALYSIS_RULES_PATH = "ANALYSIS_RULES.md"
-
-# Progress file to resume from failures
-PROGRESS_FILE = "npm_analysis_progress.json"
+ANALYSIS_LOGS_PATH = "npm_analysis/analysis_logs.md"
 
 # ============================================================================
-# LOAD ANALYSIS RULES FROM FILE
+# ANALYSIS LOGS MANAGEMENT
+# ============================================================================
+
+def init_analysis_logs(packages: List[Dict]) -> None:
+    """
+    Initialize or create analysis_logs.md with all packages.
+    
+    Args:
+        packages: List of package dictionaries
+    """
+    logs_path = Path(ANALYSIS_LOGS_PATH)
+    
+    # If logs exist, don't recreate
+    if logs_path.exists():
+        print(f"✅ Found existing {ANALYSIS_LOGS_PATH}")
+        return
+    
+    # Create logs directory if needed
+    logs_path.parent.mkdir(parents=True, exist_ok=True)
+    
+    # Create initial logs file
+    content = f"""# NPM Package Analysis Logs
+
+**Repository**: {ANALYZER_REPO}
+**Target Branch**: {ANALYZER_BRANCH}
+**Reports Location**: {REPORTS_FOLDER}
+
+## Analysis Status
+
+Total Packages: {len(packages)}
+
+### Legend
+- ✓ = Agent run created successfully
+- ✗ = Failed to create agent run
+- ⏳ = Pending analysis
+
+---
+
+## Package Status
+
+| # | Package Name | Status | Agent Run ID | Timestamp |
+|---|--------------|--------|--------------|-----------|
+"""
+    
+    # Add all packages as pending
+    for idx, package in enumerate(packages, 1):
+        pkg_name = package.get("name", package) if isinstance(package, dict) else package
+        content += f"| {idx} | `{pkg_name}` | ⏳ | - | - |\n"
+    
+    content += f"""
+---
+
+**Last Updated**: {datetime.now().isoformat()}
+**Status Summary**: 0 completed, 0 failed, {len(packages)} pending
+"""
+    
+    logs_path.write_text(content, encoding='utf-8')
+    print(f"✅ Created {ANALYSIS_LOGS_PATH} with {len(packages)} packages")
+
+def read_analysis_logs() -> Tuple[Dict[str, Dict], int]:
+    """
+    Read analysis_logs.md and parse status.
+    
+    Returns:
+        Tuple of (status_dict, last_completed_index)
+        status_dict: {package_name: {status, run_id, timestamp}}
+        last_completed_index: Index of last successfully completed package
+    """
+    logs_path = Path(ANALYSIS_LOGS_PATH)
+    
+    if not logs_path.exists():
+        return {}, 0
+    
+    content = logs_path.read_text(encoding='utf-8')
+    status_dict = {}
+    last_completed_index = 0
+    
+    # Parse table rows
+    lines = content.split('\n')
+    in_table = False
+    
+    for line in lines:
+        if line.startswith('|') and '|' in line[1:]:
+            parts = [p.strip() for p in line.split('|')[1:-1]]  # Remove empty first/last
+            
+            if len(parts) >= 5 and parts[0].isdigit():
+                index = int(parts[0])
+                pkg_name = parts[1].strip('`')
+                status = parts[2].strip()
+                run_id = parts[3].strip()
+                timestamp = parts[4].strip()
+                
+                status_dict[pkg_name] = {
+                    'index': index,
+                    'status': status,
+                    'run_id': run_id if run_id != '-' else None,
+                    'timestamp': timestamp if timestamp != '-' else None
+                }
+                
+                # Track last completed
+                if status == '✓' and index > last_completed_index:
+                    last_completed_index = index
+    
+    completed = len([s for s in status_dict.values() if s['status'] == '✓'])
+    failed = len([s for s in status_dict.values() if s['status'] == '✗'])
+    
+    print(f"✅ Loaded analysis logs:")
+    print(f"   - Completed: {completed}")
+    print(f"   - Failed: {failed}")
+    print(f"   - Last completed index: {last_completed_index}")
+    
+    return status_dict, last_completed_index
+
+def update_analysis_logs(package: Dict, status: str, run_id: Optional[str] = None, 
+                        error: Optional[str] = None) -> None:
+    """
+    Update analysis_logs.md for a specific package.
+    
+    Args:
+        package: Package dict with name and index
+        status: '✓' for success, '✗' for failure
+        run_id: Agent run ID if successful
+        error: Error message if failed
+    """
+    logs_path = Path(ANALYSIS_LOGS_PATH)
+    
+    if not logs_path.exists():
+        print(f"⚠️  Warning: {ANALYSIS_LOGS_PATH} not found, cannot update")
+        return
+    
+    content = logs_path.read_text(encoding='utf-8')
+    lines = content.split('\n')
+    
+    pkg_name = package.get("name", package) if isinstance(package, dict) else package
+    pkg_index = package.get("index", 0)
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    
+    # Find and update the package line
+    updated = False
+    for i, line in enumerate(lines):
+        if line.startswith('|') and f'`{pkg_name}`' in line:
+            parts = [p.strip() for p in line.split('|')[1:-1]]
+            if len(parts) >= 5:
+                # Rebuild line with new status
+                run_id_str = run_id if run_id else '-'
+                lines[i] = f"| {parts[0]} | `{pkg_name}` | {status} | {run_id_str} | {timestamp} |"
+                updated = True
+                break
+    
+    if not updated:
+        print(f"⚠️  Warning: Could not find package {pkg_name} in logs")
+        return
+    
+    # Update summary line
+    for i, line in enumerate(lines):
+        if line.startswith('**Status Summary**'):
+            # Count statuses
+            completed = sum(1 for l in lines if '| ✓ |' in l)
+            failed = sum(1 for l in lines if '| ✗ |' in l)
+            pending = sum(1 for l in lines if '| ⏳ |' in l)
+            lines[i] = f"**Status Summary**: {completed} completed, {failed} failed, {pending} pending"
+            break
+    
+    # Update timestamp
+    for i, line in enumerate(lines):
+        if line.startswith('**Last Updated**'):
+            lines[i] = f"**Last Updated**: {datetime.now().isoformat()}"
+            break
+    
+    # Write back
+    logs_path.write_text('\n'.join(lines), encoding='utf-8')
+
+def get_pending_packages(all_packages: List[Dict], status_dict: Dict) -> List[Dict]:
+    """
+    Get list of packages that haven't been analyzed yet.
+    
+    Args:
+        all_packages: Full list of packages
+        status_dict: Status dictionary from logs
+        
+    Returns:
+        List of pending packages with index
+    """
+    pending = []
+    
+    for idx, package in enumerate(all_packages, 1):
+        pkg_name = package.get("name", package) if isinstance(package, dict) else package
+        
+        # Check if already processed
+        if pkg_name in status_dict:
+            if status_dict[pkg_name]['status'] in ['✓', '✗']:
+                continue  # Skip completed or failed
+        
+        # Add with index
+        pkg_dict = package if isinstance(package, dict) else {"name": package}
+        pkg_dict['index'] = idx
+        pending.append(pkg_dict)
+    
+    return pending
+
+# ============================================================================
+# LOAD ANALYSIS RULES
 # ============================================================================
 
 def load_analysis_rules() -> str:
-    """
-    Load comprehensive analysis rules from ANALYSIS_RULES.md
-    
-    Returns:
-        Analysis rules content as string
-    """
+    """Load comprehensive analysis rules from ANALYSIS_RULES.md"""
     rules_path = Path(__file__).parent / ANALYSIS_RULES_PATH
     
     try:
@@ -93,399 +284,282 @@ def load_analysis_rules() -> str:
         return rules
     except FileNotFoundError:
         print(f"❌ ERROR: ANALYSIS_RULES.md not found at {rules_path}")
-        print("   Please ensure ANALYSIS_RULES.md exists in npm_analysis/ directory")
         sys.exit(1)
     except Exception as e:
         print(f"❌ ERROR: Failed to load ANALYSIS_RULES.md: {e}")
         sys.exit(1)
 
-# Load rules at module level
 ANALYSIS_RULES = load_analysis_rules()
 
 # ============================================================================
-# ANALYSIS INSTRUCTIONS TEMPLATE
+# CREATE ANALYSIS PROMPT
 # ============================================================================
 
-def create_analysis_prompt(package_name: str, package_description: str = "") -> str:
-    """
-    Create comprehensive analysis prompt using ANALYSIS_RULES.md
+def create_analysis_prompt(package: Dict) -> str:
+    """Create comprehensive analysis prompt with rules."""
     
-    Args:
-        package_name: Name of NPM package
-        package_description: Description from NPM.json (optional)
-        
-    Returns:
-        Formatted prompt with rules and package details
-    """
+    pkg_name = package.get("name", package) if isinstance(package, dict) else package
+    pkg_desc = package.get("description", "") if isinstance(package, dict) else ""
     
     prompt = f"""# NPM Package Analysis Task
 
 ## Package Information
-- **Package Name**: {package_name}
-- **NPM URL**: https://www.npmjs.com/package/{package_name}
-- **Registry URL**: https://registry.npmjs.org/{package_name}
+- **Package Name**: {pkg_name}
+- **NPM URL**: https://www.npmjs.com/package/{pkg_name}
+- **Registry URL**: https://registry.npmjs.org/{pkg_name}
 """
     
-    if package_description:
-        prompt += f"- **Description**: {package_description}\n"
+    if pkg_desc:
+        prompt += f"- **Description**: {pkg_desc}\n"
     
     prompt += f"""
 ## Your Mission
 
-You are analyzing the NPM package "{package_name}" and creating a comprehensive analysis report.
+Analyze NPM package "{pkg_name}" and create a comprehensive analysis report.
 
 **CRITICAL INSTRUCTIONS:**
 1. This is an NPM PACKAGE analysis, NOT a GitHub repository
-2. You MUST save the report to the **`{ANALYZER_BRANCH}`** branch
-3. Report location: `{ANALYZER_REPO}/{REPORTS_FOLDER}/{package_name}_analysis.md`
-4. Follow ALL analysis rules provided below
+2. You MUST save the report to the **`{ANALYZER_BRANCH}`** branch  
+3. Repository: `{ANALYZER_REPO}`
+4. Report path: `{REPORTS_FOLDER}/{pkg_name}_analysis.md`
+5. Follow ALL analysis rules below
 
-## Analysis Steps
+## Steps to Complete
 
 ### Step 1: Download Package
 ```bash
-# Download from NPM registry
-npm pack {package_name}
-# OR use direct registry URL
-wget https://registry.npmjs.org/{package_name}/-/{package_name}-latest.tgz
+npm pack {pkg_name}
+# OR
+wget https://registry.npmjs.org/{pkg_name}/-/{pkg_name}-latest.tgz
 ```
 
 ### Step 2: Extract Package
 ```bash
-tar -xzf {package_name}-*.tgz
+tar -xzf {pkg_name}-*.tgz
 cd package/
 ```
 
 ### Step 3: Run Repomix Analysis
 ```bash
-# Install if needed
 npm install -g repomix
-
-# Run comprehensive analysis
 repomix --style markdown --output analysis/full-package.txt
-
-# Targeted analyses (as per rules)
-repomix --include "src/**,lib/**,index.js,*.ts" --output analysis/src-only.txt
-repomix --include "package.json,tsconfig.json,*.config.js" --output analysis/configs.txt
 ```
 
 ### Step 4: Create Comprehensive Report
 
-**REPORT LOCATION (CRITICAL!):**
+**SAVE TO:**
 - Repository: `{ANALYZER_REPO}`
-- Branch: `{ANALYZER_BRANCH}` (NOT main, NOT npm_analysis!)
-- File: `{REPORTS_FOLDER}/{package_name}_analysis.md`
-
-Use the analysis rules below to create a thorough, evidence-based report.
+- Branch: **`{ANALYZER_BRANCH}`** (NOT main!)
+- Path: `{REPORTS_FOLDER}/{pkg_name}_analysis.md`
 
 ---
 
-# COMPREHENSIVE ANALYSIS RULES
+# ANALYSIS RULES
 
 {ANALYSIS_RULES}
 
 ---
 
-## FINAL CHECKLIST BEFORE SAVING
+## FINAL CHECKLIST
 
-Before you commit the report, verify:
-
-✅ Report saved to repository: `{ANALYZER_REPO}`
-✅ Report saved to branch: `{ANALYZER_BRANCH}` (CRITICAL!)
-✅ Report location: `{REPORTS_FOLDER}/{package_name}_analysis.md`
+✅ Repository: `{ANALYZER_REPO}`
+✅ Branch: **`{ANALYZER_BRANCH}`**
+✅ Path: `{REPORTS_FOLDER}/{pkg_name}_analysis.md`
 ✅ All 11 sections present
-✅ Entry points analyzed (Section 5)
-✅ Functionality documented (Section 6)
+✅ Evidence-based analysis
 ✅ Code examples included
-✅ Evidence-based (not speculative)
-✅ Proper markdown formatting
 
-## BEGIN ANALYSIS NOW
-
-Package: **{package_name}**
-Target Branch: **{ANALYZER_BRANCH}**
-Report Path: **{REPORTS_FOLDER}/{package_name}_analysis.md**
-
-Start your comprehensive analysis following the rules above!
+BEGIN ANALYSIS NOW!
 """
     
     return prompt
 
 # ============================================================================
-# PROGRESS TRACKING
+# PACKAGE LOADING
 # ============================================================================
 
-def load_progress() -> Dict:
-    """Load progress from file if it exists."""
-    if os.path.exists(PROGRESS_FILE):
-        try:
-            with open(PROGRESS_FILE, 'r') as f:
-                progress = json.load(f)
-            print(f"✅ Loaded progress from {PROGRESS_FILE}")
-            print(f"   Last processed: {progress.get('last_processed_index', 0)} packages")
-            return progress
-        except Exception as e:
-            print(f"⚠️  Warning: Could not load progress file: {e}")
-            return {"results": [], "last_processed_index": 0}
-    return {"results": [], "last_processed_index": 0}
-
-def save_progress(progress: Dict):
-    """Save progress to file."""
-    try:
-        with open(PROGRESS_FILE, 'w') as f:
-            json.dump(progress, f, indent=2)
-    except Exception as e:
-        print(f"⚠️  Warning: Could not save progress: {e}")
-
-# ============================================================================
-# HELPER FUNCTIONS
-# ============================================================================
-
-def load_npm_packages(json_path: str) -> List[Dict[str, str]]:
-    """
-    Load NPM package names and descriptions from JSON file.
-    
-    Args:
-        json_path: Path to NPM.json file
-        
-    Returns:
-        List of package dictionaries with 'name' and optional 'description'
-    """
+def load_npm_packages(json_path: str) -> List[Dict]:
+    """Load NPM packages from JSON file."""
     try:
         with open(json_path, 'r', encoding='utf-8') as f:
             data = json.load(f)
         
-        # Handle different formats
         if isinstance(data, list):
-            # If list of strings, convert to dict format
             if all(isinstance(item, str) for item in data):
                 packages = [{"name": name, "description": ""} for name in data]
-            # If list of dicts, use as is
             elif all(isinstance(item, dict) for item in data):
                 packages = data
             else:
                 raise ValueError("NPM.json must contain array of strings or objects")
         elif isinstance(data, dict):
-            # If dict, convert to list of dicts
             packages = [{"name": name, "description": desc} for name, desc in data.items()]
         else:
             raise ValueError("NPM.json must contain an array or object")
         
-        print(f"✅ Loaded {len(packages)} NPM packages from {json_path}")
+        print(f"✅ Loaded {len(packages)} packages from {json_path}")
         return packages
-    except FileNotFoundError:
-        print(f"❌ Error: NPM.json not found at {json_path}")
-        print(f"   Current directory: {os.getcwd()}")
-        print(f"   Please ensure NPM.json exists in the repository root")
-        sys.exit(1)
-    except json.JSONDecodeError as e:
-        print(f"❌ Error: Invalid JSON in {json_path}")
-        print(f"   {str(e)}")
-        sys.exit(1)
     except Exception as e:
-        print(f"❌ Error loading NPM packages: {e}")
+        print(f"❌ Error loading packages: {e}")
         sys.exit(1)
 
-def create_agent_run(package: Dict[str, str], dry_run: bool = False) -> Dict:
+# ============================================================================
+# AGENT RUN CREATION
+# ============================================================================
+
+def create_agent_run(package: Dict) -> Dict:
     """
-    Create a Codegen agent run for analyzing an NPM package.
+    Create Codegen agent run for package analysis.
     
     Args:
-        package: Dictionary with 'name' and optional 'description'
-        dry_run: If True, don't actually create the run
+        package: Package dict with name, description, index
         
     Returns:
-        Dictionary containing run information
+        Result dictionary with status
     """
-    package_name = package.get("name", package) if isinstance(package, dict) else package
-    package_desc = package.get("description", "") if isinstance(package, dict) else ""
+    pkg_name = package.get("name", package) if isinstance(package, dict) else package
     
     try:
-        if dry_run:
-            print(f"  🔍 DRY RUN: Would create agent run for {package_name}")
-            return {
-                "package": package_name,
-                "run_id": "dry_run",
-                "status": "dry_run",
-                "timestamp": datetime.now().isoformat(),
-                "url": "https://codegen.com/runs/dry_run"
-            }
-        
         # Initialize agent
         agent = Agent(token=API_TOKEN, org_id=ORG_ID)
         
-        # Create comprehensive prompt with rules
-        prompt = create_analysis_prompt(package_name, package_desc)
+        # Create prompt
+        prompt = create_analysis_prompt(package)
         
-        # Create agent run
+        # Create run
         run = agent.run(prompt=prompt)
         
-        # Wait a moment for run to initialize
+        # Wait for initialization
         time.sleep(1)
         
         result = {
-            "package": package_name,
+            "package": pkg_name,
             "run_id": run.id,
-            "status": "created",
+            "status": "success",
             "timestamp": datetime.now().isoformat(),
-            "url": f"https://codegen.com/runs/{run.id}",
-            "description": package_desc
+            "url": f"https://codegen.com/runs/{run.id}"
         }
+        
+        # Update logs immediately
+        update_analysis_logs(package, '✓', run_id=run.id)
         
         return result
         
     except Exception as e:
         error_msg = str(e)
-        print(f"  ❌ Error details: {error_msg}")
+        print(f"  ❌ Error: {error_msg}")
         
-        return {
-            "package": package_name,
+        result = {
+            "package": pkg_name,
             "run_id": None,
             "status": "error",
             "error": error_msg,
-            "timestamp": datetime.now().isoformat(),
-            "description": package_desc
+            "timestamp": datetime.now().isoformat()
         }
+        
+        # Update logs with failure
+        update_analysis_logs(package, '✗', error=error_msg)
+        
+        return result
 
 # ============================================================================
-# MAIN EXECUTION
+# MAIN
 # ============================================================================
 
 def main():
-    """
-    Main execution function - processes all NPM packages sequentially.
-    """
-    # Parse command line arguments
-    parser = argparse.ArgumentParser(description="NPM Package Analysis Batch Processor")
-    parser.add_argument("--limit", type=int, help="Limit number of packages to process")
-    parser.add_argument("--resume", type=int, help="Resume from package index (0-based)")
-    parser.add_argument("--dry-run", action="store_true", help="Dry run - don't create actual runs")
-    parser.add_argument("--verify", action="store_true", help="Verify existing runs")
+    """Main execution function."""
+    
+    parser = argparse.ArgumentParser(description="NPM Package Analyzer")
+    parser.add_argument("--limit", type=int, help="Limit packages to process")
+    parser.add_argument("--restart", action="store_true", help="Restart from beginning (ignore logs)")
     args = parser.parse_args()
     
     print("=" * 80)
-    print("NPM Package Analysis - Batch Processing with Comprehensive Rules")
+    print("NPM Package Analysis - Smart Resume with Logging")
     print("=" * 80)
     print(f"\nConfiguration:")
-    print(f"  - Organization ID: {ORG_ID}")
-    print(f"  - Target Repo: {ANALYZER_REPO}")
-    print(f"  - Target Branch: {ANALYZER_BRANCH} (CRITICAL!)")
-    print(f"  - Reports Folder: {REPORTS_FOLDER}")
-    print(f"  - Wait Between Runs: {WAIT_BETWEEN_RUNS}s")
-    print(f"  - NPM JSON Path: {NPM_JSON_PATH}")
-    print(f"  - Analysis Rules: {ANALYSIS_RULES_PATH}")
-    if args.dry_run:
-        print(f"  - Mode: DRY RUN (no actual API calls)")
+    print(f"  - Repository: {ANALYZER_REPO}")
+    print(f"  - Target Branch: **{ANALYZER_BRANCH}** (CRITICAL!)")
+    print(f"  - Reports: {REPORTS_FOLDER}")
+    print(f"  - Logs: {ANALYSIS_LOGS_PATH}")
     if args.limit:
         print(f"  - Limit: {args.limit} packages")
-    if args.resume is not None:
-        print(f"  - Resume from: index {args.resume}")
+    if args.restart:
+        print(f"  - Mode: RESTART (ignoring existing logs)")
     print("=" * 80)
     
-    # Load NPM packages
+    # Load packages
     all_packages = load_npm_packages(NPM_JSON_PATH)
     
-    # Load progress
-    progress = load_progress()
-    
-    # Determine starting point
-    start_index = args.resume if args.resume is not None else progress.get("last_processed_index", 0)
-    
-    # Determine packages to process
-    if args.limit:
-        packages_to_process = all_packages[start_index:start_index + args.limit]
+    # Initialize or read logs
+    if args.restart or not Path(ANALYSIS_LOGS_PATH).exists():
+        init_analysis_logs(all_packages)
+        status_dict = {}
     else:
-        packages_to_process = all_packages[start_index:]
+        status_dict, _ = read_analysis_logs()
     
-    total_packages = len(packages_to_process)
+    # Get pending packages
+    pending = get_pending_packages(all_packages, status_dict)
     
-    if total_packages == 0:
+    if args.limit:
+        pending = pending[:args.limit]
+    
+    total = len(pending)
+    
+    if total == 0:
         print("\n✅ All packages already processed!")
+        print(f"   Check logs: {ANALYSIS_LOGS_PATH}")
+        print(f"   Check reports: git fetch origin {ANALYZER_BRANCH}")
         return
     
-    # Statistics
-    successful_runs = 0
-    failed_runs = 0
-    results = progress.get("results", [])
-    
-    print(f"\n🚀 Starting analysis for {total_packages} NPM packages...")
-    print(f"   Starting from index: {start_index}")
-    print(f"   Total in NPM.json: {len(all_packages)}")
-    print(f"⏱️  Estimated time: {(total_packages * (WAIT_BETWEEN_RUNS + 2)) / 60:.1f} minutes")
+    print(f"\n🚀 Processing {total} pending packages")
+    print(f"   Already completed: {len(all_packages) - len(get_pending_packages(all_packages, {}))}")
+    print(f"⏱️  Estimated time: {(total * (WAIT_BETWEEN_RUNS + 2)) / 60:.1f} minutes")
     print("=" * 80)
     
-    # Process each package
-    for idx, package in enumerate(packages_to_process, start=1):
-        global_idx = start_index + idx
-        package_name = package.get("name", package) if isinstance(package, dict) else package
+    # Process packages
+    success = 0
+    failed = 0
+    
+    for idx, package in enumerate(pending, 1):
+        pkg_name = package.get("name")
+        pkg_index = package.get("index")
         
-        print(f"\n[{global_idx}/{len(all_packages)}] Processing: {package_name}")
-        print(f"  NPM URL: https://www.npmjs.com/package/{package_name}")
+        print(f"\n[{pkg_index}/{len(all_packages)}] Processing: {pkg_name}")
+        print(f"  NPM: https://www.npmjs.com/package/{pkg_name}")
         
-        # Create agent run
-        result = create_agent_run(package, dry_run=args.dry_run)
-        results.append(result)
+        result = create_agent_run(package)
         
-        # Update statistics
-        if result["status"] in ["created", "dry_run"]:
-            successful_runs += 1
-            print(f"  ✅ Agent run created: {result['run_id']}")
-            print(f"  🔗 View at: {result['url']}")
+        if result["status"] == "success":
+            success += 1
+            print(f"  ✅ Run created: {result['run_id']}")
+            print(f"  🔗 {result['url']}")
         else:
-            failed_runs += 1
+            failed += 1
             print(f"  ❌ Failed: {result.get('error', 'Unknown error')}")
         
-        # Progress update
-        print(f"  📊 Progress: {successful_runs} successful, {failed_runs} failed")
+        print(f"  📊 Session: {success} success, {failed} failed")
         
-        # Save progress after each package
-        progress["results"] = results
-        progress["last_processed_index"] = global_idx
-        progress["timestamp"] = datetime.now().isoformat()
-        save_progress(progress)
-        
-        # Wait before next run (except for the last one)
-        if idx < total_packages:
-            print(f"  ⏳ Waiting {WAIT_BETWEEN_RUNS}s before next run...")
+        if idx < total:
+            print(f"  ⏳ Waiting {WAIT_BETWEEN_RUNS}s...")
             time.sleep(WAIT_BETWEEN_RUNS)
     
-    # Final summary
+    # Summary
     print("\n" + "=" * 80)
-    print("🎉 BATCH PROCESSING COMPLETE")
+    print("🎉 BATCH COMPLETE")
     print("=" * 80)
-    print(f"Total packages processed: {total_packages}")
-    print(f"✅ Successful runs: {successful_runs}")
-    print(f"❌ Failed runs: {failed_runs}")
-    if total_packages > 0:
-        print(f"Success rate: {(successful_runs/total_packages)*100:.1f}%")
+    print(f"Session processed: {total}")
+    print(f"✅ Successful: {success}")
+    print(f"❌ Failed: {failed}")
+    if total > 0:
+        print(f"Success rate: {(success/total)*100:.1f}%")
     
-    # Save final results
-    results_file = f"npm_analysis_results_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
-    with open(results_file, 'w') as f:
-        json.dump({
-            "timestamp": datetime.now().isoformat(),
-            "total_packages": len(all_packages),
-            "processed_packages": total_packages,
-            "successful_runs": successful_runs,
-            "failed_runs": failed_runs,
-            "results": results,
-            "target_branch": ANALYZER_BRANCH,
-            "target_repo": ANALYZER_REPO
-        }, f, indent=2)
-    
-    print(f"\n📄 Results saved to: {results_file}")
-    print(f"📄 Progress saved to: {PROGRESS_FILE}")
-    print("\n✨ All agent runs have been created!")
-    print(f"   Monitor progress at: https://codegen.com/runs")
-    print(f"   Reports will be saved to branch: {ANALYZER_BRANCH}")
-    print(f"   Reports location: {ANALYZER_REPO}/{REPORTS_FOLDER}/")
+    print(f"\n📄 View logs: {ANALYSIS_LOGS_PATH}")
+    print(f"🔍 Check reports:")
+    print(f"   git fetch origin {ANALYZER_BRANCH}")
+    print(f"   git checkout {ANALYZER_BRANCH}")
+    print(f"   ls {REPORTS_FOLDER}/")
+    print(f"\n💡 To continue: python npm_analyzer.py")
     print("=" * 80)
-    
-    print("\n🔍 NEXT STEPS:")
-    print(f"1. Monitor agent runs at https://codegen.com/runs")
-    print(f"2. Check branch '{ANALYZER_BRANCH}' for created reports")
-    print(f"3. Verify reports in {REPORTS_FOLDER}/ directory")
-    print(f"4. Run 'git fetch origin {ANALYZER_BRANCH}' to see results")
 
 if __name__ == "__main__":
     main()

@@ -1,0 +1,25 @@
+{
+  "timestamp": "2025-12-27T23:44:09.295325",
+  "total_packages": 861,
+  "processed_packages": 2,
+  "successful_runs": 2,
+  "failed_runs": 0,
+  "results": [
+    {
+      "package": "lean-agentic",
+      "run_id": "dry_run",
+      "status": "dry_run",
+      "timestamp": "2025-12-27T23:44:06.293874",
+      "url": "https://codegen.com/runs/dry_run"
+    },
+    {
+      "package": "scordi-extension",
+      "run_id": "dry_run",
+      "status": "dry_run",
+      "timestamp": "2025-12-27T23:44:09.294519",
+      "url": "https://codegen.com/runs/dry_run"
+    }
+  ],
+  "target_branch": "analysis",
+  "target_repo": "Zeeeepa/analyzer"
+}
