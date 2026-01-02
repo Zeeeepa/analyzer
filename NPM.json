@@ -1065,5 +1065,7 @@ sutekh
 @codebyai/puppeteer-core
 jshook-reverse-tool
 @flow-conductor/adapter-node-fetch
+@descope/web-js-sdk
+
 ]
 
