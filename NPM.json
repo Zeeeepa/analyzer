@@ -1075,5 +1075,7 @@ lowdom  - WebAutomation
 jsfe   -  flows
 @smiling/cdn-source-loader   CDN
 code-graph-context  -  CodebaseAnalysis
+@quereus/store-indexeddb  -  DatabaseStorage
+@ruvector/rudag   -   
 ]
 
