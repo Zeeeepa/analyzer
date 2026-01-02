@@ -1067,6 +1067,13 @@ sutekh
 jshook-reverse-tool
 @flow-conductor/adapter-node-fetch
 @descope/web-js-sdk
-
+@leanbase-giangnd/js - WebAutomation
+@x5e/gink - DatabaseStorage
+deepbase-indexeddb  -  DatabaseStorage
+lowdom  - WebAutomation
+@morojs/moro  -  WebAutomation / DatabaseStorage
+jsfe   -  flows
+@smiling/cdn-source-loader   CDN
+code-graph-context  -  CodebaseAnalysis
 ]
 
