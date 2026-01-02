@@ -907,5 +907,6 @@
   "anchorbrowser",
   "modelmix",
   "cube-js/cube",
-  "pit-flow-ui"
+  "pit-flow-ui",
+  "computesdk"
 ]
