@@ -1,0 +1,51 @@
+{
+  "name": "computetower",
+  "version": "1.0.0",
+  "description": "Universal Dynamic Webchat to OpenAI API Converter - Automatically converts ANY webchat interface to OpenAI-compatible API",
+  "main": "dist/index.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx watch src/dynamic-flow-automator.ts",
+    "start": "node dist/dynamic-flow-automator.js",
+    "test": "vitest",
+    "validate": "node scripts/validate-flows.js"
+  },
+  "keywords": [
+    "webchat",
+    "openai-api",
+    "automation",
+    "ai-agent",
+    "browser-automation",
+    "flow-discovery"
+  ],
+  "author": "ComputeTower Team",
+  "license": "MIT",
+  "dependencies": {
+    "@olib-ai/owl-browser-sdk": "^1.2.3",
+    "@skrillex1224/playwright-toolkit": "^2.0.9",
+    "@hyperbrowser/agent": "^1.1.0",
+    "@anthropic-ai/sdk": "^0.27.0",
+    "playwright": "^1.40.0",
+    "playwright-extra": "^4.3.6",
+    "puppeteer-extra-plugin-stealth": "^2.11.2",
+    "ghost-cursor-playwright": "^1.1.3",
+    "fastify": "^4.25.0",
+    "bullmq": "^5.0.0",
+    "ioredis": "^5.3.2",
+    "pg": "^8.11.3",
+    "zod": "^3.22.4",
+    "delay": "^6.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "@types/pg": "^8.11.0",
+    "typescript": "^5.3.3",
+    "tsx": "^4.7.0",
+    "vitest": "^1.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
+
