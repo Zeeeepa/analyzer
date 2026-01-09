@@ -1,5 +1,7 @@
 0 Browser Automation - https://chromewebstore.google.com/detail/surgeflow-automate-at-sur/heohnipeknihcpmggkbjlijnjlfbjhpg?hl=en
 
+Chrome Extension Manager
+
 https://github.com/danielmiessler/Personal_AI_Infrastructure/tree/main/Packs/pai-hook-system
 
 https://github.com/groeimetai/snow-flow/blob/main/packages/snowcode/src/lsp/server.ts
@@ -11,6 +13,8 @@ Wordware
 Latenode
 
 CSDN, Zhihu, ScriptHome, Blog Garden, 51CTO blog, PHP.cn, juejin
+
+.
 
 1 RESEARCH - for Provided Topic / Focus Points. - To be able to set highly extensive continuous researching & analysis & further researching whilst modifying search request given the resolution of previous findings (Overall evolving reseearch storing all findings)
 
