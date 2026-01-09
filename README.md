@@ -2,6 +2,8 @@
 
 https://github.com/danielmiessler/Personal_AI_Infrastructure/tree/main/Packs/pai-hook-system
 
+https://github.com/groeimetai/snow-flow/blob/main/packages/snowcode/src/lsp/server.ts
+
 Tate-A-Tate  -  
 Cheat Layer
 Super Agents by ClickUp
