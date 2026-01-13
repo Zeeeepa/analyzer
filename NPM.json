@@ -998,84 +998,83 @@
   "@task-mcp/mcp-server",
   "jstar-reviewer",
   "@claudetools/tools",
-  "@noyrax/5d-database-plugin"
+  "@noyrax/5d-database-plugin",
   "spectra-sdk-browser",
-  "@noyrax/documentation-system-plugin"
+  "@noyrax/documentation-system-plugin",
   "arcvision",
-  "deepthinking-mcp"
-  "@vfarcic/dot-ai"
-  "find-duplicate-js"
-  "@eldrforge/tree-core"
-  "@coreviz/sdk""
-  "@digidenone/synapseaudit"
-  "scai"
-  @principal-ai/codebase-composition
-@principal-ai/control-tower-core
-@a24z/dynamic-file-tree
-@principal-ai/quality-lens-cli
-@industry-theme/code-city-panel
-@industry-theme/visual-validation-panel
-@principal-ade/argdown-renderer
-@principal-ade/industry-themed-ai-sdk-panel
-@industry-theme/dependencies-panel
-@principal-ade/utcp-panel-event
-@industry-theme/github-panels
-@principal-ade/code-quality-panels
-@industry-theme/repository-composition-panels
-@industry-theme/file-city-panel
-@industry-theme/git-panels
-@principal-ai/quality-lens-registry
-@livrasand/gitbrancher
-js-x-ray-ai
-recoder-code-core
-recoder-code
-@types/web
-sentienceapi
-@quereus/store-indexeddb
-codpro-js
-@leanbase-giangnd/js
-livereload-morph
-@devskin/browser-sdk
-unbrowser-core
-dhalsim
-@browsermation/browser-engine
-daily-code
-@kelceyp/caw-server
-@scrapeops/mcp
-@computesdk/codesandbox
-stealth-puppeteer-core
-undetected-browser
-browser-with-fingerprints
-puppeteer-pro
-selenium-with-fingerprints
-stealth-api
-apna-browser
-browser-pilot
-@sdjz/pup
-@browserless/function
-@applitools/eyes-puppeteer
-@xmer/rss-reader
-@treelocator/runtime
-playwright-screen-recorder2
-breamer
-@argos-ci/puppeteer
-sutekh
-@kronoslive/codeceptjs
-@stacksleuth/browser-agent
-@codebyai/puppeteer
-@codebyai/puppeteer-core
-jshook-reverse-tool
-@flow-conductor/adapter-node-fetch
-@descope/web-js-sdk
-@leanbase-giangnd/js - WebAutomation
-@x5e/gink - DatabaseStorage
-deepbase-indexeddb  -  DatabaseStorage
-lowdom  - WebAutomation
-@morojs/moro  -  WebAutomation / DatabaseStorage
-jsfe   -  flows
-@smiling/cdn-source-loader   CDN
-code-graph-context  -  CodebaseAnalysis
-@quereus/store-indexeddb  -  DatabaseStorage
-@ruvector/rudag   -   
+  "deepthinking-mcp",
+  "@vfarcic/dot-ai",
+  "find-duplicate-js",
+  "@eldrforge/tree-core",
+  "@coreviz/sdk",
+  "@digidenone/synapseaudit",
+  "scai",
+  "@principal-ai/codebase-composition",
+  "@principal-ai/control-tower-core",
+  "@a24z/dynamic-file-tree",
+  "@principal-ai/quality-lens-cli",
+  "@industry-theme/code-city-panel",
+  "@industry-theme/visual-validation-panel",
+  "@principal-ade/argdown-renderer",
+  "@principal-ade/industry-themed-ai-sdk-panel",
+  "@industry-theme/dependencies-panel",
+  "@principal-ade/utcp-panel-event",
+  "@industry-theme/github-panels",
+  "@principal-ade/code-quality-panels",
+  "@industry-theme/repository-composition-panels",
+  "@industry-theme/file-city-panel",
+  "@industry-theme/git-panels",
+  "@principal-ai/quality-lens-registry",
+  "@livrasand/gitbrancher",
+  "js-x-ray-ai",
+  "recoder-code-core",
+  "recoder-code",
+  "@types/web",
+  "sentienceapi",
+  "@quereus/store-indexeddb",
+  "codpro-js",
+  "@leanbase-giangnd/js",
+  "livereload-morph",
+  "@devskin/browser-sdk",
+  "unbrowser-core",
+  "dhalsim",
+  "@browsermation/browser-engine",
+  "daily-code",
+  "@kelceyp/caw-server",
+  "@scrapeops/mcp",
+  "@computesdk/codesandbox",
+  "stealth-puppeteer-core",
+  "undetected-browser",
+  "browser-with-fingerprints",
+  "puppeteer-pro",
+  "selenium-with-fingerprints",
+  "stealth-api",
+  "apna-browser",
+  "browser-pilot",
+  "@sdjz/pup",
+  "@browserless/function",
+  "@applitools/eyes-puppeteer",
+  "@xmer/rss-reader",
+  "@treelocator/runtime",
+  "playwright-screen-recorder2",
+  "breamer",
+  "@argos-ci/puppeteer",
+  "sutekh",
+  "@kronoslive/codeceptjs",
+  "@stacksleuth/browser-agent",
+  "@codebyai/puppeteer",
+  "@codebyai/puppeteer-core",
+  "jshook-reverse-tool",
+  "@flow-conductor/adapter-node-fetch",
+  "@descope/web-js-sdk",
+  "@leanbase-giangnd/js",
+  "@x5e/gink",
+  "deepbase-indexeddb",
+  "lowdom",
+  "@morojs/moro",
+  "jsfe",
+  "@smiling/cdn-source-loader",
+  "code-graph-context",
+  "@quereus/store-indexeddb",
+  "@ruvector/rudag"
 ]
-
