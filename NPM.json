@@ -1076,5 +1076,6 @@
   "@smiling/cdn-source-loader",
   "code-graph-context",
   "@quereus/store-indexeddb",
-  "@ruvector/rudag"
+  "@ruvector/rudag",
+  "@neovate/code"
 ]
