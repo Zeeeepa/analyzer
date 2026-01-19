@@ -48,6 +48,8 @@ ag4one
 
 
                                                             CODE ANALYSIS 
+  "@digidenone/synapseaudit",
+
 "vellum-ai",
 "@fluxgraph/knowledge",
 @luciformresearch/codeparsers
@@ -160,9 +162,9 @@ ag4one
   "octocode-mcp",
   "@bobmatnyc/ai-code-review",
 "@sanasai/ai-code-review",
-"repo-description",
 "@llm-dev-ops/llm-memory-graph-client",
-
+"forgecode",
+"codebuff-gemini",
 
 
                                                               TESTING
@@ -191,6 +193,11 @@ snow-flow
 "@toolsdk.ai/registry",
 "snow-flow",
   "@vfarcic/dot-ai",
+  "@memberjunction/ai-mcp-server",
+  "@memberjunction/react-test-harness",
+
+
+"mcp-to-skill-transformer",
 
                                                             BROWSER
 "@apify/utilities",
@@ -293,16 +300,10 @@ snow-flow
 "aiagentmarket",
 "@codai/memorai-mcp",
 "@crewchief/maproom-mcp",
-"@mhalder/qdrant-mcp-server",
-"@jackjackstudios/ambiance-mcp",
-"@nguyenetic/nexusql",
 "specmind",
-"@context-sync/server",
-"@eslint-react/var",
 "@techdebtgpt/archdoc-generator",
 "fta-cli",
 "@hatchbox-ai/hatchbox-cli",
-"@iflow-mcp/code-reasoning",
 "@workflow/typescript-plugin",
 "@antinomyhq/forge",
 "@iflow-mcp/task-orchestrator",
@@ -313,12 +314,8 @@ snow-flow
 "@followthecode/cli",
 "@oracle/oraclejet",
 "@sibyllinesoft/hydra",
-"@vibe-kit/dashboard",
-"aframe-babia-components",
-"alscan-js",
-"bluelamp",
-"forgecode",
-"codebuff-gemini",
+
+
 "coveo-search-ui",
 "expforge",
 "happy-coder",
@@ -381,7 +378,7 @@ x"@flowuent-org/diagramming-core",
 "adaptive-parallel-reasoning-mcp",
 "mcp-bundler",
 "mcp-docs-server",
-"mcp-to-skill-transformer",
+
 "@hustle-together/api-dev-tools",
 "@richardpickett/docker-npm-builder",
 "@repobuddy/vitest",
@@ -475,9 +472,7 @@ x"@flowuent-org/diagramming-core",
   "@within-7/minto",
   "@2501-ai/cli",
   "eversale-cli",
-  "ruvector",
-  "@memberjunction/ai-mcp-server",
-  "@memberjunction/react-test-harness",
+
   "4runr-os",
   "qa-agent",
   "claude-mpm",
@@ -566,7 +561,6 @@ x"@flowuent-org/diagramming-core",
   "deepthinking-mcp",
   "@eldrforge/tree-core",
   "@coreviz/sdk",
-  "@digidenone/synapseaudit",
   "@principal-ade/argdown-renderer",
   "@principal-ade/industry-themed-ai-sdk-panel",
   "@industry-theme/dependencies-panel",
