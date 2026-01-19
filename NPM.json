@@ -20,6 +20,10 @@ agentic-qe
 @ruvector/rvlite
 ruvector
 
+@luciformresearch/codeparsers
+@luciformresearch/ragforge
+
+
 research-swarm
 ralph-wiggum-cli
 @ai-eng-system/cli
@@ -44,7 +48,7 @@ juno-code
 Ralph Wiggum UI
   "lean-agentic",
 "scordi-extension",
-"qevo",
+"qevo", 
 "secretscout",
 "rag-system-pgvector",
 "memento-mcp-server",
