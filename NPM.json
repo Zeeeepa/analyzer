@@ -5,6 +5,8 @@
 
                                             AGENTIC CODER
 "opencodebuff",
+"lean-agentic",
+
 "manteia-intelligent-assistant",
 "@gmickel/flow-next-tui",
 "@wiggumdev/ralph",
@@ -54,9 +56,13 @@ ag4one
 "claude-code-sugar",
 "@nikita-bekish/code-assistant",
 "happy-coder",
+@antinomyhq/forge
 
 
                                                             CODE ANALYSIS 
+"ignorant",
+
+"fta-cli",
 "@digidenone/synapseaudit",
 "byterover-cli",
 "@didnhdj/fnmap",
@@ -237,6 +243,7 @@ ag4one
 "@sap/hana-client",
 "@microsoft/objectstoreprovider",
 "memedge",
+"flexsearch",
 
 
                                                           AUTOMATION
@@ -336,6 +343,8 @@ ag4one
 "fingerprint-generator",
 "@apify/consts",
 "apify-client",
+"web-tracing-es5",
+
 "@crawlee/playwright",
 "fingerprint-injector",
 "@crawlee/cli",
@@ -420,10 +429,16 @@ ag4one
 "@robinson_ai_systems/rad-crawler-core",
 "cloud-one",
 "qevo", 
+"@descope/web-js-sdk",
+
                                               API
 "@hustle-together/api-dev-tools",
 "@tokligence/gateway",
 "api-response-manager",
+"@agi-cli/api",
+"@unified-api/typescript-sdk",
+"@agi-cli/server",
+
                                             VISUAL
 "@industry-theme/github-panels",
 "@djmahirnationtv/prismarine-viewer",
@@ -431,18 +446,15 @@ ag4one
 "@visualize-library/preview-ui",
 "inferencejs".
 "@roboflow/inference-sdk"
+"@volar/monaco",
+"vislite",
+"jsmind",
+
 ========================================================================================
 
 BROWSER, VISUAL, API,  SANDBOX, TOOLS & Skills, SUPPLEMENTARY, AUTOMATION , DATABASE, RESEARCH,  TESTING,  CODE ANALYSIS, AGENTIC CODER
 CATEGORIZE BELOW PACKAGES:
 
-"lean-agentic",
-"tinkaton",
-"ignorant",
-"@cojacklabs/autoforge",
-"fta-cli",
-"@antinomyhq/forge",
-"@oracle/oraclejet",
 "coveo-search-ui",
 "expforge",
 "ids-enterprise",
@@ -475,7 +487,6 @@ CATEGORIZE BELOW PACKAGES:
 "@jmellicker/j_",
 "dev-agent",
 "declarations",
-"@volar/monaco",
 "@trusted-american/design-system",
 "llmist",
 "@liuheo/vueuse",
@@ -496,8 +507,6 @@ CATEGORIZE BELOW PACKAGES:
 "meego-client",
 "specweave",
 "@ruvector/core",
-"@agi-cli/server",
-"@agi-cli/api",
 "@continual/integrations",
 "bluelampvcedar-os",
 "yuusoft-org/kanbatte",
@@ -513,7 +522,6 @@ CATEGORIZE BELOW PACKAGES:
 "qa-agent",
 "claude-mpm",
 "rowcomv2",
-"@roboflow/inference-sdk",
 "valifetch",
 "breamer",
 "instaserve",
@@ -524,7 +532,6 @@ CATEGORIZE BELOW PACKAGES:
 "ljs-tools",
 "@pooflabs/web",
 "@semiotic-labs/agentium-sdk",
-"@unified-api/typescript-sdk",
 "190proof",
 "@dexploarer/plugin-gateway",
 "pm-orchestrator-enhancement",
@@ -532,19 +539,13 @@ CATEGORIZE BELOW PACKAGES:
 "cube-js/cube",
 "elegant-router",
 "autoqa-agent",
-"web-tracing-es5",
 "wreq-js",
 "gpui-ts",
-"refui",
 "neverchange",
-"flexsearch",
 "@codady/stax",
-"vislite",
-"jsmind",
 "ucservice",
 "tego",
 "oipage",
-"@edgeone/framework-detect",
 "hot-manage-web",
 "@airpower/web",
 "manage-client",
@@ -571,7 +572,6 @@ CATEGORIZE BELOW PACKAGES:
 "@treelocator/runtime",
 "sutekh",
 "@flow-conductor/adapter-node-fetch",
-"@descope/web-js-sdk",
 "@leanbase-giangnd/js",
 "@x5e/gink",
 "@morojs/moro",
