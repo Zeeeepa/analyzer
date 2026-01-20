@@ -481,6 +481,8 @@ mexta
 "@xmer/rss-reader",
 "@leanbase-giangnd/js",
 https://www.npmjs.com/package/wreq-js
+"eversale-cli",
+
 
                                               API
 "@hustle-together/api-dev-tools",
@@ -529,7 +531,6 @@ cedar-os",
 "@adaas/a-server",
 "d2e",
 "@within-7/minto",
-"eversale-cli",
 "claude-mpm",
 "rowcomv2",
 "valifetch",
