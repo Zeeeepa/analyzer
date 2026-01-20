@@ -4,9 +4,21 @@
 
 
                                             AGENTIC CODER
-"opencodebuff",
-"lean-agentic",
+"@neovate/code"
+"@versatil/claude-opera",
+"agor-live",
+"claude-hydra",
+"@2501-ai/cli",
+"kamox",
+"ai-stack-init",
 
+@versatil/sdlc-framework
+"opencodebuff",
+"specweave",
+"@just-every/code",
+"4runr-os"
+"lean-agentic",
+@amrhas82/agentic-kit
 "manteia-intelligent-assistant",
 "@gmickel/flow-next-tui",
 "@wiggumdev/ralph",
@@ -61,6 +73,15 @@ ag4one
 
                                                             CODE ANALYSIS 
 "ignorant",
+"ultracite",
+"@eldrforge/tree-core",
+"semantic-complexity",
+"@subclaude/cli",
+"htrag",
+"@chrislyons-dev/archlette",
+"jstar-reviewer",
+"@ailinone/dev-tool",
+"@zhoujie195/code-agent-sema",
 
 "fta-cli",
 "@digidenone/synapseaudit",
@@ -205,10 +226,13 @@ ag4one
 "@volar/language-core",
 "quality-guardian",
 "vibe-validate",
-
+"@lytics/dev-agent"
 
                                                               TESTING
 "openqa",
+"mocha-set-for-context",
+"qa-agent",
+"autoqa-agent",
 
 "@kronoslive/codeceptjs",
 "opencode-testvista",
@@ -222,11 +246,20 @@ ag4one
 "devextreme",
 "@mat3ra/tede",
 "@supatest/cli",
+"arcvision",
+"@arcsight-ai/wedge",
+
 
                                                               RESEARCH
 "research-swarm",
 "qwksearch",
 "deep-research",
+Astermind Pro
+"@wrtnlabs/web-content-extractor",
+"research-powerpack-mcp",
+"rag-system-pgvector",
+"@astermind/astermind-pro",
+
                                                             DATABASE
 "@mikro-orm/postgresql",
 "@mikro-orm/seeder",
@@ -244,6 +277,10 @@ ag4one
 "@microsoft/objectstoreprovider",
 "memedge",
 "flexsearch",
+"yuniqkv",
+"neverchange",
+"@x5e/gink",
+"@trap_stevo/star-vault",
 
 
                                                           AUTOMATION
@@ -255,6 +292,9 @@ ag4one
 "@memberjunction/ai-mcp-server",
 "@memberjunction/react-test-harness",
 "git-aiflow",
+"momentic",
+"jsfe",
+"@flow-conductor/adapter-node-fetch",
 
                                                         SUPPLEMENTARY
 "@smiling/cdn-source-loader",
@@ -268,19 +308,21 @@ ag4one
 "ai_agent_marketplace",
 "@workflow/typescript-plugin",
 "@ruvector/cli",
-
+mexta
+"llmist",
+"@mcampa/ai-context-core",
+"@bryan-thompson/inspector-assessment",
 "@techdebtgpt/archdoc-generator",
 "@noyrax/documentation-system-plugin",
-"rag-system-pgvector",
 "checks-cli",
-
-"@iflow-mcpapifymyaidev-method",
+"@portel/ncp"
+"@iflow-mcp",
+"myaidev-method",
 "openskills",
 "aiagentmarket",
 "@mcpkit-dev/testing",
 "memento-mcp-server",
 "@iflow-mcp/deepwiki-mcp",
-"@wrtnlabs/web-content-extractor",
 "mcp-to-skill-transformer",
 "@toolsdk.ai/registry",
 "@robinson_ai_systems/thinking-tools-mcp",
@@ -301,7 +343,8 @@ ag4one
 "adaptive-parallel-reasoning-mcp",
 "@waldzellai/exa-mcp-docs",
 "@xi0yu/jebmcp",
-"research-powerpack-mcp",
+
+
 "@skyramp/mcp",
 "argus-mcp",
 "chrome-automation-mcp",
@@ -335,15 +378,18 @@ ag4one
 "computesdk",
 "@richardpickett/docker-npm-builder",
 "@hatchbox-ai/hatchbox-cli",
-
+"sandboxxjs",
 
                                                             BROWSER
+
 "@apify/utilities",
 "generative-bayesian-network",
 "fingerprint-generator",
 "@apify/consts",
 "apify-client",
 "web-tracing-es5",
+"sentienceapi",
+"@olib-ai/owl-browser-sdk",
 
 "@crawlee/playwright",
 "fingerprint-injector",
@@ -383,7 +429,6 @@ ag4one
 "ghost-puppet",
 "@hyperbrowser/agent",
 "puppeteer-pro",
-"@olib-ai/owl-browser-sdk",
 "arn-browser",
 "stealth-puppeteer-core",
 "undetected-browser",
@@ -421,7 +466,6 @@ ag4one
 "@centralinc/browseragent",
 "@letsscrapedata/scraper",
 "spectra-sdk-browser",
-"dashcam",
 "lowdom",
 "uniqhtt",
 "selenium-webdriver",
@@ -430,6 +474,13 @@ ag4one
 "cloud-one",
 "qevo", 
 "@descope/web-js-sdk",
+"codpro-js",
+"daily-code",
+"@leanbase-giangnd/js",
+"breamer",
+"@xmer/rss-reader",
+"@leanbase-giangnd/js",
+https://www.npmjs.com/package/wreq-js
 
                                               API
 "@hustle-together/api-dev-tools",
@@ -438,6 +489,10 @@ ag4one
 "@agi-cli/api",
 "@unified-api/typescript-sdk",
 "@agi-cli/server",
+"@morojs/moro",
+"rezo",
+"modelmix",
+
 
                                             VISUAL
 "@industry-theme/github-panels",
@@ -449,132 +504,43 @@ ag4one
 "@volar/monaco",
 "vislite",
 "jsmind",
+"@flowuent-org/diagramming-core",
+"@coreviz/sdk",
 
 ========================================================================================
 
 BROWSER, VISUAL, API,  SANDBOX, TOOLS & Skills, SUPPLEMENTARY, AUTOMATION , DATABASE, RESEARCH,  TESTING,  CODE ANALYSIS, AGENTIC CODER
-CATEGORIZE BELOW PACKAGES:
+
+
 
 "coveo-search-ui",
-"expforge",
-"ids-enterprise",
 "profoundjs",
-"@versatil/claude-opera",
-"myaidev-method",
-"@amrhas82/agentic-kit",
-"ai-stack-init",
-"@lark-apaas/devtool-kits",
-"@chrislyons-dev/archlette",
-"odious",
-"@flowuent-org/diagramming-core",
-"kerfuffle",
-"ruvi",
-"agor-live",
-"agentlangcli",
-"needware-cli",
-"yuniqkv",
-"qudag",
-"mexta",
-"chastity",
-"portalis",
-"mocha-set-for-context",
-"@deepractice-ai/agent-sdk",
-"@jcmrs/claude-agent-os",
-"@just-every/code",
-"@portel/ncp",
 "@supunlakmal/hooks",
-"@astermind/astermind-pro",
-"@jmellicker/j_",
-"dev-agent",
-"declarations",
-"@trusted-american/design-system",
-"llmist",
 "@liuheo/vueuse",
 "@spscommerce/e2e-core",
-"supernal-coding",
-"droidpartment",
-"kamox",
-"4runr-os",
-"@kyanbergeron.4runr/4runr-os",
-"@arcsight-ai/wedge",
-"@ailinone/dev-tool",
-"@zhoujie195/code-agent-sema",
 "agent-ide",
-"@dzhng/claude-agent",
-"htrag",
-"@subclaude/cli",
-"claude-hydra",
 "meego-client",
 "specweave",
-"@ruvector/core",
 "@continual/integrations",
-"bluelampvcedar-os",
+"bluelamp
+cedar-os",
 "yuusoft-org/kanbatte",
-"@askman-dev",
 "vectra-js",
 "@adaas/a-server",
 "d2e",
-"@trap_stevo/star-vault",
 "@within-7/minto",
-"@2501-ai/cli",
 "eversale-cli",
-"4runr-os",
-"qa-agent",
 "claude-mpm",
 "rowcomv2",
 "valifetch",
-"breamer",
-"instaserve",
 "@just-every/task",
 "@just-every/manager",
-"rezo",
-"momentic",
 "ljs-tools",
-"@pooflabs/web",
 "@semiotic-labs/agentium-sdk",
 "190proof",
 "@dexploarer/plugin-gateway",
 "pm-orchestrator-enhancement",
-"modelmix",
 "cube-js/cube",
 "elegant-router",
-"autoqa-agent",
-"wreq-js",
-"gpui-ts",
-"neverchange",
-"@codady/stax",
-"ucservice",
-"tego",
-"oipage",
-"hot-manage-web",
-"@airpower/web",
-"manage-client",
-"sadais-piui",
-"manage-client-xy",
-"@rbxts/luban",
-"semantic-complexity",
-"ultracite",
-"@jonahschulte/rtf-toolkit",
-"@mcampa/ai-context-core",
-"@bryan-thompson/inspector-assessment",
-"jstar-reviewer",
-"@claudetools/tools",
-"arcvision",
-"@eldrforge/tree-core",
-"@coreviz/sdk",
-"@principal-ade/argdown-renderer",
-"@types/web",
-"sentienceapi",
-"codpro-js",
-"@leanbase-giangnd/js",
-"daily-code",
-"@xmer/rss-reader",
-"@treelocator/runtime",
-"sutekh",
-"@flow-conductor/adapter-node-fetch",
-"@leanbase-giangnd/js",
-"@x5e/gink",
-"@morojs/moro",
-"jsfe",
-"@neovate/code"
+
 
