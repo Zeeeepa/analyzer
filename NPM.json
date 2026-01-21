@@ -97,6 +97,7 @@ src-mcp
 @soulcraft/brainy
 
 npx -y @olib-ai/owl-browser-mcp
+https://github.com/LLM-Dev-Ops/connector-hub/blob/main/packages/providers/src/openai/OpenAITransformer.ts
 
 https://www.npmjs.com/package/@nahisaho/shikigami-mcp-server
 https://www.npmjs.com/package/@nahisaho/musubix-assistant-axis
