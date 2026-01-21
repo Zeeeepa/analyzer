@@ -89,6 +89,9 @@ archicore
 codegraph-cli
 code-relation-analyzer
 src-mcp
+@ngao/search-core    (codesearch)
+@ngao/search
+@standardbeagle/lci
 
 @tonycasey/lisa
 @soulcraft/brainy
