@@ -11,7 +11,7 @@
 "@2501-ai/cli",
 "kamox",
 "ai-stack-init",
-
+@cloudteam-dev/ai-toolkit
 @versatil/sdlc-framework
 "opencodebuff",
 "specweave",
