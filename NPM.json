@@ -96,6 +96,8 @@ src-mcp
 @tonycasey/lisa
 @soulcraft/brainy
 
+npx -y @olib-ai/owl-browser-mcp
+
 https://www.npmjs.com/package/@nahisaho/shikigami-mcp-server
 https://www.npmjs.com/package/@nahisaho/musubix-assistant-axis
 https://www.npmjs.com/package/@nahisaho/shikigami
