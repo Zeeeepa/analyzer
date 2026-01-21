@@ -5,7 +5,7 @@ https://hub.docker.com/layers/agentuity/sandbox-agent-browser/latest/images/sha2
 docker pull vastdataorg/devopstools:ytc
 
 vastdataorg/csi
-
+docker pull yevai/codebase-index-rerank:sm120-cu131-v1
 docker pull kaushalpowar/chat-with-codebase-backend
 docker pull hello2morrow/sonargraph-enterprise
 
