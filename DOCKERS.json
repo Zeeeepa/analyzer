@@ -8,6 +8,8 @@ vastdataorg/csi
 docker pull yevai/codebase-index-rerank:sm120-cu131-v1
 docker pull yevai/codebase-index-embed:sm120-cu131-v1
 
+docker pull zgsm/costrict-tools:v0.0.4
+
 docker pull kaushalpowar/chat-with-codebase-backend
 docker pull hello2morrow/sonargraph-enterprise
 
