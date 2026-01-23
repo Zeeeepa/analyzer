@@ -86,6 +86,9 @@ uipro-cli
 claude mcp add -s user -t http zread https://api.z.ai/api/mcp/zread/mcp --header "Authorization: Bearer your_api_key"
 
                                                             CODE ANALYSIS 
+recursive-llm-ts
+deepseek-cowork
+
 agent-ide
 archicore
 pumuki-ast-hooks
