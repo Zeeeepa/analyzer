@@ -70,11 +70,40 @@ ag4one
 "happy-coder",
 @antinomyhq/forge
 maria-lite
+                                                          CODE MODIFY
+python2ts
+putout
+tywrap
+@openuji/speculator
+
+                                                          CODE TOOLS
+@z_ai/coding-helper
+@z_ai/mcp-server
+zai-cli
+agentshield
+ralphy-skills
+uipro-cli
+claude mcp add -s user -t http zread https://api.z.ai/api/mcp/zread/mcp --header "Authorization: Bearer your_api_key"
 
                                                             CODE ANALYSIS 
-
+agent-ide
+archicore
+pumuki-ast-hooks
+tywrap
+@liendev/lien
+archpulse
+codexia
+repointel
+@claudetools/codemap
+repomix
+qa360
+@op1/code-graph
+@op1/ast-grep
+@wispbit/languages
+@wispbit/sdk-ts
+@wispbit/local
+powerlint
 ai-index
-@tastehub/ckb
 @probelabs/visor
 code-graph-context
 ts-graph-mcp
