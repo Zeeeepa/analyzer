@@ -1,0 +1,37 @@
+docker pull psyb0t/stealthy-auto-browse
+
+https://hub.docker.com/layers/agentuity/sandbox-agent-browser/latest/images/sha256-6e7ee9ba2de9ab678bd0084413da9c441ca44552aa5031b531482525e6135ce1
+
+docker pull vastdataorg/devopstools:ytc
+
+vastdataorg/csi
+docker pull yevai/codebase-index-rerank:sm120-cu131-v1
+docker pull yevai/codebase-index-embed:sm120-cu131-v1
+
+docker pull zgsm/costrict-tools:v0.0.4
+
+docker pull kaushalpowar/chat-with-codebase-backend
+docker pull hello2morrow/sonargraph-enterprise
+
+
+Deployment Sequence
+1. Core Infrastructure First
+vast-dataengine-operator: Deploy this master operator first as it orchestrates the entire serverless compute layer. This is your control plane and should be running before other components.
+csi: Deploy the Container Storage Interface next to establish the "Infinite Memory" storage layer that other services will depend on.
+2. Data & Query Layer
+vast-db-cli: Use this to initialize and configure your VAST DataBase instances.
+trino-vast: Deploy the SQL engine once storage is available, enabling query capabilities across your AI OS database.
+3. Real-time Processing
+insight-engine-deploy: Use this to scale and deploy your insight services for real-time data refinement and vectorization.
+insight-engine: The actual engine that performs vectorization and data refinement - deployed via the deploy component above.
+4. Observability & Management
+vast-dataengine-collector: Deploy telemetry collection for monitoring AI workloads in real-time.
+vast-admin-mcp: Deploy the Model Context Protocol administrative interface for AI agent management.
+5. Supporting Tools
+devopstools: Infrastructure utilities as needed.
+vast-builder: Use for CI/CD pipelines and development environments.
+Key Considerations
+Orchestration: Since vast-dataengine-operator is described as the "Master Operator," it likely uses Kubernetes operators pattern. Ensure your K8s cluster is properly configured before deployment.
+Dependencies: The CSI driver must be functional before deploying stateful workloads. The operator needs to be healthy before deploying managed services.
+Configuration: Each component likely requires configuration for interconnection - especially the operator knowing about storage, the SQL engine knowing about the database, and the insight engine knowing about data sources.
+nairwitac/codebase_pradar
