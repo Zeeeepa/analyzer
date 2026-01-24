@@ -75,6 +75,11 @@ python2ts
 putout
 tywrap
 @openuji/speculator
+FatLint    - se it on 15mb js code- map all asts, and analyze 1-by-1 weach ast node, then modify needed nodes without breaking code?
+pelicula    - pattern-based putout rules via ast-grep to mass‑rewrite JavaScript,
+@putout/bundle  - parses the source string to AST. Runs the configured plugins, which transform the AST
+
+
 
                                                           CODE TOOLS
 @z_ai/coding-helper
@@ -88,7 +93,133 @@ claude mcp add -s user -t http zread https://api.z.ai/api/mcp/zread/mcp --header
                                                             CODE ANALYSIS 
 recursive-llm-ts
 deepseek-cowork
+viborm
+create-merlin-brain
+ccwiki-mcp
+merlin-mcp
+@triedotdev/mcp
+@toolsdk.ai/registry
+codebase-knowledge-agent
+ccjk
+@cloudwarriors-ai/rlm
+lance-context
+@comfanion/workflow
+create-opencode-workflow
+oh-my-opencode
+@rustmcp/mcp-discovery
+rust-mcp-sdk
+rust-mcp-schema
+pampax
+driftdetect
+driftdetect-detectors
+driftdetect-core
+driftdetect-mcp
+driftdetect-dashboard
+driftdetect-lsp
+driftdetect-galaxy
 
+
+@mhalder/qdrant-mcp-server
+qleaner [
+@ozbombor/code-intelligence-mcp
+
+@claude-flow/plugin-code-intelligence
+@claude-flow/plugin-gastown-bridge
+@claude-flow/plugin-quantum-optimizer
+@claude-flow/plugin-cognitive-kernel
+@claude-flow/plugin-neural-coordination
+@claude-flow/plugin-agentic-qe
+prime-radiant-advanced-wasm
+@ruvector/ruvllm-wasm
+@ruvector/ruvllm-cli
+@ruvector/graph-data-generator
+@claude-flow/browser
+@claude-flow/cli
+@ruvector/ruvllm
+@ruvector/router
+ruvector-attention-wasm
+agentic-flow
+claude-flow
+@claude-flow/plugin-test-intelligence
+rlm-analyzer
+mantic.sh
+
+  mutts
+
+  cluso
+@vibecodetown/mcp-server
+anal-cli
+@contextstream/mcp-server
+  
+@tencent-ai/agent-server
+@tencent-ai/agent-sdk
+@tencent-ai/cloud-agent-sdk
+  @tencent-ai/codebuddy-code
+
+  @merlean/analyzer
+
+icetype
+bashx.do
+  @db4/core
+  @db4/ai
+@db4/auth
+  @db4/cli
+@db4/ai
+@db4/cache
+@db4/cloudflare
+@db4/hyperdrive
+@db4/inngest
+@db4/nats
+@db4/pglite
+@db4/planetscale
+@db4/temporal
+@db4/turso
+@db4/iceberg
+@db4/replication
+@db4/client
+@db4/do
+@db4/query
+@db4/storage
+@db4/vortex
+@db4/mcp
+@db4/rpc
+@db4/rest
+@db4/schema
+@db4/convex
+@db4/mongo
+@db4/postgres
+@db4/drizzle
+@db4/payload
+@db4/store
+@db4/worker
+ducktail
+ducklytics
+
+@icetype/adapters
+@icetype/cli
+@icetype/clickhouse
+@icetype/core
+create-icetype
+@icetype/drizzle
+@icetype/duckdb
+@icetype/iceberg
+@icetype/migrations
+@icetype/mysql
+@icetype/playground-core
+@icetype/postgres
+@icetype/prisma
+@icetype/sql-common
+@icetype/sqlite
+@icetype/test-utils
+@dotdo/documentdb
+
+  
+  kodezi-cli
+  @srdcloud/codefree-cli
+handoff-ai
+  context-rag
+    arcvision
+"@contextstream/mcp-server",
 agent-ide
 archicore
 pumuki-ast-hooks
@@ -146,7 +277,8 @@ https://www.npmjs.com/package/@nahisaho/musubix-skill-manager
 https://www.npmjs.com/package/@nahisaho/katashiro-mcp-server
 https://www.npmjs.com/package/@nahisaho/katashiro-knowledge
 
-
+@goobits/codebuddy
+portercode
 
 "ignorant",
 "ultracite",
@@ -445,7 +577,7 @@ mexta
 "visual-ui-debug-agent-mcp",
 "@pimzino/spec-workflow-mcp",
 "@magi-agi/mcp-server",
-"@contextstream/mcp-server",
+
 "@thearchitech.xyz/marketplace",
                                                           SANDBOX
 "@wf-financing/sandbox-ui",
