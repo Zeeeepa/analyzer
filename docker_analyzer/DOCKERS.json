@@ -12,7 +12,51 @@ docker pull zgsm/costrict-tools:v0.0.4
 
 docker pull kaushalpowar/chat-with-codebase-backend
 docker pull hello2morrow/sonargraph-enterprise
-
+https://hub.docker.com/r/sslhep/servicex_code_gen_topcp
+docker pull backendless/bl-coderunner-java:6.5.0.stage
+docker pull coderarquitech/db-mssql-engine
+docker pull mysten/sui-indexer-alt-graphql:ci
+docker pull turingcompl33t/codemuse-frontend
+docker pull turingcompl33t/codemuse-backend
+docker pull coderarquitech/db-mssql-engine
+docker pull agentuity/sandbox-claude-code
+docker pull hugegraph/hubble
+docker pull plexicus/plexalyzer-code
+docker pull plexicus/plexalyzer
+docker pull plexicus/plexalyzer-code-dev
+docker pull plexicus/plexalyzer-prov
+docker pull ctftools/codext:2026-01-24
+docker pull icecodexi/image-builder:debian
+docker pull cprtsoftware/rover:dev-cb3a5522b3d2ebf9360c3731fac4cd4b14169049-amd64
+https://hub.docker.com/r/cprtsoftware/rover-gstreamer
+https://hub.docker.com/r/cprtsoftware/web-ui
+docker pull cprtsoftware/container-launcher:cache
+https://hub.docker.com/r/opea/doc-index-retriever
+https://hub.docker.com/r/opea/reranking
+https://hub.docker.com/r/opea/deep-research-agent
+https://hub.docker.com/r/opea/codegen
+https://hub.docker.com/r/opea/text2query-cypher
+https://hub.docker.com/r/opea/hybridrag-ui
+https://hub.docker.com/r/opea/dataprep
+https://hub.docker.com/r/opea/retriever
+https://hub.docker.com/r/opea/embedding
+https://hub.docker.com/r/opea/hybridrag
+https://hub.docker.com/r/opea/agent
+https://hub.docker.com/r/opea/browser-use-agent
+docker pull xalencicx/dynamicode-core
+https://hub.docker.com/r/xalencicx/dynamicode-frontend
+https://hub.docker.com/r/xalencicx/dynamicode
+https://hub.docker.com/r/xalencicx/dynamicode-base
+docker pull formulacode/all:pandas-dev-pandas-1d56672407d44bd825c8905d1663e277b244c056--final
+https://hub.docker.com/r/weishaw/claude-relay-service
+https://hub.docker.com/r/weishaw/sub2api
+https://hub.docker.com/r/lynckia/licode
+docker pull tahminator/codebloom:staging-0da664d
+https://hub.docker.com/r/afcodehub/topapi-manager
+https://hub.docker.com/r/afcodehub/gatewaypro-db
+https://hub.docker.com/r/afcodehub/gatewaypro
+docker pull cagojeiger/code-server
+https://hub.docker.com/r/exycode/crm-exycode-api
 
 Deployment Sequence
 1. Core Infrastructure First
