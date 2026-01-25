@@ -98,7 +98,7 @@ ruvnet-kb-first
 
 https://www.npmjs.com/package/vibe-to-docker
 
-xyserver+b0t+v3000+autobe+testbenchmarking+evalincicd
+xyserver+b0t+v3000+autobe+testbenchmarking+evalincicd  schediler every 5min - call cc-  to check id prd is fully complete. if no - call orchestrator engine to start planning how to resolve and complete fro
                                                             CODE ANALYSIS 
 recursive-llm-ts
 deepseek-cowork
