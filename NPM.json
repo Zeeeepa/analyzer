@@ -89,6 +89,15 @@ agentshield
 ralphy-skills
 uipro-cli
 claude mcp add -s user -t http zread https://api.z.ai/api/mcp/zread/mcp --header "Authorization: Bearer your_api_key"
+claude mcp add agentic-qe-v3 npx @agentic-qe/v3 mcp
+
+                                                            DOC INDEX 
+@waldzellai/exa-mcp-docs
+ruvnet-kb-first
+
+
+https://www.npmjs.com/package/vibe-to-docker
+
 
                                                             CODE ANALYSIS 
 recursive-llm-ts
@@ -492,6 +501,7 @@ Astermind Pro
 
 
                                                           AUTOMATION
+midscene-pc
 "edsger",
 "snow-flow",
 "github-pr-automation",
