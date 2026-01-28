@@ -16,6 +16,7 @@ https://www.npmjs.com/~buley
 @sochdb/sochdb
 @buley/dash
 
+@triedotdev/mcp
 
 @op1/semantic-search
 @op1/lsp
@@ -24,7 +25,12 @@ https://www.npmjs.com/~buley
 @op1/install
 
 /ultrascript-tools-mcp
-
+ctx-engine
+seeclaudecode
+agentic-loop
+@miriad-systems/nuum
+@codyswann/lisa
+@su-record/vibe
                                             AGENTIC CODER
 "@neovate/code"
 "@versatil/claude-opera",
