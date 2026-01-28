@@ -31,6 +31,9 @@ agentic-loop
 @miriad-systems/nuum
 @codyswann/lisa
 @su-record/vibe
+
+npx vibe-kanban
+
                                             AGENTIC CODER
 "@neovate/code"
 "@versatil/claude-opera",
