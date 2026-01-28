@@ -4,6 +4,44 @@
 https://www.npmjs.com/~nahisaho
 https://www.npmjs.com/~buley
 
+@agi-cli/api
+
+
+mcp2service
+
+toolsdk - ToolSDK.ai - A decentralized Tool SDK for AI Agents. Add automation features and 100+ integrations to your AI apps.
+@toolsdk.ai/registry - An Open, Structured, and Standard Registry for MCP Servers and Packages.
+@sandagent/sandbox-sandock - Sandock sandbox adapter for SandAgent
+@sandagent/ui - SandAgent UI components - Ready-to-use React components for building AI chat interfaces
+@sandagent/runner-cli - SandAgent Runner CLI - Like gemini-cli or claude-code, runs in your local terminal with AI SDK UI streaming
+@sandagent/sandbox-e2b - E2B sandbox adapter for SandAgent
+@sandagent/sandbox-daytona - Daytona sandbox adapter for SandAgen
+@sandagent/ai-provider - AI SDK provider for SandAgent - run Claude Agent SDK in isolated sandboxes
+@sandagent/sdk - SandAgent SDK - AI Provider and React hooks for building AI agents
+sandock - Lightweight TypeScript SDK for the Sandock - Sandbox in Docker for AI Agents.
+@sandagent/manager - SandAgent Manager - Manages sandbox and runner lifecycle, defines core interfaces
+
+
+@auto-engineer/design-system-importer - Import design system components from Figma and generate markdown documentation.
+@auto-engineer/frontend-checks - Automated frontend validation for TypeScript errors, build errors, and runtime console errors.
+@auto-engineer/information-architect - AI-powered Information Architecture generation that transforms narrative models into UI component specifications.
+@auto-engineer/server-implementer - AI-powered code implementation that completes TODO-marked TypeScript files in event-driven servers.
+@auto-engineer/ai-gateway - Unified AI provider abstraction layer with multi-provider support and MCP tool integration.
+@auto-engineer/cli - Command-line interface for Auto Engineer, a tool for building applications with Narrative Driven Development.
+@auto-engineer/message-bus - Message bus for handling commands, events, and queries
+@auto-engineer/file-store - Platform-agnostic file storage abstraction with in-memory and Node.js implementations.
+@auto-engineer/frontend-generator-react-graphql - React frontend generator that scaffolds GraphQL-powered applications from IA schemas.
+@auto-engineer/frontend-implementer - AI-powered frontend implementation that transforms IA schemes into complete React applications.
+@auto-engineer/server-checks - Server validation commands for TypeScript type checking, ESLint linting, and Vitest test execution.
+@auto-engineer/server-generator-apollo-emmett - Code generation that scaffolds event-sourced GraphQL servers using the Emmett framework.
+@auto-engineer/id - Generate cryptographically secure, URL-safe, unbiased base-62 identifiers.
+@auto-engineer/message-store - Message store for commands and events with pluggable backends
+@auto-engineer/component-implementer - AI-powered component implementation that generates production-ready React components from IA schema definitions.
+@auto-engineer/narrative - TypeScript DSL for defining business narratives using BDD patterns with Given/When/Then syntax.
+@auto-engineer/dev-server - Development server commands for starting and managing client/server processes with file watching.
+@auto-engineer/pipeline - Event-driven SDLC pipeline orchestration system with declarative workflow definitions.
+@auto-engineer/server-generator-nestjs - | | | | --- | --- | | **Status** | EXPERIMENTAL - NOT READY FOR PRODUCTION | | **Stability** | APIs will change without notice | | **Completeness** | Features may be incomplete or broken |
+@auto-engineer/release-automation - Automated release management with changesets and conventional commits
 
 RuvBot
 
