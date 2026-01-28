@@ -4,6 +4,11 @@
 https://www.npmjs.com/~nahisaho
 https://www.npmjs.com/~buley
 
+
+RuvBot
+
+@iceinvein/code-intelligence-mcp  -  [481 MB]  - [CodeAnalysis] + [MCP]
+
 @cortexmemory/cli
 @cortexmemory/sdk
 @cortexmemory/vercel-ai-provider
@@ -109,7 +114,7 @@ tywrap
 FatLint    - se it on 15mb js code- map all asts, and analyze 1-by-1 weach ast node, then modify needed nodes without breaking code?
 pelicula    - pattern-based putout rules via ast-grep to mass‑rewrite JavaScript,
 @putout/bundle  - parses the source string to AST. Runs the configured plugins, which transform the AST
-
+@aiready/cli
 
 
                                                           CODE TOOLS
