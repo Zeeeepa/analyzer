@@ -1,0 +1,15 @@
+# FoxRuv Intelligence Backend
+
+# Logs (exclude from version control)
+logs/
+tmp/
+
+# Cache (rebuild as needed)
+cache/
+
+# AgentDB (local learning - optional to commit)
+agentdb/
+
+# Keep config files (commit these)
+!config/
+!mcp/registry.json

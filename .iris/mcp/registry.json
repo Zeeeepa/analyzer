@@ -1,0 +1,153 @@
+{
+  "version": "1.0.0",
+  "mcps": {
+    "filesystem-mcp": {
+      "name": "Filesystem MCP",
+      "description": "File operations with AI-powered editing (Morph)",
+      "category": "development",
+      "author": "anthropic",
+      "npm_package": "@anthropic/filesystem-mcp",
+      "version": "1.0.0",
+      "verified": true,
+      "security_audit": "2024-11-01",
+      "required_env": [],
+      "tools": [
+        "read_file",
+        "write_file",
+        "list_directory",
+        "morph_edit"
+      ]
+    },
+    "context7-mcp": {
+      "name": "Context7 MCP",
+      "description": "Semantic codebase search and understanding",
+      "category": "development",
+      "author": "context7",
+      "npm_package": "@context7/mcp",
+      "version": "1.0.0",
+      "verified": true,
+      "security_audit": "2024-11-15",
+      "required_env": [
+        "CONTEXT7_API_KEY"
+      ],
+      "tools": [
+        "search_code",
+        "get_context",
+        "understand_codebase"
+      ]
+    },
+    "supabase-mcp": {
+      "name": "Supabase MCP",
+      "description": "Database, auth, storage, and realtime",
+      "category": "database",
+      "author": "supabase",
+      "npm_package": "@supabase/mcp",
+      "version": "1.0.0",
+      "verified": true,
+      "security_audit": "2024-11-01",
+      "required_env": [
+        "SUPABASE_URL",
+        "SUPABASE_SERVICE_ROLE_KEY"
+      ],
+      "tools": [
+        "query",
+        "insert",
+        "update",
+        "delete",
+        "storage_upload"
+      ]
+    },
+    "neo4j-mcp": {
+      "name": "Neo4j Graph Database MCP",
+      "description": "Query and manage Neo4j graph databases",
+      "category": "database",
+      "author": "foxruv",
+      "npm_package": "@foxruv/neo4j-mcp",
+      "version": "0.3.0",
+      "verified": true,
+      "security_audit": "2024-11-15",
+      "required_env": [
+        "NEO4J_URI",
+        "NEO4J_USER",
+        "NEO4J_PASSWORD"
+      ],
+      "tools": [
+        "run_query",
+        "get_schema",
+        "create_node"
+      ]
+    },
+    "stripe-mcp": {
+      "name": "Stripe MCP Server",
+      "description": "Interact with Stripe API for payments",
+      "category": "payments",
+      "author": "stripe",
+      "npm_package": "stripe-mcp-server",
+      "version": "1.2.0",
+      "verified": true,
+      "security_audit": "2024-11-01",
+      "required_env": [
+        "STRIPE_API_KEY"
+      ],
+      "tools": [
+        "create_customer",
+        "create_subscription",
+        "cancel_subscription"
+      ]
+    },
+    "slack-mcp": {
+      "name": "Slack MCP",
+      "description": "Send messages and interact with Slack",
+      "category": "communication",
+      "author": "slack",
+      "npm_package": "@slack/mcp",
+      "version": "1.0.0",
+      "verified": true,
+      "security_audit": "2024-11-01",
+      "required_env": [
+        "SLACK_BOT_TOKEN"
+      ],
+      "tools": [
+        "send_message",
+        "list_channels",
+        "get_thread"
+      ]
+    },
+    "brave-search-mcp": {
+      "name": "Brave Search MCP",
+      "description": "Web search with Brave Search API",
+      "category": "search",
+      "author": "brave",
+      "npm_package": "@anthropic/brave-search-mcp",
+      "version": "1.0.0",
+      "verified": true,
+      "security_audit": "2024-11-01",
+      "required_env": [
+        "BRAVE_API_KEY"
+      ],
+      "tools": [
+        "web_search",
+        "news_search"
+      ]
+    }
+  },
+  "categories": {
+    "development": [
+      "filesystem-mcp",
+      "context7-mcp"
+    ],
+    "database": [
+      "supabase-mcp",
+      "neo4j-mcp"
+    ],
+    "payments": [
+      "stripe-mcp"
+    ],
+    "communication": [
+      "slack-mcp"
+    ],
+    "search": [
+      "brave-search-mcp"
+    ]
+  }
+}
