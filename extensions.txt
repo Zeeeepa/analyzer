@@ -1,0 +1,127 @@
+AIScraper - AI Powered No Code Web Scraping Tool
+4.0.0
+Web scraper, powered by AI! Collect any data from web pages by natural language request and modify on the fly
+ID: mfjniiodgjhlmleaakofgijfccdgppbc
+Inspect views
+service worker (Inactive)
+
+All in Ob
+0.1.0
+AI-enhanced web clipper for saving chats, fragments, and articles into Obsidian.
+ID: eoohmbhdepgknfemajanfaejmonckgmo
+
+Code Web Chat Connector
+1.93.0
+Autofill your prompts in chatbots. Add websites to context.
+ID: ljookipcanaglfaocjbgdicfbdhhjffp
+
+CRX Extractor/Downloader
+1.5.9
+Download CRX Files directly as crx or zip file depending upon your choice
+ID: ajkhmmldknmfjnmeedkbkkojgobmljda
+Inspect views
+service worker (Inactive)
+
+Dark Reader
+4.9.119
+Dark mode for every website. Take care of your eyes, use dark theme for night and daily browsing.
+ID: eimadpbcbfnmbkopoojfekhnkhdbieeh
+Inspect views
+service worker
+
+Dashcam
+0.2.2
+Why double-back when you can capture it the first time? Playback and share whatever happens with Dashcam's desktop replay buffer.
+ID: dkcoeknmlfnfimigfagbcjgpokhdcbbp
+
+Endpoint Extractor
+1.0
+Extracts endpoints from the current page.
+ID: jpkbcgdafcpbnjhdaecnakgjoijiecph
+
+FindSomething
+2.1.10
+Find interesting things in the webpage's source code or JavaScript
+ID: kfhniponecokdefffkpagipffdefeldb
+Inspect views
+service worker (Inactive)
+
+Image Downloader - Save pictures
+1.2.6
+Find, choose and download images you need from any web pages or select all to bulk image download at once.
+ID: daeljdgmllhgmbdkpgnaojldjkdgkbjg
+Inspect views
+service worker
+
+JShelter
+0.21
+Extension for increasing security and privacy level of the user.
+ID: ammoloihpcbognfddfjcljgembpibcmb
+
+Midscene.js
+1.12
+Open-source SDK for automating web pages using natural language through AI.
+ID: gbldofcpkknbggpkmbdaefngejllnief
+Inspect views
+service worker (Inactive)
+
+npmhub
+2024.7.26
+Explore npm dependencies on GitHub repos
+ID: kbbbjimdjbjclaebffknlabpogocablj
+Inspect views
+service worker (Inactive)
+
+Obsidian Web Clipper
+0.12.0
+Save and highlight web pages in a private and durable format that you can access offline. The official extension for Obsidian.
+ID: cnjifjpddelmedmihgijeibhnjfabmlf
+Inspect views
+service worker (Inactive)
+
+Octotree - GitHub code tree
+8.2.4
+GitHub on steroids
+ID: bkhaagjahfmjljalopjnoealnfndnagc
+Inspect views
+service worker (Inactive)
+
+Pathprobe
+1.2.0
+Asychronous multi-domain directory scanner
+ID: nojoikodblglcgejfcindolcmindanad
+
+Refined GitHub
+26.1.24
+Simplifies the GitHub interface and adds useful features
+ID: hlepfoohegkhhmjieoechaddaejaokhf
+Inspect views
+service worker
+
+Save All Resources
+2.0.6
+Save all resources files with retaining folder structure.
+ID: abpdnfjocnmdomablahdcfnoggeeiedb
+Inspect views
+service worker (Inactive)
+
+SingleFile
+1.22.97
+Save a complete page into a single HTML file
+ID: mpiodijhokgodhhofbcjdecpffjipkle
+Inspect views
+service worker (Inactive)
+
+Thunderbit: AI Web Scraper & Web Automation Agent
+4.2.4
+The AI Web Scraping Chrome Extension. Use ChatGPT, Claude & DeepSeek to scrape and extract data to Excel in just 2 clicks!
+ID: hbkblmodhbmcakopmmfbaopfckopccgp
+Inspect views
+service worker
+
+Video Downloader Professional
+2.1.6
+Download videos from web sites or just collect them in your video list without downloading them.
+ID: elicpjhcidhpjomhibiffojpinpmmpil
+Inspect views
+service worker
