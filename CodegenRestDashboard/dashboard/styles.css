@@ -48,4 +48,14 @@ body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubunt
 
 .toast-container { position: fixed; right: 12px; bottom: 12px; display:flex; flex-direction: column; gap: 8px; }
 .toast { background: #0f141d; border: 1px solid #1b2430; color: var(--text); padding: 10px; border-radius: 8px; box-shadow: 0 6px 24px rgba(0,0,0,0.3); }
+/* Space-saving refinements */
+.filter.compact select { background: #0f141d; color: var(--text); border: 1px solid #1b2430; border-radius: 6px; padding: 4px 6px; }
+.run-list.dense { grid-template-columns: repeat(auto-fill, minmax(300px,1fr)); gap: 8px; }
+.run-card { padding: 8px; gap: 6px; }
+.run-card .meta { font-size: 11px; gap: 8px; }
+.run-card .actions { gap: 6px; }
+.run-card .quick { display:none; margin-top: 6px; padding-top: 6px; border-top: 1px dashed #1b2430; }
+.run-card.expanded .quick { display:block; }
+.run-card .icon-btn { padding: 4px 6px; font-size: 12px; }
+.run-card .small-input { background: #0e141d; color: var(--text); border: 1px solid #1b2430; border-radius: 6px; padding: 4px 6px; width: 100%; }
 

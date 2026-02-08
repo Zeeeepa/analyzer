@@ -26,9 +26,12 @@
 
     <section class="tab-content" id="tab-runs">
       <div class="controls">
-        <div class="filter">
-          <label><input type="radio" name="filter" value="active" checked /> Active</label>
-          <label><input type="radio" name="filter" value="past" /> Past</label>
+        <div class="filter compact">
+          <select id="viewSelect" title="View">
+            <option value="all">All</option>
+            <option value="active" selected>Active</option>
+            <option value="past">Past</option>
+          </select>
         </div>
         <div class="create-run">
           <input type="text" id="newRunPrompt" placeholder="Enter prompt for new run" />
@@ -46,12 +49,7 @@
         </div>
       </div>
 
-      <div class="pinned" id="pinnedContainer">
-        <h3>Pinned</h3>
-        <div id="pinnedList" class="run-list"></div>
-      </div>
-
-      <div class="run-list" id="runsList"></div>
+      <div class="run-list dense" id="runsList"></div>
     </section>
 
     <section class="tab-content hidden" id="tab-templates">
@@ -95,4 +93,3 @@
   <script src="/app.js"></script>
 </body>
 </html>
-

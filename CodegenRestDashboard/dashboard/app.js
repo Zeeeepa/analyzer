@@ -9,8 +9,7 @@
   const activeDropdown = document.getElementById('activeDropdown');
   const activeListEl = document.getElementById('activeList');
   const runsListEl = document.getElementById('runsList');
-  const pinnedListEl = document.getElementById('pinnedList');
-  const filterRadios = document.querySelectorAll('input[name="filter"]');
+  const viewSelect = document.getElementById('viewSelect');
   const createBtn = document.getElementById('createRunBtn');
   const promptInput = document.getElementById('newRunPrompt');
   const modelSelect = document.getElementById('modelSelect');
@@ -71,8 +70,8 @@
     });
   });
 
-  // Filter
-  filterRadios.forEach((r) => r.addEventListener('change', renderRuns));
+  // Filter (compact)
+  if (viewSelect) viewSelect.addEventListener('change', renderRuns);
 
   // Create run
   createBtn.addEventListener('click', async () => {
@@ -172,89 +171,101 @@
     const el = document.createElement('div');
     el.className = 'run-card';
 
+    // Header row
     const title = document.createElement('div');
     title.textContent = `#${r.id}`;
     const meta = document.createElement('div');
     meta.className = 'meta';
     const d = new Date(r.created_at || Date.now());
     const statusCls = statusIsActive(r.status) ? 'active' : 'past';
-    meta.innerHTML = `<span class="status ${statusCls}">${r.status || ''}</span> <span>${d.toLocaleString()}</span>`;
+    meta.innerHTML = `<span class=\"status ${statusCls}\">${r.status || ''}</span> <span>${d.toLocaleString()}</span>`;
 
     const actions = document.createElement('div');
     actions.className = 'actions';
-
-    const openBtn = document.createElement('button'); openBtn.textContent = 'Open Logs';
-    const pinBtn = document.createElement('button'); pinBtn.textContent = State.pinned.has(r.id) ? 'Unpin' : 'Pin';
-    const watchBtn = document.createElement('button'); watchBtn.textContent = State.watchers.has(r.id) ? 'Unwatch' : 'Watch';
-
-    const resumeSel = document.createElement('select');
-    const emptyOpt = document.createElement('option'); emptyOpt.value=''; emptyOpt.textContent = '(choose template)'; resumeSel.appendChild(emptyOpt);
-    State.templates.forEach((t) => { const o = document.createElement('option'); o.value=t.name; o.textContent=t.name; resumeSel.appendChild(o); });
-    const resumeBtn = document.createElement('button'); resumeBtn.textContent = 'Resume with Template';
-
-    const chainSel = document.createElement('select'); chainSel.multiple = true; chainSel.size = 3; chainSel.style.minWidth = '160px';
-    State.templates.forEach((t) => { const o = document.createElement('option'); o.value=t.name; o.textContent=t.name; chainSel.appendChild(o); });
-    const applyChainBtn = document.createElement('button'); applyChainBtn.textContent = 'Apply Chaining';
-
+    const openBtn = document.createElement('button'); openBtn.textContent = 'Logs'; openBtn.className='icon-btn';
+    const pinBtn = document.createElement('button'); pinBtn.textContent = State.pinned.has(r.id) ? 'Unpin' : 'Pin'; pinBtn.className='icon-btn';
+    const watchBtn = document.createElement('button'); watchBtn.textContent = State.watchers.has(r.id) ? 'Unwatch' : 'Watch'; watchBtn.className='icon-btn';
     actions.appendChild(openBtn);
     actions.appendChild(pinBtn);
     actions.appendChild(watchBtn);
-    actions.appendChild(resumeSel);
-    actions.appendChild(resumeBtn);
-    actions.appendChild(chainSel);
-    actions.appendChild(applyChainBtn);
 
-    openBtn.addEventListener('click', () => openLogs(r.id));
-    pinBtn.addEventListener('click', () => {
-      if (State.pinned.has(r.id)) State.pinned.delete(r.id); else State.pinned.add(r.id);
-      savePinned(); renderAll();
-    });
-    watchBtn.addEventListener('click', () => toggleWatch(r.id));
+    const quick = document.createElement('div');
+    quick.className = 'quick';
 
-    resumeBtn.addEventListener('click', async () => {
-      const name = resumeSel.value;
-      if (!name) { Toast.show('Choose a template'); return; }
-      const t = State.templates.find((x) => x.name === name);
-      if (!t) { Toast.show('Template not found'); return; }
-      try {
-        await API.resumeRun({ agent_run_id: r.id, prompt: t.text });
-        Toast.show(`Resumed #${r.id} with '${name}'`);
-      } catch (e) {
-        console.error(e); Toast.show('Resume failed');
-      }
-    });
+    if (statusIsActive(r.status)) {
+      const chainSel = document.createElement('select'); chainSel.multiple = true; chainSel.size = 3; chainSel.style.minWidth = '160px';
+      State.templates.forEach((t) => { const o = document.createElement('option'); o.value=t.name; o.textContent=t.name; chainSel.appendChild(o); });
+      const applyChainBtn = document.createElement('button'); applyChainBtn.textContent = 'Add Chains'; applyChainBtn.className='icon-btn';
+      quick.appendChild(chainSel);
+      quick.appendChild(applyChainBtn);
+      applyChainBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const selected = Array.from(chainSel.selectedOptions).map((o) => o.value).filter(Boolean);
+        if (selected.length === 0) { Toast.show('Select templates'); return; }
+        const plan = selected.map((nm) => ({ name: nm }));
+        r.__chainPlan = plan; r.__chainIndex = 0; r.__lastState = r.status || '';
+        Toast.show(`Chaining set on #${r.id}: ${selected.join(' -> ')}`);
+        ensureWatch(r.id);
+      });
+    } else {
+      const resumeRow = document.createElement('div'); resumeRow.className='actions';
+      const resumeSel = document.createElement('select');
+      const emptyOpt = document.createElement('option'); emptyOpt.value=''; emptyOpt.textContent = '(choose template)'; resumeSel.appendChild(emptyOpt);
+      State.templates.forEach((t) => { const o = document.createElement('option'); o.value=t.name; o.textContent=t.name; resumeSel.appendChild(o); });
+      const resumeBtn = document.createElement('button'); resumeBtn.textContent = 'Resume'; resumeBtn.className='icon-btn';
+      const adhoc = document.createElement('input'); adhoc.placeholder='Ad-hoc prompt'; adhoc.className='small-input';
+      const adhocBtn = document.createElement('button'); adhocBtn.textContent = 'Send'; adhocBtn.className='icon-btn';
+      resumeRow.appendChild(resumeSel);
+      resumeRow.appendChild(resumeBtn);
+      quick.appendChild(resumeRow);
+      quick.appendChild(adhoc);
+      quick.appendChild(adhocBtn);
+      resumeBtn.addEventListener('click', async (e) => {
+        e.stopPropagation();
+        const name = resumeSel.value;
+        if (!name) { Toast.show('Choose a template'); return; }
+        const t = State.templates.find((x) => x.name === name);
+        if (!t) { Toast.show('Template not found'); return; }
+        try { await API.resumeRun({ agent_run_id: r.id, prompt: t.text }); Toast.show(`Resumed #${r.id} with '${name}'`); }
+        catch (e2) { console.error(e2); Toast.show('Resume failed'); }
+      });
+      adhocBtn.addEventListener('click', async (e) => {
+        e.stopPropagation();
+        const txt = (adhoc.value || '').trim();
+        if (!txt) { Toast.show('Enter a prompt'); return; }
+        try { await API.resumeRun({ agent_run_id: r.id, prompt: txt }); Toast.show(`Resumed #${r.id}`); adhoc.value=''; }
+        catch (e2) { console.error(e2); Toast.show('Resume failed'); }
+      });
+    }
 
-    applyChainBtn.addEventListener('click', () => {
-      const selected = Array.from(chainSel.selectedOptions).map((o) => o.value).filter(Boolean);
-      if (selected.length === 0) { Toast.show('Select templates'); return; }
-      // Register chaining plan on this run id
-      const plan = selected.map((nm) => ({ name: nm }));
-      r.__chainPlan = plan; r.__chainIndex = 0; r.__lastState = r.status || '';
-      Toast.show(`Chaining set on #${r.id}: ${selected.join(' -> ')}`);
-      // Start watching automatically
-      ensureWatch(r.id);
-    });
+    openBtn.addEventListener('click', (e) => { e.stopPropagation(); openLogs(r.id); });
+    pinBtn.addEventListener('click', (e) => { e.stopPropagation(); if (State.pinned.has(r.id)) State.pinned.delete(r.id); else State.pinned.add(r.id); savePinned(); renderRuns(); });
+    watchBtn.addEventListener('click', (e) => { e.stopPropagation(); toggleWatch(r.id); });
+
+    el.addEventListener('click', () => { el.classList.toggle('expanded'); });
 
     el.appendChild(title);
     el.appendChild(meta);
-    if (r.web_url) {
-      const link = document.createElement('a'); link.href = r.web_url; link.target='_blank'; link.rel='noreferrer noopener'; link.textContent = 'Open in Codegen';
-      el.appendChild(link);
-    }
+    if (r.web_url) { const link = document.createElement('a'); link.href = r.web_url; link.target='_blank'; link.rel='noreferrer noopener'; link.textContent = 'Open in Codegen'; el.appendChild(link); }
     el.appendChild(actions);
+    el.appendChild(quick);
     return el;
   }
 
   function renderRuns() {
-    const filter = document.querySelector('input[name="filter"]:checked').value;
-    const source = filter === 'active' ? State.active : State.past;
+    const view = (viewSelect && viewSelect.value) || 'active';
+    let list = [...State.runs];
+    // Pinned first
+    list.sort((a,b) => {
+      const ap = State.pinned.has(a.id) ? 0 : 1;
+      const bp = State.pinned.has(b.id) ? 0 : 1;
+      if (ap !== bp) return ap - bp;
+      return (new Date(b.created_at||0)) - (new Date(a.created_at||0));
+    });
+    if (view === 'active') list = list.filter((r) => statusIsActive(r.status));
+    if (view === 'past') list = list.filter((r) => !statusIsActive(r.status));
     runsListEl.innerHTML = '';
-    source.forEach((r) => runsListEl.appendChild(runCard(r)));
-    // Pinned at top area
-    const pinned = State.runs.filter((r) => State.pinned.has(r.id));
-    pinnedListEl.innerHTML = '';
-    pinned.forEach((r) => pinnedListEl.appendChild(runCard(r)));
-    document.getElementById('pinnedContainer').style.display = pinned.length ? 'block' : 'none';
+    list.forEach((r) => runsListEl.appendChild(runCard(r)));
     renderActiveHeader();
   }
 
