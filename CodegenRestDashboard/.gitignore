@@ -1,0 +1,29 @@
+# Ignore local secrets
+.env
+# OS/temp
+.DS_Store
+Thumbs.db
+# Logs
+*.log
+# Editor swaps
+*~
+*.swp
+*.swo
+# Generated artifacts
+/node_modules/
+/build/
+/dist/
+# Cache
+/.cache/
+/.parcel-cache/
+/.vite/
+/coverage/
+# IDEs
+/.idea/
+/.vscode/
+*.iml
+# Misc
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log* 
+ 

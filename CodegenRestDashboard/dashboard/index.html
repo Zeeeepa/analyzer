@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Codegen REST Dashboard</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header class="app-header">
+    <div class="brand">CodegenREST</div>
+    <div class="active-runs" id="activeRunsHeader">
+      Active: <span id="activeCount">0</span>
+      <div class="active-dropdown" id="activeDropdown" hidden>
+        <div class="dropdown-title">Active Runs</div>
+        <div id="activeList" class="dropdown-list"></div>
+      </div>
+    </div>
+  </header>
+
+  <main class="app-main">
+    <nav class="tabs">
+      <button class="tab-button active" data-tab="runs">Runs</button>
+      <button class="tab-button" data-tab="templates">Templates</button>
+    </nav>
+
+    <section class="tab-content" id="tab-runs">
+      <div class="controls">
+        <div class="filter">
+          <label><input type="radio" name="filter" value="active" checked /> Active</label>
+          <label><input type="radio" name="filter" value="past" /> Past</label>
+        </div>
+        <div class="create-run">
+          <input type="text" id="newRunPrompt" placeholder="Enter prompt for new run" />
+          <select id="modelSelect" title="Model">
+            <option value="Sonnet 4.5">Sonnet 4.5</option>
+            <option value="GPT-5">GPT-5</option>
+            <option value="GPT 5 Codex">GPT 5 Codex</option>
+            <option value="Claude opus 4.5">Claude opus 4.5</option>
+            <option value="Grok 4">Grok 4</option>
+            <option value="Grok 4 Fast reasoning">Grok 4 Fast reasoning</option>
+            <option value="Grok Code Fast 1">Grok Code Fast 1</option>
+          </select>
+          <input type="number" id="newRunRepoId" placeholder="repo_id (optional)" />
+          <button id="createRunBtn">Create Run</button>
+        </div>
+      </div>
+
+      <div class="pinned" id="pinnedContainer">
+        <h3>Pinned</h3>
+        <div id="pinnedList" class="run-list"></div>
+      </div>
+
+      <div class="run-list" id="runsList"></div>
+    </section>
+
+    <section class="tab-content hidden" id="tab-templates">
+      <div class="templates">
+        <div class="template-form">
+          <input type="text" id="tplName" placeholder="Template name" />
+          <textarea id="tplText" placeholder="Template prompt text"></textarea>
+          <button id="addTemplateBtn">Add / Update Template</button>
+        </div>
+        <div class="template-actions">
+          <button id="exportTemplatesBtn">Export JSON</button>
+          <button id="importTemplatesBtn">Import JSON</button>
+        </div>
+        <div class="template-list" id="templatesList"></div>
+      </div>
+    </section>
+  </main>
+
+  <div class="modal hidden" id="logsModal" aria-hidden="true" role="dialog">
+    <div class="modal-content">
+      <header class="modal-header">
+        <div>
+          <strong>Agent Run Logs</strong> <span id="logsRunId"></span>
+        </div>
+        <div class="modal-actions">
+          <button id="pauseLogsBtn">Pause</button>
+          <button id="copyLogsBtn">Copy JSON</button>
+          <button id="closeLogsBtn">Close</button>
+        </div>
+      </header>
+      <pre class="modal-body" id="logsContainer"></pre>
+    </div>
+  </div>
+
+  <div id="toastContainer" class="toast-container"></div>
+
+  <script src="/api.js"></script>
+  <script src="/state.js"></script>
+  <script src="/components/modal.js"></script>
+  <script src="/components/toast.js"></script>
+  <script src="/app.js"></script>
+</body>
+</html>
+
