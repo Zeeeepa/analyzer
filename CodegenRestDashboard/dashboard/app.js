@@ -69,6 +69,31 @@
       }
     });
   });
+  // Persist selected view
+  const savedView = localStorage.getItem('view') || 'all';
+  if (viewSelect) {
+    viewSelect.value = savedView;
+    viewSelect.addEventListener('change', () => localStorage.setItem('view', viewSelect.value));
+  }
+
+  // Relative time
+  function timeAgo(ts){
+    const d = typeof ts === 'string' ? new Date(ts) : new Date(ts||0);
+    const diff = Math.floor((Date.now()-d.getTime())/1000);
+    if (isNaN(diff) || diff<0) return '';
+    if (diff<60) return `${diff}s ago`;
+    const m = Math.floor(diff/60); if (m<60) return `${m}m ago`;
+    const h = Math.floor(m/60); if (h<24) return `${h}h ago`;
+    const days = Math.floor(h/24); return `${days}d ago`;
+  }
+  function refreshRelativeTimes(){
+    document.querySelectorAll('[data-ts]').forEach(el => {
+      const ts = el.getAttribute('data-ts');
+      el.textContent = timeAgo(ts);
+    });
+  }
+  setInterval(refreshRelativeTimes, 60000);
+
 
   // Filter (compact)
   if (viewSelect) viewSelect.addEventListener('change', renderRuns);
@@ -178,13 +203,25 @@
     meta.className = 'meta';
     const d = new Date(r.created_at || Date.now());
     const statusCls = statusIsActive(r.status) ? 'active' : 'past';
-    meta.innerHTML = `<span class=\"status ${statusCls}\">${r.status || ''}</span> <span>${d.toLocaleString()}</span>`;
+    const abs = d.toLocaleString();
+    meta.innerHTML = `<span class=\"status ${statusCls}\">${r.status || ''}</span> <span class=\"time\" data-ts=\"${r.created_at || d.toISOString()}\" title=\"${abs}\">${abs}</span>`;
+    // Chain badge
+    const cp = window.AppState.getChainPlan ? window.AppState.getChainPlan(r.id) : null;
+    if (cp && Array.isArray(cp.plan) && cp.plan.length > (cp.index||0)) {
+      const badge = document.createElement('span');
+      badge.className = 'badge-chains';
+      const remaining = cp.plan.length - (cp.index||0);
+      badge.textContent = `${remaining} chains`;
+      badge.title = cp.plan.slice(cp.index||0, (cp.index||0)+3).join(', ');
+      meta.appendChild(badge);
+    }
+
 
     const actions = document.createElement('div');
     actions.className = 'actions';
-    const openBtn = document.createElement('button'); openBtn.textContent = 'Logs'; openBtn.className='icon-btn';
-    const pinBtn = document.createElement('button'); pinBtn.textContent = State.pinned.has(r.id) ? 'Unpin' : 'Pin'; pinBtn.className='icon-btn';
-    const watchBtn = document.createElement('button'); watchBtn.textContent = State.watchers.has(r.id) ? 'Unwatch' : 'Watch'; watchBtn.className='icon-btn';
+    const openBtn = document.createElement('button'); openBtn.textContent = '🔎'; openBtn.className='icon-btn'; openBtn.title='Logs'; openBtn.setAttribute('aria-label','Logs');
+    const pinBtn = document.createElement('button'); pinBtn.textContent = State.pinned.has(r.id) ? '📌' : '📍'; pinBtn.className='icon-btn'; pinBtn.title= State.pinned.has(r.id)?'Unpin':'Pin'; pinBtn.setAttribute('aria-label', pinBtn.title);
+    const watchBtn = document.createElement('button'); watchBtn.textContent = State.watchers.has(r.id) ? '🚫' : '👁'; watchBtn.className='icon-btn'; watchBtn.title= State.watchers.has(r.id)?'Unwatch':'Watch'; watchBtn.setAttribute('aria-label', watchBtn.title);
     actions.appendChild(openBtn);
     actions.appendChild(pinBtn);
     actions.appendChild(watchBtn);
@@ -202,10 +239,11 @@
         e.stopPropagation();
         const selected = Array.from(chainSel.selectedOptions).map((o) => o.value).filter(Boolean);
         if (selected.length === 0) { Toast.show('Select templates'); return; }
-        const plan = selected.map((nm) => ({ name: nm }));
-        r.__chainPlan = plan; r.__chainIndex = 0; r.__lastState = r.status || '';
+        const plan = selected.map((nm) => nm);
+        window.AppState.setChainPlan(r.id, { plan, index: 0, status: 'planned', updatedAt: Date.now() });
         Toast.show(`Chaining set on #${r.id}: ${selected.join(' -> ')}`);
         ensureWatch(r.id);
+        renderRuns();
       });
     } else {
       const resumeRow = document.createElement('div'); resumeRow.className='actions';
@@ -280,6 +318,52 @@
     } catch (e) {
       console.error(e);
     }
+  // Poll local webhook events to update UI
+  let lastEventsTs = 0;
+  async function pollEvents(){
+    try {
+      const res = await fetch('/api/events');
+      if (!res.ok) return;
+      const data = await res.json();
+      const items = (data && data.items) || [];
+      for (const it of items){
+        const ts = it.ts || 0; if (ts <= lastEventsTs) continue;
+        const pid = it.payload && (it.payload.id || it.payload.run_id || it.payload.agent_run_id);
+        const newStatus = it.payload && it.payload.status;
+        if (pid){
+          const old = State.runs.find(x => x.id === pid) || null;
+          try {
+            const r = await API.getRun(pid);
+            const idx = State.runs.findIndex(x => x.id === pid);
+            if (idx>=0) State.runs[idx] = r; else State.runs.push(r);
+            // Detect completion transition (old active -> new terminal)
+            if (old && statusIsActive(old.status) && !statusIsActive(r.status)) {
+              Toast.show(`Run #${pid} completed`);
+              notify('Run complete', `#${pid} is complete`);
+              const cp = window.AppState.getChainPlan ? window.AppState.getChainPlan(pid) : null;
+              if (cp && Array.isArray(cp.plan) && (cp.index||0) < cp.plan.length) {
+                const name = cp.plan[cp.index||0];
+                const t = State.templates.find(x => x.name === name);
+                if (t) {
+                  try {
+                    await API.resumeRun({ agent_run_id: pid, prompt: t.text });
+                    Toast.show(`Auto-chained #${pid} with '${name}'`);
+                    const next = (cp.index||0)+1;
+                    window.AppState.setChainPlan(pid, { ...cp, index: next, status: next>=cp.plan.length ? 'done':'chaining', updatedAt: Date.now() });
+                  } catch(e) { console.error(e); Toast.show('Auto-chaining failed'); }
+                }
+              }
+            }
+          } catch(e) { /* ignore */ }
+          lastEventsTs = Math.max(lastEventsTs, ts);
+        }
+      }
+      renderRuns();
+    } catch(e) { /* ignore */ }
+    setTimeout(pollEvents, 10000);
+  }
+  pollEvents();
+
   }
 
   // Watchers: poll getRun every 10s
