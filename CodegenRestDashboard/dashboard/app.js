@@ -31,6 +31,20 @@
   const importTemplatesBtn = document.getElementById('importTemplatesBtn');
   const templatesList = document.getElementById('templatesList');
 
+  // Notifications (system)
+  let notifEnabled = false;
+  try {
+    if ('Notification' in window) {
+      if (Notification.permission === 'granted') notifEnabled = true;
+      else if (Notification.permission !== 'denied') {
+        Notification.requestPermission().then((p) => { if (p === 'granted') notifEnabled = true; });
+      }
+    }
+  } catch {}
+  function notify(title, body) {
+    try { if (notifEnabled) new Notification(title, { body }); } catch {}
+  }
+
   // Header hover behavior
   let hoverTimer = null;
   activeHeader.addEventListener('mouseenter', () => {
@@ -275,6 +289,8 @@
           // Completed now
           Toast.show(`Run #${id} completed`);
           // Auto-chain if configured on this run
+          notify('Run complete', `#${id} is complete`);
+
           if (r.__chainPlan && Array.isArray(r.__chainPlan) && r.__chainIndex < r.__chainPlan.length) {
             const step = r.__chainPlan[r.__chainIndex];
             const tpl = State.templates.find((t) => t.name === step.name);
@@ -366,4 +382,3 @@
   renderTemplates();
   periodicRefresh();
 })();
-
