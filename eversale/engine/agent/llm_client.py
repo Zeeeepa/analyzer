@@ -210,7 +210,13 @@ class LLMClient:
         local_marker = Path(__file__).parent.parent / ".eversale-local"
         is_dev_mode = local_marker.exists()
 
-        if is_dev_mode:
+        # Check for OPENAI_* env vars first (direct API key usage)
+        _has_openai_env = bool(os.getenv('OPENAI_API_KEY') or os.getenv('OPENAI_BASE_URL'))
+
+        if _has_openai_env:
+            # Direct OpenAI-compatible API mode (Z.AI, etc.)
+            self.mode = 'remote'
+        elif is_dev_mode:
             # Development mode - allow local override
             self.mode = os.getenv('EVERSALE_LLM_MODE', llm_config.get('mode', 'local'))
         else:
@@ -224,10 +230,10 @@ class LLMClient:
             # Remote mode - use eversale.io proxy (validates license, forwards to GPU)
             default_url = llm_config.get('remote_url', 'https://eversale.io/api/llm')
 
-        self.base_url = os.getenv('EVERSALE_LLM_URL', llm_config.get('base_url', default_url))
+        self.base_url = os.getenv('OPENAI_BASE_URL', '') or os.getenv('EVERSALE_LLM_URL', llm_config.get('base_url', default_url))
 
         # API token for remote (license key) - check env var first, then file
-        self.api_token = os.getenv('EVERSALE_LLM_TOKEN', '') or os.getenv('EVERSALE_LICENSE_KEY', '')
+        self.api_token = os.getenv('OPENAI_API_KEY', '') or os.getenv('EVERSALE_LLM_TOKEN', '') or os.getenv('EVERSALE_LICENSE_KEY', '')
         if not self.api_token:
             # Try reading from license file
             license_path = Path.home() / ".eversale" / "license.key"
@@ -241,7 +247,7 @@ class LLMClient:
         # MODEL CONFIGURATION (3 models only)
         # =============================================================
         # 1. 0000/ui-tars-1.5-7b:latest - Primary model for all tasks + function calling
-        self.main_model = os.getenv('EVERSALE_LLM_MODEL', llm_config.get('main_model', '0000/ui-tars-1.5-7b:latest'))
+        self.main_model = os.getenv('OPENAI_MODEL', '') or os.getenv('EVERSALE_LLM_MODEL', llm_config.get('main_model', '0000/ui-tars-1.5-7b:latest'))
         self.fast_model = self.main_model  # Same as main
         self.tool_calling_model = self.main_model  # qwen3 has native function calling
 
@@ -448,13 +454,15 @@ class LLMClient:
                 'stream': False,
             }
 
-            response = await client.post('/v1/chat/completions', json=payload)
+            # Auto-detect API path based on base_url
+            _api_path = '/chat/completions' if '/v4' in self.base_url or '/v1' in self.base_url else '/v1/chat/completions'
+            response = await client.post(_api_path, json=payload)
             response.raise_for_status()
 
             data = response.json()
             message = data.get('choices', [{}])[0].get('message', {})
             # qwen3 returns 'reasoning' field when in thinking mode, fallback to it if 'content' is empty
-            content = message.get('content', '') or message.get('reasoning', '')
+            content = message.get('content', '') or message.get('reasoning_content', '') or message.get('reasoning', '')
 
             return LLMResponse(
                 content=content,
@@ -569,13 +577,15 @@ class LLMClient:
                 'stream': False,
             }
 
-            response = await client.post('/v1/chat/completions', json=payload)
+            # Auto-detect API path based on base_url
+            _api_path = '/chat/completions' if '/v4' in self.base_url or '/v1' in self.base_url else '/v1/chat/completions'
+            response = await client.post(_api_path, json=payload)
             response.raise_for_status()
 
             data = response.json()
             message = data.get('choices', [{}])[0].get('message', {})
             # qwen3 returns 'reasoning' field when in thinking mode, fallback to it if 'content' is empty
-            content = message.get('content', '') or message.get('reasoning', '')
+            content = message.get('content', '') or message.get('reasoning_content', '') or message.get('reasoning', '')
 
             return LLMResponse(
                 content=content,
