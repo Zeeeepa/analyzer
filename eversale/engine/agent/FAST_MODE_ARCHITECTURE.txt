@@ -1,0 +1,310 @@
+FAST MODE ARCHITECTURE
+=====================
+
+Overview: Fast Mode provides instant execution for simple browser actions by bypassing LLM planning.
+
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                           USER COMMAND INPUT                                  │
+│                    (e.g., "go to google.com")                                │
+└─────────────────────────────────────────────────────────────────────────────┘
+                                      │
+                                      ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                         ORCHESTRATION ENTRY                                  │
+│                   (orchestration.py::run())                                  │
+│                                                                              │
+│  Security checks → Multi-goal detection → Direct patterns                   │
+└─────────────────────────────────────────────────────────────────────────────┘
+                                      │
+                                      ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                   FAST MODE EXECUTION (NEW!)                                │
+│              (orchestration.py::_execute_with_streaming_impl)                │
+│                                                                              │
+│  try_fast_mode(prompt, mcp, config)                                         │
+│     │                                                                        │
+│     ├─> should_use_fast_mode(prompt) ────┐                                  │
+│     │   ├─ Check complexity indicators    │                                  │
+│     │   ├─ Check multi-step patterns      │                                  │
+│     │   └─ Check sentence count          │                                  │
+│     │                                      │                                  │
+│     └─> FastModeExecutor.try_execute() <─┘                                  │
+│         └─> CommandParser.parse(prompt)                                     │
+│             ├─ Pattern matching (regex)                                     │
+│             ├─ Confidence scoring                                           │
+│             └─ Action extraction                                            │
+└─────────────────────────────────────────────────────────────────────────────┘
+                  │                                   │
+                  │ High Confidence (≥0.8)             │ Low Confidence (<0.8)
+                  │ Simple Action                      │ Complex/Ambiguous
+                  ▼                                    ▼
+┌────────────────────────────────────┐   ┌────────────────────────────────────┐
+│     FAST MODE EXECUTION            │   │    FALL BACK TO LLM                │
+│     (~200-500ms)                   │   │    (~3-6 seconds)                  │
+│                                     │   │                                    │
+│  1. Parse action                   │   │  1. File shortcuts                 │
+│  2. Convert to MCP call            │   │  2. Strategic planning             │
+│  3. Execute directly               │   │  3. Web shortcuts                  │
+│  4. Return result                  │   │  4. Complex workflow handler       │
+│  5. Update stats                   │   │  5. Lead workflows                 │
+│                                     │   │  6. ReAct loop (full LLM)          │
+└────────────────────────────────────┘   └────────────────────────────────────┘
+                  │                                    │
+                  └───────────────┬───────────────────┘
+                                  ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                         MCP TOOL EXECUTION                                   │
+│                    (playwright_direct.py via MCP)                            │
+│                                                                              │
+│  Available tools:                                                            │
+│  • playwright_navigate   • playwright_click      • playwright_type          │
+│  • playwright_scroll     • playwright_wait       • playwright_screenshot    │
+│  • playwright_snapshot   • playwright_hover      • playwright_evaluate      │
+└─────────────────────────────────────────────────────────────────────────────┘
+                                      │
+                                      ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                         BROWSER EXECUTION                                    │
+│                      (Playwright + Chrome)                                   │
+│                                                                              │
+│  Execute action → Update page state → Return result                         │
+└─────────────────────────────────────────────────────────────────────────────┘
+                                      │
+                                      ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                         RESULT RETURNED                                      │
+│                     (Success message + stats)                                │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+
+COMPONENT BREAKDOWN
+===================
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  fast_mode.py                                                                │
+│  ============                                                                │
+│                                                                              │
+│  • FastModeExecutor                                                          │
+│    └─ try_execute(prompt) → FastModeResult                                  │
+│       ├─ Parse command via CommandParser                                    │
+│       ├─ Check confidence threshold                                         │
+│       ├─ Execute via MCP if high confidence                                 │
+│       └─ Track statistics                                                   │
+│                                                                              │
+│  • should_use_fast_mode(prompt, config)                                     │
+│    └─ Detect complexity indicators                                          │
+│                                                                              │
+│  • try_fast_mode(prompt, mcp, config)                                       │
+│    └─ Convenience wrapper                                                   │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  command_parser.py                                                           │
+│  =================                                                           │
+│                                                                              │
+│  • CommandParser                                                             │
+│    └─ parse(command) → ParsedAction                                         │
+│       ├─ Regex pattern matching                                             │
+│       ├─ Extract target, value, params                                      │
+│       ├─ Calculate confidence score                                         │
+│       └─ Map to action type                                                 │
+│                                                                              │
+│  • ParsedAction                                                              │
+│    ├─ action_type: ActionType                                               │
+│    ├─ target: str (URL, selector, etc.)                                     │
+│    ├─ value: str (text to type, etc.)                                       │
+│    ├─ confidence: float (0-1)                                               │
+│    └─ to_mcp_call() → (tool_name, params)                                   │
+│                                                                              │
+│  • ActionType enum                                                           │
+│    ├─ NAVIGATE, CLICK, TYPE, SCROLL                                         │
+│    ├─ WAIT, SCREENSHOT, SELECT, HOVER                                       │
+│    └─ PRESS_KEY, FILL_FORM, SEARCH, EXTRACT                                 │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  orchestration.py (integration point)                                        │
+│  ====================================                                        │
+│                                                                              │
+│  async def _execute_with_streaming_impl(prompt, resource_handle):            │
+│      # FAST MODE CHECK (highest priority)                                   │
+│      fast_result = await try_fast_mode(prompt, mcp, config)                 │
+│      if fast_result.executed and fast_result.success:                       │
+│          stats['fast_mode_successes'] += 1                                  │
+│          return fast_result.result                                          │
+│                                                                              │
+│      # Fall through to other execution modes                                │
+│      file_result = await _try_file_shortcuts(prompt)                        │
+│      plan_result = await _try_strategic_plan(prompt)                        │
+│      web_result = await _try_web_shortcuts(prompt)                          │
+│      ...                                                                     │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+
+EXECUTION FLOW EXAMPLES
+=======================
+
+Example 1: Simple Navigation (Fast Mode Success)
+------------------------------------------------
+Command: "go to google.com"
+
+1. User → Orchestration entry
+2. Fast mode check
+3. CommandParser.parse("go to google.com")
+   └─> NAVIGATE action, confidence=0.95
+4. Convert to MCP: ("playwright_navigate", {"url": "https://google.com"})
+5. Execute MCP call (~200ms)
+6. Return: "Navigated to https://google.com"
+Total time: ~300ms (vs ~3500ms normal)
+
+
+Example 2: Complex Task (LLM Fallback)
+--------------------------------------
+Command: "go to amazon, search for laptops, sort by price, click cheapest"
+
+1. User → Orchestration entry
+2. Fast mode check
+3. should_use_fast_mode() detects complexity:
+   - Multiple steps ("and then" pattern)
+   - Contains "sort" (reasoning required)
+   └─> Returns False - skip fast mode
+4. Fall through to strategic planner
+5. LLM creates step-by-step plan
+6. Execute plan via ReAct loop
+7. Return results
+Total time: ~15-30 seconds (but handles complex logic)
+
+
+Example 3: Ambiguous Command (Low Confidence Fallback)
+------------------------------------------------------
+Command: "click the button"
+
+1. User → Orchestration entry
+2. Fast mode check
+3. CommandParser.parse("click the button")
+   └─> CLICK action, target="the button", confidence=0.6 (ambiguous)
+4. Confidence < 0.8 threshold
+5. Fall back to LLM
+6. LLM uses page snapshot to identify specific button
+7. Execute with context
+Total time: ~4 seconds (needs AI understanding)
+
+
+STATISTICS TRACKING
+===================
+
+Fast Mode tracks performance metrics:
+
+{
+    'attempts': 150,           # Total commands processed
+    'successes': 120,          # Direct fast mode executions
+    'fallbacks': 25,           # Fell back to LLM (expected)
+    'errors': 5,               # Execution errors
+    'success_rate_pct': 80.0,  # Success rate
+    'total_time_saved_ms': 360000.0,  # 6 minutes saved!
+    'avg_time_saved_ms': 3000.0       # ~3s per command
+}
+
+
+PERFORMANCE COMPARISON
+======================
+
+┌──────────────────┬──────────────┬──────────────┬─────────────┐
+│  Execution Mode  │  Avg Time    │  Use Case    │  Speedup    │
+├──────────────────┼──────────────┼──────────────┼─────────────┤
+│ Playwright MCP   │  ~200ms      │  Direct      │  1.0x       │
+│ Eversale Fast    │  ~300ms      │  Simple      │  1.5x       │
+│ Eversale Normal  │  ~3500ms     │  Complex     │  17.5x      │
+└──────────────────┴──────────────┴──────────────┴─────────────┘
+
+Real-world scenario (Login flow - 4 commands):
+┌──────────────────┬──────────────┬─────────────┐
+│  Mode            │  Total Time  │  Speedup    │
+├──────────────────┼──────────────┼─────────────┤
+│ Fast Mode        │  ~1.2s       │  1.0x       │
+│ Normal Mode      │  ~14s        │  11.7x      │
+└──────────────────┴──────────────┴─────────────┘
+
+
+CONFIGURATION
+=============
+
+config.yaml:
+-----------
+fast_mode:
+  enabled: true   # Master switch for fast mode
+  verbose: false  # Debug logging for all attempts
+
+Runtime override:
+----------------
+from fast_mode import get_fast_mode_executor
+
+executor = get_fast_mode_executor(
+    mcp_client=mcp,
+    enabled=True,    # Enable/disable
+    verbose=True     # Show debug logs
+)
+
+
+INTEGRATION CHECKLIST
+=====================
+
+✓ Created fast_mode.py with FastModeExecutor
+✓ Integrated into orchestration.py::_execute_with_streaming_impl
+✓ Added configuration to config.yaml
+✓ Leverages existing command_parser.py
+✓ Statistics tracking
+✓ Automatic fallback to LLM
+✓ Error handling
+✓ Documentation (README, quick ref, examples)
+
+
+KEY DESIGN DECISIONS
+====================
+
+1. Highest Priority Execution
+   - Fast mode runs FIRST before all other shortcuts
+   - Maximizes speed for simple commands
+
+2. Conservative Fallback
+   - Confidence threshold of 0.8 ensures accuracy
+   - Better to fall back than execute incorrectly
+
+3. Complexity Detection
+   - Multi-step, conditional, extraction tasks → LLM
+   - Single simple actions → fast mode
+
+4. Zero Configuration
+   - Enabled by default
+   - Works out of the box
+   - Users can disable if needed
+
+5. Graceful Degradation
+   - Errors in fast mode don't break execution
+   - Falls back to normal mode seamlessly
+
+6. Statistics Tracking
+   - Measure success rate
+   - Calculate time savings
+   - Identify patterns for improvement
+
+
+FUTURE ENHANCEMENTS
+===================
+
+Phase 2: Learning Mode
+- Learn new patterns from successful LLM executions
+- Build custom pattern library per user
+
+Phase 3: Adaptive Thresholds
+- Adjust confidence based on success rate
+- User-specific tuning
+
+Phase 4: Parallel Execution
+- Execute multiple fast mode actions simultaneously
+- Further reduce latency
+
+Phase 5: Predictive Prefetching
+- Anticipate next action
+- Pre-execute in background

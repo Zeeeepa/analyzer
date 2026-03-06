@@ -1,0 +1,156 @@
+================================================================================
+HISTORY/CONTEXT COMPACTION - CONFLICT ANALYSIS SUMMARY
+================================================================================
+
+THREE OVERLAPPING SYSTEMS DETECTED:
+
+1. UI-TARS ConversationContext (ui_tars_patterns.py:100-147)
+   Status: INITIALIZED BUT NEVER USED
+   - Limits screenshots to last 5 (hardcoded)
+   - add_message() never called in brain_enhanced_v2.py
+   - Created at brain_enhanced_v2.py:1023-1024
+   - Type: Screenshot-only pruner
+
+2. HistoryPruner (history_pruner.py:1-325)
+   Status: READY BUT NOT CALLED
+   - Limits messages to 100 (default, configurable)
+   - Preserves last 10 messages in full detail
+   - Summarizes older messages to compact form
+   - Removes images from old messages
+   - Initialized at brain_enhanced_v2.py:1033-1038
+   - 50-60% token reduction claimed
+   - Type: Comprehensive message + screenshot pruner
+
+3. brain_enhanced_v2.py::_compact_context() (lines 4217-4286)
+   Status: DEFINED BUT NEVER CALLED
+   - Checks if len(messages) >= 80
+   - Calls HistoryPruner.prune() if available
+   - Has fallback manual logic
+   - Never invoked anywhere in codebase
+   - Type: Orchestrator (unused)
+
+================================================================================
+CONFLICT MATRIX
+================================================================================
+
+                   SCOPE           MAX_LIMIT    SUMMARIZE  STATUS
+UI-TARS            Screenshots     5 images     No         UNUSED
+HistoryPruner      Msg+Screenshots 100 msgs     Yes        UNUSED
+_compact_context   Msg+Screenshots 80 threshold Yes        UNUSED
+
+None of these systems are actually active in the execution flow!
+
+================================================================================
+CRITICAL GAP
+================================================================================
+
+Messages accumulate in self.messages with NO ACTIVE PRUNING:
+
+  LLM call #1  ──> 2-3 messages added
+  LLM call #2  ──> 2-3 messages added
+  ...
+  LLM call #25 ──> 50-75 messages total
+
+WHEN would _compact_context() run?
+  - NEVER - it's defined but not called
+
+WHEN would HistoryPruner.prune() run?
+  - NEVER - _compact_context() is not called
+
+WHEN would ConversationContext prune screenshots?
+  - NEVER - add_message() is not called
+
+RESULT: Screenshot tokens accumulate uncontrolled
+  25 screenshots × 4000 tokens each = 100,000 tokens
+  (exceeds many model context windows)
+
+================================================================================
+ARCHITECTURAL CONFLICT
+================================================================================
+
+Philosophy #1 (UI-TARS):
+  "Keep ONLY last 5 screenshots, strip everything older"
+  (Aggressive, works for vision-focused tasks)
+
+Philosophy #2 (HistoryPruner):
+  "Keep last 10 messages full, summarize rest, strip images from others"
+  (Smart, preserves reasoning trail while reducing tokens)
+
+Reality:
+  All screenshots stay in messages indefinitely
+  (Neither system is active)
+
+================================================================================
+PRECEDENCE RECOMMENDATION
+================================================================================
+
+IF implementing new HistoryPruner-based system:
+
+  PREFERRED:   HistoryPruner.prune()
+                - Most sophisticated
+                - Configurable
+                - Already partially integrated
+
+  DEPRECATED:  ConversationContext
+                - Unused, causes confusion
+                - Conflicting approach
+                - Safe to remove
+
+  FALLBACK:    Manual _compact_context() logic
+                - Only if HistoryPruner unavailable
+                - Should not run alongside HistoryPruner
+
+================================================================================
+MISSING TRIGGER
+================================================================================
+
+Current flow:
+  message.append() → ollama_client.chat() → message.append() → ...
+
+Needed:
+  message.append() → MAYBE_COMPACT() → ollama_client.chat() → ...
+
+Where MAYBE_COMPACT checks:
+  - Message count (> 80)
+  - Token count (> some limit)
+  - Iteration count (every N steps)
+  - Screenshot count (> max)
+
+================================================================================
+FILES INVOLVED
+================================================================================
+
+Source files with conflicts:
+  - /mnt/c/ev29/cli/engine/agent/history_pruner.py (325 lines, unused)
+  - /mnt/c/ev29/cli/engine/agent/ui_tars_patterns.py (200+ lines, partially used)
+  - /mnt/c/ev29/cli/engine/agent/brain_enhanced_v2.py (4300+ lines, has dead code)
+  - /mnt/c/ev29/cli/engine/agent/brain_config.py (config values unused)
+
+Documentation:
+  - /mnt/c/ev29/cli/engine/agent/HISTORY_PRUNER_CONFLICT_ANALYSIS.md (detailed report)
+
+================================================================================
+CONCLUSION
+================================================================================
+
+No immediate bugs, but three dormant systems that don't work together:
+
+1. UI-TARS ConversationContext is initialized but never used
+   → Recommendation: Remove or repurpose
+
+2. HistoryPruner is ready but never called
+   → Recommendation: Wire it into _compact_context() and add trigger
+
+3. _compact_context() exists but never invoked
+   → Recommendation: Call it before each LLM invocation (with throttling)
+
+The HistoryPruner system should be preferred because:
+  - Most sophisticated (summarization + image removal)
+  - Better token efficiency (50-60% reduction)
+  - Already partially integrated
+  - More configurable
+
+Critical action: Add a trigger mechanism to call _compact_context()
+  periodically (every N steps or when message count exceeds threshold)
+
+================================================================================

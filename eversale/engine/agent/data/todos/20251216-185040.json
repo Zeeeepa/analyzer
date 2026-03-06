@@ -1,0 +1,38 @@
+[
+  {
+    "id": "9a89d143-4d22-443d-8887-d32a2a469c02",
+    "content": "Goal 1: navigate to google.com",
+    "status": "in_progress",
+    "priority": "low",
+    "created_at": 1765939840.9447882,
+    "updated_at": 1765939840.9954128,
+    "metadata": {
+      "sequence_id": "dc39e379d89ad31a",
+      "goal_index": 0
+    }
+  },
+  {
+    "id": "337cb086-3111-401b-a182-38de6acbe464",
+    "content": "Goal 2: search for python tutorials,",
+    "status": "pending",
+    "priority": "low",
+    "created_at": 1765939840.9606836,
+    "updated_at": 1765939840.9606836,
+    "metadata": {
+      "sequence_id": "dc39e379d89ad31a",
+      "goal_index": 1
+    }
+  },
+  {
+    "id": "56998327-c375-469a-8444-bfae13cc1e60",
+    "content": "Goal 3: get the first result title",
+    "status": "pending",
+    "priority": "low",
+    "created_at": 1765939840.9773364,
+    "updated_at": 1765939840.9773364,
+    "metadata": {
+      "sequence_id": "dc39e379d89ad31a",
+      "goal_index": 2
+    }
+  }
+]

@@ -1,0 +1,84 @@
+{
+  "test_run": true,
+  "summary": {
+    "total_tasks": 5,
+    "avg_token_reduction_pct": 76.12400932400934,
+    "avg_runtime_speedup": 3.721502716997425,
+    "avg_screenshot_reduction_pct": 100.0,
+    "old_success_rate": 100.0,
+    "new_success_rate": 100.0,
+    "success_rate_improvement": 0.0,
+    "comparisons": [
+      {
+        "task_name": "Hacker News links",
+        "old_tokens": 4500,
+        "old_runtime_ms": 2500,
+        "old_screenshots": 3,
+        "old_success": true,
+        "new_tokens": 1200,
+        "new_runtime_ms": 650,
+        "new_screenshots": 0,
+        "new_success": true,
+        "token_reduction_pct": 73.33333333333333,
+        "runtime_speedup": 3.8461538461538463,
+        "screenshot_reduction_pct": 100.0
+      },
+      {
+        "task_name": "Form fill",
+        "old_tokens": 7500,
+        "old_runtime_ms": 3200,
+        "old_screenshots": 5,
+        "old_success": true,
+        "new_tokens": 1800,
+        "new_runtime_ms": 980,
+        "new_screenshots": 0,
+        "new_success": true,
+        "token_reduction_pct": 76.0,
+        "runtime_speedup": 3.2653061224489797,
+        "screenshot_reduction_pct": 100.0
+      },
+      {
+        "task_name": "Reddit post titles",
+        "old_tokens": 5000,
+        "old_runtime_ms": 2800,
+        "old_screenshots": 3,
+        "old_success": true,
+        "new_tokens": 1100,
+        "new_runtime_ms": 720,
+        "new_screenshots": 0,
+        "new_success": true,
+        "token_reduction_pct": 78.0,
+        "runtime_speedup": 3.888888888888889,
+        "screenshot_reduction_pct": 100.0
+      },
+      {
+        "task_name": "Google search",
+        "old_tokens": 6500,
+        "old_runtime_ms": 3500,
+        "old_screenshots": 4,
+        "old_success": true,
+        "new_tokens": 1500,
+        "new_runtime_ms": 920,
+        "new_screenshots": 0,
+        "new_success": true,
+        "token_reduction_pct": 76.92307692307693,
+        "runtime_speedup": 3.8043478260869565,
+        "screenshot_reduction_pct": 100.0
+      },
+      {
+        "task_name": "Business contact info",
+        "old_tokens": 5500,
+        "old_runtime_ms": 2700,
+        "old_screenshots": 3,
+        "old_success": true,
+        "new_tokens": 1300,
+        "new_runtime_ms": 710,
+        "new_screenshots": 0,
+        "new_success": true,
+        "token_reduction_pct": 76.36363636363637,
+        "runtime_speedup": 3.8028169014084505,
+        "screenshot_reduction_pct": 100.0
+      }
+    ]
+  }
+}

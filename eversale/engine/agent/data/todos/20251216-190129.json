@@ -1,0 +1,38 @@
+[
+  {
+    "id": "cc4e6c6e-15ad-4263-9a95-57dc3b64c3d6",
+    "content": "Goal 1: navigate to dev.to",
+    "status": "in_progress",
+    "priority": "low",
+    "created_at": 1765940489.8778682,
+    "updated_at": 1765940489.93503,
+    "metadata": {
+      "sequence_id": "5ab6d06766de4482",
+      "goal_index": 0
+    }
+  },
+  {
+    "id": "cb2f7512-d8b9-478b-8077-058b9f8dafc9",
+    "content": "Goal 2: search for javascript,",
+    "status": "pending",
+    "priority": "low",
+    "created_at": 1765940489.8972635,
+    "updated_at": 1765940489.8972635,
+    "metadata": {
+      "sequence_id": "5ab6d06766de4482",
+      "goal_index": 1
+    }
+  },
+  {
+    "id": "9352a0e9-b5f8-41eb-861d-e8ce9904f4d7",
+    "content": "Goal 3: get the first article title",
+    "status": "pending",
+    "priority": "low",
+    "created_at": 1765940489.9166534,
+    "updated_at": 1765940489.9166534,
+    "metadata": {
+      "sequence_id": "5ab6d06766de4482",
+      "goal_index": 2
+    }
+  }
+]

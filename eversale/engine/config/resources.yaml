@@ -1,0 +1,11 @@
+# Resource Limits Configuration
+# Prevent runaway tasks from consuming all system resources
+
+max_memory_mb: 2048           # Max memory per task (MB)
+max_task_minutes: 120         # Max duration per task (minutes)
+max_total_memory_mb: 4096     # Max total memory for process (MB)
+max_concurrent_tasks: 3       # Max parallel tasks
+cpu_throttle_percent: 80      # Start throttling at this CPU %
+check_interval_seconds: 5.0   # How often to check limits
+kill_on_exceed: true          # Kill task if exceeds limits
+warn_threshold_percent: 0.8   # Warn at 80% of limit

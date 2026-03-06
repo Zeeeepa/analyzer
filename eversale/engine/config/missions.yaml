@@ -1,0 +1,4 @@
+missions:
+  - name: persistent-mission
+    schedule: "0 * * * *"
+    prompt: "Monitor the mission dashboard, keep solar arrays optimal, and report anomalies."

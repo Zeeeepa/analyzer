@@ -1,0 +1,3 @@
+# Persistent Missions
+# These tasks auto-reload on startup
+missions: []

@@ -1,0 +1,41 @@
+{
+  "name": "eversale-cli",
+  "version": "2.1.218",
+  "description": "Agentic browser runtime. AI that controls your browser autonomously - give it any task, it figures out how.",
+  "bin": {
+    "eversale": "bin/eversale.js"
+  },
+  "scripts": {
+    "prepublish": "bash ../sync-cli.sh",
+    "postinstall": "node bin/postinstall.js || node bin/eversale.js --setup-silent || true"
+  },
+  "files": [
+    "bin",
+    "engine",
+    "engine/rust_wheels",
+    "README.md"
+  ],
+  "keywords": [
+    "ai",
+    "agent",
+    "automation",
+    "browser",
+    "cli",
+    "desktop",
+    "sales",
+    "research",
+    "rust",
+    "playwright"
+  ],
+  "license": "MIT",
+  "type": "commonjs",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eversale/eversale-cli.git"
+  },
+  "homepage": "https://eversale.io/desktop",
+  "optionalDependencies": {}
+}

@@ -1,0 +1,16 @@
+# Redis Memory Adapter Requirements
+# Install with: pip install -r redis_requirements.txt
+
+# Core dependencies (required)
+redis>=4.5.0          # Redis client with async support
+loguru>=0.7.0         # Logging
+
+# Optional dependencies (recommended)
+numpy>=1.24.0         # Better vector operations for semantic search
+
+# Optional dependencies (for advanced features)
+# ollama                # Advanced embeddings (install separately if needed)
+
+# Development dependencies (optional)
+pytest>=7.4.0         # Testing framework
+pytest-asyncio>=0.21.0  # Async test support

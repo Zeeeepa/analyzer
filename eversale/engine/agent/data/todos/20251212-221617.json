@@ -1,0 +1,74 @@
+[
+  {
+    "id": "d9ea8a20-902e-47b8-8372-183e15cd121a",
+    "content": "Goal 1: FB Ads Library search \"booked meetings\"; output 1 advertiser/ad url",
+    "status": "completed",
+    "priority": "low",
+    "created_at": 1765606583.3327162,
+    "updated_at": 1765606599.0515037,
+    "metadata": {
+      "sequence_id": "37408ba6ea9f6486",
+      "goal_index": 0
+    }
+  },
+  {
+    "id": "680825d9-5da1-49c9-878e-50de6f2dc9f6",
+    "content": "Goal 2: Reddit user search lead-gen OR appointment-setting; output 1 user profile URL",
+    "status": "completed",
+    "priority": "low",
+    "created_at": 1765606583.362918,
+    "updated_at": 1765606599.0830646,
+    "metadata": {
+      "sequence_id": "37408ba6ea9f6486",
+      "goal_index": 1
+    }
+  },
+  {
+    "id": "4d015ffe-bdc5-411a-9794-43ea1e01f468",
+    "content": "Goal 3: LinkedIn search SDR or lead-gen agency prospect; output 1 prospect profile URL",
+    "status": "completed",
+    "priority": "low",
+    "created_at": 1765606583.3907647,
+    "updated_at": 1765606599.1167836,
+    "metadata": {
+      "sequence_id": "37408ba6ea9f6486",
+      "goal_index": 2
+    }
+  },
+  {
+    "id": "5fea1fed-9797-4051-be53-6a4b5465b540",
+    "content": "Goal 4: Google Maps listing URL (marketing agency near me)",
+    "status": "completed",
+    "priority": "low",
+    "created_at": 1765606583.4287188,
+    "updated_at": 1765606599.151576,
+    "metadata": {
+      "sequence_id": "37408ba6ea9f6486",
+      "goal_index": 3
+    }
+  },
+  {
+    "id": "af4f792b-c680-44d6-a17d-7afda0a54c04",
+    "content": "Goal 5: Gmail final URL",
+    "status": "completed",
+    "priority": "low",
+    "created_at": 1765606583.460351,
+    "updated_at": 1765606599.18482,
+    "metadata": {
+      "sequence_id": "37408ba6ea9f6486",
+      "goal_index": 4
+    }
+  },
+  {
+    "id": "4142d100-e24a-4a56-8ef8-758371eca605",
+    "content": "Goal 6: Zoho Mail final URL",
+    "status": "completed",
+    "priority": "low",
+    "created_at": 1765606583.4892335,
+    "updated_at": 1765606599.2219412,
+    "metadata": {
+      "sequence_id": "37408ba6ea9f6486",
+      "goal_index": 5
+    }
+  }
+]

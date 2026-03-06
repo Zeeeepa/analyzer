@@ -1,0 +1,91 @@
+UI-TARS CAPTCHA Upgrade Patch
+==============================
+
+Date: 2025-12-12
+Purpose: Replace qwen3:8b with UI-TARS for CAPTCHA validation based on testing
+
+TEST RESULTS (test_ui_tars_captcha.py):
+- UI-TARS validation: 4/5 correct, avg 5.71s
+- qwen3:8b validation: 3/5 correct, avg 12.28s
+- VERDICT: UI-TARS is FASTER and MORE ACCURATE
+
+CHANGES TO MAKE:
+
+1. File: /mnt/c/ev29/cli/engine/agent/captcha_solver.py
+
+   Line 173: Change default text_model parameter
+   FROM: text_model: str = "qwen3:8b"
+   TO:   text_model: str = "avil/UI-TARS"
+
+2. File: /mnt/c/ev29/cli/engine/agent/captcha_solver.py
+
+   Lines 177-188: Update docstring
+   FROM:
+        Enhanced with:
+        - moondream:latest for vision analysis (primary, proven reliable)
+        - avil/UI-TARS for vision analysis (experimental fallback, GUI-specialized)
+        - qwen3:8b for text validation
+        - Context-aware validation
+        - OCR error correction
+        - Retry with different crops/preprocessing
+
+        Models used:
+        - moondream:latest - Primary vision model for CAPTCHA image analysis
+        - avil/UI-TARS - Experimental fallback, agentic model designed for GUI understanding
+        - qwen3:8b - Text model for context validation
+
+   TO:
+        Enhanced with:
+        - avil/UI-TARS for BOTH vision AND validation (unified agentic model)
+        - moondream:latest for vision analysis (fallback)
+        - Context-aware validation
+        - OCR error correction
+        - Retry with different crops/preprocessing
+
+        Models used:
+        - avil/UI-TARS - Primary unified model for vision + validation (agentic GUI model)
+          Tests show UI-TARS validation is FASTER and MORE ACCURATE than qwen3:8b
+        - moondream:latest - Fallback vision model for CAPTCHA image analysis
+
+3. File: /mnt/c/ev29/cli/engine/agent/captcha_solver.py
+
+   Line 85: Already correct (default vision_model is avil/UI-TARS)
+   def __init__(self, vision_model: str = "avil/UI-TARS"):
+
+4. File: /mnt/c/ev29/cli/engine/agent/captcha_solver.py
+
+   Line 213-217: Update model chain comments
+   FROM:
+            # Use moondream as primary (proven to work), with UI-TARS as experimental fallback
+            # Note: UI-TARS is a ByteDance agentic vision model for GUI tasks, but currently
+            # has compatibility issues with the ollama generate API. Keeping it as fallback
+            # in case it works for specific image types.
+            model_chain = ["moondream:latest", "moondream", "avil/UI-TARS"]
+
+   TO:
+            # Try UI-TARS first (ByteDance agentic vision model for GUI tasks)
+            # UI-TARS is designed for GUI understanding and shows better validation accuracy
+            # Fallback to moondream if UI-TARS fails
+            model_chain = ["avil/UI-TARS", "moondream:latest", "moondream"]
+
+5. File: /mnt/c/ev29/cli/engine/agent/captcha_solver.py
+
+   Line 997: Update solve_amazon_captcha default
+   FROM: vision_model: str = "moondream"
+   TO:   vision_model: str = "avil/UI-TARS"
+
+BENEFITS:
+- Single model (UI-TARS) for both vision and validation
+- Simplifies system architecture
+- Faster validation (5.71s vs 12.28s average)
+- More accurate validation (4/5 vs 3/5 correct)
+- Better designed for GUI tasks (UI-TARS is agentic model)
+
+TESTING:
+After applying patch, run:
+  python3 agent/test_ui_tars_captcha.py
+
+ROLLBACK:
+If issues occur, revert changes:
+  text_model: str = "qwen3:8b"
+  vision_model: str = "moondream:latest"

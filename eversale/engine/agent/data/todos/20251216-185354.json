@@ -1,0 +1,38 @@
+[
+  {
+    "id": "b21a1ee1-25d7-4d04-b669-99ee7d6537d8",
+    "content": "Goal 1: navigate to youtube.com",
+    "status": "in_progress",
+    "priority": "low",
+    "created_at": 1765940035.6979117,
+    "updated_at": 1765940035.7465973,
+    "metadata": {
+      "sequence_id": "641dd50ca94f731e",
+      "goal_index": 0
+    }
+  },
+  {
+    "id": "fbd1624c-2391-4596-90f0-0aca37891f4b",
+    "content": "Goal 2: search for music,",
+    "status": "pending",
+    "priority": "low",
+    "created_at": 1765940035.7140522,
+    "updated_at": 1765940035.7140522,
+    "metadata": {
+      "sequence_id": "641dd50ca94f731e",
+      "goal_index": 1
+    }
+  },
+  {
+    "id": "2fd86d11-1323-4b87-9dba-a7e52cded6b2",
+    "content": "Goal 3: get the first video title",
+    "status": "pending",
+    "priority": "low",
+    "created_at": 1765940035.7295575,
+    "updated_at": 1765940035.7295575,
+    "metadata": {
+      "sequence_id": "641dd50ca94f731e",
+      "goal_index": 2
+    }
+  }
+]

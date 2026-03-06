@@ -1,0 +1,865 @@
+# Master Capabilities Specification
+# Defines all 15 categories (A-O) of business operations
+# Each capability maps to required tools, services, and task templates
+
+version: "1.0"
+description: "Universal Agent Master Capability Spec"
+
+# ============================================================
+# A - ADMINISTRATIVE / BACK-OFFICE
+# ============================================================
+A:
+  name: "Administrative / Back-Office"
+  description: "All admin and back-office operations"
+  capabilities:
+    A1:
+      name: "Email triage, responses, routing"
+      description: "Read, categorize, draft responses, and route emails"
+      services: ["gmail", "outlook"]
+      actions:
+        - read_inbox
+        - categorize_emails
+        - draft_response
+        - route_to_folder
+        - flag_priority
+      prompts:
+        triage: "Review my inbox and categorize emails by priority and type"
+        respond: "Draft a response to this email: {email_subject}"
+        route: "Move emails about {topic} to the {folder} folder"
+
+    A2:
+      name: "Calendar scheduling"
+      description: "Schedule meetings, find availability, send invites"
+      services: ["google_calendar"]
+      actions:
+        - check_availability
+        - schedule_meeting
+        - reschedule
+        - send_invite
+        - block_time
+      prompts:
+        schedule: "Schedule a meeting with {person} for {duration} about {topic}"
+        availability: "Find available slots for a {duration} meeting this week"
+
+    A3:
+      name: "Meeting prep + note summaries"
+      description: "Prepare agendas, take notes, summarize meetings"
+      services: ["google_docs", "notion"]
+      actions:
+        - create_agenda
+        - summarize_notes
+        - extract_action_items
+        - send_summary
+      prompts:
+        prep: "Prepare an agenda for the meeting about {topic}"
+        summarize: "Summarize these meeting notes and extract action items"
+
+    A4:
+      name: "Document creation"
+      description: "Create PDFs, reports, summaries, memos"
+      services: ["google_docs"]
+      actions:
+        - create_document
+        - format_report
+        - generate_pdf
+        - create_summary
+      prompts:
+        create: "Create a {document_type} about {topic}"
+        report: "Generate a report on {subject}"
+
+    A5:
+      name: "Data entry into systems"
+      description: "Enter data into spreadsheets, databases, forms"
+      services: ["google_sheets"]
+      actions:
+        - enter_data
+        - update_records
+        - validate_entries
+        - bulk_import
+      prompts:
+        enter: "Enter this data into {system}: {data}"
+
+    A6:
+      name: "Extract fields from docs"
+      description: "Pull specific data points from documents"
+      services: []  # Local processing
+      actions:
+        - extract_text
+        - identify_fields
+        - structure_data
+        - validate_extraction
+      prompts:
+        extract: "Extract {fields} from this document"
+
+    A7:
+      name: "Build SOPs and checklists"
+      description: "Create standard operating procedures and checklists"
+      services: ["google_docs", "notion"]
+      actions:
+        - create_sop
+        - build_checklist
+        - format_procedure
+      prompts:
+        sop: "Create an SOP for {process}"
+        checklist: "Build a checklist for {task}"
+
+    A8:
+      name: "Generate daily/weekly internal reports"
+      description: "Create status reports and summaries"
+      services: []
+      actions:
+        - aggregate_data
+        - format_report
+        - highlight_metrics
+      prompts:
+        daily: "Generate a daily report on {metrics}"
+        weekly: "Create a weekly summary of {activities}"
+
+# ============================================================
+# B - BUSINESS OPERATIONS
+# ============================================================
+B:
+  name: "Business Operations"
+  description: "All back-office business operations"
+  capabilities:
+    B1:
+      name: "CRM updates"
+      description: "Update stages, tags, notes in CRM"
+      services: ["hubspot", "salesforce", "pipedrive"]
+      actions:
+        - update_stage
+        - add_tag
+        - add_note
+        - update_field
+      prompts:
+        update: "Update {contact} to stage {stage}"
+        tag: "Add tag {tag} to contacts matching {criteria}"
+
+    B2:
+      name: "Pipeline management"
+      description: "Manage sales pipeline and deals"
+      services: ["hubspot", "salesforce", "pipedrive"]
+      actions:
+        - move_deal
+        - update_value
+        - set_close_date
+        - assign_owner
+      prompts:
+        pipeline: "Show me the current pipeline status"
+        move: "Move {deal} to {stage}"
+
+    B3:
+      name: "Data enrichment"
+      description: "Enrich company and contact data"
+      services: []  # Web scraping
+      actions:
+        - find_company_info
+        - find_contact_info
+        - verify_email
+        - find_social
+      prompts:
+        enrich: "Find more information about {company}"
+        contact: "Find contact info for {person} at {company}"
+
+    B4:
+      name: "Account follow-up reminders"
+      description: "Set and manage follow-up tasks"
+      services: ["hubspot", "salesforce"]
+      actions:
+        - create_reminder
+        - schedule_followup
+        - check_overdue
+      prompts:
+        followup: "Set a follow-up reminder for {contact} in {days} days"
+        overdue: "Show me overdue follow-ups"
+
+    B5:
+      name: "Internal reporting for teams"
+      description: "Generate team performance reports"
+      services: []
+      actions:
+        - aggregate_metrics
+        - compare_periods
+        - highlight_trends
+      prompts:
+        report: "Generate a team report for {period}"
+
+    B6:
+      name: "Analyze spreadsheets"
+      description: "Analyze data in spreadsheets"
+      services: ["google_sheets"]
+      actions:
+        - read_sheet
+        - analyze_data
+        - create_charts
+        - identify_trends
+      prompts:
+        analyze: "Analyze this spreadsheet and summarize key insights"
+
+    B7:
+      name: "Organize project boards"
+      description: "Manage Trello, Asana, or similar boards"
+      services: ["trello", "asana", "notion"]
+      actions:
+        - create_card
+        - move_card
+        - assign_task
+        - update_status
+      prompts:
+        organize: "Organize the {project} board"
+        create: "Create a task for {task_name}"
+
+    B8:
+      name: "Write status updates"
+      description: "Write team status updates for Slack, etc."
+      services: ["slack"]
+      actions:
+        - draft_update
+        - post_update
+        - format_standup
+      prompts:
+        status: "Write a status update for {project}"
+
+# ============================================================
+# C - CUSTOMER SUPPORT OPERATIONS
+# ============================================================
+C:
+  name: "Customer Support Operations"
+  description: "Back-office support work (not live chat)"
+  capabilities:
+    C1:
+      name: "Ticket classification"
+      description: "Categorize and prioritize support tickets"
+      services: ["zendesk", "freshdesk"]
+      actions:
+        - read_ticket
+        - classify_type
+        - set_priority
+        - assign_agent
+      prompts:
+        classify: "Classify these support tickets by type and priority"
+
+    C2:
+      name: "Draft customer replies"
+      description: "Write response drafts for review"
+      services: ["zendesk", "freshdesk", "gmail"]
+      actions:
+        - read_ticket
+        - draft_response
+        - suggest_resolution
+      prompts:
+        draft: "Draft a response to this customer ticket: {ticket}"
+
+    C3:
+      name: "Escalation logic"
+      description: "Identify tickets needing escalation"
+      services: ["zendesk", "freshdesk"]
+      actions:
+        - evaluate_severity
+        - check_sla
+        - escalate_ticket
+      prompts:
+        escalate: "Review tickets and identify any needing escalation"
+
+    C4:
+      name: "Refund reasoning"
+      description: "Apply policy-based refund decisions"
+      services: []
+      actions:
+        - check_policy
+        - evaluate_request
+        - recommend_action
+      prompts:
+        refund: "Evaluate this refund request against our policy: {request}"
+
+    C5:
+      name: "Order lookup"
+      description: "Look up orders in Shopify, WooCommerce, etc."
+      services: ["shopify", "woocommerce"]
+      actions:
+        - find_order
+        - check_status
+        - get_tracking
+        - view_history
+      prompts:
+        lookup: "Find order {order_number}"
+        status: "What's the status of order {order_number}?"
+
+    C6:
+      name: "FAQ lookup automation"
+      description: "Match questions to FAQ answers"
+      services: []
+      actions:
+        - search_faq
+        - match_question
+        - suggest_answer
+      prompts:
+        faq: "Find the FAQ answer for: {question}"
+
+    C7:
+      name: "CSAT analysis"
+      description: "Analyze customer satisfaction data"
+      services: []
+      actions:
+        - aggregate_scores
+        - identify_trends
+        - find_issues
+      prompts:
+        analyze: "Analyze CSAT scores for the past {period}"
+
+    C8:
+      name: "Support backlog clearing"
+      description: "Help clear ticket backlog"
+      services: ["zendesk", "freshdesk"]
+      actions:
+        - prioritize_backlog
+        - batch_respond
+        - close_resolved
+      prompts:
+        backlog: "Help me clear the support ticket backlog"
+
+# ============================================================
+# D - SALES / SDR / LEAD GEN
+# ============================================================
+D:
+  name: "Sales / SDR / Lead Gen"
+  description: "Sales development and lead generation"
+  capabilities:
+    D1:
+      name: "Research prospects"
+      description: "Research companies and contacts"
+      services: ["linkedin", "facebook"]
+      actions:
+        - find_company_info
+        - find_decision_makers
+        - analyze_tech_stack
+        - find_news
+      prompts:
+        research: "Research {company} for our outreach"
+
+    D2:
+      name: "Write personalized cold emails"
+      description: "Create personalized outreach emails"
+      services: ["gmail", "outlook"]
+      actions:
+        - draft_cold_email
+        - personalize_template
+        - add_value_prop
+      prompts:
+        cold_email: "Write a cold email to {contact} at {company}"
+
+    D3:
+      name: "Send sequences"
+      description: "Manage email sequences and follow-ups"
+      services: ["gmail", "outlook"]
+      actions:
+        - queue_sequence
+        - track_opens
+        - schedule_followup
+      prompts:
+        sequence: "Add {contact} to the {sequence_name} sequence"
+
+    D4:
+      name: "Social profile research"
+      description: "Research social media profiles"
+      services: ["linkedin"]
+      actions:
+        - find_profile
+        - analyze_activity
+        - find_connections
+      prompts:
+        profile: "Find and research {person}'s LinkedIn profile"
+
+    D5:
+      name: "Build lead lists from websites"
+      description: "Scrape and compile lead lists"
+      services: []  # Web scraping
+      actions:
+        - scrape_website
+        - extract_contacts
+        - compile_list
+        - enrich_data
+      prompts:
+        leads: "Build a lead list from {website}"
+        fb_ads: "Find advertisers in {industry} from Facebook Ads Library"
+
+    D6:
+      name: "Update CRM automatically"
+      description: "Auto-update CRM with new info"
+      services: ["hubspot", "salesforce", "pipedrive"]
+      actions:
+        - create_contact
+        - update_contact
+        - log_activity
+        - sync_data
+      prompts:
+        sync: "Update CRM with this new contact info: {info}"
+
+    D7:
+      name: "Qualify leads based on rules"
+      description: "Score and qualify leads"
+      services: ["hubspot", "salesforce"]
+      actions:
+        - score_lead
+        - check_criteria
+        - mark_qualified
+      prompts:
+        qualify: "Qualify this lead against our ICP: {lead}"
+
+    D8:
+      name: "Build outbound reports"
+      description: "Generate outbound activity reports"
+      services: []
+      actions:
+        - aggregate_activity
+        - calculate_metrics
+        - compare_performance
+      prompts:
+        report: "Generate an outbound report for {period}"
+
+# ============================================================
+# E - E-COMMERCE OPERATIONS
+# ============================================================
+E:
+  name: "E-commerce Operations"
+  description: "E-commerce and retail operations"
+  capabilities:
+    E1:
+      name: "Product description creation"
+      description: "Write product descriptions and copy"
+      services: ["shopify"]
+      actions:
+        - analyze_product
+        - write_description
+        - optimize_seo
+      prompts:
+        description: "Write a product description for {product}"
+
+    E2:
+      name: "Customer email replies"
+      description: "Respond to customer emails"
+      services: ["gmail", "shopify"]
+      actions:
+        - read_email
+        - draft_response
+        - check_order_status
+      prompts:
+        reply: "Draft a response to this customer email"
+
+    E3:
+      name: "Order issue triage"
+      description: "Handle order problems"
+      services: ["shopify"]
+      actions:
+        - identify_issue
+        - find_resolution
+        - update_customer
+      prompts:
+        triage: "Help resolve this order issue: {issue}"
+
+    E4:
+      name: "Inventory alerts summary"
+      description: "Summarize inventory status"
+      services: ["shopify"]
+      actions:
+        - check_inventory
+        - identify_low_stock
+        - recommend_reorder
+      prompts:
+        inventory: "Give me an inventory status summary"
+
+    E5:
+      name: "Create ad copy for new products"
+      description: "Write advertising copy"
+      services: []
+      actions:
+        - analyze_product
+        - write_headline
+        - write_body_copy
+        - create_cta
+      prompts:
+        ad_copy: "Create ad copy for {product}"
+
+    E6:
+      name: "Create marketing emails"
+      description: "Write marketing email campaigns"
+      services: []
+      actions:
+        - write_subject
+        - write_body
+        - add_personalization
+      prompts:
+        email: "Write a marketing email for {campaign}"
+
+    E7:
+      name: "Pull Shopify stats + summaries"
+      description: "Get and summarize store stats"
+      services: ["shopify", "google_analytics"]
+      actions:
+        - get_sales_data
+        - analyze_traffic
+        - identify_trends
+      prompts:
+        stats: "Give me a summary of store performance for {period}"
+
+    E8:
+      name: "Review UGC + summarize insights"
+      description: "Analyze user-generated content"
+      services: []
+      actions:
+        - collect_reviews
+        - analyze_sentiment
+        - extract_themes
+      prompts:
+        ugc: "Summarize customer reviews for {product}"
+
+# ============================================================
+# F - REAL ESTATE OPERATIONS
+# ============================================================
+F:
+  name: "Real Estate Operations"
+  description: "Real estate workflow support"
+  capabilities:
+    F1:
+      name: "Listing description creation"
+      description: "Write property listing descriptions"
+      services: []
+      prompts:
+        listing: "Write a listing description for this property: {details}"
+
+    F2:
+      name: "Responding to inquiries"
+      description: "Draft responses to buyer/seller inquiries"
+      services: ["gmail", "zillow"]
+      prompts:
+        respond: "Draft a response to this property inquiry"
+
+    F3:
+      name: "CRM/lead routing for agents"
+      description: "Route and manage real estate leads"
+      services: ["hubspot"]
+      prompts:
+        route: "Route this lead to the appropriate agent"
+
+    F4:
+      name: "Document summaries"
+      description: "Summarize inspection reports, offers"
+      services: []
+      prompts:
+        summarize: "Summarize this inspection report"
+
+    F5:
+      name: "Schedule showings"
+      description: "Schedule property showings"
+      services: ["google_calendar"]
+      prompts:
+        schedule: "Schedule a showing for {property} with {client}"
+
+    F6:
+      name: "MLS data extraction"
+      description: "Extract data from MLS listings"
+      services: ["zillow"]
+      prompts:
+        extract: "Pull MLS data for {criteria}"
+
+    F7:
+      name: "Buyer/seller communication drafts"
+      description: "Draft communications"
+      services: ["gmail"]
+      prompts:
+        draft: "Draft a message to the {buyer/seller} about {topic}"
+
+    F8:
+      name: "Property comparison sheets"
+      description: "Create property comparison documents"
+      services: []
+      prompts:
+        compare: "Create a comparison sheet for these properties"
+
+# ============================================================
+# G - LEGAL / PROFESSIONAL SERVICES (Admin only)
+# ============================================================
+G:
+  name: "Legal / Professional Services"
+  description: "Non-advisory, admin work only"
+  capabilities:
+    G1:
+      name: "Summarize contracts"
+      services: ["google_docs"]
+    G2:
+      name: "Extract clauses and fields"
+      services: []
+    G3:
+      name: "Organize discovery documents"
+      services: []
+    G4:
+      name: "Build timelines"
+      services: []
+    G5:
+      name: "Intake form processing"
+      services: []
+    G6:
+      name: "Generate client updates"
+      services: ["gmail"]
+    G7:
+      name: "Draft templates"
+      services: ["google_docs"]
+    G8:
+      name: "Organize evidence lists"
+      services: []
+
+# ============================================================
+# H - LOGISTICS & SUPPLY CHAIN
+# ============================================================
+H:
+  name: "Logistics & Supply Chain"
+  description: "Operations reporting only"
+  capabilities:
+    H1:
+      name: "Shipment status summaries"
+      services: []
+    H2:
+      name: "Delay detection reports"
+      services: []
+    H3:
+      name: "Customs document extraction"
+      services: []
+    H4:
+      name: "Vendor follow-up emails"
+      services: ["gmail"]
+    H5:
+      name: "Inventory report generation"
+      services: []
+    H6:
+      name: "ETA consolidation"
+      services: []
+    H7:
+      name: "Purchase order summaries"
+      services: []
+    H8:
+      name: "Issue flagging for managers"
+      services: []
+
+# ============================================================
+# I - INDUSTRIAL / MANUFACTURING (Non-control)
+# ============================================================
+I:
+  name: "Industrial / Manufacturing"
+  description: "Non-control tasks only"
+  capabilities:
+    I1:
+      name: "Safety document summaries"
+      services: []
+    I2:
+      name: "Compliance checklist generation"
+      services: []
+    I3:
+      name: "Process audit paperwork"
+      services: []
+    I4:
+      name: "Maintenance logs summarization"
+      services: []
+    I5:
+      name: "Create inspection reports from data"
+      services: []
+    I6:
+      name: "Compare SOPs with real logs"
+      services: []
+    I7:
+      name: "Scheduling for crews"
+      services: ["google_calendar"]
+    I8:
+      name: "Quality reports from CSVs"
+      services: []
+
+# ============================================================
+# J - FINANCE / ACCOUNTING OPERATIONS
+# ============================================================
+J:
+  name: "Finance / Accounting Operations"
+  description: "Finance data operations"
+  capabilities:
+    J1:
+      name: "Invoice extraction"
+      services: ["quickbooks", "xero"]
+    J2:
+      name: "Expense categorization"
+      services: ["quickbooks", "xero"]
+    J3:
+      name: "Monthly financial summaries"
+      services: ["quickbooks", "xero"]
+    J4:
+      name: "Vendor reconciliation"
+      services: ["quickbooks", "xero"]
+    J5:
+      name: "Match receipts to statements"
+      services: []
+    J6:
+      name: "Analyze P&L provided by user"
+      services: ["quickbooks"]
+    J7:
+      name: "Payment reminders"
+      services: ["gmail"]
+    J8:
+      name: "Build budgeting spreadsheets"
+      services: ["google_sheets"]
+
+# ============================================================
+# K - MARKETING & CONTENT OPS
+# ============================================================
+K:
+  name: "Marketing & Content Ops"
+  description: "Marketing content and analytics"
+  capabilities:
+    K1:
+      name: "Write email newsletters"
+      services: []
+    K2:
+      name: "Generate social content"
+      services: ["linkedin", "twitter", "facebook"]
+    K3:
+      name: "Summarize marketing analytics"
+      services: ["google_analytics"]
+    K4:
+      name: "Create ad copy drafts"
+      services: []
+    K5:
+      name: "Competitor research"
+      services: []
+    K6:
+      name: "Keyword list generation"
+      services: []
+    K7:
+      name: "Landing page draft generation"
+      services: []
+    K8:
+      name: "Customer persona summaries"
+      services: []
+
+# ============================================================
+# L - HR / RECRUITING OPS
+# ============================================================
+L:
+  name: "HR / Recruiting Ops"
+  description: "HR and recruiting operations"
+  capabilities:
+    L1:
+      name: "Resume screening"
+      services: ["linkedin", "bamboohr", "greenhouse"]
+    L2:
+      name: "Extract candidate details"
+      services: ["bamboohr", "greenhouse"]
+    L3:
+      name: "Draft rejection or follow-up emails"
+      services: ["gmail"]
+    L4:
+      name: "Build interview score sheets"
+      services: []
+    L5:
+      name: "Create onboarding docs"
+      services: ["google_docs"]
+    L6:
+      name: "Summaries of interview transcripts"
+      services: []
+    L7:
+      name: "Create job descriptions"
+      services: []
+    L8:
+      name: "Organize hiring pipeline"
+      services: ["trello", "bamboohr", "greenhouse"]
+
+# ============================================================
+# M - EDUCATION / TRAINING
+# ============================================================
+M:
+  name: "Education / Training"
+  description: "Education and training workflows"
+  capabilities:
+    M1:
+      name: "Summarize textbooks or lectures"
+      services: ["google_docs"]
+    M2:
+      name: "Create lesson plans"
+      services: []
+    M3:
+      name: "Build quizzes"
+      services: []
+    M4:
+      name: "Generate flashcards"
+      services: []
+    M5:
+      name: "Organize course materials"
+      services: ["notion"]
+    M6:
+      name: "Analyze student submissions"
+      services: []
+    M7:
+      name: "Create study guides"
+      services: []
+    M8:
+      name: "Email parents/students (draft)"
+      services: ["gmail"]
+
+# ============================================================
+# N - GOVERNMENT / PUBLIC SECTOR ADMIN
+# ============================================================
+N:
+  name: "Government / Public Sector Admin"
+  description: "Admin and paperwork only"
+  capabilities:
+    N1:
+      name: "Form extraction"
+      services: []
+    N2:
+      name: "Case file summarization"
+      services: []
+    N3:
+      name: "Public records organization"
+      services: []
+    N4:
+      name: "Correspondence drafts"
+      services: ["gmail"]
+    N5:
+      name: "Report generation"
+      services: []
+    N6:
+      name: "Meeting minutes"
+      services: []
+    N7:
+      name: "SOP rewriting"
+      services: []
+    N8:
+      name: "Intake triage"
+      services: []
+
+# ============================================================
+# O - IT / ENGINEERING WORKFLOW SUPPORT
+# ============================================================
+O:
+  name: "IT / Engineering Workflow Support"
+  description: "Safe support/admin only"
+  capabilities:
+    O1:
+      name: "Log summarization"
+      services: []
+    O2:
+      name: "Bug triage"
+      services: []
+    O3:
+      name: "Release note drafts"
+      services: []
+    O4:
+      name: "Documentation writing"
+      services: []
+    O5:
+      name: "Ticket grooming"
+      services: ["asana", "trello"]
+    O6:
+      name: "Code comment generation"
+      services: []
+    O7:
+      name: "Data cleanup scripts drafting"
+      services: []
+    O8:
+      name: "Standup summaries"
+      services: ["slack"]

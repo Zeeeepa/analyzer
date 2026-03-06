@@ -1,0 +1,68 @@
+ORCHESTRATION PROSPECT DISPLAY FIX - SUMMARY
+============================================
+
+FILE: /mnt/c/ev29/cli/engine/agent/orchestration.py
+LINES: 739-820 (template result handling section)
+
+PROBLEM
+-------
+Extraction tools returned prospect data but orchestration showed URLs instead of names/details.
+
+KEY IMPROVEMENTS
+----------------
+
+1. ROBUST DATA EXTRACTION
+   - Loop through ALL possible data keys: data, items, ads, posts, listings, results, profiles
+   - Early break when data found (no unnecessary checks)
+   - Clear extracted_data variable for tracking
+
+2. EXPANDED FIELD SUPPORT
+   Prospect Name Fields:
+   - advertiser (Facebook ads)
+   - title (generic listings)
+   - name (profiles)
+   - author (posts/articles)
+   - business_name (local businesses) [NEW]
+   - company (company directories) [NEW]
+   - link (fallback)
+
+   Prospect URL Fields:
+   - url (primary)
+   - link (alternative)
+   - landing_url (ads)
+   - website (business listings) [NEW]
+
+3. MANDATORY OUTPUT
+   - ALWAYS shows prospect data when found
+   - Format: "Prospect: {name} | {url}"
+   - Fallback: Shows whatever is available (name-only, url-only, or raw data)
+   - Never silently fails
+
+4. SMART "NO RESULTS" HANDLING
+   - Detects extraction templates (keywords: extract, find, search, scrape, collect)
+   - Shows: "No prospects found - check {url}" for failed extractions
+   - Shows: "URL: {url}" for non-extraction templates
+
+5. CONSISTENT COUNT FORMAT
+   - Changed: "Found X results" -> "Found X total"
+   - More professional and clear
+
+TESTING
+-------
+- Python compilation: PASSED
+- Module import: PASSED
+- Unit tests (4 scenarios): ALL PASSED
+- Backwards compatibility: VERIFIED
+
+EXAMPLES
+--------
+Before: "URL: https://facebook.com/ads"
+After:  "Prospect: Acme Corp | https://acme.com - (Found 5 total)"
+
+Before: "URL: https://maps.google.com"
+After:  "Prospect: Joe's Pizza | https://joespizza.com - (Found 1 total)"
+
+Before: "Template executed 3 steps"
+After:  "No prospects found - check https://example.com"
+
+STATUS: COMPLETE AND VERIFIED

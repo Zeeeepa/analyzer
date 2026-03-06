@@ -1,0 +1,162 @@
+    async def generic_search_and_extract(
+        self, 
+        url: str, 
+        hints: Optional[Any] = None, 
+        label: str = "Search",
+        extractor_func: Optional[Callable] = None,
+        max_leads: int = 5
+    ) -> Dict:
+        """
+        Truly generic search and extract workflow.
+        Engine code is site-agnostic; behavior is driven by 'hints' data.
+        """
+        self.step = 0
+        self.results = []
+
+        # Step 1: Navigate
+        self.step += 1
+        print_step(self.step, "navigate", f"{label}: {url}", "running")
+        await self.navigate(url, hints=hints)
+        print_step(self.step, "navigate", label, "success")
+
+        # Step 2: Reliability Pipeline (Stability, Overlays, Challenges)
+        self.step += 1
+        print_step(self.step, "prepare", "ensuring page stability", "running")
+        # run_pipeline handles Tiers 0-1 (Nav, DOM, Overlays, Captchas, Auth)
+        if not await self.recovery.run_pipeline(hints):
+            return {"status": "blocked", "error": "Page preparation failed or human intervention required"}
+        print_step(self.step, "prepare", "page ready", "success")
+
+        # Step 3: Preparation based on hints (Infinite Scroll, etc.)
+        if hints and FailureMode.INFINITE_SCROLL_REQUIRED in hints.expected_failure_modes:
+            self.step += 1
+            print_step(self.step, "scroll", "loading content", "running")
+            # Uses scroll-until-stable logic implemented in RecoveryEngine
+            # The recovery step for infinite scroll now takes 'hints' to know what to look for
+            await self.recovery.handlers[FailureMode.INFINITE_SCROLL_REQUIRED].recovery_steps[0](self.page, hints=hints)
+            print_step(self.step, "scroll", "done", "success")
+
+        # Step 4: Extraction
+        self.step += 1
+        print_step(self.step, "extract", "collecting data", "running")
+        
+        if extractor_func:
+            data = await extractor_func()
+        else:
+            # Fallback to generic extraction using preferred selectors
+            data = await self._generic_extract(hints.preferred_selectors if hints else [])
+
+        if data:
+            # Handle list vs single object
+            results_count = len(data) if isinstance(data, list) else 1
+            print_step(self.step, "extract", f"found {results_count} results", "success")
+            
+            # Limit results to max_leads
+            if isinstance(data, list):
+                data = data[:max_leads]
+
+            return {
+                "status": "complete",
+                "result": f"Extracted data from {label}",
+                "steps": self.step,
+                "url": self.page.url,
+                "data": data,
+                "leads": data if isinstance(data, list) else [data]
+            }
+        
+        return {"status": "failed", "error": "No data extracted"}
+
+    async def _generic_extract(self, selectors: List[str]) -> List[Dict]:
+        """Generic item extraction based on a list of potential selectors."""
+        for selector in selectors:
+            try:
+                items = await self.page.query_selector_all(selector)
+                if items:
+                    results = []
+                    for item in items:
+                        text = await item.inner_text()
+                        if text.strip():
+                            results.append({"text": text.strip()})
+                    if results:
+                        return results
+            except: continue
+        return []
+
+    async def workflow_fb_ads(self, query: str) -> Dict:
+        """Refactored FB Ads: engine is generic, logic is in data/hints."""
+        from .failure_modes import SITE_HINTS
+        hints = SITE_HINTS.get("facebook.com")
+        url = f"https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q={quote_plus(query)}&media_type=all"
+        
+        # Proven FB Ads Extraction Logic preserved as a template-level extractor
+        async def fb_extractor():
+            return await self.page.evaluate("""() => {
+                function findAdCard(e){let c=e,d=0;while(c&&d<30){if(c.getAttribute&&c.getAttribute('aria-labelledby'))return c;const l=c.querySelectorAll?c.querySelectorAll('a'):[];if(l.length>=3&&Array.from(l).some(x=>x.href&&x.href.match(/facebook.com/\d{8,}/))&&c.offsetHeight>200)return c;c=c.parentElement;d++}return null}
+                function getName(c){if(!c)return'Unknown';const l=c.querySelectorAll('a[href*="facebook.com/"]');for(const x of l){const m=x.href.match(/facebook.com/(\d{8,})/);if(m){const t=x.innerText?.trim();if(t&&t.length>2&&!t.includes('See all'))return t}}const i=c.querySelectorAll('img[alt]');for(const x of i){const a=x.alt?.trim();if(a&&a.length>2&&!a.includes('profile'))return a}return'Unknown'}
+                const res=[];const rl=document.querySelectorAll('a[href*="l.facebook.com/l.php"]');
+                for(const l of rl){const h=l.href;const m=h.match(/[?&]u=([^&]+)/);if(m){let u=decodeURIComponent(m[1]);if(u.match(/facebook.com|instagram.com|fb.com|ig.me|fb.me|messenger.com/i))continue;const c=findAdCard(l);res.push({name:getName(c),url:u,type:'landing_page',source:'fb_ads'})}}                return res.length>0?res:null;
+            }""", "")
+            
+        return await self.generic_search_and_extract(url, hints, "FB Ads", fb_extractor)
+
+    async def workflow_reddit(self, topic: str, max_leads: int = 5, prompt: Optional[str] = None) -> Dict:
+        """Refactored Reddit: engine is generic, logic is in data/hints."""
+        if REDDIT_HANDLER_AVAILABLE:
+            res = await self.workflow_reddit_api(topic, max_leads, prompt=prompt)
+            if res: return res
+
+        from .failure_modes import SITE_HINTS
+        hints = SITE_HINTS.get("reddit.com")
+        target_subs = self._get_target_subreddits(topic)
+        sub_filter = "+".join(target_subs[:3])
+        url = f"https://www.reddit.com/r/{sub_filter}/search/?q={quote_plus(topic)}&restrict_sr=1&sort=new&t=month"
+
+        async def reddit_extractor():
+            return await self.page.evaluate("(limit) => {
+                const res=[];const posts=document.querySelectorAll('[data-testid="post-container"],.thing,article');
+                for(const p of posts){if(res.length>=limit)break;
+                const a=p.querySelector('a[href*="/user/"],a[href*="/u/"]');if(!a)continue;
+                const u=a.href.match(///u(?:ser)?/([^\]/?)+)/)?.[1];if(!u||['reddit','deleted'].includes(u))continue;
+                const t=p.querySelector('h3,.title')?.innerText?.trim()||"    ";
+                res.push({username:u,url:'https://www.reddit.com/user/'+u,title:t,source:'reddit'});}                return res;
+            }", max_leads)
+
+        return await self.generic_search_and_extract(url, hints, f"Reddit r/{sub_filter}", reddit_extractor, max_leads=max_leads)
+
+    async def workflow_google_maps(self, query: str, max_leads: int = 20) -> Dict:
+        """Refactored Google Maps: engine is generic."""
+        from .failure_modes import SITE_HINTS
+        hints = SITE_HINTS.get("google.com/maps")
+        url = f"https://www.google.com/maps/search/{quote_plus(query)}"
+        
+        async def maps_extractor():
+            return await self.page.evaluate("(limit) => {
+                const res=[];const seen=new Set();
+                document.querySelectorAll('a[href*="/maps/place/"]').forEach(a=>{
+                    if(res.length>=limit)return;
+                    const n=a.getAttribute('aria-label')||a.innerText?.trim();
+                    if(!n||seen.has(n))return;seen.add(n);
+                    res.push({name:n,url:a.href,source:'google_maps'});
+                });
+                return res;
+            }", max_leads)
+            
+        return await self.generic_search_and_extract(url, hints, "Google Maps", maps_extractor, max_leads=max_leads)
+
+    async def workflow_linkedin_search(self, query: str) -> Dict:
+        """Refactored LinkedIn: engine is generic."""
+        from .failure_modes import SITE_HINTS
+        hints = SITE_HINTS.get("linkedin.com")
+        url = f"https://www.linkedin.com/search/results/people/?keywords={quote_plus(query)}"
+        
+        async def li_extractor():
+            return await self.page.evaluate("""() => {
+                const res=[];
+                document.querySelectorAll('.reusable-search__result-container').forEach(e=>{
+                    const a=e.querySelector('a[href*="/in/"]');
+                    if(a)res.push({name:a.innerText.split('\n')[0],url:a.href,source:'linkedin'});
+                });
+                return res;
+            }""", "")
+            
+        return await self.generic_search_and_extract(url, hints, "LinkedIn", li_extractor)

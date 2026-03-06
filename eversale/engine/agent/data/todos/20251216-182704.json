@@ -1,0 +1,14 @@
+[
+  {
+    "id": "d6746b75-2d63-4f82-9aae-f7d3c390482b",
+    "content": "Goal 1: search reddit for technology news",
+    "status": "in_progress",
+    "priority": "medium",
+    "created_at": 1765938425.638704,
+    "updated_at": 1765938425.6580167,
+    "metadata": {
+      "sequence_id": "486a85f3fb597f12",
+      "goal_index": 0
+    }
+  }
+]

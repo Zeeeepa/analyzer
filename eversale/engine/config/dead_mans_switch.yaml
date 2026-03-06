@@ -1,0 +1,15 @@
+# Dead Man's Switch Configuration
+# Triggers emergency actions if no successful task for X hours
+# Default: 0.25 hours (15 minutes) for interactive mode
+# For daemon/production mode, increase to 4.0 or higher
+
+timeout_hours: 0.25
+
+# Tasks to execute when switch triggers (runs when system recovers)
+fallback_tasks:
+  - "Log system status and send diagnostic report"
+  - "Check all scheduled tasks are still configured"
+
+# Future: webhook/email alerts
+# alert_webhook: https://hooks.slack.com/...
+# alert_email: ops@company.com

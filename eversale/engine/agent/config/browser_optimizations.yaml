@@ -1,0 +1,72 @@
+# Browser Optimization Configuration
+# These settings are loaded automatically by the agent
+
+optimization:
+  enabled: true  # Master switch for all optimizations
+
+  # Snapshot-first mode (reduces screenshots by 85%)
+  snapshot_first:
+    enabled: true
+    cache_ttl_seconds: 30
+    max_elements: 100
+    skip_after_actions: ['scroll', 'hover', 'wait']
+
+  # Token optimization (reduces tokens by 70%)
+  token_optimizer:
+    enabled: true
+    max_text_length: 200
+    max_tree_depth: 5
+    compress_lists: true
+    remove_hidden: true
+    token_budget: 8000
+    auto_compress_threshold: 0.8
+
+  # DevTools hooks (auto error capture)
+  devtools:
+    enabled: true
+    capture_network: true
+    capture_console: true
+    capture_errors: true
+    max_log_size: 500
+
+  # CDP/session reuse
+  cdp:
+    auto_detect: true  # Try to find existing Chrome
+    prefer_existing: true  # Prefer CDP over new browser
+    default_port: 9222
+    auto_launch: false  # Don't auto-launch Chrome with CDP
+
+  # Quick extraction (no LLM)
+  quick_extract:
+    enabled: true
+    patterns:
+      - 'extract links'
+      - 'get all links'
+      - 'extract forms'
+      - 'find buttons'
+      - 'get table data'
+
+# Natural language triggers
+triggers:
+  use_cdp:
+    - 'use my chrome'
+    - 'existing chrome'
+    - 'keep logged in'
+    - 'preserve session'
+    - 'my logins'
+
+  extract_links:
+    - 'extract links'
+    - 'get all links'
+    - 'find links'
+
+  extract_forms:
+    - 'extract forms'
+    - 'find forms'
+    - 'get inputs'
+
+  show_errors:
+    - 'show errors'
+    - 'what failed'
+    - 'debug'
+    - 'network errors'

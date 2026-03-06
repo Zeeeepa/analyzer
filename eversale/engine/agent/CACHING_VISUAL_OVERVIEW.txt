@@ -1,0 +1,241 @@
+================================================================================
+                    CACHING IMPLEMENTATION VISUAL OVERVIEW
+================================================================================
+
+                         BEFORE (No Caching)
+                         -------------------
+
+    User Request
+         |
+         v
+    +---------+      +---------+      +---------+
+    |  Agent  | ---> |   LLM   | ---> | API Call|  (Slow, Expensive)
+    +---------+      +---------+      +---------+
+         |
+         v
+    +---------+      +---------+      +---------+
+    |  Agent  | ---> |   DOM   | ---> | Extract |  (CPU Intensive)
+    +---------+      +---------+      +---------+
+         |
+         v
+    +---------+      +---------+      +---------+
+    |  Agent  | ---> |  Skill  | ---> | ChromaDB|  (DB Query)
+    +---------+      +---------+      +---------+
+
+
+                          AFTER (With Caching)
+                          --------------------
+
+    User Request
+         |
+         v
+    +---------+      +---------+      +---------+
+    |  Agent  | ---> |   LLM   | ---> | Cache?  |  [HIT] ---> Instant!
+    +---------+      +---------+      +----|----+
+                                           |
+                                        [MISS]
+                                           |
+                                           v
+                                      API Call --> Cache it
+                                      (Slow)
+
+    +---------+      +---------+      +---------+
+    |  Agent  | ---> |   DOM   | ---> | Cache?  |  [HIT] ---> Instant!
+    +---------+      +---------+      +----|----+
+                                           |
+                                        [MISS]
+                                           |
+                                           v
+                                      Extract --> Validate --> Cache it
+                                      (CPU)      (Hash)
+
+    +---------+      +---------+      +---------+
+    |  Agent  | ---> |  Skill  | ---> | Cache?  |  [HIT] ---> Instant!
+    +---------+      +---------+      +----|----+
+                                           |
+                                        [MISS]
+                                           |
+                                           v
+                                      Generate --> Cache it
+                                      (Process)
+
+
+================================================================================
+                            CACHE ARCHITECTURES
+================================================================================
+
+1. LLM CLIENT CACHE (LLMCache)
+-------------------------------
+
+   [Cache Entry]
+   Key: MD5(prompt|model|temp|imgs)
+   ├── Response: LLMResponse object
+   ├── Timestamp: Time cached
+   └── TTL: 300 seconds
+
+   Eviction Policy: LRU + TTL
+   Max Size: 100 entries
+   Invalidation: TTL expiration, Manual clear
+
+
+2. DOM DISTILLATION CACHE (DOMSnapshotCache)
+---------------------------------------------
+
+   [Cache Entry]
+   Key: URL|DistillationMode
+   ├── Snapshot: DOMSnapshot object
+   ├── Content Hash: MD5(title|innerHTML)
+   ├── Timestamp: Time cached
+   └── TTL: 30 seconds
+
+   Eviction Policy: LRU + TTL + Content Change
+   Max Size: 50 snapshots
+   Invalidation: TTL, Content hash mismatch, Manual clear
+
+
+3. SKILL SEARCH CACHE (functools.lru_cache)
+--------------------------------------------
+
+   [Cache Entry]
+   Key: (skill_id, name, desc, category, tags, params)
+   └── Search Text: String
+
+   Eviction Policy: LRU only
+   Max Size: 500 entries
+   Invalidation: Cache full, Manual clear
+
+
+================================================================================
+                          PERFORMANCE COMPARISON
+================================================================================
+
+Operation              Without Cache    With Cache (Hit)    Speedup
+---------              -------------    ----------------    -------
+LLM API Call           500-2000ms       < 1ms              500-2000x
+DOM Extraction         100-500ms        < 5ms              20-100x
+Skill Search Text      5-20ms           < 0.1ms            50-200x
+
+
+================================================================================
+                          CACHE HIT RATE SCENARIOS
+================================================================================
+
+Scenario 1: Repeated Analysis of Same Page
+-------------------------------------------
+First Visit:  [MISS] [MISS] [MISS]  --> Extract DOM, Call LLM, etc.
+Second Visit: [HIT]  [HIT]  [HIT]   --> Everything cached!
+Hit Rate: 66% (2/3 operations cached)
+
+
+Scenario 2: Interactive Session with Page Changes
+--------------------------------------------------
+Visit Page:   [MISS] [MISS] [MISS]  --> Initial load
+Click Button: [MISS] [HIT]  [HIT]   --> DOM changed, but LLM/Skill cached
+Next Action:  [HIT]  [HIT]  [HIT]   --> Everything cached again
+Hit Rate: 55% (5/9 operations cached)
+
+
+Scenario 3: Multi-Page Workflow
+--------------------------------
+Page 1:       [MISS] [MISS] [MISS]  --> First page
+Page 2:       [MISS] [HIT]  [HIT]   --> New page, but LLM/Skills cached
+Back to P1:   [HIT]  [HIT]  [HIT]   --> Everything cached (within TTL)
+Hit Rate: 66% (6/9 operations cached)
+
+
+================================================================================
+                          CACHE MEMORY USAGE
+================================================================================
+
+   LLMCache (100 entries)
+   +------------------------------------------+
+   | Entry 1: ~100KB  | Entry 2: ~100KB  |...  ~10-50MB total
+   +------------------------------------------+
+
+   DOMSnapshotCache (50 entries)
+   +------------------------------------------+
+   | Snapshot 1: ~1MB | Snapshot 2: ~1MB  |...  ~50-200MB total
+   +------------------------------------------+
+
+   SkillSearchCache (500 entries)
+   +------------------------------------------+
+   | Text 1: ~1KB     | Text 2: ~1KB      |...  ~1-5MB total
+   +------------------------------------------+
+
+   TOTAL: 60-255MB (0.06-0.26GB) - Acceptable for desktop agent
+
+
+================================================================================
+                          CACHE FLOW DIAGRAM
+================================================================================
+
+┌─────────────────────────────────────────────────────────────────┐
+│                        Agent Request                             │
+└────────────────────────────┬────────────────────────────────────┘
+                             │
+                             v
+                    ┌────────────────┐
+                    │  Check Cache?  │
+                    └───────┬────────┘
+                            │
+                ┌───────────┴───────────┐
+                │                       │
+                v                       v
+         ┌───────────┐          ┌───────────┐
+         │ CACHE HIT │          │CACHE MISS │
+         └─────┬─────┘          └─────┬─────┘
+               │                      │
+               v                      v
+        ┌──────────────┐      ┌──────────────┐
+        │Return Cached │      │Perform Task  │
+        │   (< 5ms)    │      │ (100-2000ms) │
+        └──────────────┘      └──────┬───────┘
+                                     │
+                                     v
+                              ┌──────────────┐
+                              │ Cache Result │
+                              └──────────────┘
+
+
+================================================================================
+                          INVALIDATION TRIGGERS
+================================================================================
+
+LLM Cache:
+    ✓ TTL expired (5 minutes)
+    ✓ Cache full (LRU eviction)
+    ✓ Manual clear_cache()
+    ✗ Does NOT invalidate on different parameters (creates new entry)
+
+DOM Cache:
+    ✓ TTL expired (30 seconds)
+    ✓ Page content changed (hash validation)
+    ✓ Cache full (LRU eviction)
+    ✓ Manual clear_cache()
+    ✗ Does NOT invalidate on different mode (creates new entry)
+
+Skill Cache:
+    ✓ Cache full (LRU eviction)
+    ✓ Manual cache_clear()
+    ✗ No TTL (permanent until eviction)
+
+
+================================================================================
+                          USAGE PATTERNS
+================================================================================
+
+Good Use Cases (High Cache Hit Rate):
+    ✓ Repeated page analysis
+    ✓ Back-and-forth navigation
+    ✓ Multi-step workflows on same pages
+    ✓ Deterministic LLM queries (temp=0)
+    ✓ Skill library queries
+
+Poor Use Cases (Low Cache Hit Rate):
+    ✗ Rapid page changes (invalidates DOM cache)
+    ✗ Non-deterministic LLM queries (temp>0)
+    ✗ Single-use pages (no repeat visits)
+    ✗ Very dynamic content (frequent hash changes)
+
+
+================================================================================

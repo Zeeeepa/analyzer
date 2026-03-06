@@ -1,0 +1,9 @@
+# Resource Limits Configuration
+max_memory_mb: 2048
+max_task_minutes: 120
+max_total_memory_mb: 4096
+max_concurrent_tasks: 3
+cpu_throttle_percent: 80
+check_interval_seconds: 5.0
+kill_on_exceed: true
+warn_threshold_percent: 0.8

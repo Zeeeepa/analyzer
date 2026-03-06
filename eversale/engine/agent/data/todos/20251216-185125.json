@@ -1,0 +1,38 @@
+[
+  {
+    "id": "3ccf6aa3-157e-44c0-8fb1-75b4e8e990e6",
+    "content": "Goal 1: navigate to wikipedia.org",
+    "status": "in_progress",
+    "priority": "low",
+    "created_at": 1765939886.1463344,
+    "updated_at": 1765939886.183475,
+    "metadata": {
+      "sequence_id": "db59401abe2f3d94",
+      "goal_index": 0
+    }
+  },
+  {
+    "id": "cbceb2c7-b915-40be-a4ad-11baaf51afca",
+    "content": "Goal 2: search for machine learning,",
+    "status": "pending",
+    "priority": "low",
+    "created_at": 1765939886.1577394,
+    "updated_at": 1765939886.1577394,
+    "metadata": {
+      "sequence_id": "db59401abe2f3d94",
+      "goal_index": 1
+    }
+  },
+  {
+    "id": "4e82465b-ad62-47da-a1e2-6acf4ded80d1",
+    "content": "Goal 3: extract the first paragraph",
+    "status": "pending",
+    "priority": "low",
+    "created_at": 1765939886.169445,
+    "updated_at": 1765939886.169445,
+    "metadata": {
+      "sequence_id": "db59401abe2f3d94",
+      "goal_index": 2
+    }
+  }
+]

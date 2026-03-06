@@ -1,0 +1,272 @@
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                         VALENCE SYSTEM ARCHITECTURE                          ║
+║                         The Emotional Gradient (AGI)                         ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                          EMOTIONAL GRADIENT SCALE                            │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+     PAIN                          NEUTRAL                        PLEASURE
+      ◀══════════════════════════════╬════════════════════════════════▶
+     -1.0                           0.0                           +1.0
+
+    devastated  struggling  stressed  uneasy  neutral  content  thriving  euphoric
+       ▼           ▼          ▼        ▼        ▼        ▼        ▼         ▼
+      -0.8       -0.5       -0.3     -0.1     +0.1     +0.3     +0.6      +0.9
+
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                            SYSTEM ARCHITECTURE                               │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+                              ┌─────────────────┐
+                              │   EVENT BUS     │
+                              │ (Nervous System)│
+                              └────────┬────────┘
+                                       │
+                    ┌──────────────────┼──────────────────┐
+                    ▼                  ▼                  ▼
+           ┌────────────────┐ ┌────────────────┐ ┌────────────────┐
+           │  Gap Detector  │ │  Heartbeat     │ │ Mission Anchor │
+           │  (Surprises)   │ │  (Pulse)       │ │ (Identity)     │
+           └────────┬───────┘ └────────┬───────┘ └────────┬───────┘
+                    │                  │                  │
+                    └──────────────────┼──────────────────┘
+                                       ▼
+                              ┌─────────────────┐
+                              │ VALENCE SYSTEM  │
+                              │  (Emotions)     │
+                              └────────┬────────┘
+                                       │
+                    ┌──────────────────┼──────────────────┐
+                    ▼                  ▼                  ▼
+           ┌────────────────┐ ┌────────────────┐ ┌────────────────┐
+           │  Motivation    │ │  Mood State    │ │  History       │
+           │  System        │ │  Tracking      │ │  & Trends      │
+           └────────┬───────┘ └────────┬───────┘ └────────┬───────┘
+                    │                  │                  │
+                    └──────────────────┼──────────────────┘
+                                       ▼
+                              ┌─────────────────┐
+                              │  BRAIN (LLM)    │
+                              │  Decision-      │
+                              │  Making         │
+                              └─────────────────┘
+
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                              EVENT → VALENCE FLOW                            │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+    User Task                      Event Emitted                 Valence Update
+        │                                │                             │
+        ▼                                ▼                             ▼
+   ┌─────────┐                    ┌──────────┐               ┌─────────────────┐
+   │ "Find   │                    │ ACTION_  │               │ valence += 0.05 │
+   │ leads"  │──────────────────▶ │ COMPLETE │──────────────▶│ mood = content  │
+   └─────────┘                    └──────────┘               └─────────────────┘
+        │                                                              │
+        │                                                              ▼
+        │                                                     ┌─────────────────┐
+        │                                                     │ Motivation:     │
+        │                                                     │ - strategy: conf│
+        │                                                     │ - speed: 1.1x   │
+        │                                                     │ - risk: 0.7     │
+        │◀────────────────────────────────────────────────────└─────────────────┘
+        │
+        ▼
+   Agent continues with confidence
+
+
+    System Error                   Event Emitted                 Valence Update
+        │                                │                             │
+        ▼                                ▼                             ▼
+   ┌─────────┐                    ┌──────────┐               ┌─────────────────┐
+   │ Network │                    │ ACTION_  │               │ valence -= 0.15 │
+   │ timeout │──────────────────▶ │ FAILED   │──────────────▶│ mood = uneasy   │
+   └─────────┘                    └──────────┘               └─────────────────┘
+        │                                                              │
+        │                                                              ▼
+        │                                                     ┌─────────────────┐
+        │                                                     │ Motivation:     │
+        │                                                     │ - strategy: care│
+        │                                                     │ - speed: 0.9x   │
+        │                                                     │ - verify: yes   │
+        │◀────────────────────────────────────────────────────└─────────────────┘
+        │
+        ▼
+   Agent slows down, adds verification
+
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                           DECAY MECHANISM (HOMEOSTASIS)                      │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+   Time (Heartbeats) ────────────────────────────────────────────────────▶
+
+   Valence
+    +1.0 │
+         │                 ╱╲
+         │                ╱  ╲
+    +0.5 │               ╱    ╲╲
+         │              ╱      ╲ ╲
+     0.0 │─────────────╱────────╲─╲╲────────────────────────────────
+         │                        ╲ ╲╲
+    -0.5 │                         ╲  ╲╲___
+         │                          ╲     ╲╲╲____
+    -1.0 │                           ╲           ╲╲╲╲____
+         └──────────────────────────────────────────────────────────▶
+         0s    10s    20s    30s    40s    50s    60s    70s    80s
+
+         ▲      ▲                    ▲
+         │      │                    │
+      Success  More               Failures
+      events   success            compound
+               (streak)           (streak)
+
+   Decay formula: valence *= 0.99 per heartbeat
+   Result: Emotions fade toward neutral without reinforcement
+
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                            MOTIVATION MAPPING                                │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+   Valence     Mood         Strategy      Speed    Risk    Verify
+   ────────────────────────────────────────────────────────────────
+   -0.8        Struggling   Defensive     0.5x     0.0     High (2)
+   -0.6        Struggling   Defensive     0.5x     0.0     High (2)
+   -0.4        Stressed     Cautious      0.7x     0.3     Medium (1)
+   -0.2        Stressed     Cautious      0.7x     0.3     Medium (1)
+    0.0        Neutral      Normal        1.0x     0.6     None (0)
+   +0.2        Content      Normal        1.0x     0.6     None (0)
+   +0.4        Content      Confident     1.1x     0.7     None (0)
+   +0.6        Thriving     Bold          1.3x     0.9     None (0)
+   +0.8        Euphoric     Bold          1.3x     0.9     None (0)
+
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                          INTEGRATION POINTS                                  │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+1. LLM PROMPTS
+   ┌────────────────────────────────────────────────────┐
+   │ User Task: "Find leads"                            │
+   │                                                    │
+   │ EMOTIONAL STATE:                                   │
+   │ - Mood: thriving (valence: +0.52)                 │
+   │ - Trend: improving                                 │
+   │ - Strategy: confident                              │
+   │ - Motivation: Feeling good - ready for challenges  │
+   └────────────────────────────────────────────────────┘
+
+2. RISK CHECKS
+   if valence.get_motivation()["risk_tolerance"] < 0.5:
+       logger.warning("Too cautious for risky action")
+       return
+
+3. SPEED ADJUSTMENTS
+   speed = valence.get_motivation()["speed_multiplier"]
+   if speed < 1.0:
+       await asyncio.sleep(1.0)  # Slow down
+
+4. VERIFICATION
+   if valence.get_motivation()["verification_level"] >= 1:
+       verify_before_execute()
+
+5. PAUSE LOGIC
+   should_pause, reason = valence.should_pause()
+   if should_pause:
+       await emergency_stop(reason)
+
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                             KEY DIFFERENTIATORS                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌───────────────────┬──────────────────┬──────────────────┬──────────────────┐
+│  SYSTEM           │  SIGNAL TYPE     │  PURPOSE         │  RESPONSE        │
+├───────────────────┼──────────────────┼──────────────────┼──────────────────┤
+│ Gap Detection     │ Binary           │ Surprise signal  │ Learn            │
+│                   │ (yes/no)         │ (awareness)      │                  │
+├───────────────────┼──────────────────┼──────────────────┼──────────────────┤
+│ Mission Alignment │ Score (0-1)      │ Identity check   │ Course correct   │
+│                   │ (aligned/drift)  │ (values)         │                  │
+├───────────────────┼──────────────────┼──────────────────┼──────────────────┤
+│ Valence System    │ Gradient (-1,+1) │ Emotional state  │ Adjust behavior  │
+│                   │ (pain/pleasure)  │ (feelings)       │                  │
+└───────────────────┴──────────────────┴──────────────────┴──────────────────┘
+
+ALL THREE work together to create a complete AGI organism:
+- Gap → "Something unexpected happened" → mild pain → learn
+- Mission → "This aligns with my purpose" → pleasure → continue
+- Valence → "I'm struggling" → defensive strategy → slow down
+
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                              DATA STRUCTURES                                 │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+ValenceSnapshot
+├── valence: float (-1 to +1)
+├── mood: str (e.g., "thriving")
+├── timestamp: float
+└── trigger_event: str (what caused this)
+
+EmotionalProfile
+├── current_valence: float
+├── mood: str
+├── trend: str (improving/declining/stable)
+├── recent_avg: float
+├── volatility: float
+├── time_in_state: float
+└── dominant_emotion: str (pain/pleasure/neutral)
+
+Motivation
+├── strategy: str (defensive/cautious/normal/confident/bold)
+├── speed_multiplier: float (0.5x to 1.3x)
+├── risk_tolerance: float (0.0 to 1.0)
+├── verification_level: int (0, 1, 2)
+└── message: str (human-readable)
+
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                                 FILES CREATED                                │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+/mnt/c/ev29/agent/
+├── valence_system.py (821 lines, 29K)
+│   └── Core implementation - ValenceSystem class
+│
+├── test_valence_system.py (628 lines, 19K)
+│   └── Comprehensive test suite (15 test classes)
+│
+├── valence_example.py (339 lines, 12K)
+│   └── Interactive demonstration with 8 scenarios
+│
+├── valence_brain_integration.py (381 lines, 13K)
+│   └── Brain integration patterns and examples
+│
+├── VALENCE_SYSTEM.md (12K)
+│   └── Complete documentation
+│
+├── VALENCE_QUICK_START.md (6.6K)
+│   └── 5-minute integration guide
+│
+└── VALENCE_ARCHITECTURE.txt (this file)
+    └── Visual architecture reference
+
+TOTAL: 2,169 lines of production code + comprehensive docs
+
+
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                                                                              ║
+║  "The valence system transforms the agent from a state machine               ║
+║   into a feeling organism."                                                  ║
+║                                                                              ║
+║  Pain motivates fixing. Pleasure motivates continuation.                     ║
+║  The gradient creates agency.                                                ║
+║                                                                              ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+

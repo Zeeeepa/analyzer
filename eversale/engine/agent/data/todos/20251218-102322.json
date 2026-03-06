@@ -1,0 +1,26 @@
+[
+  {
+    "id": "f4c772cf-984f-4022-b062-71c09757bc2b",
+    "content": "Goal 1: Go to ycombinator.com/companies, filter for 'W24' batch companies in the 'Fintech' sector",
+    "status": "completed",
+    "priority": "low",
+    "created_at": 1766082323.0237045,
+    "updated_at": 1766082332.145421,
+    "metadata": {
+      "sequence_id": "621e74dca1a86e95",
+      "goal_index": 0
+    }
+  },
+  {
+    "id": "5e8ee9f9-23d6-467d-8e85-c9fe28750ab7",
+    "content": "Goal 2: Find the top 3 that mention 'AI' in their description. Then, visit each of their websites to find a specific 'Careers' page. Create a Markdown table with the company name, their HQ location, and a link to their most recent job posting. If no jobs are listed, note 'No active listings' instead of leaving it blank",
+    "status": "in_progress",
+    "priority": "low",
+    "created_at": 1766082323.044282,
+    "updated_at": 1766082332.1607265,
+    "metadata": {
+      "sequence_id": "621e74dca1a86e95",
+      "goal_index": 1
+    }
+  }
+]

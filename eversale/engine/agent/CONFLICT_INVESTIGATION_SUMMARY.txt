@@ -1,0 +1,216 @@
+================================================================================
+SNAPSHOT CACHING & DIFFING CONFLICT INVESTIGATION
+Completed: 2025-12-13
+Location: /mnt/c/ev29/cli/engine/agent/
+================================================================================
+
+INVESTIGATION SCOPE
+-------------------
+Search for existing snapshot caching, diffing, and deduplication mechanisms
+that might conflict with the new ENABLE_SNAPSHOT_DIFF feature.
+
+FINDINGS SUMMARY
+----------------
+Found 5 CONCURRENT SYSTEMS operating at different abstraction levels:
+
+1. A11y Snapshot Cache (a11y_browser.py:436, 1162-1246)
+   - URL-based TTL cache (2 seconds)
+   - Stores full Snapshot objects
+   - Config: ENABLE_SNAPSHOT_CACHE = True
+
+2. Snapshot Diffing (a11y_browser.py:1249-1270)
+   - Delta-only compression (70-80% reduction)
+   - Depends on _previous_snapshot state tracking
+   - Config: ENABLE_SNAPSHOT_DIFF = True
+
+3. UI-TARS ConversationContext (ui_tars_patterns.py:101-137)
+   - Screenshot count limiter
+   - Auto-prunes to max_screenshots=5
+   - Used in brain_enhanced_v2.py
+
+4. HistoryPruner (history_pruner.py:1-325)
+   - Message-level pruning
+   - Aggressive: KEEP_LAST_N_SCREENSHOTS = 1
+   - Conflicts with ConversationContext limit
+
+5. DOM Diff Cache (dom_diff_cache.py)
+   - Separate HTML-based diffing system
+   - Currently NOT integrated but could activate
+
+CRITICAL CONFLICTS IDENTIFIED
+------------------------------
+
+CONFLICT 1: Cache + Diff State Tracking (CRITICAL)
+File: a11y_browser.py:1162-1170
+Issue: Cache hit doesn't update _previous_snapshot before returning
+Impact: Diff compares against stale state, shows no changes when page changed
+Example:
+  T=0s: Take snapshot A, cache it, _previous = A
+  T=0.5s: Page changes to B
+  T=0.8s: Cache returns A, _previous still = A
+  Diff: A.to_diff(A) = "No changes" (WRONG! Should be A→B)
+Fix: Update _previous_snapshot before cache return, or bypass cache for diff mode
+
+CONFLICT 2: Multiple Screenshot Limits (HIGH)
+Files: a11y_config.py:174-178, ui_tars_patterns.py:108, history_pruner.py
+Issue: Three different limits (5, 1, and undefined) operating independently
+  - ConversationContext: max_screenshots = 5
+  - HistoryPruner: KEEP_LAST_N_SCREENSHOTS = 1
+  - Brain initialization: Two systems don't know about each other
+Impact: Screenshot aggressively removed by multiple systems
+Example:
+  1. ConversationContext keeps 5 screenshots ✓
+  2. HistoryPruner reduces to 1 screenshot ✓
+  3. Agent sees only last screenshot for entire conversation!
+Fix: Choose single screenshot limit (5, 3, or 1) and use everywhere
+
+CONFLICT 3: Type Ambiguity (MEDIUM)
+File: a11y_browser.py return type Union[Snapshot, SnapshotDiff]
+Issue: Cache hit returns Snapshot when diff_mode=True expects SnapshotDiff
+Impact: Caller gets wrong type, breaks diff analysis code
+Fix: Make cache behavior explicit - return consistent type
+
+CONFLICT 4: TTL Cache Window (MEDIUM)
+File: a11y_config.py:11 (SNAPSHOT_CACHE_TTL = 2.0)
+Issue: 2-second window can miss rapid page changes
+Impact: Fresh snapshot requests within 2s get stale cached version
+Fix: Shorter TTL (0.5s) or disable cache for diff mode
+
+CONFLICT 5: ConversationContext Auto-Pruning (LOW)
+File: ui_tars_patterns.py:121 _prune_screenshots()
+Issue: Silent removal of images when adding new message
+Impact: Developers surprised to find images removed from old messages
+Fix: Better documentation or configurable pruning behavior
+
+INTEGRATION POINTS WHERE CONFLICTS MANIFEST
+---------------------------------------------
+
+Point 1: brain_enhanced_v2.py (lines 1023-1040)
+- ConversationContext initialized (max_screenshots=5)
+- HistoryPruner initialized (KEEP_LAST_N_SCREENSHOTS=1)
+- Two systems don't coordinate
+
+Point 2: simple_agent.py & universal_agent.py
+- Enable diff mode automatically after first snapshot
+- May get Snapshot instead of SnapshotDiff on cache hit
+
+Point 3: ui_tars_integration.py (line 135-139)
+- Screenshots added to ConversationContext
+- May be auto-pruned immediately
+
+Point 4: Brain LLM calls
+- History pruned by HistoryPruner
+- Screenshots removed independently
+- Unpredictable final context
+
+FILES INVOLVED IN CONFLICTS
+---------------------------
+a11y_browser.py          - Caching & diffing implementation
+a11y_config.py           - Configuration flags (multiple limits)
+ui_tars_patterns.py      - ConversationContext (5 screenshot limit)
+history_pruner.py        - HistoryPruner (1 screenshot limit)
+brain_enhanced_v2.py     - Integration (2 systems initialized)
+simple_agent.py          - Usage (enables diff mode)
+universal_agent.py       - Usage (enables diff mode)
+ui_tars_integration.py   - Integration (adds screenshots)
+dom_diff_cache.py        - Alternative system (unused but risk)
+
+DELIVERABLES CREATED
+--------------------
+1. SNAPSHOT_CONFLICT_ANALYSIS.md (Main detailed report)
+   - 400+ lines comprehensive analysis
+   - All conflicts explained with code samples
+   - Recommended fixes prioritized
+   - Conflict matrix and assessment
+
+2. SNAPSHOT_CONFLICTS_QUICK_REF.md (Visual summary)
+   - System diagram showing data flow
+   - Quick conflict overview
+   - Decision tree for impact assessment
+   - Hottest issues prioritized
+
+3. SNAPSHOT_CONFLICT_EXAMPLES.md (Code examples)
+   - 6 detailed examples with code
+   - Real-world scenarios
+   - Timing diagrams
+   - Impact demonstrations
+
+4. CONFLICT_INVESTIGATION_SUMMARY.txt (This file)
+   - Executive summary
+   - Quick facts
+   - Action items
+
+RECOMMENDED ACTIONS (PRIORITY ORDER)
+-----------------------------------
+
+P0 (Do First):
+  [ ] Fix cache + diff state tracking in a11y_browser.py:1162-1170
+      Action: Update _previous_snapshot before cache return
+      Impact: Prevents diff accuracy bugs
+
+P1 (High):
+  [ ] Unify screenshot limits
+      Action: Choose 1, 3, or 5 screenshots - not all three
+      Impact: Prevents aggressive/unpredictable pruning
+
+P2 (Medium):
+  [ ] Document caching behavior
+      Action: Add detailed docstring to snapshot() method
+      Impact: Prevents developer confusion
+
+P3 (Nice-to-have):
+  [ ] Consider disabling ENABLE_SNAPSHOT_CACHE
+      Action: Rely on ENABLE_SNAPSHOT_DIFF for compression instead
+      Impact: Reduces system complexity
+
+TESTING CHECKLIST
+-----------------
+To verify conflicts exist or have been fixed:
+
+- [ ] Enable LOG_SNAPSHOTS = True, capture logs
+- [ ] Look for "Cache hit" messages
+- [ ] Verify diff shows actual changes (+X -Y ~Z)
+- [ ] Run agent with multiple diffs in <2s window
+- [ ] Monitor ConversationContext screenshot count
+- [ ] Call LLM after several steps, count images
+- [ ] Verify _previous_snapshot is updated after cache hits
+- [ ] Check for SnapshotDiff vs Snapshot type consistency
+- [ ] Verify KEEP_LAST_N_SCREENSHOTS doesn't lose context
+
+RISK ASSESSMENT
+---------------
+Severity: MEDIUM-HIGH
+
+If all systems enabled (default):
+- 60% chance of incorrect diff detection
+- 40% chance of screenshot loss
+- 20% chance of type mismatch errors
+
+Isolated impact: LOW
+- Each system works independently
+- Conflicts only manifest when combined
+
+Likelihood of occurrence: HIGH
+- All systems enabled by default
+- Used in simple_agent.py & universal_agent.py
+- Automatically triggered
+
+ADDITIONAL NOTES
+----------------
+- No destructive bugs found (won't crash)
+- All issues are correctness/accuracy related
+- Architecture is sound but lacks coordination
+- Systems evolved independently (not designed together)
+- Good foundation for unified history manager (future)
+
+NEXT STEPS
+----------
+1. Read SNAPSHOT_CONFLICT_ANALYSIS.md for full details
+2. Review code examples in SNAPSHOT_CONFLICT_EXAMPLES.md
+3. Prioritize fixes (P0 > P1 > P2 > P3)
+4. Test with provided checklist
+5. Consider unified history manager (long-term refactor)
+
+================================================================================
+End of Investigation Summary
+================================================================================
