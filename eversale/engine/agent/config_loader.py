@@ -68,8 +68,8 @@ def load_config() -> Dict[str, Any]:
         # Development mode - allow local Ollama, but respect env var overrides
         config['llm']['mode'] = 'local'
         
-        # Check for env var override
-        env_url = (os.environ.get('ANTHROPIC_BASE_URL') or os.environ.get('EVERSALE_LLM_URL') or '').strip()
+        # Check for env var override — prioritize OPENAI_BASE_URL for personal API key usage
+        env_url = (os.environ.get('OPENAI_BASE_URL') or os.environ.get('ANTHROPIC_BASE_URL') or os.environ.get('EVERSALE_LLM_URL') or '').strip()
         if env_url:
             config['llm']['base_url'] = env_url
             # Also set mode to remote if using a remote URL
@@ -95,7 +95,7 @@ def load_config() -> Dict[str, Any]:
         # 2. remote_url from config.yaml (for direct GPU access)
         # 3. base_url from config.yaml (if allow_custom_endpoint)
         # 4. Default eversale.io proxy
-        env_url = (os.environ.get('ANTHROPIC_BASE_URL') or os.environ.get('EVERSALE_LLM_URL') or '').strip()
+        env_url = (os.environ.get('OPENAI_BASE_URL') or os.environ.get('ANTHROPIC_BASE_URL') or os.environ.get('EVERSALE_LLM_URL') or '').strip()
         remote_url = config['llm'].get('remote_url', '').strip()
 
         if env_url:
@@ -108,7 +108,7 @@ def load_config() -> Dict[str, Any]:
             pass
         else:
             # Default to eversale.io proxy
-            config['llm']['base_url'] = os.environ.get('ANTHROPIC_BASE_URL', 'https://api.z.ai/api/anthropic')
+            config['llm']['base_url'] = os.environ.get('OPENAI_BASE_URL', os.environ.get('ANTHROPIC_BASE_URL', 'https://api.z.ai/api/anthropic'))
 
     return config
 

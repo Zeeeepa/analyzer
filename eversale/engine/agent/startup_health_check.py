@@ -18,7 +18,7 @@ def check_ollama_running() -> Tuple[bool, str]:
     """Check if Ollama service is running."""
     import os
     # Bypass if using remote GPU LLM
-    if os.environ.get('GPU_LLM_URL') or os.environ.get('EVERSALE_LLM_URL'):
+    if os.environ.get('GPU_LLM_URL') or os.environ.get('EVERSALE_LLM_URL') or os.environ.get('OPENAI_BASE_URL'):
         return True, "Using remote GPU LLM (local Ollama check skipped)"
         
     # Check config file too
@@ -49,7 +49,7 @@ def check_required_models() -> Tuple[bool, str]:
     """Check if required models are installed."""
     import os
     # Bypass if using remote GPU LLM (assume remote has models)
-    if os.environ.get('GPU_LLM_URL') or os.environ.get('EVERSALE_LLM_URL'):
+    if os.environ.get('GPU_LLM_URL') or os.environ.get('EVERSALE_LLM_URL') or os.environ.get('OPENAI_BASE_URL'):
         return True, "Remote GPU models assumed ready"
         
     # Check config file too
@@ -227,7 +227,7 @@ def quick_check() -> Tuple[bool, str]:
     """
     import os
     # Bypass if using remote GPU LLM
-    if os.environ.get('GPU_LLM_URL') or os.environ.get('EVERSALE_LLM_URL'):
+    if os.environ.get('GPU_LLM_URL') or os.environ.get('EVERSALE_LLM_URL') or os.environ.get('OPENAI_BASE_URL'):
         return True, ""
         
     try:

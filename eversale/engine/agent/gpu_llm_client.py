@@ -23,12 +23,14 @@ from typing import Dict, List, Any, Optional
 from dataclasses import dataclass
 from loguru import logger
 
-# GPU Server Configuration
+# GPU Server Configuration — prioritize OPENAI_BASE_URL for personal API key usage
 GPU_LLM_URL = os.environ.get(
+    'OPENAI_BASE_URL',
+    os.environ.get(
     'ANTHROPIC_BASE_URL',
     os.environ.get(
     'GPU_LLM_URL',
-    os.environ.get('SUPPORT_AGENT_LLM_CHAIN_REMOTE_ORIGIN', 'https://api.z.ai/api/anthropic'))
+    os.environ.get('SUPPORT_AGENT_LLM_CHAIN_REMOTE_ORIGIN', 'https://api.z.ai/api/anthropic')))
 )
 GPU_LLM_TIMEOUT = int(os.environ.get('GPU_LLM_TIMEOUT_MS', '60000')) / 1000  # Convert to seconds
 
@@ -74,9 +76,9 @@ class GPULLMClient:
         self.base_url = (base_url or GPU_LLM_URL).rstrip('/')
         self.license_key = license_key or self._get_license_key()
         self.api_token = (
-            os.environ.get('ANTHROPIC_API_KEY', '').strip()
-            or
-            os.environ.get('RUNPOD_API_KEY', '').strip()
+            os.environ.get('OPENAI_API_KEY', '').strip()
+            or os.environ.get('ANTHROPIC_API_KEY', '').strip()
+            or os.environ.get('RUNPOD_API_KEY', '').strip()
             or os.environ.get('EVERSALE_LLM_TOKEN', '').strip()
             or os.environ.get('GPU_LLM_TOKEN', '').strip()
         )
@@ -123,7 +125,10 @@ class GPULLMClient:
         - runpod serverless: RUNPOD_API_KEY (or EVERSALE_LLM_TOKEN/GPU_LLM_TOKEN if set)
         - other: EVERSALE_LLM_TOKEN/GPU_LLM_TOKEN (or license key if provided)
         """
-        if self._is_eversale_proxy():
+        # When OPENAI_API_KEY is set, always prefer api_token over license_key
+        if os.environ.get('OPENAI_API_KEY'):
+            token = self.api_token
+        elif self._is_eversale_proxy():
             token = self.license_key
         elif self._is_runpod_serverless():
             token = os.environ.get('RUNPOD_API_KEY', '').strip() or self.api_token
@@ -136,6 +141,15 @@ class GPULLMClient:
     def _normalize_base_url(self) -> str:
         """Normalize and strip trailing slashes."""
         return (self.base_url or '').rstrip('/')
+
+    def _build_chat_endpoint(self, base_url: str) -> str:
+        """Build chat completions endpoint with auto-detection for versioned URLs.
+        If the base URL already ends with a version path like /v4, /v1, etc.,
+        append /chat/completions directly instead of adding /v1/chat/completions."""
+        import re
+        if re.search(r'/v\d+/?$', base_url):
+            return f'{base_url}/chat/completions'
+        return f'{base_url}/v1/chat/completions'
 
     def _get_license_key(self) -> str:
         """Get license key from env var or config file."""
@@ -257,7 +271,7 @@ class GPULLMClient:
             }
         elif self._is_eversale_proxy():
             # Eversale proxy is OpenAI-compatible
-            endpoint = f'{base_url}/v1/chat/completions'
+            endpoint = self._build_chat_endpoint(base_url)
             payload = {
                 'model': model,
                 'messages': messages,
@@ -279,7 +293,7 @@ class GPULLMClient:
             }
         else:
             # Default to OpenAI-compatible
-            endpoint = f'{base_url}/v1/chat/completions'
+            endpoint = self._build_chat_endpoint(base_url)
             payload = {
                 'model': model,
                 'messages': messages,
@@ -408,7 +422,7 @@ class GPULLMClient:
                 }
             }
         elif self._is_eversale_proxy():
-            endpoint = f'{base_url}/v1/chat/completions'
+            endpoint = self._build_chat_endpoint(base_url)
             payload = {
                 'model': model,
                 'messages': messages,
@@ -425,7 +439,7 @@ class GPULLMClient:
                 'stream': False,
             }
         else:
-            endpoint = f'{base_url}/v1/chat/completions'
+            endpoint = self._build_chat_endpoint(base_url)
             payload = {
                 'model': model,
                 'messages': messages,

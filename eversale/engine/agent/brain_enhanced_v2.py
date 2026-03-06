@@ -22,7 +22,10 @@ from dataclasses import dataclass, field
 from loguru import logger
 from .worker_usage_reporter import WorkerUsageDelta, report_worker_usage_fire_and_forget
 from rich.console import Console
-import ollama
+try:
+    import ollama
+except ImportError:
+    ollama = None
 from .awareness import AwarenessHub
 from .context_memory import ContextMemory
 from .dead_mans_switch import DeadMansSwitch
