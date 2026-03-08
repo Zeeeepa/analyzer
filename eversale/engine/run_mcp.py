@@ -480,6 +480,16 @@ async def run(task: str, headless: bool = False, max_steps: int = 30):
 # =============================================================================
 
 def main():
+    # Auto-start local API server if personal API keys are detected
+    try:
+        from local_server_launcher import ensure_local_server
+        local_url = ensure_local_server()
+        if local_url:
+            import logging as _log
+            _log.getLogger(__name__).info(f"[run_mcp] Local API server active at {local_url}")
+    except ImportError:
+        pass
+
     import argparse
     parser = argparse.ArgumentParser()
     parser.add_argument("task", nargs="*")

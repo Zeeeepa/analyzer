@@ -521,6 +521,15 @@ async def run_interactive():
 
 async def main():
     """Main entry point."""
+    # Auto-start local API server if personal API keys are detected
+    try:
+        from local_server_launcher import ensure_local_server
+        local_url = ensure_local_server()
+        if local_url:
+            logging.getLogger(__name__).info(f"[run_simple] Local API server active at {local_url}")
+    except ImportError:
+        pass
+
     args = parse_args()
 
     # Interactive mode if no goal provided

@@ -236,7 +236,8 @@ class Reflector:
                 # Check if next call succeeded
                 if i + 1 < len(tool_calls):
                     next_content = str(tool_calls[i + 1].get('content', ''))
-                    if 'error' not in next_content.lower():
+                    next_lower = next_content.lower()
+                    if 'error' not in next_lower and 'failed' not in next_lower:
                         # Extract what changed
                         recovery_strategy = self._compare_calls(call, tool_calls[i + 1])
                         if recovery_strategy:
@@ -383,7 +384,11 @@ class Reflector:
         """
         min_length = self.MIN_STRATEGY_LENGTH_TRAINING if self.training_mode else self.MIN_STRATEGY_LENGTH
 
-        if not strategy_text or len(strategy_text) < min_length:
+        if not strategy_text:
+            logger.debug("Strategy is None or empty")
+            return False
+
+        if len(strategy_text) < min_length:
             logger.debug(f"Strategy too short ({len(strategy_text)} chars): {strategy_text[:30]}...")
             return False
 

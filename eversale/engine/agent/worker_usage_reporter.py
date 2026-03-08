@@ -39,7 +39,7 @@ class WorkerUsageDelta:
 
 
 class WorkerUsageReporter:
-    EVERSALE_API_URL = "https://eversale.io/api/desktop"
+    EVERSALE_API_URL = os.environ.get("EVERSALE_DESKTOP_URL", "https://eversale.io/api/desktop")
 
     def __init__(self, license_key: Optional[str] = None):
         self.license_key = license_key or self._load_license_key()
@@ -125,4 +125,3 @@ def report_worker_usage_fire_and_forget(delta: WorkerUsageDelta) -> None:
         asyncio.create_task(reporter.report(delta))
     except Exception:
         return
-
