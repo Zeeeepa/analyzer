@@ -1,0 +1,5 @@
+scheduled_tasks:
+- enabled: true
+  name: persistent-mission
+  prompt: Monitor the mission dashboard, keep solar arrays optimal, and report anomalies.
+  schedule: 0 * * * *

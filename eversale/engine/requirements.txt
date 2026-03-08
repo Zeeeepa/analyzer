@@ -1,0 +1,33 @@
+# LLM API client (for remote GPU server)
+httpx
+ollama  # Optional - only needed for local mode
+
+# Lightweight async HTTP client (used by agent/web_fetcher.py)
+aiohttp
+
+# MCP Protocol (optional - for full MCP SDK integration)
+# mcp
+pydantic
+
+# Browser automation
+playwright
+patchright  # Undetected Playwright fork (CDP stealth)
+curl_cffi>=0.5.0  # TLS fingerprinting (Chrome-like handshakes)
+
+# Humanization (human-like mouse, typing, scrolling)
+scipy  # For Bernstein polynomial Bezier curves
+numpy  # Required by scipy
+
+# Scheduling
+apscheduler
+
+# Database (sqlite3 is built-in to Python)
+chromadb
+
+# Utilities
+pyyaml
+python-dotenv
+rich  # Beautiful CLI output
+loguru  # Better logging
+psutil  # System monitoring for resource limits
+html2text

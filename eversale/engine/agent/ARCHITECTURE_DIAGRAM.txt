@@ -1,0 +1,340 @@
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                    SiteMemory Async Architecture                             ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                          Multiple Agent Processes                            │
+│  ┌─────────┐  ┌─────────┐  ┌─────────┐  ┌─────────┐  ┌─────────┐          │
+│  │ Agent 1 │  │ Agent 2 │  │ Agent 3 │  │ Agent 4 │  │ Agent 5 │          │
+│  └────┬────┘  └────┬────┘  └────┬────┘  └────┬────┘  └────┬────┘          │
+│       │            │            │            │            │                 │
+│       └────────────┴────────────┴────────────┴────────────┘                 │
+│                                 │                                            │
+└─────────────────────────────────┼────────────────────────────────────────────┘
+                                  │
+                                  ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                        SiteMemory Instance (per agent)                       │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                              │
+│  ┌────────────────────────────────────────────────────────────────────┐    │
+│  │                        In-Memory Cache                              │    │
+│  │  ┌──────────────────────────────────────────────────────────────┐  │    │
+│  │  │  sites: Dict[str, SiteProfile]                               │  │    │
+│  │  │  ├─ "example.com" → SiteProfile(...)                         │  │    │
+│  │  │  ├─ "linkedin.com" → SiteProfile(...)                        │  │    │
+│  │  │  └─ "facebook.com" → SiteProfile(...)                        │  │    │
+│  │  └──────────────────────────────────────────────────────────────┘  │    │
+│  │                                                                      │    │
+│  │  Cache Metadata:                                                    │    │
+│  │  ├─ _cache_timestamp: float (last refresh time)                    │    │
+│  │  ├─ _dirty: bool (needs save?)                                     │    │
+│  │  └─ cache_ttl: float (60s default)                                 │    │
+│  │                                                                      │    │
+│  │  _cache_lock: asyncio.Lock ◄────── Protects cache access           │    │
+│  └────────────────────────────────────────────────────────────────────┘    │
+│                                                                              │
+│  ┌────────────────────────────────────────────────────────────────────┐    │
+│  │                    Read/Write Lock Manager                          │    │
+│  │  ┌──────────────────────────────────────────────────────────────┐  │    │
+│  │  │  ReadWriteLock(lock_file, timeout=10.0)                      │  │    │
+│  │  │  ├─ read_lock()  → FileLock (shared, LOCK_SH)                │  │    │
+│  │  │  └─ write_lock() → FileLock (exclusive, LOCK_EX)             │  │    │
+│  │  └──────────────────────────────────────────────────────────────┘  │    │
+│  └────────────────────────────────────────────────────────────────────┘    │
+│                                                                              │
+└──────────────────────────────┬───────────────────────────────────────────────┘
+                               │
+                               ▼
+             ┌─────────────────────────────────────┐
+             │      File System Layer               │
+             ├─────────────────────────────────────┤
+             │                                      │
+             │  ┌────────────────────────────────┐ │
+             │  │ site_memory.json.lock          │ │◄── Lock File (fcntl)
+             │  │ ┌──────────────────────────┐   │ │
+             │  │ │ Process ID: 12345        │   │ │
+             │  │ │ Lock Type: SHARED/EXCL   │   │ │
+             │  │ │ Timeout: 10.0s           │   │ │
+             │  │ └──────────────────────────┘   │ │
+             │  └────────────────────────────────┘ │
+             │                                      │
+             │  ┌────────────────────────────────┐ │
+             │  │ site_memory.json               │ │◄── Data File
+             │  │ {                              │ │
+             │  │   "example.com": {             │ │
+             │  │     "domain": "example.com",   │ │
+             │  │     "selectors": {...},        │ │
+             │  │     "quirks": [...],           │ │
+             │  │     ...                        │ │
+             │  │   }                            │ │
+             │  │ }                              │ │
+             │  └────────────────────────────────┘ │
+             │                                      │
+             │  ┌────────────────────────────────┐ │
+             │  │ .site_memory_tmp_abc123.json   │ │◄── Temp File (atomic write)
+             │  └────────────────────────────────┘ │
+             │                                      │
+             └──────────────────────────────────────┘
+
+
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                           Operation Flow                                     ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+READ OPERATION (e.g., get_profile)
+──────────────────────────────────────
+┌─────────────────────────────────────────────────────────────┐
+│ 1. Check cache validity (timestamp vs TTL)                  │
+│    ├─ Valid? → Use cached data (instant)                    │
+│    └─ Stale? → Continue to step 2                           │
+├─────────────────────────────────────────────────────────────┤
+│ 2. Acquire SHARED lock (read_lock)                          │
+│    ├─ Multiple readers can acquire simultaneously           │
+│    └─ Waits if writer holds exclusive lock                  │
+├─────────────────────────────────────────────────────────────┤
+│ 3. Read file: aiofiles.open(path, 'r')                      │
+│    ├─ Async I/O (non-blocking)                              │
+│    └─ Parse JSON                                            │
+├─────────────────────────────────────────────────────────────┤
+│ 4. Update cache                                              │
+│    ├─ Set sites dict                                        │
+│    ├─ Update timestamp                                      │
+│    └─ Clear dirty flag                                      │
+├─────────────────────────────────────────────────────────────┤
+│ 5. Release SHARED lock                                       │
+├─────────────────────────────────────────────────────────────┤
+│ 6. Return data from cache                                    │
+└─────────────────────────────────────────────────────────────┘
+
+WRITE OPERATION (e.g., record_visit)
+──────────────────────────────────────
+┌─────────────────────────────────────────────────────────────┐
+│ 1. Update in-memory cache                                    │
+│    ├─ Modify SiteProfile object                             │
+│    └─ Set dirty flag = True                                 │
+├─────────────────────────────────────────────────────────────┤
+│ 2. Check dirty flag                                          │
+│    ├─ Not dirty? → Skip save, return                        │
+│    └─ Dirty? → Continue to step 3                           │
+├─────────────────────────────────────────────────────────────┤
+│ 3. Acquire EXCLUSIVE lock (write_lock)                       │
+│    ├─ Only one writer allowed                               │
+│    ├─ Blocks all readers                                    │
+│    └─ Waits for existing readers to finish                  │
+├─────────────────────────────────────────────────────────────┤
+│ 4. Create temp file                                          │
+│    └─ tempfile.mkstemp(prefix='.site_memory_tmp_')          │
+├─────────────────────────────────────────────────────────────┤
+│ 5. Write to temp file                                        │
+│    ├─ aiofiles.open(temp_path, 'w')                         │
+│    ├─ json.dumps(data, indent=2)                            │
+│    └─ os.fsync(fd) - flush to disk                          │
+├─────────────────────────────────────────────────────────────┤
+│ 6. Atomic rename                                             │
+│    └─ shutil.move(temp_path, storage_path)                  │
+│        ├─ Atomic operation (OS-level)                       │
+│        └─ No partial writes possible                        │
+├─────────────────────────────────────────────────────────────┤
+│ 7. Update cache metadata                                     │
+│    ├─ Clear dirty flag                                      │
+│    └─ Update timestamp                                      │
+├─────────────────────────────────────────────────────────────┤
+│ 8. Release EXCLUSIVE lock                                    │
+├─────────────────────────────────────────────────────────────┤
+│ 9. Return                                                    │
+└─────────────────────────────────────────────────────────────┘
+
+
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                        Concurrent Access Example                             ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+Time  Agent 1         Agent 2         Agent 3         Lock State
+────  ──────────────  ──────────────  ──────────────  ──────────────
+t0    get_profile()   get_profile()   -               SHARED (A1, A2)
+      ↓ read          ↓ read
+t1    reading...      reading...      get_profile()   SHARED (A1, A2, A3)
+                                      ↓ read
+t2    ✓ done          reading...      reading...      SHARED (A2, A3)
+
+t3    -               ✓ done          reading...      SHARED (A3)
+
+t4    record_visit()  -               ✓ done          EXCLUSIVE (waiting)
+      ↓ wait
+t5    waiting...      get_profile()   -               EXCLUSIVE (waiting)
+                      ↓ wait                          (A1 waiting)
+                                                      (A2 waiting)
+t6    writing...      waiting...      -               EXCLUSIVE (A1)
+      ↓ fsync
+t7    ✓ done          waiting...      record_visit()  SHARED (A2 acquired)
+                      ↓ read          ↓ wait
+t8    -               reading...      waiting...      SHARED (A2)
+
+t9    -               ✓ done          waiting...      EXCLUSIVE (A3 acquired)
+                                      ↓ write
+t10   -               -               writing...      EXCLUSIVE (A3)
+                                      ↓ fsync
+t11   -               -               ✓ done          UNLOCKED
+
+
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                          Cache Behavior                                      ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+Scenario 1: Cache Hit (Fast Path)
+──────────────────────────────────
+Time since last load: 30s
+Cache TTL: 60s
+Cache valid: YES ✓
+
+get_profile("example.com")
+  ├─ Check timestamp: 30s < 60s → VALID
+  ├─ Return cached data immediately
+  └─ Time: ~0.001ms
+
+Scenario 2: Cache Miss (Slow Path)
+───────────────────────────────────
+Time since last load: 70s
+Cache TTL: 60s
+Cache valid: NO ✗
+
+get_profile("example.com")
+  ├─ Check timestamp: 70s > 60s → STALE
+  ├─ Acquire read lock: ~1-5ms
+  ├─ Load from disk: ~5-10ms
+  ├─ Update cache: ~0.1ms
+  ├─ Release lock: ~0.1ms
+  └─ Time: ~10-20ms
+
+Scenario 3: Write Through
+──────────────────────────
+record_visit("example.com", 5.0)
+  ├─ Update cache immediately
+  ├─ Set dirty flag
+  ├─ Acquire write lock: ~1-10ms
+  ├─ Write to disk: ~10-20ms
+  ├─ Update timestamp
+  ├─ Release lock: ~0.1ms
+  └─ Time: ~20-50ms
+
+Scenario 4: No Cache (TTL=0)
+─────────────────────────────
+Cache TTL: 0
+Cache valid: ALWAYS ✓
+
+get_profile("example.com")
+  ├─ Check TTL: 0 → always valid
+  ├─ Return cached data
+  └─ Time: ~0.001ms
+
+Note: Cache never refreshes from disk!
+Use for single-agent systems only.
+
+
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                         Lock Timeout Behavior                                ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+Lock Acquisition with Timeout
+───────────────────────────────
+timeout = 10.0 seconds
+retry_delay = 0.01 seconds
+
+acquire_lock():
+  start_time = time.time()
+
+  while True:
+    try:
+      fcntl.flock(fd, LOCK_EX | LOCK_NB)  # Non-blocking
+      return  # Success!
+    except IOError:
+      elapsed = time.time() - start_time
+      if elapsed > timeout:
+        raise TimeoutError("Failed to acquire lock")
+      await asyncio.sleep(0.01)  # Wait 10ms, try again
+
+Timeline:
+  t=0.00s   Try lock... FAIL (agent 2 holds it)
+  t=0.01s   Try lock... FAIL
+  t=0.02s   Try lock... FAIL
+  ...
+  t=5.50s   Try lock... SUCCESS! (agent 2 released)
+
+  Total wait: 5.5s < 10s timeout ✓
+
+
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                      Performance Characteristics                             ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+Operation Performance (Single Agent)
+─────────────────────────────────────
+Operation              Cold Cache    Warm Cache    Speedup
+─────────────────────────────────────────────────────────
+get_profile()          5-10ms        0.001ms       5000x
+get_selector()         5-10ms        0.001ms       5000x
+get_quirks()           5-10ms        0.001ms       5000x
+record_visit()         10-20ms       10-20ms       1x
+cache_selector()       10-20ms       10-20ms       1x
+record_quirk()         10-20ms       10-20ms       1x
+
+Concurrent Performance (5 Agents)
+──────────────────────────────────
+Scenario                 Sequential    Concurrent    Speedup
+───────────────────────────────────────────────────────────
+5x get_profile()         25-50ms       5-10ms        5x
+5x record_visit()        50-100ms      50-100ms      1x
+3x read + 2x write       55-110ms      40-80ms       1.5x
+
+Note: Reads parallelize, writes serialize
+
+
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                            Error Recovery                                    ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+Crash Scenarios
+───────────────
+
+1. Crash During Read
+   ├─ Lock released automatically (OS cleans up)
+   ├─ File unchanged
+   └─ Result: No data loss ✓
+
+2. Crash During Write (before fsync)
+   ├─ Temp file may be incomplete
+   ├─ Original file unchanged
+   ├─ Temp file cleaned up on next write
+   └─ Result: No data loss ✓
+
+3. Crash During Write (after fsync, before rename)
+   ├─ Temp file complete on disk
+   ├─ Original file unchanged
+   ├─ Next write creates new temp file
+   └─ Result: No data loss ✓
+
+4. Crash During Write (after rename)
+   ├─ New file complete
+   ├─ Data saved successfully
+   └─ Result: Data saved ✓
+
+Lock Timeout
+────────────
+If lock held > timeout:
+  ├─ Raise TimeoutError
+  ├─ Application can retry or alert
+  └─ Prevents indefinite hang
+
+File Corruption
+───────────────
+If JSON parse fails:
+  ├─ Log warning
+  ├─ Start with empty cache
+  ├─ Continue operation
+  └─ Next write creates valid file
+
+
+═══════════════════════════════════════════════════════════════════════════════
+ End of Architecture Diagram
+═══════════════════════════════════════════════════════════════════════════════

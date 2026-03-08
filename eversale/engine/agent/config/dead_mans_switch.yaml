@@ -1,0 +1,4 @@
+# Dead Man's Switch Configuration
+timeout_hours: 4.0
+fallback_tasks:
+  - "Log system status and send diagnostic report"

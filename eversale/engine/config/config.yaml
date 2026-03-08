@@ -1,0 +1,99 @@
+agent:
+  auto_approve: true
+  max_iterations: 50
+  timeout_seconds: 300
+
+fast_mode:
+  enabled: true
+  verbose: false
+
+llm:
+  mode: local
+  local_url: https://api.z.ai/api/anthropic
+  base_url: https://api.z.ai/api/anthropic
+  remote_url: https://api.z.ai/api/anthropic
+  main_model: glm-5
+  fast_model: glm-5
+  tool_calling_model: glm-5
+  vision_model: glm-5
+  web_vision_model: glm-5
+  complex_model: glm-5
+  kimi_api_url: https://api.z.ai/api/anthropic
+
+strategic_planner:
+  enabled: true
+  primary_llm: glm-5
+  recovery_threshold: 2
+  kimi_timeout_seconds: 120.0
+  qwen_timeout_seconds: 120.0
+  max_fallback_retries: 3
+  max_total_retries: 5
+  escalate_after_failures: 1
+
+planning:
+  enabled: true
+  max_depth: 3
+  use_templates: true
+  checkpoint_interval: 5
+
+llm_strategy:
+  first_call_model: glm-5
+  execution_model: glm-5
+  final_call_model: glm-5
+  temperature: 0.1
+  max_tokens: 4096
+  timeout_ms: 60000
+
+visual_targeting:
+  enabled: true
+  mode: auto
+  model: glm-5
+
+browser:
+  headless_default: true
+  use_persistent_context: true
+  nav_timeout: 30000
+  operation_timeout: 120000
+  use_a11y_first: true
+
+timing:
+  loop_delay: 2
+  nav_delay: 2
+  click_delay: 0.5
+  content_load_delay: 3
+
+logging:
+  level: INFO
+
+dual_llm:
+  enabled: true
+  orchestrator_model: glm-5
+  executor_model: glm-5
+
+worker:
+  max_steps: 20
+  context_window: 8192
+  max_tokens_planner: 512
+  max_tokens_navigator: 256
+
+web_daemon:
+  cache_ttl_seconds: 900
+  rate_limit_per_domain: 10
+  collectors:
+    - simple_http
+    - playwright
+    - alt_frontend
+  fallback_enabled: true
+
+tool_wrappers:
+  max_retries: 3
+  backoff_base: 2
+  lock_threshold: 5
+
+safety:
+  default_allowed_domains: []
+  forbidden_actions:
+    - delete_account
+    - permanently_delete_data
+    - unsubscribe_all
+  destructive_confirmation: true

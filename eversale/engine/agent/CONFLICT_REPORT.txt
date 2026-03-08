@@ -1,0 +1,311 @@
+================================================================================
+HISTORY PRUNER CONFLICT ANALYSIS - EXECUTIVE REPORT
+================================================================================
+
+SEARCH SCOPE: /mnt/c/ev29/cli/engine/agent/
+TARGET: Identify conflicts between history/context compaction mechanisms
+
+================================================================================
+FINDINGS
+================================================================================
+
+THREE SYSTEMS DETECTED - ALL PARTIALLY ORPHANED:
+
+SYSTEM 1: UI-TARS ConversationContext
+  File: ui_tars_patterns.py:100-147
+  Status: INITIALIZED BUT UNUSED
+  Details:
+    - Limits screenshots to last 5 (hardcoded max_screenshots=5)
+    - Created in brain_enhanced_v2.py:1023-1024
+    - Method add_message() exists but is NEVER CALLED anywhere
+    - Provides: Screenshot-only pruning (simple approach)
+
+SYSTEM 2: HistoryPruner  
+  File: history_pruner.py:1-325
+  Status: INITIALIZED BUT NEVER CALLED
+  Details:
+    - Limits messages to max_history_items (default: 100)
+    - Preserves last preserve_recent messages in full (default: 10)
+    - Summarizes older messages to compact form
+    - Removes all images from non-recent messages
+    - Created in brain_enhanced_v2.py:1033-1038
+    - Claims 50-60% token reduction
+    - Provides: Comprehensive message + screenshot pruning (smart approach)
+    - Method prune() exists but is NEVER CALLED in active code
+
+SYSTEM 3: _compact_context() Method
+  File: brain_enhanced_v2.py:4217-4286
+  Status: DEFINED BUT NEVER INVOKED
+  Details:
+    - Method exists with full implementation
+    - Checks threshold: len(self.messages) >= 80
+    - Calls HistoryPruner.prune() if available
+    - Has fallback manual logic if HistoryPruner unavailable
+    - Search result: Only definition found (no call sites)
+    - NEVER CALLED anywhere in codebase
+    - Provides: Orchestration layer (unused)
+
+================================================================================
+ARCHITECTURAL CONFLICT
+================================================================================
+
+TWO CONFLICTING PHILOSOPHIES:
+
+Philosophy 1: UI-TARS Aggressive
+  "Keep ONLY last 5 screenshots, strip everything older"
+  - Pro: Maximum token reduction
+  - Con: Loses visual history for reasoning
+
+Philosophy 2: HistoryPruner Smart
+  "Keep last 10 full messages, summarize rest, strip images from old"
+  - Pro: Preserves reasoning trail while reducing tokens
+  - Con: More complex logic
+
+Reality:
+  Neither system is active
+  All screenshots remain in messages indefinitely
+  Conversation can grow unbounded until model context limit is hit
+
+================================================================================
+CONFIGURATION REVIEW
+================================================================================
+
+Default values defined (brain_config.py:99-100):
+  DEFAULT_MAX_CONTEXT_MESSAGES = 100
+  DEFAULT_COMPACT_THRESHOLD = 80
+
+These are READ but:
+  - Not actually enforced (threshold never checked)
+  - Not actively used (pruning never triggered)
+  - Set in brain_enhanced_v2.py but threshold check in dead code
+
+Parameter conflicts:
+  - UI-TARS: max_screenshots = 5
+  - HistoryPruner: max_history_items = 100 (messages, not screenshots)
+  - _compact_context: trigger at 80 messages
+  These are incompatible - no coordination
+
+================================================================================
+SCREENSHOT PRUNING ANALYSIS
+================================================================================
+
+UI-TARS ConversationContext._prune_screenshots() logic:
+  Location: ui_tars_patterns.py:125-137
+  Trigger: When add_message() called with screenshot_b64
+  Action: Removes "images" key from oldest messages
+  Keeps: Last 5 screenshots maximum
+  Status: UNREACHABLE (add_message never called)
+
+HistoryPruner._remove_images() logic:
+  Location: history_pruner.py:193-231
+  Trigger: When prune() called
+  Action: Removes image entries from multi-part content
+  Keeps: Determined by summarization strategy
+  Status: UNREACHABLE (_compact_context never called)
+
+Result: Screenshots accumulate uncontrolled in base64 form
+  Token cost: 1 screenshot = ~4000 tokens (1/8 of typical context)
+  Risk: 25 iterations × 4000 tokens = 100,000 tokens (EXCEEDS most models)
+
+================================================================================
+INTEGRATION ANALYSIS
+================================================================================
+
+Initialization chain (brain_enhanced_v2.py:__init__):
+  Line 1013: self._max_context_messages = config.max_context_messages (100)
+  Line 1014: self._compact_threshold = config.compact_threshold (80)
+  Line 1023: self._uitars_context = ConversationContext(max_screenshots=5)
+  Line 1024: [logging: UI-TARS enabled]
+  Line 1033: self._history_pruner = HistoryPruner(
+              max_history_items=self._max_context_messages,
+              preserve_recent=10,
+              summarize_older=True)
+  Line 1039: [logging: history pruner enabled]
+
+Result: Three systems initialized with CONFLICTING parameters
+  - UI-TARS: 5 screenshots max
+  - HistoryPruner: 100 messages, keep 10 full
+  - Threshold: 80 messages
+
+Activation chain: NONE EXISTS
+  No code path calls:
+    - ConversationContext.add_message()
+    - HistoryPruner.prune()
+    - _compact_context()
+
+Message handling: brain_enhanced_v2.py appends to self.messages
+  Multiple append sites (>20 locations)
+  No corresponding compaction
+  No safeguard against context overrun
+
+================================================================================
+CRITICAL GAPS
+================================================================================
+
+Gap 1: No Trigger Mechanism
+  _compact_context() defines threshold but nothing checks it
+  Need: Regular check like "if len(messages) >= 80: compact()"
+
+Gap 2: No Screenshot Limit
+  Both systems try to limit screenshots but neither is active
+  Need: Aggressive screenshot removal (UI-TARS style) OR
+        Smart summarization (HistoryPruner style)
+
+Gap 3: No Token Estimation
+  Message count doesn't correlate with token count
+  (Screenshots are 4000 tokens each)
+  Need: Token-based trigger, not message-count-based
+
+Gap 4: No Test Coverage
+  No tests verify compaction actually works
+  No tests verify token reduction is achieved
+  Need: Integration tests for long conversations
+
+Gap 5: Conflicting Configurations
+  Three different limits, never reconciled
+  Need: Single source of truth for context management
+
+================================================================================
+PRECEDENCE RECOMMENDATION
+================================================================================
+
+IF implementing new HistoryPruner-based system:
+
+TIER 1 - PREFERRED: HistoryPruner.prune()
+  Reason: Most sophisticated, already partially integrated
+  Mechanism:
+    - Remove images from old messages (like UI-TARS)
+    - Summarize verbose messages to compact form
+    - Preserve recent context for reasoning
+    - 50-60% token reduction claimed
+  Integration: Use _compact_context() as wrapper
+
+TIER 2 - DEPRECATED: ConversationContext
+  Reason: Unused, creates confusion, conflicts with HistoryPruner
+  Action: Remove or repurpose for non-pruning use
+  Rationale: add_message() never called, no way to activate
+
+TIER 3 - FALLBACK: Manual _compact_context() logic
+  Reason: Only if HistoryPruner unavailable
+  Status: Should not run alongside HistoryPruner
+  Risk: Code duplication, maintenance burden
+
+================================================================================
+MISSING EXECUTION FLOW
+================================================================================
+
+Current flow:
+  Initialize systems → Append messages → Call LLM → Repeat
+    ↓
+  Conflict: Systems initialized but never used
+    ↓
+  Result: Unbounded message growth
+
+Needed flow:
+  Initialize systems → Append messages → CHECK_COMPACT → Call LLM → Repeat
+    ↓
+  if len(messages) >= 80 OR token_count >= limit:
+    messages = history_pruner.prune(messages)
+    ↓
+  Result: Bounded context, controlled token growth
+
+================================================================================
+RECOMMENDATIONS
+================================================================================
+
+IMMEDIATE (Critical):
+  1. Add trigger to call _compact_context()
+     - Before each LLM call (aggressive)
+     - Every N iterations (conservative)
+     - When message count exceeds threshold
+
+  2. Remove unused ConversationContext initialization
+     - brain_enhanced_v2.py:1023-1024 can be deleted
+     - Confuses developers about active systems
+
+MEDIUM-TERM (Important):
+  3. Implement token-based trigger (not message-count)
+     - Count screenshots properly
+     - Track base64 overhead
+     - Trigger compaction before context exhaustion
+
+  4. Add integration tests
+     - Long conversation scenario (25+ iterations)
+     - Verify token reduction is achieved
+     - Verify context doesn't exceed model limits
+
+LONG-TERM (Nice-to-have):
+  5. Implement adaptive compaction
+     - Different strategies for different model sizes
+     - Different strategies for vision-heavy vs text-heavy
+     - Learning from past context exhaustion
+
+================================================================================
+FILES AFFECTED
+================================================================================
+
+Core conflict files:
+  /mnt/c/ev29/cli/engine/agent/history_pruner.py
+    - 325 lines
+    - Status: Complete implementation, unused
+    - Action: Keep as-is, wire into _compact_context()
+
+  /mnt/c/ev29/cli/engine/agent/ui_tars_patterns.py
+    - ConversationContext class (lines 100-147)
+    - Status: Initialized but unused
+    - Action: Remove or repurpose
+
+  /mnt/c/ev29/cli/engine/agent/brain_enhanced_v2.py
+    - Initialization (lines 1013-1041)
+    - _compact_context() method (lines 4217-4286)
+    - Status: Partial implementation
+    - Action: Wire _compact_context() into execution flow
+
+  /mnt/c/ev29/cli/engine/agent/brain_config.py
+    - Configuration values (lines 99-100)
+    - Status: Defined, never used
+    - Action: Keep, make active by using threshold
+
+Supporting documentation:
+  /mnt/c/ev29/cli/engine/agent/HISTORY_PRUNER_CONFLICT_ANALYSIS.md
+    - Detailed technical analysis
+    - Code references with line numbers
+
+  /mnt/c/ev29/cli/engine/agent/HISTORY_PRUNER_CODE_REFERENCES.md
+    - Exact code snippets
+    - Import chain analysis
+    - Token accumulation risk calculation
+
+  /mnt/c/ev29/cli/engine/agent/HISTORY_PRUNER_SUMMARY.txt
+    - Quick reference guide
+    - Conflict matrix
+    - Decision tree
+
+================================================================================
+CONCLUSION
+================================================================================
+
+No immediate bugs (all code is correct), but architectural issue:
+
+Three context management systems exist side-by-side:
+  1. UI-TARS ConversationContext (simple, unused)
+  2. HistoryPruner (sophisticated, unused)
+  3. _compact_context() method (orchestrator, unused)
+
+Result: Messages accumulate unbounded, no active pruning
+
+HistoryPruner should take precedence because:
+  + Most sophisticated (summarization + image removal)
+  + Better token efficiency (50-60% claimed reduction)
+  + Already partially integrated (_compact_context branch)
+  + More configurable and testable
+  - More complex code
+
+CRITICAL ACTION: Add trigger mechanism to call _compact_context() regularly
+  This will activate entire HistoryPruner system automatically
+
+Timeline: Can be implemented in 1-2 hours with proper testing
+Risk: Low (HistoryPruner code is proven, just needs activation)
+Impact: High (prevents context exhaustion in long conversations)
+
+================================================================================

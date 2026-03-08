@@ -1,0 +1,268 @@
+version: '1.0'
+updated_at: '2025-11-23T00:00:00'
+strategies:
+  # LinkedIn Strategies
+  - domain: linkedin.com
+    action_type: search
+    strategy: "Use the main search bar at top of page, not individual section searches"
+    marker: ✓
+    success_count: 10
+    failure_count: 0
+    created_at: '2025-11-23T00:00:00'
+    last_used: '2025-11-23T00:00:00'
+
+  - domain: linkedin.com
+    action_type: search
+    strategy: "Apply 'People' filter after searching to get profile results instead of posts/companies"
+    marker: ✓
+    success_count: 15
+    failure_count: 1
+    created_at: '2025-11-23T00:00:00'
+    last_used: '2025-11-23T00:00:00'
+
+  - domain: linkedin.com
+    action_type: extract_contacts
+    strategy: "Profile names are in <h1> tags, not <a> tags - scrape from heading elements"
+    marker: ✓
+    success_count: 20
+    failure_count: 0
+    created_at: '2025-11-23T00:00:00'
+    last_used: '2025-11-23T00:00:00'
+
+  - domain: linkedin.com
+    action_type: extract_contacts
+    strategy: "LinkedIn profile URLs follow pattern /in/[username] - validate before saving"
+    marker: ✓
+    success_count: 18
+    failure_count: 1
+    created_at: '2025-11-23T00:00:00'
+    last_used: '2025-11-23T00:00:00'
+
+  - domain: linkedin.com
+    action_type: navigate_to_profile
+    strategy: "Click on profile image or name heading, NOT on post content links"
+    marker: ✓
+    success_count: 12
+    failure_count: 2
+    created_at: '2025-11-23T00:00:00'
+    last_used: '2025-11-23T00:00:00'
+
+  - domain: linkedin.com
+    action_type: handle_popup
+    strategy: "Dismiss 'Sign in to see more' modal by clicking X button in top-right corner"
+    marker: ✓
+    success_count: 25
+    failure_count: 0
+    created_at: '2025-11-23T00:00:00'
+    last_used: '2025-11-23T00:00:00'
+
+  - domain: linkedin.com
+    action_type: search
+    strategy: "Don't use Sales Navigator filters unless explicitly subscribed - causes errors"
+    marker: ✗
+    success_count: 0
+    failure_count: 8
+    created_at: '2025-11-23T00:00:00'
+    last_used: '2025-11-23T00:00:00'
+
+  # Facebook Ad Library Strategies
+  - domain: facebook.com
+    action_type: search
+    strategy: "Select country BEFORE searching - searches default to US only without selection"
+    marker: ✓
+    success_count: 14
+    failure_count: 2
+    created_at: '2025-11-23T00:00:00'
+    last_used: '2025-11-23T00:00:00'
+
+  - domain: facebook.com
+    action_type: search
+    strategy: "Use 'Issues, Elections or Politics' category for political ads, not 'All Ads'"
+    marker: ✓
+    success_count: 9
+    failure_count: 1
+    created_at: '2025-11-23T00:00:00'
+    last_used: '2025-11-23T00:00:00'
+
+  - domain: facebook.com
+    action_type: extract_contacts
+    strategy: "Ad library shows Page name under each ad - scrape this for advertiser identity"
+    marker: ✓
+    success_count: 22
+    failure_count: 0
+    created_at: '2025-11-23T00:00:00'
+    last_used: '2025-11-23T00:00:00'
+
+  - domain: facebook.com
+    action_type: handle_popup
+    strategy: "Click 'See Ads' button to bypass cookie consent and view library directly"
+    marker: ✓
+    success_count: 16
+    failure_count: 1
+    created_at: '2025-11-23T00:00:00'
+    last_used: '2025-11-23T00:00:00'
+
+  - domain: facebook.com
+    action_type: filter
+    strategy: "Apply date range filter AFTER initial search loads to avoid timeout errors"
+    marker: ✓
+    success_count: 11
+    failure_count: 3
+    created_at: '2025-11-23T00:00:00'
+    last_used: '2025-11-23T00:00:00'
+
+  # Apollo.io Strategies
+  - domain: apollo.io
+    action_type: search
+    strategy: "Use 'People' tab for contact search, not 'Companies' tab - different data structure"
+    marker: ✓
+    success_count: 13
+    failure_count: 1
+    created_at: '2025-11-23T00:00:00'
+    last_used: '2025-11-23T00:00:00'
+
+  - domain: apollo.io
+    action_type: extract_contacts
+    strategy: "Click 'Export' button before scraping to get clean CSV with verified emails"
+    marker: ✓
+    success_count: 8
+    failure_count: 0
+    created_at: '2025-11-23T00:00:00'
+    last_used: '2025-11-23T00:00:00'
+
+  - domain: apollo.io
+    action_type: handle_popup
+    strategy: "Apollo shows credit usage popups - dismiss with 'Got it' button to continue"
+    marker: ✓
+    success_count: 19
+    failure_count: 0
+    created_at: '2025-11-23T00:00:00'
+    last_used: '2025-11-23T00:00:00'
+
+  - domain: apollo.io
+    action_type: filter
+    strategy: "Select job titles using dropdown autocomplete, not freeform text input"
+    marker: ✓
+    success_count: 17
+    failure_count: 2
+    created_at: '2025-11-23T00:00:00'
+    last_used: '2025-11-23T00:00:00'
+
+  - domain: apollo.io
+    action_type: extract_contacts
+    strategy: "Don't scrape unverified emails - Apollo marks them with warning icon"
+    marker: ✗
+    success_count: 2
+    failure_count: 7
+    created_at: '2025-11-23T00:00:00'
+    last_used: '2025-11-23T00:00:00'
+
+  # General Web Patterns
+  - domain: '*'
+    action_type: handle_popup
+    strategy: "Look for buttons with text: 'Accept', 'Got it', 'Dismiss', 'X', or 'Close'"
+    marker: ✓
+    success_count: 45
+    failure_count: 3
+    created_at: '2025-11-23T00:00:00'
+    last_used: '2025-11-23T00:00:00'
+
+  - domain: '*'
+    action_type: handle_popup
+    strategy: "Cookie popups usually have class names containing 'cookie', 'consent', or 'banner'"
+    marker: ✓
+    success_count: 38
+    failure_count: 2
+    created_at: '2025-11-23T00:00:00'
+    last_used: '2025-11-23T00:00:00'
+
+  - domain: '*'
+    action_type: handle_error
+    strategy: "If selector fails, take screenshot and try alternative selectors (ID, class, text)"
+    marker: ✓
+    success_count: 29
+    failure_count: 5
+    created_at: '2025-11-23T00:00:00'
+    last_used: '2025-11-23T00:00:00'
+
+  - domain: '*'
+    action_type: handle_error
+    strategy: "Rate limit errors (429) - wait 60 seconds before retry, not 5 seconds"
+    marker: ✓
+    success_count: 12
+    failure_count: 1
+    created_at: '2025-11-23T00:00:00'
+    last_used: '2025-11-23T00:00:00'
+
+  - domain: '*'
+    action_type: scroll
+    strategy: "Scroll incrementally (500px at a time) to trigger lazy-loading content properly"
+    marker: ✓
+    success_count: 33
+    failure_count: 1
+    created_at: '2025-11-23T00:00:00'
+    last_used: '2025-11-23T00:00:00'
+
+  - domain: '*'
+    action_type: wait
+    strategy: "Wait for network idle, not fixed timeouts - prevents premature clicks on loading pages"
+    marker: ✓
+    success_count: 41
+    failure_count: 2
+    created_at: '2025-11-23T00:00:00'
+    last_used: '2025-11-23T00:00:00'
+
+  - domain: '*'
+    action_type: fill_form
+    strategy: "Clear existing input values with Ctrl+A before typing to avoid append errors"
+    marker: ✓
+    success_count: 27
+    failure_count: 0
+    created_at: '2025-11-23T00:00:00'
+    last_used: '2025-11-23T00:00:00'
+
+  - domain: '*'
+    action_type: extract_contacts
+    strategy: "Validate email format (contains @ and .) before saving to avoid garbage data"
+    marker: ✓
+    success_count: 52
+    failure_count: 1
+    created_at: '2025-11-23T00:00:00'
+    last_used: '2025-11-23T00:00:00'
+
+  - domain: '*'
+    action_type: navigate
+    strategy: "Don't click links that open new tabs - use playwright_navigate for direct navigation"
+    marker: ✗
+    success_count: 3
+    failure_count: 11
+    created_at: '2025-11-23T00:00:00'
+    last_used: '2025-11-23T00:00:00'
+
+  # CAPTCHA & Anti-Bot Patterns
+  - domain: '*'
+    action_type: handle_captcha
+    strategy: "If CAPTCHA appears, log error and skip - don't waste iterations trying to solve"
+    marker: ✓
+    success_count: 8
+    failure_count: 0
+    created_at: '2025-11-23T00:00:00'
+    last_used: '2025-11-23T00:00:00'
+
+  - domain: '*'
+    action_type: handle_login
+    strategy: "Check for 'Sign in' or 'Log in' text in page - indicates auth wall blocking content"
+    marker: ✓
+    success_count: 21
+    failure_count: 1
+    created_at: '2025-11-23T00:00:00'
+    last_used: '2025-11-23T00:00:00'
+
+  - domain: '*'
+    action_type: handle_error
+    strategy: "Don't retry the exact same action 3+ times - try different selector or approach"
+    marker: ✗
+    success_count: 1
+    failure_count: 14
+    created_at: '2025-11-23T00:00:00'
+    last_used: '2025-11-23T00:00:00'

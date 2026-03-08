@@ -1,0 +1,26 @@
+[
+  {
+    "id": "99f5c802-2351-44ea-8e51-d84180841ee6",
+    "content": "Goal 1: Go to https://demo.playwright.dev/todomvc, add 3 todos: 'Buy milk', 'Walk dog', 'Code AI'",
+    "status": "completed",
+    "priority": "low",
+    "created_at": 1766083926.995528,
+    "updated_at": 1766083944.577466,
+    "metadata": {
+      "sequence_id": "8b355cbdedf49d9b",
+      "goal_index": 0
+    }
+  },
+  {
+    "id": "411747c5-cf5d-4d50-ab43-80551be3b68f",
+    "content": "Goal 2: mark 'Walk dog' as completed.",
+    "status": "cancelled",
+    "priority": "low",
+    "created_at": 1766083927.011388,
+    "updated_at": 1766083949.3853338,
+    "metadata": {
+      "sequence_id": "8b355cbdedf49d9b",
+      "goal_index": 1
+    }
+  }
+]

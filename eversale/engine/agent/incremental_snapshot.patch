@@ -1,0 +1,154 @@
+--- a/cli/engine/agent/agentic_browser.py
++++ b/cli/engine/agent/agentic_browser.py
+@@ -148,6 +148,10 @@ class AgenticBrowser:
+         self.element_refs = {}  # ref_id -> selector mapping
+         self.kimi = None
+
++        # Incremental snapshot state (Playwright MCP-style)
++        self._previous_snapshot = None
++        self._snapshot_mode = 'incremental'  # or 'full'
++
+         # Initialize Kimi client if available and enabled
+         if self.use_kimi:
+             try:
+@@ -256,6 +260,8 @@ class AgenticBrowser:
+             url = 'https://' + url
+         await self.page.goto(url, wait_until='domcontentloaded', timeout=30000)
+         await asyncio.sleep(1.5)
++        # Reset snapshot state on new page
++        self.reset_snapshot()
+         return {"action": "navigate", "url": url}
+
+     async def click(self, ref: str = None, text: str = None) -> Dict:
+@@ -362,7 +368,97 @@ class AgenticBrowser:
+     # SNAPSHOT - Get page state with element refs (like Playwright MCP)
+     # =========================================================================
+
+-    async def get_snapshot(self) -> str:
++    def reset_snapshot(self):
++        """Reset snapshot state for new page."""
++        self._previous_snapshot = None
++
++    def _element_unchanged(self, old: Dict, new: Dict) -> bool:
++        """Check if element is unchanged between snapshots."""
++        return (old.get('type') == new.get('type') and
++                old.get('text') == new.get('text') and
++                old.get('placeholder') == new.get('placeholder') and
++                old.get('value') == new.get('value') and
++                old.get('label') == new.get('label') and
++                old.get('href') == new.get('href'))
++
++    def _diff_snapshots(self, old_snapshot: Dict, new_snapshot: Dict) -> Dict:
++        """Compare snapshots and mark unchanged elements."""
++        diff = {}
++
++        for ref_id, new_info in new_snapshot.items():
++            if ref_id in old_snapshot:
++                old_info = old_snapshot[ref_id]
++                if self._element_unchanged(old_info, new_info):
++                    diff[ref_id] = {**new_info, 'status': 'unchanged'}
++                else:
++                    diff[ref_id] = {**new_info, 'status': 'changed'}
++            else:
++                diff[ref_id] = {**new_info, 'status': 'new'}
++
++        # Mark removed elements
++        for ref_id in old_snapshot:
++            if ref_id not in new_snapshot:
++                diff[ref_id] = {**old_snapshot[ref_id], 'status': 'removed'}
++
++        return diff
++
++    def _format_element(self, ref: str, el: Dict, status: str = None) -> str:
++        """Format a single element for display."""
++        status_tag = f" [{status}]" if status else ""
++
++        if el['type'] == 'button':
++            return f"  [{ref}] button \"{el['text']}\"{status_tag}"
++        elif el['type'] == 'link':
++            return f"  [{ref}] link \"{el['text']}\"{status_tag}"
++        elif el['type'] == 'input':
++            val = f" = \"{el['value']}\"" if el.get('value') else ""
++            return f"  [{ref}] input ({el['placeholder']}){val}{status_tag}"
++        elif el['type'] == 'dropdown':
++            return f"  [{ref}] dropdown ({el['label']}){status_tag}"
++        else:
++            return f"  [{ref}] {el.get('type', 'unknown')}{status_tag}"
++
++    def _format_snapshot(self, elements_dict: Dict, title: str, url: str) -> str:
++        """Format full snapshot as text."""
++        lines = [f"Page: {title}", f"URL: {url}", "", "Elements:"]
++
++        for ref, el in elements_dict.items():
++            lines.append(self._format_element(ref, el))
++
++        return "\n".join(lines)
++
++    def _format_incremental_snapshot(self, diff: Dict, title: str, url: str) -> str:
++        """Format incremental snapshot showing only changes."""
++        lines = [f"Page: {title}", f"URL: {url}", "", "Elements:"]
++
++        # Show in order: new, changed, unchanged, removed
++        new_items = [(ref, el) for ref, el in diff.items() if el.get('status') == 'new']
++        changed_items = [(ref, el) for ref, el in diff.items() if el.get('status') == 'changed']
++        unchanged_items = [(ref, el) for ref, el in diff.items() if el.get('status') == 'unchanged']
++        removed_items = [(ref, el) for ref, el in diff.items() if el.get('status') == 'removed']
++
++        for ref, el in new_items:
++            lines.append(self._format_element(ref, el, 'new'))
++
++        for ref, el in changed_items:
++            lines.append(self._format_element(ref, el, 'changed'))
++
++        for ref, el in unchanged_items:
++            lines.append(self._format_element(ref, el, 'unchanged'))
++
++        for ref, el in removed_items:
++            lines.append(f"  [{ref}] [removed]")
++
++        return "\n".join(lines)
++
++    async def get_snapshot(self, mode: str = None) -> str:
+         """
+         Get page snapshot with element refs.
+         Returns text representation like Playwright MCP's browser_snapshot.
++
++        Args:
++            mode: 'full' or 'incremental' (default: uses self._snapshot_mode)
+         """
++        mode = mode or self._snapshot_mode
++
+         self.element_refs = {}
+
+         title = await self.page.title()
+@@ -437,18 +533,20 @@ class AgenticBrowser:
+             return results.slice(0, 40);
+         }""")
+
+-        # Build ref map and text output
+-        lines = [f"Page: {title}", f"URL: {url}", "", "Elements:"]
++        # Convert elements list to dict keyed by ref
++        current_snapshot = {el['ref']: el for el in elements}
+
+-        for el in elements:
+-            ref = el['ref']
+-            if el['type'] == 'button':
+-                lines.append(f"  [{ref}] button \"{el['text']}\"")
+-            elif el['type'] == 'link':
+-                lines.append(f"  [{ref}] link \"{el['text']}\"")
+-            elif el['type'] == 'input':
+-                val = f" = \"{el['value']}\"" if el.get('value') else ""
+-                lines.append(f"  [{ref}] input ({el['placeholder']}){val}")
+-            elif el['type'] == 'dropdown':
+-                lines.append(f"  [{ref}] dropdown ({el['label']})")
++        # Decide if we show full or incremental
++        if mode == 'full' or self._previous_snapshot is None:
++            # Full snapshot
++            self._previous_snapshot = current_snapshot
++            return self._format_snapshot(current_snapshot, title, url)
+
+-        return "\n".join(lines)
++        # Incremental mode - show diff
++        diff = self._diff_snapshots(self._previous_snapshot, current_snapshot)
++        self._previous_snapshot = current_snapshot
++        return self._format_incremental_snapshot(diff, title, url)

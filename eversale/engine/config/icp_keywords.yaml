@@ -1,0 +1,161 @@
+# ICP (Ideal Customer Profile) Keyword Mapping
+# Used for Facebook Ads Library prospecting and lead enrichment
+# When user provides only ICP category, use these keywords for search
+
+icp_categories:
+  ecommerce:
+    description: "Online stores, Shopify merchants, DTC brands"
+    primary_keywords:
+      - "shopify store"
+      - "ecommerce"
+      - "online store"
+      - "dropshipping"
+      - "DTC brand"
+    secondary_keywords:
+      - "product launch"
+      - "inventory management"
+      - "shipping software"
+      - "order fulfillment"
+    subreddits:
+      - "r/ecommerce"
+      - "r/shopify"
+      - "r/dropship"
+      - "r/FulfillmentByAmazon"
+
+  saas:
+    description: "Software companies, B2B tools, SaaS founders"
+    primary_keywords:
+      - "SaaS"
+      - "software"
+      - "B2B"
+      - "startup"
+      - "productivity tool"
+    secondary_keywords:
+      - "API"
+      - "automation"
+      - "workflow"
+      - "integration"
+    subreddits:
+      - "r/SaaS"
+      - "r/startups"
+      - "r/Entrepreneur"
+      - "r/microsaas"
+
+  local_services:
+    description: "Local businesses, service providers, contractors"
+    primary_keywords:
+      - "local business"
+      - "plumber"
+      - "contractor"
+      - "home services"
+      - "cleaning service"
+    secondary_keywords:
+      - "booking software"
+      - "scheduling"
+      - "local SEO"
+      - "reviews"
+    subreddits:
+      - "r/smallbusiness"
+      - "r/sweatystartup"
+      - "r/HVAC"
+      - "r/Plumbing"
+
+  info_products:
+    description: "Course creators, coaches, digital product sellers"
+    primary_keywords:
+      - "online course"
+      - "coaching"
+      - "digital product"
+      - "membership"
+      - "webinar"
+    secondary_keywords:
+      - "course platform"
+      - "coaching business"
+      - "info product"
+      - "passive income"
+    subreddits:
+      - "r/Entrepreneur"
+      - "r/passive_income"
+      - "r/coursecreation"
+
+  agencies:
+    description: "Marketing agencies, dev shops, consulting firms"
+    primary_keywords:
+      - "marketing agency"
+      - "digital agency"
+      - "web development"
+      - "consulting"
+      - "SEO agency"
+    secondary_keywords:
+      - "client management"
+      - "white label"
+      - "agency growth"
+      - "retainer"
+    subreddits:
+      - "r/agency"
+      - "r/marketing"
+      - "r/webdev"
+      - "r/SEO"
+
+  real_estate:
+    description: "Realtors, property managers, real estate investors"
+    primary_keywords:
+      - "real estate"
+      - "realtor"
+      - "property management"
+      - "investment property"
+      - "mortgage"
+    secondary_keywords:
+      - "CRM for realtors"
+      - "lead generation"
+      - "property listings"
+    subreddits:
+      - "r/realestate"
+      - "r/RealEstateInvesting"
+      - "r/PropertyManagement"
+
+  healthcare:
+    description: "Medical practices, dentists, wellness providers"
+    primary_keywords:
+      - "medical practice"
+      - "dental"
+      - "healthcare"
+      - "wellness"
+      - "clinic"
+    secondary_keywords:
+      - "patient scheduling"
+      - "telehealth"
+      - "medical billing"
+    subreddits:
+      - "r/medicine"
+      - "r/Dentistry"
+      - "r/healthIT"
+
+  finance:
+    description: "Financial advisors, accountants, fintech"
+    primary_keywords:
+      - "financial advisor"
+      - "accounting"
+      - "bookkeeping"
+      - "fintech"
+      - "tax preparation"
+    secondary_keywords:
+      - "wealth management"
+      - "tax software"
+      - "invoicing"
+    subreddits:
+      - "r/FinancialPlanning"
+      - "r/Accounting"
+      - "r/tax"
+
+# Default settings
+defaults:
+  max_keywords_per_search: 3
+  prefer_primary: true
+  fallback_to_user_input: true
+
+# ICP keyword expansion - when user says "find ecommerce leads",
+# cycle through these keywords for comprehensive coverage
+keyword_rotation:
+  enabled: true
+  max_searches_per_icp: 5

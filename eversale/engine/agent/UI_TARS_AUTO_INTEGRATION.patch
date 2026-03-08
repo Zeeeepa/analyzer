@@ -1,0 +1,124 @@
+# UI-TARS Automatic Integration Patch
+# Apply with: cd /mnt/c/ev29/cli/engine/agent && patch -p0 < UI_TARS_AUTO_INTEGRATION.patch
+
+--- brain_enhanced_v2.py.orig
++++ brain_enhanced_v2.py
+@@ -36,6 +36,10 @@
+ from .smart_retry import get_retry_manager, get_escalation
+ from .steering import SteeringMessage, inject_steering_message
+ from .self_healing_system import self_healing
++
++# UI-TARS patterns - ByteDance reliability enhancements
++from .ui_tars_integration import UITarsEnhancer
++from .ui_tars_patterns import RetryConfig, ConversationContext, retry_with_timeout
++
+ from .selector_fallbacks import click_with_visual_fallback
+ from .memory_architecture import MemoryArchitecture
+
+@@ -995,6 +999,11 @@
+
+         # State
+         self.messages = []
++
++        # UI-TARS conversation context (auto-prunes screenshots)
++        self._uitars_context = ConversationContext(max_screenshots=5)
++
++        # UI-TARS enhancer (lazy initialized when browser available)
++        self._uitars_enhancer = None
+
+         # Progress callback
+         self._progress_callback = None
+@@ -1138,6 +1147,25 @@
+             return self.mcp.servers["playwright"].get("client")
+         return None
+
++    @property
++    def uitars(self):
++        """Get UI-TARS enhancer (lazy initialized when browser available)."""
++        if self._uitars_enhancer is None and self.browser:
++            page = getattr(self.browser, 'page', None)
++            if page:
++                try:
++                    self._uitars_enhancer = UITarsEnhancer(
++                        page,
++                        config=RetryConfig(
++                            screenshot_timeout=5.0,
++                            screenshot_max_retries=3,
++                            action_timeout=5.0,
++                            action_max_retries=3
++                        )
++                    )
++                except Exception as e:
++                    logger.debug(f"[UITARS] Could not initialize enhancer: {e}")
++        return self._uitars_enhancer
++
+     @property
+     def tool_executor(self) -> ToolExecutor:
+         """Get the tool executor instance (lazy initialized)."""
+
+--- vision_handler.py.orig
++++ vision_handler.py
+@@ -156,14 +156,32 @@
+     async def take_screenshot(self) -> Optional[bytes]:
+         """
+         Take screenshot of current page.
++
++        Uses UI-TARS enhanced screenshot with retry if available.
+
+         Returns:
+             Screenshot bytes or None if capture failed
+         """
+         if not self.brain.browser:
+             return None
+
++        # Try UI-TARS enhanced screenshot first (with retry)
++        if hasattr(self.brain, 'uitars') and self.brain.uitars:
++            try:
++                b64 = await self.brain.uitars.enhanced_screenshot()
++                if b64:
++                    import base64
++                    screenshot_bytes = base64.b64decode(b64)
++                    logger.debug("[UITARS] Enhanced screenshot captured with retry")
++                    return screenshot_bytes
++            except Exception as e:
++                logger.debug(f"[UITARS] Enhanced screenshot failed, falling back: {e}")
++
++        # Fallback to simple screenshot
+         try:
+             screenshot = await self.brain.browser.page.screenshot()
++            return screenshot
+         except Exception as e:
+             logger.debug(f"Screenshot capture failed: {e}")
+             return None
+
+--- __init__.py.orig
++++ __init__.py
+@@ -41,6 +41,16 @@
+     import warnings
+     warnings.warn(f"HTN Planning not available: {e}")
+
++# UI-TARS patterns for enhanced reliability
++try:
++    from .ui_tars_integration import UITarsEnhancer, enhance_brain_config
++    from .ui_tars_patterns import RetryConfig, ConversationContext, retry_with_timeout
++except ImportError as e:
++    UITarsEnhancer = None
++    enhance_brain_config = None
++    RetryConfig = None
++    ConversationContext = None
++    retry_with_timeout = None
++
+ __all__ = [
+     "EnhancedBrain",
+     "create_enhanced_brain",
+@@ -71,4 +81,10 @@
+     "PlanStep",
+     "is_complex_task",
+     "get_complexity_score",
++    # UI-TARS patterns
++    "UITarsEnhancer",
++    "enhance_brain_config",
++    "RetryConfig",
++    "ConversationContext",
++    "retry_with_timeout",
+ ]

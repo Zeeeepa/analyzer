@@ -1,0 +1,76 @@
+--- playwright_direct.py.orig
++++ playwright_direct.py
+@@ -2139,6 +2139,64 @@
+                 logger.debug("Login detection timed out")
+                 login_detected = False
+ 
++            # AUTO-CAPTCHA DETECTION AND SOLVING: Check for captcha after navigation
++            captcha_detected = False
++            captcha_solved = False
++            try:
++                solver = LocalCaptchaSolver(vision_model="moondream")
++                handler = PageCaptchaHandler(self.page, solver=solver)
++
++                # Detect any CAPTCHA on the page
++                captcha_detection = await asyncio.wait_for(handler.detect_captcha(), timeout=3.0)
++
++                if captcha_detection.detected:
++                    captcha_detected = True
++                    captcha_type = captcha_detection.challenge_type.value
++                    logger.info(f"[CAPTCHA] Auto-detected {captcha_type} after navigation")
++
++                    # Try vision-based solving for image CAPTCHAs
++                    if captcha_type == "image_captcha":
++                        logger.info("[CAPTCHA] Attempting vision-based auto-solve...")
++                        try:
++                            # Import ollama for vision solving
++                            import ollama
++
++                            # Auto-detect CAPTCHA sub-type
++                            captcha_subtype = await solver.detect_captcha_type(self.page)
++                            logger.info(f"[CAPTCHA] Sub-type: {captcha_subtype}")
++
++                            # Attempt vision-based solve
++                            vision_result = await solver.solve_image_with_vision(
++                                self.page,
++                                ollama_client=ollama,
++                                vision_model="moondream",
++                                captcha_type=captcha_subtype
++                            )
++
++                            if vision_result and vision_result.get("confidence", 0) >= 0.50:
++                                answer = vision_result.get("answer")
++                                confidence = vision_result.get("confidence")
++                                logger.success(f"[CAPTCHA] Auto-solved with {confidence:.0%} confidence: {answer}")
++                                captcha_solved = True
++                            else:
++                                logger.info("[CAPTCHA] Vision confidence too low for auto-solve")
++                        except ImportError:
++                            logger.debug("[CAPTCHA] Ollama not available for vision solving")
++                        except Exception as solve_err:
++                            logger.debug(f"[CAPTCHA] Vision solve error: {solve_err}")
++                    else:
++                        logger.debug(f"[CAPTCHA] {captcha_type} requires manual solving")
++
++            except asyncio.TimeoutError:
++                logger.debug("[CAPTCHA] Detection timed out")
++            except Exception as captcha_err:
++                logger.debug(f"[CAPTCHA] Detection error: {captcha_err}")
++
+             result = {
+                 "success": True,
+                 "url": getattr(self.page, 'url', ''),
+@@ -2149,6 +2207,13 @@
+                 "inputs": summary.get("inputs")
+             }
+ 
++            # Add captcha detection info to result
++            if captcha_detected:
++                result["captcha_detected"] = True
++                result["captcha_solved"] = captcha_solved
++                if not captcha_solved:
++                    result["warning"] = (result.get("warning", "") + " CAPTCHA detected - may need manual solving.").strip()
++
+             if domain_mismatch:
+                 result["warning"] = f"Domain mismatch: expected {expected_domain}, landed on {actual_domain}"
+                 result["domain_mismatch"] = True
