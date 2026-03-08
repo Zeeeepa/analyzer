@@ -97,6 +97,7 @@ class Playbook:
         except Exception as e:
             logger.error(f"Failed to load playbook: {e}")
             self.strategies = []
+            self._index = {}  # Reset index to stay in sync with strategies
 
     def save(self):
         """Save playbook to YAML file."""
@@ -131,7 +132,8 @@ class Playbook:
         Optionally filter by page_type for finer granularity (e.g., 'sales_navigator' vs 'regular_search').
         Returns top strategies sorted by success rate.
         """
-        # Try specific page_type first if provided
+        # Collect page-specific strategies first
+        page_specific = []
         if page_type and page_type != 'general':
             specific_key = f"{domain}:{action_type}:{page_type}"
             specific_candidates = self._index.get(specific_key, [])
@@ -141,33 +143,30 @@ class Playbook:
                 filtered = [s for s in specific_candidates if s.success_rate >= min_success_rate]
 
                 # Sort by success rate (highest first)
-                sorted_strategies = sorted(filtered, key=lambda s: s.success_rate, reverse=True)
+                page_specific = sorted(filtered, key=lambda s: s.success_rate, reverse=True)
 
                 # Return if we have enough specific strategies
-                if len(sorted_strategies) >= limit:
-                    return sorted_strategies[:limit]
+                if len(page_specific) >= limit:
+                    return page_specific[:limit]
 
-                # Otherwise fall through to get general strategies too
+                # Otherwise fall through to get general strategies to pad remaining slots
 
         # Get general strategies for this domain+action
         key = f"{domain}:{action_type}"
         candidates = self._index.get(key, [])
 
-        # Filter by minimum success rate and exclude page-specific ones we already have
-        if page_type:
-            # Get the page-specific ones we already found
-            specific_key = f"{domain}:{action_type}:{page_type}"
-            specific_ids = {id(s) for s in self._index.get(specific_key, [])}
-            filtered = [s for s in candidates
-                       if s.success_rate >= min_success_rate
-                       and id(s) not in specific_ids]
-        else:
-            filtered = [s for s in candidates if s.success_rate >= min_success_rate]
+        # Exclude page-specific ones we already collected to avoid duplicates
+        page_specific_ids = {id(s) for s in page_specific}
+        filtered = [s for s in candidates
+                   if s.success_rate >= min_success_rate
+                   and id(s) not in page_specific_ids]
 
         # Sort by success rate (highest first)
-        sorted_strategies = sorted(filtered, key=lambda s: s.success_rate, reverse=True)
+        general_sorted = sorted(filtered, key=lambda s: s.success_rate, reverse=True)
 
-        return sorted_strategies[:limit]
+        # Combine: page-specific first, then general, up to limit
+        combined = page_specific + general_sorted
+        return combined[:limit]
 
     def add_strategy(
         self,
@@ -206,11 +205,18 @@ class Playbook:
 
         self.strategies.append(new_strategy)
 
-        # Update index
+        # Update general domain:action_type index
         key = f"{domain}:{action_type}"
         if key not in self._index:
             self._index[key] = []
         self._index[key].append(new_strategy)
+
+        # Also update page-type-specific index so page-specific queries can find it
+        if page_type and page_type != "general":
+            pt_key = f"{domain}:{action_type}:{page_type}"
+            if pt_key not in self._index:
+                self._index[pt_key] = []
+            self._index[pt_key].append(new_strategy)
 
         logger.info(f"Added strategy for {domain}/{action_type}: {strategy[:50]}...")
         return True

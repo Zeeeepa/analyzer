@@ -22,7 +22,10 @@ from loguru import logger
 
 # License cache file
 LICENSE_CACHE_PATH = Path.home() / ".eversale" / "license_cache.json"
-EVERSALE_API_URL = "https://eversale.io/api/desktop/validate-license"
+EVERSALE_API_URL = os.environ.get(
+    "EVERSALE_LICENSE_URL",
+    "https://eversale.io/api/desktop/validate-license"
+)
 
 # Cache validity period (hours) - validates online once per day
 CACHE_VALIDITY_HOURS = 24

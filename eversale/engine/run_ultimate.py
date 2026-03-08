@@ -1338,6 +1338,15 @@ def _parse_training_duration(arg: Optional[str]) -> float:
 
 
 async def main():
+    # Auto-start local API server if personal API keys are detected
+    try:
+        from local_server_launcher import ensure_local_server
+        local_url = ensure_local_server()
+        if local_url:
+            logger.info(f"[run_ultimate] Local API server active at {local_url}")
+    except ImportError:
+        pass  # Launcher not available — skip silently
+
     # Bootstrap: First-run setup or quick check
     if is_first_run():
         if not run_first_time_setup():

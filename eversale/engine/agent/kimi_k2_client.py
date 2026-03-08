@@ -134,7 +134,7 @@ class EversaleBillingIntegration:
     Kimi K2 calls count toward compute hours based on processing time.
     """
 
-    EVERSALE_API_URL = "https://eversale.io/api/desktop"
+    EVERSALE_API_URL = os.environ.get("EVERSALE_DESKTOP_URL", "https://eversale.io/api/desktop")
 
     # Kimi processing time estimates (seconds) for billing
     KIMI_PROCESSING_TIME = {

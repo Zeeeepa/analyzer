@@ -137,7 +137,7 @@ class StrategyInjector:
 
         # Find appropriate injection point (before tool list or at end)
         if "Available tools:" in system_prompt:
-            parts = system_prompt.split("Available tools:")
+            parts = system_prompt.split("Available tools:", 1)
             return f"{parts[0]}\n\n{injection}\n\nAvailable tools:{parts[1]}"
         else:
             return f"{system_prompt}\n\n{injection}"
