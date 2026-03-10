@@ -298,6 +298,8 @@ If goal is complete, use action "done".
             AgentResult with success status and details
         """
         logger.info(f"Starting agent with goal: {goal}")
+        steps = 0
+        history = []
 
         try:
             await self._init_browser()
@@ -450,8 +452,8 @@ Examples:
 
 
 def print_banner():
-    """Print startup banner."""
-    print("""
+    r"""Print startup banner."""
+    print(r"""
  _____ _   _ _____ ____  ____    _    _     _____
 | ____| | | | ____|  _ \/ ___|  / \  | |   | ____|
 |  _| | | | |  _| | |_) \___ \ / _ \ | |   |  _|
@@ -526,7 +528,7 @@ async def main():
         from local_server_launcher import ensure_local_server
         local_url = ensure_local_server()
         if local_url:
-            logging.getLogger(__name__).info(f"[run_simple] Local API server active at {local_url}")
+            logger.info(f"[run_simple] Local API server active at {local_url}")
     except ImportError:
         pass
 

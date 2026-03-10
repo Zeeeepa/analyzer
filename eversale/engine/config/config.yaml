@@ -8,17 +8,17 @@ fast_mode:
   verbose: false
 
 llm:
-  mode: local
-  local_url: https://api.z.ai/api/anthropic
-  base_url: https://api.z.ai/api/anthropic
-  remote_url: https://api.z.ai/api/anthropic
+  mode: remote
+  local_url: http://localhost:11434
+  base_url: https://api.z.ai/api/coding/paas/v4
+  remote_url: https://api.z.ai/api/coding/paas/v4
   main_model: glm-5
   fast_model: glm-5
   tool_calling_model: glm-5
-  vision_model: glm-5
-  web_vision_model: glm-5
+  vision_model: glm-4.7v
+  web_vision_model: glm-4.7v
   complex_model: glm-5
-  kimi_api_url: https://api.z.ai/api/anthropic
+  kimi_api_url: https://api.z.ai/api/coding/paas/v4
 
 strategic_planner:
   enabled: true
@@ -47,7 +47,7 @@ llm_strategy:
 visual_targeting:
   enabled: true
   mode: auto
-  model: glm-5
+  model: glm-4.7v
 
 browser:
   headless_default: true
@@ -97,3 +97,4 @@ safety:
     - permanently_delete_data
     - unsubscribe_all
   destructive_confirmation: true
+

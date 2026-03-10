@@ -165,9 +165,9 @@ Need help? Email support@eversale.io or visit https://eversale.io/desktop
 
 | Repo | Path | Description |
 |------|------|-------------|
-| **ev29** | `/mnt/c/ev29/` | Monorepo (web app, CLI, agent backend) |
-| **cli** | `/mnt/c/ev29/cli/` | This CLI package (published to npm) |
-| **agent-backend** | `/mnt/c/ev29/agent-backend/` | Python servers/workflow runtime; the CLI engine is the single brain (agent-backend shims into `cli/engine/agent`) |
+| **eversale** | `eversale/` | Python package (pip install -e .) |
+| **engine** | `eversale/engine/` | AI engine core (agent, config, prompts) |
+| **agent** | `eversale/engine/agent/` | Core agent modules (~450 files) |
 
 ## Infrastructure
 

@@ -30,7 +30,7 @@ GPU_LLM_URL = os.environ.get(
     'ANTHROPIC_BASE_URL',
     os.environ.get(
     'GPU_LLM_URL',
-    os.environ.get('SUPPORT_AGENT_LLM_CHAIN_REMOTE_ORIGIN', 'https://api.z.ai/api/anthropic')))
+    os.environ.get('SUPPORT_AGENT_LLM_CHAIN_REMOTE_ORIGIN', 'https://api.z.ai/api/coding/paas/v4')))
 )
 GPU_LLM_TIMEOUT = int(os.environ.get('GPU_LLM_TIMEOUT_MS', '60000')) / 1000  # Convert to seconds
 
@@ -38,12 +38,12 @@ GPU_LLM_TIMEOUT = int(os.environ.get('GPU_LLM_TIMEOUT_MS', '60000')) / 1000  # C
 MAX_RETRIES = 5
 INITIAL_BACKOFF_SECONDS = 1.0
 
-# Available models on GPU server - 0000/ui-tars-1.5-7b:latest is best for tool calling
+# Available models on GPU server
 GPU_MODELS = {
     'fast': 'glm-5',               # Fast and excellent at tool calling
     'default': 'glm-5',            # Best for tool calling (balanced)
     'quality': 'glm-5',            # High quality tool calling
-    'vision': 'glm-5',     # Vision tasks
+    'vision': 'glm-4.7v',          # Vision tasks
 }
 
 

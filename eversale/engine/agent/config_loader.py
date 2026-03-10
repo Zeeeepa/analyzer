@@ -108,7 +108,7 @@ def load_config() -> Dict[str, Any]:
             pass
         else:
             # Default to eversale.io proxy
-            config['llm']['base_url'] = os.environ.get('OPENAI_BASE_URL', os.environ.get('ANTHROPIC_BASE_URL', 'https://api.z.ai/api/anthropic'))
+            config['llm']['base_url'] = os.environ.get('OPENAI_BASE_URL', os.environ.get('ANTHROPIC_BASE_URL', 'https://api.z.ai/api/coding/paas/v4'))
 
     return config
 
