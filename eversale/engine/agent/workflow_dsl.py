@@ -370,7 +370,7 @@ class WorkflowStore:
     """
     Workflow storage manager for agent-backend integration.
 
-    Stores workflows in /mnt/c/ev29/agent-backend/memory/workflows/
+    Stores workflows in the local memory/workflows/ directory.
     Compatible with existing memory structure.
     """
 

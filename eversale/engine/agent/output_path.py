@@ -24,9 +24,6 @@ def get_output_folder() -> Path:
     system = platform.system()
     home = Path.home()
 
-    # Check if running in WSL (can access Windows folders)
-    is_wsl = "microsoft" in platform.uname().release.lower() if hasattr(platform.uname(), 'release') else False
-
     # Try Desktop first (most visible to user)
     desktop_paths = []
 
@@ -41,19 +38,11 @@ def get_output_folder() -> Path:
         desktop_paths = [
             home / "Desktop",
         ]
-    else:  # Linux / WSL
+    else:  # Linux
         desktop_paths = [
             home / "Desktop",
             home / "desktop",  # Some distros use lowercase
         ]
-        # WSL: also check Windows user folders
-        if is_wsl:
-            # Try common Windows user paths via /mnt/c
-            for user in ["Owner", "User", os.environ.get("USER", "")]:
-                desktop_paths.extend([
-                    Path(f"/mnt/c/Users/{user}/Desktop"),
-                    Path(f"/mnt/c/Users/{user}/OneDrive/Desktop"),
-                ])
 
     # Check Desktop paths
     for desktop in desktop_paths:
@@ -80,10 +69,6 @@ def get_output_folder() -> Path:
             home / "Downloads",
             home / "downloads",
         ]
-        # WSL: also check Windows Downloads
-        if is_wsl:
-            for user in ["Owner", "User", os.environ.get("USER", "")]:
-                downloads_paths.append(Path(f"/mnt/c/Users/{user}/Downloads"))
 
     for downloads in downloads_paths:
         if downloads.exists() and downloads.is_dir():
@@ -206,10 +191,10 @@ def get_file_location_message(path: Path, row_count: int = 0, appended: bool = F
     # Make path more readable for users
     path_str = str(path)
 
-    # Shorten WSL paths for readability
-    if "/mnt/c/Users/" in path_str:
-        # Convert /mnt/c/Users/Owner/... to C:\Users\Owner\...
-        path_str = path_str.replace("/mnt/c/", "C:\\").replace("/", "\\")
+    # Shorten home paths for readability
+    home_str = str(Path.home())
+    if path_str.startswith(home_str):
+        path_str = "~" + path_str[len(home_str):]
 
     return f"{action}{count_msg} to: {path_str}"
 

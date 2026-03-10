@@ -4,7 +4,7 @@ Apply incremental snapshot changes to agentic_browser.py
 """
 
 # Read the file
-with open('/mnt/c/ev29/cli/engine/agent/agentic_browser.py', 'r') as f:
+with open('engine/agent/agentic_browser.py', 'r') as f:
     lines = f.readlines()
 
 # Find the __init__ method and add snapshot state variables
@@ -200,7 +200,7 @@ else:
     print("WARNING: Could not find snapshot section")
 
 # Write back
-with open('/mnt/c/ev29/cli/engine/agent/agentic_browser.py', 'w') as f:
+with open('engine/agent/agentic_browser.py', 'w') as f:
     f.writelines(lines)
 
 print("\n✓ All changes applied successfully!")

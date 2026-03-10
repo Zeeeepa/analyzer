@@ -110,7 +110,7 @@ def verify_integration():
         print("STATUS: WARNING - Integration mostly complete")
         print("\nReview warnings, but integration should work")
         print("\nNext steps:")
-        print("  1. Test: cd /mnt/c/ev29/cli && node bin/eversale.js \"take a screenshot\"")
+        print("  1. Test: eversale \"take a screenshot\"")
         print("  2. Look for [UITARS] log messages")
         print("  3. Verify screenshot retry on failures")
         return True
@@ -122,8 +122,7 @@ def verify_integration():
         print("  - Screenshot context limited to last 5 (auto-prune)")
         print("  - Enhanced reliability for browser automation")
         print("\nTest with:")
-        print("  cd /mnt/c/ev29/cli")
-        print("  node bin/eversale.js \"take a screenshot and describe it\"")
+        print("  eversale \"take a screenshot and describe it\"")
         print("\nMonitor logs for:")
         print("  [UITARS] Screenshot context management enabled (max 5)")
         print("  [UITARS] Enhanced browser automation with tiered retry enabled")

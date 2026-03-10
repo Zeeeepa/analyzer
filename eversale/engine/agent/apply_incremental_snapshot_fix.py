@@ -6,7 +6,7 @@ Apply incremental snapshot fix to agentic_browser.py
 import re
 
 # Read the file
-with open('/mnt/c/ev29/cli/engine/agent/agentic_browser.py', 'r') as f:
+with open('engine/agent/agentic_browser.py', 'r') as f:
     content = f.read()
 
 # Find and replace the section
@@ -59,7 +59,7 @@ content_new = re.sub(old_section, new_section, content, flags=re.MULTILINE | re.
 if content != content_new:
     print("Replacement successful!")
     # Write back
-    with open('/mnt/c/ev29/cli/engine/agent/agentic_browser.py', 'w') as f:
+    with open('engine/agent/agentic_browser.py', 'w') as f:
         f.write(content_new)
     print("File updated.")
 else:
