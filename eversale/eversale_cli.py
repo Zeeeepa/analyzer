@@ -80,13 +80,52 @@ def main():
         _show_version()
         return
 
-    # Detect mode: --ultimate routes to run_ultimate.py
+    # ─── Parse and strip known flags ───────────────────────────────
     use_ultimate = False
+    headless = False
+    debug = False
+    max_steps = None
+
+    # Strip --ultimate
     if "--ultimate" in args:
         use_ultimate = True
         args.remove("--ultimate")
-        # Reconstruct sys.argv for the downstream script
-        sys.argv = [sys.argv[0]] + args
+
+    # Strip --headless → set env var so downstream scripts can read it
+    if "--headless" in args:
+        headless = True
+        args.remove("--headless")
+
+    # Strip --debug / -d
+    if "--debug" in args:
+        debug = True
+        args.remove("--debug")
+    if "-d" in args:
+        debug = True
+        args.remove("-d")
+
+    # Strip --max-steps N
+    if "--max-steps" in args:
+        idx = args.index("--max-steps")
+        if idx + 1 < len(args):
+            try:
+                max_steps = int(args[idx + 1])
+            except ValueError:
+                pass
+            args.pop(idx + 1)
+        args.pop(idx)
+
+    # ─── Propagate flags via environment variables ─────────────────
+    if headless:
+        os.environ["EVERSALE_HEADLESS"] = "1"
+    if debug:
+        os.environ["EVERSALE_DEBUG"] = "1"
+    if max_steps is not None:
+        os.environ["EVERSALE_MAX_STEPS"] = str(max_steps)
+
+    # Reconstruct sys.argv: only the script name + remaining non-flag args
+    # (which should be the task string)
+    sys.argv = [sys.argv[0]] + args
 
     # Ensure EVERSALE_HOME exists
     eversale_home = Path(os.environ.get("EVERSALE_HOME", Path.home() / ".eversale"))
@@ -97,6 +136,10 @@ def main():
     # Set ENGINE_DIR env var for runtime file resolution
     os.environ["EVERSALE_ENGINE_DIR"] = ENGINE_DIR
     os.environ.setdefault("EVERSALE_HOME", str(eversale_home))
+
+    # Change working directory to ENGINE_DIR so relative paths
+    # like "config/config.yaml" resolve correctly.
+    os.chdir(ENGINE_DIR)
 
     if use_ultimate:
         _run_ultimate()
@@ -137,4 +180,3 @@ def _run_ultimate():
 
 if __name__ == "__main__":
     main()
-

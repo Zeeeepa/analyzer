@@ -123,7 +123,9 @@ class MCPClient:
         self.servers = {}
         self.tools = {}
         self.config = self._load_config()
-        self._headless_override = None  # None = use config, True/False = override
+        # Check env var from CLI flag propagation, else None = use config
+        _env_headless = os.environ.get("EVERSALE_HEADLESS")
+        self._headless_override = True if _env_headless == "1" else None
         self.agent_network = AgentNetwork()
         self._mcp_server = None  # Internal MCP server instance
 

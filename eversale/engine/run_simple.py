@@ -34,6 +34,7 @@ from agent.llm_client import LLMClient, LLMResponse
 from agent.accessibility_element_finder import AccessibilityTreeParser, AccessibilityRef
 from agent.action_templates import find_template, TEMPLATES
 from loguru import logger
+from agent.a11y_compat import compat_accessibility_snapshot
 
 # Try to import a11y template executor (graceful fallback if not yet created)
 try:
@@ -150,7 +151,7 @@ class SimpleAgent:
             if not aria_text:
                 # Last resort: try deprecated API
                 try:
-                    snapshot = await self.page.accessibility.snapshot()
+                    snapshot = await compat_accessibility_snapshot(self.page)
                     refs = self.parser.parse_snapshot(snapshot)
                     self._ref_map.clear()
                     for ref in refs:
@@ -765,6 +766,17 @@ async def main():
         pass
 
     args = parse_args()
+
+    # Also respect env var from CLI flag propagation
+    if os.environ.get("EVERSALE_HEADLESS") == "1":
+        args.headless = True
+    if os.environ.get("EVERSALE_DEBUG") == "1":
+        args.verbose = True
+    if os.environ.get("EVERSALE_MAX_STEPS"):
+        try:
+            args.max_steps = int(os.environ["EVERSALE_MAX_STEPS"])
+        except ValueError:
+            pass
 
     # Interactive mode if no goal provided
     if not args.goal:

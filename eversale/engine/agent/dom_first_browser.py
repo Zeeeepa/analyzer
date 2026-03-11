@@ -37,6 +37,7 @@ from typing import Dict, List, Any, Optional, Union
 from dataclasses import dataclass, field
 from playwright.async_api import async_playwright, Page, Browser, BrowserContext
 from loguru import logger
+from agent.a11y_compat import compat_accessibility_snapshot
 
 # Import stealth configuration if available
 STEALTH_AVAILABLE = False
@@ -379,7 +380,7 @@ class DOMFirstBrowser:
             # Get accessibility tree
             try:
                 raw_tree = await asyncio.wait_for(
-                    self._page.accessibility.snapshot(),
+                    compat_accessibility_snapshot(self._page),
                     timeout=config.DEFAULT_TIMEOUT / 1000
                 )
 
