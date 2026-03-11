@@ -1440,7 +1440,8 @@ Screen size is {width}x{height} pixels."""
 
     async def _save_screenshot_temp(self, screenshot_bytes: bytes) -> str:
         """Save screenshot to temporary file."""
-        temp_dir = Path("/tmp/eversale_grounding")
+        import tempfile
+        temp_dir = Path(tempfile.gettempdir()) / "eversale_grounding"
         temp_dir.mkdir(exist_ok=True, parents=True)
 
         # Generate unique filename

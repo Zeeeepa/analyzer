@@ -216,7 +216,7 @@ TEMPLATES = [
             ActionStep("playwright_scroll", {"direction": "down", "amount": 400}, "Finding more...", wait_after=0.6),
             ActionStep("playwright_extract_list", {"limit": 100}, "Collecting prospects..."),
         ],
-        variables={"query": r'(?:output\s+\d+\s+([^;]+?)\s+(?:URL|prospect)|(?:search|find)\s+["\']?(.+?)["\']?(?:\s+on linkedin|\s*$))'}
+        variables={"query": r'(?:output\s+\d+\s+([^;]+?)\s+(?:URL|prospect)|(?:search|find)\s+(?:on\s+)?(?:linkedin\s+)?(?:for\s+)?["\']?(.+?)["\']?(?:\s+on linkedin|\s*$))'}
     ),
 
     # Reddit operations
@@ -232,7 +232,7 @@ TEMPLATES = [
             ActionStep("playwright_scroll", {"direction": "down", "amount": 800}, "Loading more...", wait_after=0.8),
             ActionStep("playwright_extract_list", {"limit": 30, "type": "reddit_users"}, "Collecting user profiles..."),
         ],
-        variables={"query": r'(?:from\s+([^.\n]+?)\s+talk|about\s+([^.\n]+?)(?:\s*\.|$)|discussing\s+([^.\n]+?)(?:\s*\.|$|,|\s+or\s+)|(?:search|find)\s+["\']?(.+?)["\']?(?:\s+on reddit|\s*$))', "_default": "lead generation"}
+        variables={"query": r'(?:from\s+([^.\n]+?)\s+talk|about\s+([^.\n]+?)(?:\s*\.|$)|discussing\s+([^.\n]+?)(?:\s*\.|$|,|\s+or\s+)|(?:search|find)\s+(?:on\s+)?(?:reddit\s+)?(?:for\s+)?["\']?(.+?)["\']?(?:\s+on reddit|\s*$))', "_default": "lead generation"}
     ),
 
     ActionTemplate(
@@ -257,7 +257,7 @@ TEMPLATES = [
             ActionStep("playwright_navigate", {"url": "https://www.google.com"}, "Navigate to Google"),
             ActionStep("playwright_snapshot", {}, "Capture search page"),
         ],
-        variables={"query": r'(?:search|google|find)\s+(?:for\s+)?["\']?(.+?)["\']?(?:\s+on google|\s*$)'}
+        variables={"query": r'(?:search|google|find)\s+(?:(?:google|search)\s+)?(?:for\s+)?(?:on\s+google\s+)?["\']?(.+?)["\']?(?:\s+on google|\s*$)'}
     ),
 
     # Zoho Mail
@@ -282,7 +282,7 @@ TEMPLATES = [
             ActionStep("playwright_navigate", {"url": "https://www.youtube.com"}, "Navigate to YouTube"),
             ActionStep("playwright_snapshot", {}, "Capture YouTube state"),
         ],
-        variables={"query": r'(?:search|find|watch)\s+["\']?(.+?)["\']?(?:\s+on youtube|\s+video|\s*$)'}
+        variables={"query": r'(?:search|find|watch)\s+(?:(?:on\s+)?(?:youtube|video)\s+)?(?:for\s+|about\s+)?["\']?(.+?)["\']?(?:\s+on youtube|\s+video|\s*$)'}
     ),
 
     # Twitter/X
@@ -295,7 +295,7 @@ TEMPLATES = [
             ActionStep("playwright_navigate", {"url": "https://twitter.com"}, "Navigate to Twitter"),
             ActionStep("playwright_snapshot", {}, "Capture Twitter state"),
         ],
-        variables={"query": r'(?:search|find)\s+["\']?(.+?)["\']?(?:\s+on twitter|\s+on x|\s*$)'}
+        variables={"query": r'(?:search|find)\s+(?:on\s+)?(?:twitter\s+|x\s+)?(?:for\s+)?["\']?(.+?)["\']?(?:\s+on twitter|\s+on x|\s*$)'}
     ),
 
     # GitHub
@@ -308,7 +308,7 @@ TEMPLATES = [
             ActionStep("playwright_navigate", {"url": "https://github.com"}, "Navigate to GitHub"),
             ActionStep("playwright_snapshot", {}, "Capture GitHub state"),
         ],
-        variables={"query": r'(?:search|find|repo)\s+["\']?(.+?)["\']?(?:\s+on github|\s*$)'}
+        variables={"query": r'(?:search|find|repo)\s+(?:on\s+)?(?:github\s+)?(?:for\s+)?["\']?(.+?)["\']?(?:\s+on github|\s*$)'}
     ),
 
     # Login template (generic)

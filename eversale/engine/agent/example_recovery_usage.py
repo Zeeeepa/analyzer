@@ -239,10 +239,9 @@ async def main():
 
     print("\n" + "="*70)
     print("Examples complete! Check the integration guide for more details:")
-    print("  /mnt/c/ev29/agent/RECOVERY_SYSTEM_INTEGRATION.md")
+    print("  See RECOVERY_SYSTEM_INTEGRATION.md in the agent directory")
     print("="*70 + "\n")
 
 
 if __name__ == "__main__":
     asyncio.run(main())
-

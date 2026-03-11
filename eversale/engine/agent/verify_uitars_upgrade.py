@@ -68,7 +68,7 @@ def verify_upgrade():
     if errors:
         print("STATUS: FAILED - Upgrade not complete")
         print("\nTo fix, run:")
-        print("  cd /mnt/c/ev29/cli/engine/agent")
+        print("  cd engine/agent")
         print("  cp captcha_solver.py.backup captcha_solver.py")
         print("  # Then manually apply changes from UI_TARS_CAPTCHA_UPGRADE.patch")
         return False

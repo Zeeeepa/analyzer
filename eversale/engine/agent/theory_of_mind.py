@@ -461,7 +461,7 @@ Respond with just the reframed message (no JSON, no explanation)."""
             lines.append(f"\nRecent Interactions: {len(self.history)}")
             for interaction in list(self.history)[-3:]:
                 lines.append(f"  - Them: {interaction.agent_action[:100]}")
-                lines.append(f"    Us: {our_response[:100]}")
+                lines.append(f"    Us: {interaction.our_response[:100]}")
 
         return "\n".join(lines)
 

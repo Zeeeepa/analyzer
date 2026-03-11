@@ -1497,9 +1497,9 @@ class PlaywrightClient:
                 try:
                     shutil.rmtree(tmp_dir, ignore_errors=True)
                 except Exception as e:
-                    handle_error("unknown_operation", e, context={"tmp_dir": tmp_dir, "error": error}, log_level="debug")
+                    handle_error("unknown_operation", e, context={"tmp_dir": tmp_dir, "error": str(e)}, log_level="debug")
         except Exception as e:
-            handle_error("unknown_operation", e, context={"tmp_dir": tmp_dir, "error": error}, log_level="debug")
+            handle_error("unknown_operation", e, context={"tmp_dir": tmp_dir, "error": str(e)}, log_level="debug")
 
         logger.info("Playwright browser force cleaned")
 
@@ -3321,7 +3321,7 @@ class PlaywrightClient:
                         "url": current_url
                     }
             except Exception as e:
-                handle_error("unknown_operation", e, context={"url": url}, log_level="debug")
+                handle_error("unknown_operation", e, context={"url": current_url}, log_level="debug")
 
             # Final fallback: return empty result with guidance
             return {
@@ -9556,7 +9556,7 @@ Limit to {limit} items. Return only valid JSON array."""
             try:
                 await job_browser.disconnect()
             except Exception as e:
-                handle_error("unknown_operation_search_cleanup", e, context={"job_id": job_id, "error": error}, log_level="debug")
+                handle_error("unknown_operation_search_cleanup", e, context={"job_id": job_id, "error": str(e)}, log_level="debug")
 
     @tool_result
     async def _build_research_report(self, query: str, results: List[Dict[str, Any]]) -> str:
@@ -10408,7 +10408,7 @@ Return JSON with:
                 await self.page.press('input[type="search"], input[name="q"], input[name="query"], input[name="field-keywords"], #twotabsearchtextbox, input[placeholder*="search" i]', 'Enter')
                 submitted = True
             except Exception as e:
-                handle_error("unknown_operation_search_page", e, context={"query": query, "error": error}, log_level="debug")
+                handle_error("unknown_operation_search_page", e, context={"query": query, "error": str(e)}, log_level="debug")
 
             if not submitted:
                 try:

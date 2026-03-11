@@ -244,21 +244,21 @@ class LLMClient:
                     pass
 
         # =============================================================
-        # MODEL CONFIGURATION (3 models only)
+        # MODEL CONFIGURATION
         # =============================================================
-        # 1. 0000/ui-tars-1.5-7b:latest - Primary model for all tasks + function calling
-        self.main_model = os.getenv('OPENAI_MODEL', '') or os.getenv('EVERSALE_LLM_MODEL', llm_config.get('main_model', '0000/ui-tars-1.5-7b:latest'))
+        # Primary model for all tasks + function calling (default: glm-5)
+        self.main_model = os.getenv('OPENAI_MODEL', '') or os.getenv('EVERSALE_LLM_MODEL', llm_config.get('main_model', 'glm-5'))
         self.fast_model = self.main_model  # Same as main
-        self.tool_calling_model = self.main_model  # qwen3 has native function calling
+        self.tool_calling_model = self.main_model  # Same for tool calling
 
-        # 2. UI-TARS - Vision only
-        self.vision_model = llm_config.get('vision_model', '0000/ui-tars-1.5-7b:latest')
+        # Vision model (default: glm-4.7v)
+        self.vision_model = os.getenv('OPENAI_MODEL_VISION', '') or llm_config.get('vision_model', 'glm-4.7v')
         self.web_vision_model = self.vision_model  # Same for all vision
 
-        # 3. Kimi API - Complex reasoning (external)
+        # Complex reasoning fallback
         self.kimi_api_key = os.getenv('KIMI_API_KEY', '')
-        self.kimi_api_url = llm_config.get('kimi_api_url', 'https://api.moonshot.ai/v1')
-        self.complex_model = 'moonshot-v1-8k'  # Kimi model name
+        self.kimi_api_url = llm_config.get('kimi_api_url', 'https://api.z.ai/api/coding/paas/v4')
+        self.complex_model = self.main_model
 
         # Settings
         self.temperature = llm_config.get('temperature', 0.1)

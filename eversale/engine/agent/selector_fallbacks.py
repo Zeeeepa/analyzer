@@ -18,8 +18,8 @@ The new approach:
 4. Refs survive page structure changes
 
 For details, see:
-- /mnt/c/ev29/cli/engine/agent/accessibility_element_finder.py
-- /mnt/c/ev29/cli/engine/agent/ACCESSIBILITY_ELEMENT_FINDER_README.md
+- engine/agent/accessibility_element_finder.py
+- engine/agent/ACCESSIBILITY_ELEMENT_FINDER_README.md
 """
 
 import warnings

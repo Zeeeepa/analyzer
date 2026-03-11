@@ -4,9 +4,14 @@ Apply incremental snapshot fix to agentic_browser.py
 """
 
 import re
+from pathlib import Path
+
+# Resolve target file relative to this script's location (works from any CWD)
+_SCRIPT_DIR = Path(__file__).resolve().parent
+_TARGET_FILE = _SCRIPT_DIR / 'agentic_browser.py'
 
 # Read the file
-with open('/mnt/c/ev29/cli/engine/agent/agentic_browser.py', 'r') as f:
+with open(_TARGET_FILE, 'r') as f:
     content = f.read()
 
 # Find and replace the section
@@ -59,7 +64,7 @@ content_new = re.sub(old_section, new_section, content, flags=re.MULTILINE | re.
 if content != content_new:
     print("Replacement successful!")
     # Write back
-    with open('/mnt/c/ev29/cli/engine/agent/agentic_browser.py', 'w') as f:
+    with open(_TARGET_FILE, 'w') as f:
         f.write(content_new)
     print("File updated.")
 else:

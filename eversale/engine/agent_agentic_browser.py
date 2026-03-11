@@ -16,6 +16,7 @@ import time
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 from urllib.parse import quote_plus
+from loguru import logger
 
 
 def _get_package_version() -> str:

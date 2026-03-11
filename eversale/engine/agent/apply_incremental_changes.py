@@ -3,8 +3,14 @@
 Apply incremental snapshot changes to agentic_browser.py
 """
 
+from pathlib import Path
+
+# Resolve target file relative to this script's location (works from any CWD)
+_SCRIPT_DIR = Path(__file__).resolve().parent
+_TARGET_FILE = _SCRIPT_DIR / 'agentic_browser.py'
+
 # Read the file
-with open('/mnt/c/ev29/cli/engine/agent/agentic_browser.py', 'r') as f:
+with open(_TARGET_FILE, 'r') as f:
     lines = f.readlines()
 
 # Find the __init__ method and add snapshot state variables
@@ -153,7 +159,7 @@ for i, line in enumerate(lines):
                 # Update docstring
                 for k in range(j + 1, j + 10):
                     if '"""' in lines[k] and 'Get page snapshot' in lines[k]:
-                        lines.insert(k + 2, '\n        Args:\n            mode: \\'full\\' or \\'incremental\\' (default: uses self._snapshot_mode)\n')
+                        lines.insert(k + 2, '\n        Args:\n            mode: "full" or "incremental" (default: uses self._snapshot_mode)\n')
                         break
                 # Add mode handling after docstring
                 for k in range(j, j + 20):
@@ -200,7 +206,7 @@ else:
     print("WARNING: Could not find snapshot section")
 
 # Write back
-with open('/mnt/c/ev29/cli/engine/agent/agentic_browser.py', 'w') as f:
+with open(_TARGET_FILE, 'w') as f:
     f.writelines(lines)
 
 print("\n✓ All changes applied successfully!")

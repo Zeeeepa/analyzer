@@ -667,7 +667,7 @@ def integrate_with_brain(worker: AutonomousWebWorker, brain_instance):
         worker.run_forever("Scrape leads from Facebook Ads continuously")
     """
     async def execute_async(prompt: str) -> str:
-        result = await brain.run(prompt)
+        result = await brain_instance.run(prompt)
         return result
 
     def execute_sync(prompt: str) -> str:

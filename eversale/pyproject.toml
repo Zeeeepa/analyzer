@@ -1,0 +1,74 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "eversale"
+version = "2.1.218"
+description = "Agentic browser runtime. AI that controls your browser autonomously - give it any task, it figures out how."
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.10"
+keywords = ["ai", "agent", "automation", "browser", "cli", "desktop", "sales", "research", "playwright"]
+
+dependencies = [
+    # LLM API client
+    "httpx>=0.24.0",
+    "aiohttp>=3.8.0",
+    # Data models
+    "pydantic>=2.0.0",
+    # Browser automation
+    "playwright>=1.40.0",
+    "patchright>=1.0.0",
+    "curl_cffi>=0.5.0",
+    # Humanization (Bezier curves, etc.)
+    "scipy>=1.10.0",
+    "numpy>=1.24.0",
+    # Scheduling
+    "apscheduler>=3.10.0",
+    # Database
+    "chromadb>=0.4.0",
+    # Utilities
+    "pyyaml>=6.0",
+    "python-dotenv>=1.0.0",
+    "rich>=13.0.0",
+    "loguru>=0.7.0",
+    "psutil>=5.9.0",
+    "html2text>=2020.1.16",
+]
+
+[project.optional-dependencies]
+local = [
+    "ollama>=0.1.0",
+]
+
+[project.scripts]
+eversale = "eversale_cli:main"
+
+[tool.setuptools]
+py-modules = ["eversale_cli"]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["engine*"]
+
+[tool.setuptools.package-data]
+"engine" = [
+    "config/*.yaml",
+    "prompts/*.txt",
+    "rust_wheels/*",
+    "*.sh",
+]
+"engine.agent" = [
+    "config/*.yaml",
+    "*.md",
+    "*.txt",
+]
+"engine.ace" = [
+    "*.yaml",
+    "*.md",
+]
+"engine.mcp_servers" = [
+    "*.yaml",
+]
+

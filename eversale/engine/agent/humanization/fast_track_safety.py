@@ -187,7 +187,7 @@ class FastTrackSafety:
         Add a URL pattern to the safe list.
 
         Args:
-            pattern: Regex pattern (e.g., r'^https://.*\.internal\.company\.com')
+            pattern: Regex pattern (e.g., r'^https://.*\\.internal\\.company\\.com')
         """
         self.config.safe_patterns.append(pattern)
         logger.info(f"Added pattern '{pattern}' to FAST_TRACK whitelist")

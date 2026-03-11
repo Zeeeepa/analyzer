@@ -92,6 +92,9 @@ class SimpleAgent:
         self.page = None
         self.browser = None
 
+        # Map ref_id -> (role, name) for element resolution
+        self._ref_map: Dict[str, Dict[str, str]] = {}
+
     async def _init_browser(self):
         """Initialize Playwright browser."""
         if self.browser is not None:
@@ -119,23 +122,81 @@ class SimpleAgent:
             await self.playwright.stop()
 
     async def _get_snapshot(self) -> str:
-        """Get accessibility snapshot of current page."""
+        """Get accessibility snapshot of current page and build ref map.
+
+        Uses Playwright's aria_snapshot() API (v1.49+) which returns a
+        YAML-like accessibility tree. Falls back to page.accessibility.snapshot()
+        for older versions.
+        """
         try:
-            # Get accessibility tree
-            snapshot = await self.page.accessibility.snapshot()
+            # Wait briefly for SPA rendering to settle
+            await asyncio.sleep(0.3)
 
-            # Parse into refs
-            refs = self.parser.parse_snapshot(snapshot)
+            # Try modern aria_snapshot() first (Playwright 1.49+)
+            aria_text = None
+            try:
+                aria_text = await self.page.locator('body').aria_snapshot()
+            except Exception:
+                pass
 
-            # Format as markdown (like MCP)
-            lines = []
-            for ref in refs:
-                lines.append(f"- {ref.role} \"{ref.name}\" [ref={ref.ref}]")
+            if not aria_text:
+                # Retry after wait
+                await asyncio.sleep(1.5)
+                try:
+                    aria_text = await self.page.locator('body').aria_snapshot()
+                except Exception:
+                    pass
 
-            return "\n".join(lines)
+            if not aria_text:
+                # Last resort: try deprecated API
+                try:
+                    snapshot = await self.page.accessibility.snapshot()
+                    refs = self.parser.parse_snapshot(snapshot)
+                    self._ref_map.clear()
+                    for ref in refs:
+                        self._ref_map[ref.ref] = {"role": ref.role, "name": ref.name, "value": ref.value or ""}
+                    lines = [f"- {r.role} \"{r.name}\" [ref={r.ref}]" for r in refs]
+                    return "\n".join(lines) if lines else "(page is empty or still loading)"
+                except Exception:
+                    return "(page is empty or still loading)"
+
+            # Parse the aria_snapshot YAML text into ref map
+            self._ref_map.clear()
+            lines_out = []
+            ref_counter = 0
+
+            import re as _re
+            for line in aria_text.split('\n'):
+                stripped = line.strip()
+                if not stripped or stripped.startswith('/url:') or stripped.startswith('#'):
+                    continue
+
+                # Match patterns like: - role "name"  or  - role:  or  - text: content
+                match = _re.match(r'^-\s+(\w+)(?:\s+"([^"]*)")?(?:\s*:\s*(.*))?', stripped)
+                if match:
+                    role = match.group(1).lower()
+                    name = match.group(2) or match.group(3) or ''
+                    name = name.strip()
+
+                    # Skip purely structural/decorative elements
+                    if role in ('text',) and not name:
+                        continue
+
+                    ref_id = f"e{ref_counter}"
+                    ref_counter += 1
+
+                    self._ref_map[ref_id] = {
+                        "role": role,
+                        "name": name,
+                        "value": "",
+                    }
+
+                    lines_out.append(f"- {role} \"{name}\" [ref={ref_id}]")
+
+            return "\n".join(lines_out) if lines_out else "(page is empty or still loading)"
         except Exception as e:
             logger.error(f"Failed to get snapshot: {e}")
-            return ""
+            return "(snapshot failed)"
 
     async def _plan_next_action(self, goal: str, snapshot: str, history: List[str]) -> Dict[str, Any]:
         """
@@ -154,19 +215,30 @@ class SimpleAgent:
             return self._fallback_planner(goal, snapshot)
 
         # Build prompt
-        prompt = f"""You are a browser automation agent. Your goal: {goal}
+        prompt = f"""You are a fast browser automation agent. Goal: {goal}
 
-Current page state (accessibility tree):
+URL: {self.page.url}
+
+Page elements:
 {snapshot}
 
-Actions taken so far:
-{chr(10).join(history) if history else "None yet"}
+History (last 8):
+{chr(10).join(history[-8:]) if history else "None"}
 
-What should I do next? Respond with JSON only:
-{{"action": "navigate|click|type|wait|extract|done", "target": "ref or URL", "value": "text for type action", "reason": "why"}}
+Actions: navigate(target=URL), click(target=ref), type(target=ref, value=text), press(value=key), scroll(value=down/up), wait(value=seconds), extract, done
 
-If goal is complete, use action "done".
-"""
+CRITICAL RULES:
+1. ALWAYS use the exact [ref=...] ID from "Page elements" as target (e.g. "s3e3", "s5e5")
+2. NEVER use descriptive names like "email" or "password" as target — use the ref ID
+3. Be EFFICIENT — avoid unnecessary wait/extract. Act directly on visible elements
+4. For textbox elements: use "type" with the ref and value
+5. For buttons/links: use "click" with the ref
+6. After filling ALL form fields AND solving captcha, click the submit/sign-in button
+7. Only use "done" when the original goal is fully complete (e.g. response retrieved)
+8. If an element was "not found", the page may have changed — try a different ref from a fresh snapshot
+
+JSON only:
+{{"action":"...","target":"ref","value":"text if needed","reason":"why"}}"""
 
         try:
             response = await self.llm_client.generate(prompt, temperature=0.1)
@@ -231,15 +303,134 @@ If goal is complete, use action "done".
 
         return {"action": "done", "reason": "No clear next action"}
 
+    async def _resolve_element(self, target: str):
+        """
+        Resolve an element reference to a Playwright locator.
+
+        Uses the ref map built during _get_snapshot() to convert
+        synthetic ref IDs (e.g., 'e9') into actual Playwright locators
+        based on accessibility role + name.
+
+        Falls back to:
+        1. Role + name based locator (most reliable for SPAs)
+        2. Text-based search
+        3. CSS selector (if target looks like a selector)
+
+        Returns the first visible, enabled locator or None.
+        """
+        # Check the ref map first
+        ref_info = self._ref_map.get(target)
+        if ref_info:
+            role = ref_info["role"]
+            name = ref_info["name"]
+
+            # Map accessibility roles to Playwright get_by_role roles
+            role_map = {
+                "textbox": "textbox",
+                "text": "textbox",
+                "searchbox": "searchbox",
+                "button": "button",
+                "link": "link",
+                "checkbox": "checkbox",
+                "radio": "radio",
+                "combobox": "combobox",
+                "menuitem": "menuitem",
+                "tab": "tab",
+                "heading": "heading",
+                "img": "img",
+                "dialog": "dialog",
+                "navigation": "navigation",
+                "listitem": "listitem",
+            }
+            pw_role = role_map.get(role)
+
+            if pw_role and name:
+                try:
+                    loc = self.page.get_by_role(pw_role, name=name, exact=False)
+                    count = await loc.count()
+                    if count > 0:
+                        logger.debug(f"Resolved {target} via role={pw_role} name='{name}' ({count} match)")
+                        return loc.first
+                except Exception as e:
+                    logger.debug(f"Role locator failed for {target}: {e}")
+
+            # Fallback: match by name text
+            if name:
+                try:
+                    loc = self.page.get_by_text(name, exact=False)
+                    count = await loc.count()
+                    if count > 0:
+                        logger.debug(f"Resolved {target} via text='{name}' ({count} match)")
+                        return loc.first
+                except Exception as e:
+                    logger.debug(f"Text locator failed for {target}: {e}")
+
+            # Fallback: match by placeholder/label (for inputs)
+            if role in ("textbox", "searchbox", "text") and name:
+                try:
+                    loc = self.page.get_by_placeholder(name, exact=False)
+                    count = await loc.count()
+                    if count > 0:
+                        logger.debug(f"Resolved {target} via placeholder='{name}'")
+                        return loc.first
+                except Exception:
+                    pass
+                try:
+                    loc = self.page.get_by_label(name, exact=False)
+                    count = await loc.count()
+                    if count > 0:
+                        logger.debug(f"Resolved {target} via label='{name}'")
+                        return loc.first
+                except Exception:
+                    pass
+
+        # If target is NOT a ref ID, LLM may have sent a name like "email" or "Sign in"
+        # Search the ref map by name to find a matching element
+        if not ref_info and target:
+            target_lower = str(target).lower().strip()
+            for ref_id, info in self._ref_map.items():
+                if info["name"].lower() == target_lower or target_lower in info["name"].lower():
+                    logger.debug(f"Matched target '{target}' to ref {ref_id} ({info['role']} '{info['name']}')")
+                    return await self._resolve_element(ref_id)  # Recurse with the actual ref
+
+        # If target looks like a CSS selector, try it directly
+        if any(c in str(target) for c in ['#', '.', '[', '>', ' ']):
+            try:
+                element = await self.page.query_selector(str(target))
+                if element:
+                    logger.debug(f"Resolved {target} via CSS selector")
+                    return element
+            except Exception:
+                pass
+
+        # Last resort: try getting element by visible text
+        if target:
+            try:
+                loc = self.page.get_by_text(str(target), exact=False)
+                count = await loc.count()
+                if count > 0:
+                    return loc.first
+            except Exception:
+                pass
+
+        # Last-last resort: try by placeholder
+        if target:
+            try:
+                loc = self.page.get_by_placeholder(str(target), exact=False)
+                count = await loc.count()
+                if count > 0:
+                    return loc.first
+            except Exception:
+                pass
+
+        return None
+
     async def _execute_action(self, action: Dict[str, Any]) -> str:
         """
-        Execute a single action.
+        Execute a single action using accessibility-aware element resolution.
 
-        Args:
-            action: Action dict from planner
-
-        Returns:
-            Status message
+        Uses the ref map from the latest snapshot to find elements via
+        Playwright's role-based locators instead of fragile CSS selectors.
         """
         action_type = action.get("action", "").lower()
         target = action.get("target")
@@ -247,25 +438,54 @@ If goal is complete, use action "done".
 
         try:
             if action_type == "navigate":
-                await self.page.goto(target, wait_until="domcontentloaded", timeout=10000)
+                nav_error = None
+                try:
+                    await self.page.goto(target, wait_until="networkidle", timeout=15000)
+                except Exception as e1:
+                    # Fallback: some SPAs never reach networkidle
+                    try:
+                        await self.page.goto(target, wait_until="domcontentloaded", timeout=10000)
+                    except Exception as e2:
+                        nav_error = e2
+
+                if nav_error is not None:
+                    logger.error(f"Navigation to {target} failed: {nav_error}")
+                    return f"Navigation failed for {target}: {nav_error}"
+
+                # Extra wait for SPA hydration
+                await asyncio.sleep(1.0)
                 return f"Navigated to {target}"
 
             elif action_type == "click":
-                # Find element by ref
-                element = await self.page.query_selector(f'[data-ref="{target}"]')
+                element = await self._resolve_element(target)
                 if element:
-                    await element.click()
+                    await element.click(timeout=5000)
+                    await asyncio.sleep(0.5)  # Wait for response to click
                     return f"Clicked {target}"
                 else:
                     return f"Element not found: {target}"
 
             elif action_type == "type":
-                element = await self.page.query_selector(f'[data-ref="{target}"]')
+                element = await self._resolve_element(target)
                 if element:
-                    await element.fill(value)
+                    await element.click(timeout=3000)  # Focus first
+                    await asyncio.sleep(0.1)
+                    await element.fill(value, timeout=5000)
                     return f"Typed '{value}' into {target}"
                 else:
                     return f"Element not found: {target}"
+
+            elif action_type == "press":
+                key = value or target or "Enter"
+                await self.page.keyboard.press(key)
+                return f"Pressed {key}"
+
+            elif action_type == "scroll":
+                direction = (value or "down").lower()
+                delta = 400 if direction == "down" else -400
+                await self.page.mouse.wheel(0, delta)
+                await asyncio.sleep(0.3)
+                return f"Scrolled {direction}"
 
             elif action_type == "wait":
                 wait_time = float(value) if value else 2.0
@@ -273,9 +493,19 @@ If goal is complete, use action "done".
                 return f"Waited {wait_time}s"
 
             elif action_type == "extract":
-                # Get page text content
                 content = await self.page.inner_text("body")
-                return f"Extracted page content ({len(content)} chars)"
+                # Truncate for history but include useful prefix
+                preview = content[:500].strip()
+                return f"Extracted content: {preview}"
+
+            elif action_type == "screenshot":
+                if value:
+                    path = value
+                else:
+                    import tempfile
+                    path = str(Path(tempfile.gettempdir()) / "eversale_screenshot.png")
+                await self.page.screenshot(path=path)
+                return f"Screenshot saved to {path}"
 
             elif action_type == "done":
                 return "Task complete"
@@ -298,6 +528,8 @@ If goal is complete, use action "done".
             AgentResult with success status and details
         """
         logger.info(f"Starting agent with goal: {goal}")
+        steps = 0
+        history = []
 
         try:
             await self._init_browser()
@@ -338,6 +570,7 @@ If goal is complete, use action "done".
             logger.info("Using LLM-based planning")
             history = []
             steps = 0
+            consecutive_passive = 0  # Track consecutive extract/wait actions
 
             while steps < self.max_steps:
                 steps += 1
@@ -346,8 +579,19 @@ If goal is complete, use action "done".
                 snapshot = await self._get_snapshot()
                 current_url = self.page.url
 
+                # Add hint if LLM is stuck in extract/wait loop
+                extra_hint = ""
+                if consecutive_passive >= 2:
+                    extra_hint = "\n⚠️ You've done multiple extract/wait actions in a row. The page content is already visible in the elements list above. TAKE ACTION NOW — click a button or type in a field!"
+
                 # Plan next action
-                action = await self._plan_next_action(goal, snapshot, history)
+                action = await self._plan_next_action(goal, snapshot + extra_hint, history)
+
+                # Track passive vs active actions
+                if action.get("action") in ("extract", "wait"):
+                    consecutive_passive += 1
+                else:
+                    consecutive_passive = 0
 
                 # Execute
                 status = await self._execute_action(action)
@@ -450,8 +694,8 @@ Examples:
 
 
 def print_banner():
-    """Print startup banner."""
-    print("""
+    r"""Print startup banner."""
+    print(r"""
  _____ _   _ _____ ____  ____    _    _     _____
 | ____| | | | ____|  _ \/ ___|  / \  | |   | ____|
 |  _| | | | |  _| | |_) \___ \ / _ \ | |   |  _|
@@ -526,7 +770,7 @@ async def main():
         from local_server_launcher import ensure_local_server
         local_url = ensure_local_server()
         if local_url:
-            logging.getLogger(__name__).info(f"[run_simple] Local API server active at {local_url}")
+            logger.info(f"[run_simple] Local API server active at {local_url}")
     except ImportError:
         pass
 
