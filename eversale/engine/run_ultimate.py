@@ -102,6 +102,10 @@ sys.path.insert(0, str(Path(__file__).parent))
 # Check debug mode early
 _DEBUG_MODE = '--debug' in sys.argv or '-d' in sys.argv or os.environ.get('EVERSALE_DEBUG', '').lower() in ('1', 'true')
 
+# Ensure CWD is the engine directory so all relative paths resolve correctly
+_ENGINE_DIR = Path(__file__).resolve().parent
+os.chdir(_ENGINE_DIR)
+
 # Configure loguru BEFORE any agent imports
 from loguru import logger
 logger.remove()  # Remove default handler
