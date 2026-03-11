@@ -46,6 +46,7 @@ from dataclasses import dataclass, field
 from typing import Any, Dict, List, Optional, Tuple
 import re
 from loguru import logger
+from agent.a11y_compat import compat_accessibility_snapshot
 
 
 # ==============================================================================
@@ -428,9 +429,9 @@ class SmartElementFinder:
                 return None
 
         # Otherwise assume it's a Playwright page
-        elif hasattr(page_or_mcp, 'accessibility'):
+        elif hasattr(page_or_mcp, 'goto'):
             try:
-                return await page_or_mcp.accessibility.snapshot()
+                return await compat_accessibility_snapshot(page_or_mcp)
             except Exception as e:
                 logger.error(f"Playwright snapshot failed: {e}")
                 return None

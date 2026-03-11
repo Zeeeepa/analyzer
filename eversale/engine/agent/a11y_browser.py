@@ -27,6 +27,7 @@ from typing import Optional, Dict, Any, List, Tuple, Set, Union
 from dataclasses import dataclass, field
 from playwright.async_api import async_playwright, Page, Browser, BrowserContext, Locator
 from loguru import logger
+from agent.a11y_compat import compat_accessibility_snapshot
 
 try:
     from . import a11y_config as config
@@ -1183,7 +1184,7 @@ class A11yBrowser:
             # Get accessibility tree from Playwright
             if config.ENABLE_A11Y_TREE:
                 raw_tree = await asyncio.wait_for(
-                    self.page.accessibility.snapshot(),
+                    compat_accessibility_snapshot(self.page),
                     timeout=config.DEFAULT_TIMEOUT / 1000
                 )
                 if raw_tree:

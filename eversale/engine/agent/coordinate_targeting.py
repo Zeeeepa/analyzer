@@ -18,6 +18,7 @@ from datetime import datetime
 from loguru import logger
 import re
 import json
+from agent.a11y_compat import compat_accessibility_snapshot
 
 
 @dataclass
@@ -204,7 +205,7 @@ class CoordinateTargeting:
         """Get accessibility snapshot and populate coordinates"""
         # Get snapshot
         try:
-            snapshot = await page.accessibility.snapshot()
+            snapshot = await compat_accessibility_snapshot(page)
             snapshot_text = self._serialize_snapshot(snapshot)
         except Exception as e:
             logger.warning(f"[COORD_TARGET] Snapshot failed: {e}")

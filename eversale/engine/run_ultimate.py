@@ -1429,7 +1429,7 @@ async def main():
             print("Starting Eversale as external MCP Server (stdio mode)...", file=sys.stderr)
             print("For Claude Desktop, add to claude_desktop_config.json:", file=sys.stderr)
             print('  "eversale": {"command": "python", "args": ["run_ultimate.py", "mcp"]}', file=sys.stderr)
-            server = EversaleMCPServer(headless="--headless" in sys.argv)
+            server = EversaleMCPServer(headless="--headless" in sys.argv or os.environ.get("EVERSALE_HEADLESS") == "1")
             await server.run_stdio()
             return
 
