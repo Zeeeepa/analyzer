@@ -217,29 +217,29 @@ Reply with ONE of:
 - DONE: [reason]
 - WAIT_HUMAN: [reason]"""
 
-            async with httpx.AsyncClient(timeout=60) as client:
-                r = await client.post(
-                    "https://irrpfq5xoh5dto-4174.proxy.runpod.net/v1/chat/completions",
-                    headers={"Authorization": f"Bearer {LICENSE_KEY}", "Content-Type": "application/json"},
-                    json={
-                        "model": "0000/ui-tars-1.5-7b:latest",
-                        "messages": [{"role": "user", "content": prompt}],
-                        "temperature": 0.1,
-                        "max_tokens": 1000  # Need enough for reasoning + action
-                    }
-                )
-                msg = r.json().get("choices", [{}])[0].get("message", {})
-        # qwen3 outputs to reasoning field in thinking mode
-        reasoning = msg.get("reasoning", "") or msg.get("content", "")
+    async with httpx.AsyncClient(timeout=60) as client:
+        r = await client.post(
+            "https://irrpfq5xoh5dto-4174.proxy.runpod.net/v1/chat/completions",
+            headers={"Authorization": f"Bearer {LICENSE_KEY}", "Content-Type": "application/json"},
+            json={
+                "model": "0000/ui-tars-1.5-7b:latest",
+                "messages": [{"role": "user", "content": prompt}],
+                "temperature": 0.1,
+                "max_tokens": 1000  # Need enough for reasoning + action
+            }
+        )
+        msg = r.json().get("choices", [{}])[0].get("message", {})
+    # qwen3 outputs to reasoning field in thinking mode
+    reasoning = msg.get("reasoning", "") or msg.get("content", "")
 
-        # Check if we should prioritize DONE detection
-        check_done = len(history) > 1 and any("click" in h.lower() for h in history)
+    # Check if we should prioritize DONE detection
+    check_done = len(history) > 1 and any("click" in h.lower() for h in history)
 
-        # Check if we need to navigate (on blank page)
-        need_navigate = url == "about:blank" or not url.startswith("http")
+    # Check if we need to navigate (on blank page)
+    need_navigate = url == "about:blank" or not url.startswith("http")
 
-        # Extract action from reasoning
-        return extract_action_from_reasoning(reasoning, has_captcha, check_done, need_navigate)
+    # Extract action from reasoning
+    return extract_action_from_reasoning(reasoning, has_captcha, check_done, need_navigate)
 
 
 # =============================================================================

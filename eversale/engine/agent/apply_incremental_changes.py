@@ -153,7 +153,7 @@ for i, line in enumerate(lines):
                 # Update docstring
                 for k in range(j + 1, j + 10):
                     if '"""' in lines[k] and 'Get page snapshot' in lines[k]:
-                        lines.insert(k + 2, '\n        Args:\n            mode: \\'full\\' or \\'incremental\\' (default: uses self._snapshot_mode)\n')
+                        lines.insert(k + 2, '\n        Args:\n            mode: "full" or "incremental" (default: uses self._snapshot_mode)\n')
                         break
                 # Add mode handling after docstring
                 for k in range(j, j + 20):
