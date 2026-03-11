@@ -506,7 +506,8 @@ class SelfPlayEngine:
                     # Take screenshot for vision verification
                     try:
                         import uuid
-                        screenshot_path = f"/tmp/training_screenshot_{uuid.uuid4().hex[:8]}.png"
+                        import tempfile
+                        screenshot_path = str(Path(tempfile.gettempdir()) / f"training_screenshot_{uuid.uuid4().hex[:8]}.png")
                         # Use take_screenshot tool with proper boolean
                         await brain.mcp.call_tool('take_screenshot', {'name': screenshot_path, 'full_page': False})
                     except Exception as ss_err:

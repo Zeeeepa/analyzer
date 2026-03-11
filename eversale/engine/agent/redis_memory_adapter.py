@@ -52,7 +52,8 @@ from memory_architecture import (
     EpisodicMemory, SemanticMemory, SkillMemory,
     WorkingMemory, EpisodicMemoryStore, SemanticMemoryStore, SkillMemoryStore,
     MemoryCompressor, MemoryScorer, EmbeddingEngine,
-    MEMORY_DIR, WORKING_MEMORY_CAPACITY, EPISODIC_DB, SEMANTIC_DB, SKILL_DB
+    MEMORY_DIR, WORKING_MEMORY_CAPACITY, EPISODIC_DB, SEMANTIC_DB, SKILL_DB,
+    MemoryArchitecture
 )
 
 

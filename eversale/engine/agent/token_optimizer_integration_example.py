@@ -10,6 +10,22 @@ from token_optimizer import TokenOptimizer, create_optimizer
 import json
 
 
+# Placeholder stubs — replace with your actual implementations
+async def get_browser_snapshot() -> dict:
+    """Get the current browser accessibility snapshot."""
+    raise NotImplementedError("Replace with your browser snapshot function")
+
+
+async def send_to_llm(context: str) -> dict:
+    """Send context to the LLM and get an action back."""
+    raise NotImplementedError("Replace with your LLM call")
+
+
+async def execute_action(action: dict) -> None:
+    """Execute a browser action."""
+    raise NotImplementedError("Replace with your action executor")
+
+
 # Example 1: Basic Integration with Browser Agent
 async def browser_agent_with_optimizer():
     """

@@ -13,6 +13,7 @@ Key insight: Planner is the "thinking" brain, local LLM is the "doing" brain.
 """
 
 import asyncio
+import hashlib
 import json
 import time
 from typing import Dict, List, Any, Optional, Tuple

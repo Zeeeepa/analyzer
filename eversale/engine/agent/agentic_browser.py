@@ -70,6 +70,7 @@ except ImportError:
     h2t = None
 
 # Re-add other necessary imports that were removed or modified
+import random
 import re
 import time
 from dataclasses import dataclass
@@ -7026,7 +7027,7 @@ async def main():
         
         debug = os.environ.get("EVERSALE_DEBUG", "0") == "1"
         browser = AgenticBrowser(headless=headless_arg, debug=debug, 
-                               session_file=session_file, save_session_path=save_session,
+                               session_file=session_file, save_session_path=save_session_path,
                                video_dir=video_dir, trace_path=trace_path)
         try:
             await browser.setup()
@@ -7048,7 +7049,7 @@ async def main():
         
         debug = os.environ.get("EVERSALE_DEBUG", "0") == "1"
         browser = AgenticBrowser(headless=headless_arg, debug=debug, 
-                               session_file=session_file, save_session_path=save_session,
+                               session_file=session_file, save_session_path=save_session_path,
                                video_dir=video_dir, trace_path=trace_path)
         
         try:

@@ -719,7 +719,8 @@ async def test_lsp_client():
     print("-" * 50)
 
     # Create test Python file
-    test_dir = Path("/tmp/lsp_test")
+    import tempfile
+    test_dir = Path(tempfile.gettempdir()) / "lsp_test"
     test_dir.mkdir(exist_ok=True)
 
     test_file = test_dir / "test.py"

@@ -5,6 +5,7 @@ Learns from errors and adjusts approach automatically
 """
 
 import asyncio
+import re
 from typing import Dict, List, Any, Optional, Callable, Tuple
 from dataclasses import dataclass
 from loguru import logger

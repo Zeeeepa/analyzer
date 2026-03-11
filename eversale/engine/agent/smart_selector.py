@@ -18,6 +18,7 @@ Usage:
     items = await selector.extract_list("First product card")
 """
 
+import asyncio
 import base64
 from typing import Optional, List, Dict, Any, Tuple
 from dataclasses import dataclass

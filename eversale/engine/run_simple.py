@@ -438,14 +438,20 @@ JSON only:
 
         try:
             if action_type == "navigate":
+                nav_error = None
                 try:
                     await self.page.goto(target, wait_until="networkidle", timeout=15000)
-                except Exception:
+                except Exception as e1:
                     # Fallback: some SPAs never reach networkidle
                     try:
                         await self.page.goto(target, wait_until="domcontentloaded", timeout=10000)
-                    except Exception:
-                        pass
+                    except Exception as e2:
+                        nav_error = e2
+
+                if nav_error is not None:
+                    logger.error(f"Navigation to {target} failed: {nav_error}")
+                    return f"Navigation failed for {target}: {nav_error}"
+
                 # Extra wait for SPA hydration
                 await asyncio.sleep(1.0)
                 return f"Navigated to {target}"
@@ -493,7 +499,11 @@ JSON only:
                 return f"Extracted content: {preview}"
 
             elif action_type == "screenshot":
-                path = value or "/tmp/eversale_screenshot.png"
+                if value:
+                    path = value
+                else:
+                    import tempfile
+                    path = str(Path(tempfile.gettempdir()) / "eversale_screenshot.png")
                 await self.page.screenshot(path=path)
                 return f"Screenshot saved to {path}"
 

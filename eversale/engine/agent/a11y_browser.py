@@ -1441,13 +1441,6 @@ class A11yBrowser:
             return elements
 
         return filtered
-        # Recurse into children
-        children = node.get("children")
-        if children:
-            for child in children:
-                elements.extend(self._parse_a11y_tree(child, depth + 1, role))
-
-        return elements
 
     async def _fallback_snapshot(self) -> List[ElementRef]:
         """
