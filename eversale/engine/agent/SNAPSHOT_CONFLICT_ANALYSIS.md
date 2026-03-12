@@ -2,7 +2,7 @@
 
 ## Executive Summary
 
-Analysis of existing snapshot caching, diffing, and deduplication mechanisms in `/mnt/c/ev29/cli/engine/agent/` reveals **THREE SEPARATE SYSTEMS** operating in parallel:
+Analysis of existing snapshot caching, diffing, and deduplication mechanisms in `engine/agent/` reveals **THREE SEPARATE SYSTEMS** operating in parallel:
 
 1. **A11y Snapshot Caching** (`a11y_browser.py`) - URL-based TTL cache
 2. **UI-TARS ConversationContext** (`ui_tars_patterns.py`) - Screenshot count limiter
@@ -15,7 +15,7 @@ Analysis of existing snapshot caching, diffing, and deduplication mechanisms in 
 
 ## System 1: A11y Snapshot Caching
 
-**Location:** `/mnt/c/ev29/cli/engine/agent/a11y_browser.py` (lines 436, 1162-1246)
+**Location:** `engine/agent/a11y_browser.py` (lines 436, 1162-1246)
 
 ### What It Does
 - Caches full `Snapshot` objects by URL
@@ -51,7 +51,7 @@ if config.ENABLE_SNAPSHOT_CACHE:
 
 ## System 2: Snapshot Diffing (ENABLE_SNAPSHOT_DIFF)
 
-**Location:** `/mnt/c/ev29/cli/engine/agent/a11y_browser.py` (lines 1249-1270)
+**Location:** `engine/agent/a11y_browser.py` (lines 1249-1270)
 
 ### What It Does
 - Returns `SnapshotDiff` instead of full `Snapshot` when `diff_mode=True`
@@ -94,7 +94,7 @@ return snapshot
 
 ## System 3: UI-TARS ConversationContext Screenshot Management
 
-**Location:** `/mnt/c/ev29/cli/engine/agent/ui_tars_patterns.py` (lines 101-137)
+**Location:** `engine/agent/ui_tars_patterns.py` (lines 101-137)
 
 ### What It Does
 - Manages screenshot count in conversation history
@@ -144,7 +144,7 @@ class ConversationContext:
 
 ## System 4: History Pruner (ENABLE_HISTORY_PRUNING)
 
-**Location:** `/mnt/c/ev29/cli/engine/agent/history_pruner.py`
+**Location:** `engine/agent/history_pruner.py`
 
 ### What It Does
 - Prunes conversation history to reduce token usage (50-60% claimed)
@@ -194,7 +194,7 @@ def prune_screenshots_from_history(messages: List[Dict], keep_last_n: int = 1) -
 
 ## System 5: DOM Diff Cache (Separate System)
 
-**Location:** `/mnt/c/ev29/cli/engine/agent/dom_diff_cache.py`
+**Location:** `engine/agent/dom_diff_cache.py`
 
 ### What It Does
 - Completely separate DOM caching system (not accessibility-based)

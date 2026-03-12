@@ -92,7 +92,7 @@ async def _run_goal_sequence(self, prompt: str) -> str:
 
 ## Files Modified
 
-- `/mnt/c/ev29/cli/engine/agent/orchestration.py` (+75 lines)
+- `engine/agent/orchestration.py` (+75 lines)
   - Added cleanup_state() method
   - Added __aenter__/__aexit__ methods  
   - Wrapped _run_goal_sequence() in try-finally

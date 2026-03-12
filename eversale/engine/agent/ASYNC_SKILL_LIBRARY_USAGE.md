@@ -331,7 +331,7 @@ except RuntimeError as e:
 
 ## Examples
 
-See `/mnt/c/ev29/agent/skill_library.py` for complete examples:
+See `agent/skill_library.py` for complete examples:
 - `example_usage()`: Basic async operations
 - `example_concurrent_agents()`: Multi-agent concurrent access
 

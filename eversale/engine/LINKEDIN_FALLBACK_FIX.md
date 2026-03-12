@@ -82,7 +82,7 @@ python3 test_search_alternatives.py
 ## Implementation Details
 
 ### File Changed
-- `/mnt/c/ev29/cli/engine/test_full_extraction.py` (lines 126-243)
+- `engine/test_full_extraction.py` (lines 126-243)
 
 ### Dependencies Used
 - `agent.search_alternatives` - Existing module with DuckDuckGo/Serper APIs
@@ -149,19 +149,19 @@ No changes needed for users. The test automatically:
 
 Run the full extraction test:
 ```bash
-python3 /mnt/c/ev29/cli/engine/test_full_extraction.py
+python3 engine/test_full_extraction.py
 ```
 
 Run just the search alternatives test:
 ```bash
-python3 /mnt/c/ev29/cli/engine/test_search_alternatives.py
+python3 engine/test_search_alternatives.py
 ```
 
 ## Related Files
 
-- `/mnt/c/ev29/cli/engine/agent/search_alternatives.py` - Search API wrapper
-- `/mnt/c/ev29/cli/engine/agent/challenge_handler.py` - ALTERNATIVES dict (not used, browser-focused)
-- `/mnt/c/ev29/cli/engine/test_search_alternatives.py` - Test suite
+- `engine/agent/search_alternatives.py` - Search API wrapper
+- `engine/agent/challenge_handler.py` - ALTERNATIVES dict (not used, browser-focused)
+- `engine/test_search_alternatives.py` - Test suite
 
 ## Conclusion
 

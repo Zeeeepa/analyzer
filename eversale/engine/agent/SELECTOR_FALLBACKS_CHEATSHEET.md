@@ -208,9 +208,9 @@ from selector_fallbacks import (
 
 ## Files
 
-- **Code:** `/mnt/c/ev29/agent/selector_fallbacks.py`
-- **Guide:** `/mnt/c/ev29/agent/SELECTOR_FALLBACKS_GUIDE.md`
-- **Examples:** `/mnt/c/ev29/agent/selector_fallbacks_example.py`
-- **Summary:** `/mnt/c/ev29/agent/SELECTOR_FALLBACKS_SUMMARY.md`
-- **Cheatsheet:** `/mnt/c/ev29/agent/SELECTOR_FALLBACKS_CHEATSHEET.md`
+- **Code:** `agent/selector_fallbacks.py`
+- **Guide:** `agent/SELECTOR_FALLBACKS_GUIDE.md`
+- **Examples:** `agent/selector_fallbacks_example.py`
+- **Summary:** `agent/SELECTOR_FALLBACKS_SUMMARY.md`
+- **Cheatsheet:** `agent/SELECTOR_FALLBACKS_CHEATSHEET.md`
 

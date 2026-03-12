@@ -304,7 +304,7 @@ except Exception as e:
 
 All functionality is thoroughly tested:
 ```bash
-cd /mnt/c/ev29/cli/engine/agent
+cd engine/agent
 pytest test_devtools_hooks.py -v
 ```
 

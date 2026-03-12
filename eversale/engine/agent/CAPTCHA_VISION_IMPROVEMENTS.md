@@ -296,7 +296,7 @@ if result:
 Run the example script to test all features:
 
 ```bash
-cd /mnt/c/ev29/agent
+cd agent
 python captcha_solver_example.py
 ```
 

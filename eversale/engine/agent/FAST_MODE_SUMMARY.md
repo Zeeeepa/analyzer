@@ -163,7 +163,7 @@ Fast mode tracks performance:
 
 ### Run Example
 ```bash
-cd /mnt/c/ev29/cli/engine/agent
+cd engine/agent
 python fast_mode_example.py
 ```
 
@@ -251,7 +251,7 @@ assert brain.stats['fast_mode_fallbacks'] > 0
 After testing, remember to publish to npm:
 
 ```bash
-cd /mnt/c/ev29/cli
+cd cli
 
 # Bump version
 npm version patch  # or minor/major

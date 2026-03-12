@@ -190,5 +190,5 @@ manager.retry_configs[ErrorType.RATE_LIMIT].max_attempts = 10
 
 ---
 
-**See:** `/mnt/c/ev29/agent/SMART_RETRY_GUIDE.md` for full documentation
+**See:** `agent/SMART_RETRY_GUIDE.md` for full documentation
 

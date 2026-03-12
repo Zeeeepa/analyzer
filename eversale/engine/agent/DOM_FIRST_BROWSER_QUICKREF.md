@@ -289,7 +289,7 @@ DOMFirstBrowser(
 ## File Locations
 
 ```
-/mnt/c/ev29/cli/engine/agent/
+engine/agent/
   dom_first_browser.py              - Main implementation
   test_dom_first_browser.py         - Test suite
   dom_first_integration_example.py  - Integration examples

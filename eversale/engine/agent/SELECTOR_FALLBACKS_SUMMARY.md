@@ -2,7 +2,7 @@
 
 ## What Was Enhanced
 
-Enhanced `/mnt/c/ev29/agent/selector_fallbacks.py` with comprehensive fallback strategies to **NEVER FAIL** at finding elements.
+Enhanced `agent/selector_fallbacks.py` with comprehensive fallback strategies to **NEVER FAIL** at finding elements.
 
 ## New Features Added
 
@@ -199,7 +199,7 @@ else:
 ## Files Modified/Created
 
 ### Modified
-- **`/mnt/c/ev29/agent/selector_fallbacks.py`** (1,789 lines)
+- **`agent/selector_fallbacks.py`** (1,789 lines)
   - Added comprehensive fallback chain
   - Added fuzzy text matching
   - Added DOM exploration
@@ -208,19 +208,19 @@ else:
   - Added FallbackResult dataclass
 
 ### Created
-- **`/mnt/c/ev29/agent/selector_fallbacks_example.py`** (370 lines)
+- **`agent/selector_fallbacks_example.py`** (370 lines)
   - 7 comprehensive examples
   - Demonstrates all new features
   - Production-ready code snippets
 
-- **`/mnt/c/ev29/agent/SELECTOR_FALLBACKS_GUIDE.md`** (700+ lines)
+- **`agent/SELECTOR_FALLBACKS_GUIDE.md`** (700+ lines)
   - Complete documentation
   - API reference
   - Best practices
   - Troubleshooting guide
   - Architecture diagram
 
-- **`/mnt/c/ev29/agent/SELECTOR_FALLBACKS_SUMMARY.md`** (this file)
+- **`agent/SELECTOR_FALLBACKS_SUMMARY.md`** (this file)
   - Quick overview
   - Feature summary
 
@@ -420,7 +420,7 @@ Potential future improvements:
 Run the example file to test all features:
 
 ```bash
-cd /mnt/c/ev29
+cd .
 python3 agent/selector_fallbacks_example.py
 ```
 

@@ -3,7 +3,7 @@
 ## Date: 2025-12-11
 
 ## Summary
-Fixed critical path traversal vulnerabilities and protected file detection bypass issues in `/mnt/c/ev29/cli/engine/agent/file_handler.py`.
+Fixed critical path traversal vulnerabilities and protected file detection bypass issues in `engine/agent/file_handler.py`.
 
 ## Vulnerabilities Fixed
 
@@ -95,7 +95,7 @@ PROTECTED_PATTERNS = [
 
 All security fixes validated with comprehensive test suite:
 - **24 tests, all passing**
-- Test file: `/mnt/c/ev29/cli/engine/agent/test_file_handler_security.py`
+- Test file: `engine/agent/test_file_handler_security.py`
 
 ### Test Coverage:
 1. **Path Traversal Protection (8 tests)**
@@ -187,7 +187,7 @@ result = handler.read_file(".env")  # Allowed, but logged
 ## Testing
 Run security tests:
 ```bash
-cd /mnt/c/ev29/cli/engine/agent
+cd engine/agent
 python3 test_file_handler_security.py
 ```
 
@@ -214,5 +214,5 @@ Potential additions:
 
 - **CVE Pattern**: CWE-22 (Path Traversal)
 - **OWASP**: A01:2021 - Broken Access Control
-- **Fixed File**: `/mnt/c/ev29/cli/engine/agent/file_handler.py`
-- **Test File**: `/mnt/c/ev29/cli/engine/agent/test_file_handler_security.py`
+- **Fixed File**: `engine/agent/file_handler.py`
+- **Test File**: `engine/agent/test_file_handler_security.py`

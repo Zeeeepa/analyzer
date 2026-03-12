@@ -131,13 +131,13 @@ Test file: `test_selector_filtering.py`
 
 Run tests:
 ```bash
-cd /mnt/c/ev29/cli/engine/agent
+cd engine/agent
 python3 test_selector_filtering.py
 ```
 
 ## Files Modified
 
-- `/mnt/c/ev29/cli/engine/agent/a11y_browser.py`:
+- `engine/agent/a11y_browser.py`:
   - Line 404-407: Class constants added
   - Line 1097-1136: Updated `snapshot()` signature and docstring
   - Line 1192-1198: Filter method call in snapshot flow

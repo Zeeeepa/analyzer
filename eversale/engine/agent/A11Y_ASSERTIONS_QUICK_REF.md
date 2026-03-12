@@ -116,5 +116,5 @@ await browser.expect_visible("e99")
 
 ---
 
-**File:** `/mnt/c/ev29/cli/engine/agent/a11y_browser.py`
-**Full Docs:** `/mnt/c/ev29/cli/engine/agent/A11Y_ASSERTION_METHODS.md`
+**File:** `engine/agent/a11y_browser.py`
+**Full Docs:** `engine/agent/A11Y_ASSERTION_METHODS.md`

@@ -163,11 +163,11 @@
 
 ### Files Involved
 
-- `/mnt/c/ev29/cli/engine/agent/a11y_browser.py` (main)
-- `/mnt/c/ev29/cli/engine/agent/a11y_config.py` (config)
-- `/mnt/c/ev29/cli/engine/agent/ui_tars_patterns.py` (UITARS)
-- `/mnt/c/ev29/cli/engine/agent/history_pruner.py` (pruning)
-- `/mnt/c/ev29/cli/engine/agent/brain_enhanced_v2.py` (integration)
+- `engine/agent/a11y_browser.py` (main)
+- `engine/agent/a11y_config.py` (config)
+- `engine/agent/ui_tars_patterns.py` (UITARS)
+- `engine/agent/history_pruner.py` (pruning)
+- `engine/agent/brain_enhanced_v2.py` (integration)
 - `simple_agent.py`, `universal_agent.py` (usage)
 
 ### Severity: MEDIUM-HIGH
@@ -255,7 +255,7 @@
 These files implement or use the conflicting systems:
 
 ```
-/mnt/c/ev29/cli/engine/agent/
+engine/agent/
 ├── a11y_browser.py          (System 1: Snapshot Cache, System 2: Diffing)
 ├── a11y_config.py           (Configuration, multiple limits)
 ├── ui_tars_patterns.py      (System 3: ConversationContext)
@@ -326,7 +326,7 @@ All documents created: ✓
 -rwxrwxrwx SNAPSHOT_CONFLICTS_INDEX.md (this file)
 ```
 
-Location: `/mnt/c/ev29/cli/engine/agent/`
+Location: `engine/agent/`
 
 Total analysis: 1,300+ lines of detailed documentation with code examples
 

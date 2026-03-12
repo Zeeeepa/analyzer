@@ -3,9 +3,9 @@
 
 Analysis Date: 2025-12-13
 Files Analyzed:
-- `/mnt/c/ev29/cli/engine/agent/simple_agent.py` (557 lines)
-- `/mnt/c/ev29/cli/engine/agent/a11y_browser.py` (3,479 lines)
-- `/mnt/c/ev29/cli/engine/agent/playwright_direct.py` (10,158 lines)
+- `engine/agent/simple_agent.py` (557 lines)
+- `engine/agent/a11y_browser.py` (3,479 lines)
+- `engine/agent/playwright_direct.py` (10,158 lines)
 
 ## Summary
 

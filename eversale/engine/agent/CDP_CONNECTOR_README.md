@@ -405,7 +405,7 @@ for call in api_calls:
 
 ## Examples
 
-See `/mnt/c/ev29/cli/examples/cdp_connector_example.py` for full working examples:
+See `examples/cdp_connector_example.py` for full working examples:
 
 ```bash
 # Run example 1: Basic connection
@@ -430,7 +430,7 @@ Test the connector directly:
 
 ```bash
 # Make sure Chrome is running with CDP enabled first
-cd /mnt/c/ev29/cli/engine/agent
+cd engine/agent
 python cdp_browser_connector.py
 ```
 

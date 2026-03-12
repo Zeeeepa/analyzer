@@ -1,7 +1,7 @@
 ORCHESTRATION PROSPECT DISPLAY FIX - SUMMARY
 ============================================
 
-FILE: /mnt/c/ev29/cli/engine/agent/orchestration.py
+FILE: engine/agent/orchestration.py
 LINES: 739-820 (template result handling section)
 
 PROBLEM

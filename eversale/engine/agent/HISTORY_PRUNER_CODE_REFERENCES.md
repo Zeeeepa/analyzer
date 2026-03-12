@@ -3,7 +3,7 @@
 ## System 1: UI-TARS ConversationContext
 
 ### Location
-- **File**: `/mnt/c/ev29/cli/engine/agent/ui_tars_patterns.py`
+- **File**: `engine/agent/ui_tars_patterns.py`
 - **Lines**: 100-147
 
 ### Class Definition
@@ -68,7 +68,7 @@ grep -n "\.add_message" ui_tars_patterns.py
 ## System 2: HistoryPruner
 
 ### Location
-- **File**: `/mnt/c/ev29/cli/engine/agent/history_pruner.py`
+- **File**: `engine/agent/history_pruner.py`
 - **Lines**: 1-325
 
 ### Main Classes
@@ -158,7 +158,7 @@ else:
 
 ### Configuration Values
 
-**File**: `/mnt/c/ev29/cli/engine/agent/brain_config.py`
+**File**: `engine/agent/brain_config.py`
 
 ```python
 # brain_config.py:99-100
@@ -183,7 +183,7 @@ self._compact_threshold = self._brain_config.compact_threshold        # 80
 ## System 3: brain_enhanced_v2.py::_compact_context()
 
 ### Location
-- **File**: `/mnt/c/ev29/cli/engine/agent/brain_enhanced_v2.py`
+- **File**: `engine/agent/brain_enhanced_v2.py`
 - **Lines**: 4217-4286 (70 lines)
 - **Definition Only**: NO CALL SITES
 

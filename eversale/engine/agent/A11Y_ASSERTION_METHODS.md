@@ -1,6 +1,6 @@
 # A11yBrowser Testing/Assertion Methods
 
-Full Playwright MCP parity for testing and assertions. All methods added to `/mnt/c/ev29/cli/engine/agent/a11y_browser.py`.
+Full Playwright MCP parity for testing and assertions. All methods added to `engine/agent/a11y_browser.py`.
 
 ## Summary
 
@@ -387,11 +387,11 @@ assert result.success, "Dashboard should have heading"
 Run the test suite:
 
 ```bash
-cd /mnt/c/ev29/cli/engine/agent
+cd engine/agent
 python3 test_a11y_assertions.py
 ```
 
-Test file: `/mnt/c/ev29/cli/engine/agent/test_a11y_assertions.py`
+Test file: `engine/agent/test_a11y_assertions.py`
 
 ---
 
@@ -426,4 +426,4 @@ Test file: `/mnt/c/ev29/cli/engine/agent/test_a11y_assertions.py`
 
 **Last Updated:** 2025-12-12
 **Version:** 1.0
-**File:** `/mnt/c/ev29/cli/engine/agent/a11y_browser.py`
+**File:** `engine/agent/a11y_browser.py`

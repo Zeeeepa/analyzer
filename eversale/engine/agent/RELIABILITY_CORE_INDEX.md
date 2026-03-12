@@ -246,7 +246,7 @@ if not await health.check_browser_alive(page):
 
 Run the test suite:
 ```bash
-cd /mnt/c/ev29/cli/engine/agent
+cd engine/agent
 python3 test_reliability_core.py
 ```
 

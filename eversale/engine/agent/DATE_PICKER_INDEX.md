@@ -1,6 +1,6 @@
 # Date Picker Handler - Complete File Index
 
-**Location:** `/mnt/c/ev29/eversale-cli/engine/agent/`
+**Location:** `eversale-cli/engine/agent/`
 
 ## Quick Navigation
 
@@ -76,7 +76,7 @@ class DatePickerHandler:
 ### How to run:
 
 ```bash
-cd /mnt/c/ev29/eversale-cli/engine/agent
+cd eversale-cli/engine/agent
 python3 date_picker_example.py
 ```
 
@@ -105,7 +105,7 @@ python3 date_picker_example.py
 ### How to run:
 
 ```bash
-cd /mnt/c/ev29/eversale-cli/engine/agent
+cd eversale-cli/engine/agent
 python3 test_date_picker_simple.py
 ```
 

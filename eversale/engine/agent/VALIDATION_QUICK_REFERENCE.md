@@ -200,14 +200,14 @@ python -m agent.test_action_validation --visual
 
 ## Learn More
 
-- Full guide: `/mnt/c/ev29/agent/ACTION_VALIDATION_GUIDE.md`
-- Test suite: `/mnt/c/ev29/agent/test_action_validation.py`
-- Examples: `/mnt/c/ev29/agent/example_action_validation.py`
-- Summary: `/mnt/c/ev29/agent/VALIDATION_ENHANCEMENT_SUMMARY.md`
+- Full guide: `agent/ACTION_VALIDATION_GUIDE.md`
+- Test suite: `agent/test_action_validation.py`
+- Examples: `agent/example_action_validation.py`
+- Summary: `agent/VALIDATION_ENHANCEMENT_SUMMARY.md`
 
 ## Code Location
 
-**File:** `/mnt/c/ev29/agent/action_engine.py`
+**File:** `agent/action_engine.py`
 
 **Methods:**
 - `validate_element_interactable()` - Lines 349-551

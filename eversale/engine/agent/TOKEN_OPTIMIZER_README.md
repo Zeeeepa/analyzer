@@ -512,7 +512,7 @@ optimizer.config['cache_ttl_seconds'] = 10  # 10 seconds instead of 30
 Run the built-in example:
 
 ```bash
-cd /mnt/c/ev29/cli/engine/agent
+cd engine/agent
 python3 token_optimizer.py
 ```
 
@@ -557,10 +557,10 @@ Stats:
 
 ## Related Files
 
-- `/mnt/c/ev29/cli/engine/agent/token_optimizer.py` - Main implementation
-- `/mnt/c/ev29/cli/engine/agent/token_optimizer_integration_example.py` - Integration examples
-- `/mnt/c/ev29/cli/engine/agent/history_pruner.py` - Complementary token management
-- `/mnt/c/ev29/cli/engine/agent/context_budget.py` - Context budget tracking
+- `engine/agent/token_optimizer.py` - Main implementation
+- `engine/agent/token_optimizer_integration_example.py` - Integration examples
+- `engine/agent/history_pruner.py` - Complementary token management
+- `engine/agent/context_budget.py` - Context budget tracking
 
 ## License
 

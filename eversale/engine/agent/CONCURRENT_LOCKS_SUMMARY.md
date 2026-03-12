@@ -2,7 +2,7 @@
 
 ## Project Completion Status: ✅ COMPLETE
 
-A comprehensive read/write locking system has been successfully implemented for concurrent agent access across `/mnt/c/ev29/agent/`.
+A comprehensive read/write locking system has been successfully implemented for concurrent agent access across `agent/`.
 
 ---
 

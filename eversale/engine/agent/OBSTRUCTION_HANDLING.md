@@ -310,7 +310,7 @@ If legitimate elements are being dismissed:
 Run the test suite:
 
 ```bash
-cd /mnt/c/ev29/agent
+cd agent
 python test_obstruction_handling.py
 ```
 

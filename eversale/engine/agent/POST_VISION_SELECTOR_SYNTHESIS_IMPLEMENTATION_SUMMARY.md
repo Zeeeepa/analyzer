@@ -2,7 +2,7 @@
 
 ## Implementation Complete
 
-Post-Vision Selector Synthesis has been successfully implemented in `/mnt/c/ev29/agent/`.
+Post-Vision Selector Synthesis has been successfully implemented in `agent/`.
 
 ## What Was Built
 

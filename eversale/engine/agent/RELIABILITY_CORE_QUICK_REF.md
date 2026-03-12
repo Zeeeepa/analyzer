@@ -199,6 +199,6 @@ logger.info(f"Done: {stats['success_rate_pct']}% success")
 ## Testing
 
 ```bash
-cd /mnt/c/ev29/cli/engine/agent
+cd engine/agent
 python3 test_reliability_core.py
 ```
