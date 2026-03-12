@@ -10,7 +10,7 @@
 ### File Locations
 
 ```
-/mnt/c/ev29/cli/engine/
+engine/
     |
     +-- run_simple.py                    # NEW: Main entry point (16KB)
     +-- RUN_SIMPLE_QUICKSTART.md         # NEW: User guide (11KB)
@@ -33,8 +33,8 @@
 
 | Module | Usage | Location |
 |--------|-------|----------|
-| `agent.llm_client.LLMClient` | AI planning | `/mnt/c/ev29/cli/engine/agent/llm_client.py` |
-| `agent.accessibility_element_finder.AccessibilityTreeParser` | Element parsing | `/mnt/c/ev29/cli/engine/agent/accessibility_element_finder.py` |
+| `agent.llm_client.LLMClient` | AI planning | `engine/agent/llm_client.py` |
+| `agent.accessibility_element_finder.AccessibilityTreeParser` | Element parsing | `engine/agent/accessibility_element_finder.py` |
 | `playwright.async_api` | Browser automation | Installed via npm/pip |
 | `loguru` | Logging | Installed via pip |
 
@@ -54,7 +54,7 @@ playwright install chromium
 
 ### Current npm Entry Point
 
-`/mnt/c/ev29/cli/bin/eversale.js` currently calls `run_ultimate.py`:
+`./bin/eversale.js` currently calls `run_ultimate.py`:
 
 ```javascript
 // Current implementation (simplified)
@@ -244,7 +244,7 @@ if (result.success) {
 
 ```bash
 # Test imports
-cd /mnt/c/ev29/cli/engine
+cd ./engine
 python3 -c "from run_simple import SimpleAgent; print('OK')"
 
 # Test CLI
@@ -591,10 +591,10 @@ proc.stdout.on('data', (data) => {
 
 ## See Also
 
-- `/mnt/c/ev29/cli/engine/RUN_SIMPLE_QUICKSTART.md` - User guide
-- `/mnt/c/ev29/cli/engine/RUN_SIMPLE_SUMMARY.md` - Implementation details
-- `/mnt/c/ev29/cli/CAPABILITY_REPORT.md` - Full capabilities
-- `/mnt/c/ev29/cli/CLAUDE.md` - Development guide
+- `engine/RUN_SIMPLE_QUICKSTART.md` - User guide
+- `engine/RUN_SIMPLE_SUMMARY.md` - Implementation details
+- `./CAPABILITY_REPORT.md` - Full capabilities
+- `./CLAUDE.md` - Development guide
 
 ---
 

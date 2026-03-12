@@ -82,6 +82,10 @@ class ReActLoop:
         self._last_tool_name = None
         self._consecutive_same_tool = 0
         self._max_consecutive_same_tool = 3  # Break after 3 consecutive same calls
+        # Alternation loop detection (snapshot->navigate->snapshot pattern)
+        self._recent_tool_history = []  # Track last N tool names
+        self._stall_url = None  # URL where we started stalling
+        self._stall_count = 0  # How many iterations on same URL
         self.mcp = brain.mcp
         self.ollama_client = brain.ollama_client
         self.fast_model = brain.fast_model
@@ -958,6 +962,8 @@ class ReActLoop:
 
                 # Also track single tool for backwards compatibility
                 current_tool = get_tool_name(tool_calls[0]) if tool_calls else ''
+                import sys; sys.stderr.write(f'[DEBUG-TOOL] current_tool={current_tool!r} history={self._recent_tool_history[-6:] if self._recent_tool_history else []}\n')
+                print(f'[DEBUG-TOOL] current_tool={repr("")} history={self._recent_tool_history[-6:] if self._recent_tool_history else []}')
                 if current_tool == self._last_tool_name:
                     self._consecutive_same_tool += 1
                 else:
@@ -1022,6 +1028,84 @@ class ReActLoop:
                                        "For reading content: Use playwright_get_text or playwright_screenshot\n\n"
                                        "DO NOT call playwright_navigate again unless you need a DIFFERENT URL."
                         })
+
+                # STALL DETECTION: No meaningful interaction (click/fill/type) in last N calls
+                # Track all tool calls and detect when agent is stuck in observe-only loops
+                self._recent_tool_history.append(current_tool)
+                if len(self._recent_tool_history) > 20:
+                    self._recent_tool_history = self._recent_tool_history[-20:]
+
+                # Interactive tools = tools that actually DO something on the page
+                interactive_tools = {
+                    'playwright_click', 'click', 'browser_click',
+                    'playwright_fill', 'fill', 'browser_fill',
+                    'playwright_type', 'type', 'browser_type',
+                    'playwright_press', 'press',
+                    'playwright_select', 'select',
+                    'playwright_hover', 'hover',
+                }
+                # Observe-only tools = tools that just look at the page
+                observe_tools = {
+                    'playwright_snapshot', 'snapshot', 'browser_snapshot',
+                    'playwright_navigate', 'navigate', 'browser_navigate',
+                    'playwright_screenshot', 'screenshot',
+                    'get_text', 'get_page_info', 'get_attribute',
+                }
+
+                if len(self._recent_tool_history) >= 6:
+                    recent_6 = self._recent_tool_history[-6:]
+                    has_interaction = any(t in interactive_tools for t in recent_6)
+
+                    if not has_interaction and all(t in observe_tools for t in recent_6):
+                        # 6+ observe-only calls with ZERO interactions = agent is stuck
+                        console.print(f"[yellow]\u26a0 Agent stall detected: {len(recent_6)} observe-only calls with no interaction. Injecting guidance.[/yellow]")
+                        logger.warning(f"[STALL-BREAK] No interactive tools in last 6 calls: {recent_6}")
+
+                        if len(self._recent_tool_history) >= 10:
+                            recent_10 = self._recent_tool_history[-10:]
+                            has_interaction_10 = any(t in interactive_tools for t in recent_10)
+                            if not has_interaction_10:
+                                # 10+ calls with no interaction = definitely stuck, force complete
+                                console.print("[red]\u26a0 Agent completely stalled (10+ observe-only calls). Forcing task completion.[/red]")
+                                logger.warning("[STALL-BREAK] Forcing completion after 10+ observe-only calls")
+                                page_data = []
+                                for msg in self.messages:
+                                    mc = msg.get('content', '')
+                                    if isinstance(mc, str) and ('title' in mc.lower() or 'Page Content' in mc or 'element' in mc.lower()):
+                                        page_data.append(mc[:500])
+                                if page_data:
+                                    return f"Task could not complete all steps. Page was loaded but interaction failed.\n\nCollected info:\n" + "\n".join(page_data[-2:])
+                                else:
+                                    return f"Task could not complete all steps. The agent was unable to interact with page elements."
+
+                        # First time hitting 6-call stall: inject strong guidance to click/fill
+                        # Find interactive elements from the last snapshot
+                        clickable_hint = ""
+                        for msg in reversed(self.messages):
+                            mc = msg.get('content', '')
+                            if isinstance(mc, str) and 'button:Sign in' in mc:
+                                clickable_hint = "\nI can see a 'Sign in' button (mm5). Click it with: playwright_click with selector button:has-text(\"Sign in\")"
+                                break
+                            elif isinstance(mc, str) and 'mm' in mc and ('button' in mc or 'textbox' in mc or 'link' in mc):
+                                # Extract first few interactive elements as hints
+                                import re as _re
+                                matches = _re.findall(r'\[mm\d+\] (?:button|textbox|link):[^\\]+', mc)
+                                if matches:
+                                    clickable_hint = "\nInteractive elements visible: " + "; ".join(matches[:3])
+                                break
+
+                        self.messages.append({
+                            'role': 'user',
+                            'content': f"[STALL DETECTED] You have taken {len(recent_6)} observation actions (snapshot/navigate) without clicking or typing anything.\n\n"
+                                       f"STOP taking snapshots and navigating. You MUST now INTERACT with the page:\n"
+                                       f"- To click a button: Use playwright_click with the element selector\n"
+                                       f"- To fill a form field: Use playwright_fill with the selector and value\n"
+                                       f"- To type text: Use playwright_type with the selector and text\n\n"
+                                       f"The page is ALREADY LOADED. Do NOT navigate or take another snapshot.{clickable_hint}\n\n"
+                                       f"YOUR NEXT ACTION MUST BE A CLICK OR FILL. Not a snapshot. Not a navigate."
+                        })
+                        # Reset history so we give the LLM a fresh chance
+                        self._recent_tool_history = self._recent_tool_history[-3:]
 
             # PRE-EXECUTION VALIDATION: Use orchestrator for unified validation
             # This combines safety checks + confidence-based gating + mode adjustments

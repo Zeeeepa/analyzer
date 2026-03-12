@@ -3,7 +3,7 @@ ENHANCED ANTI-BOT STEALTH SYSTEM FOR EVERSALE
 ================================================================================
 
 Created: 2025-12-02
-Location: /mnt/c/ev29/agent/
+Location: engine/agent/
 
 FILES CREATED:
 --------------
@@ -205,7 +205,7 @@ Test fingerprint:
   https://bot.sannysoft.com/
 
 Run examples:
-  cd /mnt/c/ev29/agent
+  cd ./agent
   python3 stealth_enhanced_integration.py
 
 Syntax check:

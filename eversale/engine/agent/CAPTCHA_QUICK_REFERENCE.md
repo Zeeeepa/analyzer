@@ -351,8 +351,8 @@ ollama pull llama3.2-vision
 
 ## Documentation
 
-- **Full Guide**: `/mnt/c/ev29/agent/CAPTCHA_2FA_README.md`
-- **Vision Enhancements**: `/mnt/c/ev29/agent/CAPTCHA_VISION_IMPROVEMENTS.md`
-- **Vision Examples**: `/mnt/c/ev29/agent/captcha_solver_example.py`
-- **General Examples**: `/mnt/c/ev29/agent/captcha_usage_example.py`
+- **Full Guide**: `engine/agent/CAPTCHA_2FA_README.md`
+- **Vision Enhancements**: `engine/agent/CAPTCHA_VISION_IMPROVEMENTS.md`
+- **Vision Examples**: `engine/agent/captcha_solver_example.py`
+- **General Examples**: `engine/agent/captcha_usage_example.py`
 

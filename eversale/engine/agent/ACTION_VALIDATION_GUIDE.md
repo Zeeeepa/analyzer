@@ -477,7 +477,7 @@ Planned improvements:
 
 To add new obstruction patterns:
 
-1. Edit `dismiss_obstructions()` in `/mnt/c/ev29/agent/action_engine.py`
+1. Edit `dismiss_obstructions()` in `engine/agent/action_engine.py`
 2. Add selectors to the `dismiss_selectors` list
 3. Update the obstruction type detection in `validate_element_interactable()`
 4. Add tests to `test_action_validation.py`

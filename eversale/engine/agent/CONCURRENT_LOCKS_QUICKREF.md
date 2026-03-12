@@ -214,12 +214,12 @@ Need to access resource?
 
 ## File Locations
 
-- Core: `/mnt/c/ev29/agent/concurrent_locks.py`
-- Docs: `/mnt/c/ev29/agent/CONCURRENT_LOCKS_README.md`
-- Integration: `/mnt/c/ev29/agent/CONCURRENT_LOCKS_INTEGRATION.md`
-- Examples: `/mnt/c/ev29/agent/concurrent_locks_example.py`
-- Tests: `/mnt/c/ev29/agent/test_concurrent_locks.py`
-- Summary: `/mnt/c/ev29/agent/CONCURRENT_LOCKS_SUMMARY.md`
+- Core: `engine/agent/concurrent_locks.py`
+- Docs: `engine/agent/CONCURRENT_LOCKS_README.md`
+- Integration: `engine/agent/CONCURRENT_LOCKS_INTEGRATION.md`
+- Examples: `engine/agent/concurrent_locks_example.py`
+- Tests: `engine/agent/test_concurrent_locks.py`
+- Summary: `engine/agent/CONCURRENT_LOCKS_SUMMARY.md`
 
 ## Support
 

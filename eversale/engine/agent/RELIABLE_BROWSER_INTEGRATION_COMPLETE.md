@@ -14,7 +14,7 @@ The `reliable_browser_tools.py` module has been successfully integrated into the
 
 ### 1. ReliableBrowserAdapter (reliable_browser_tools.py)
 
-**Location**: `/mnt/c/ev29/cli/engine/agent/reliable_browser_tools.py` (lines 731-889)
+**Location**: `engine/agent/reliable_browser_tools.py` (lines 731-889)
 
 **Purpose**: Wraps MCP client to intercept browser tool calls and route them through ReliableBrowser
 
@@ -39,7 +39,7 @@ result = await reliable_mcp.call_tool('playwright_navigate', {'url': 'https://ex
 
 ### 2. brain_enhanced_v2.py Integration
 
-**Location**: `/mnt/c/ev29/cli/engine/agent/brain_enhanced_v2.py`
+**Location**: `engine/agent/brain_enhanced_v2.py`
 
 **Changes**:
 1. **Import** (lines 70-79): Added import for ReliableBrowser tools
@@ -71,7 +71,7 @@ else:
 
 ### 3. playwright_direct.py Integration
 
-**Location**: `/mnt/c/ev29/cli/engine/agent/playwright_direct.py`
+**Location**: `engine/agent/playwright_direct.py`
 
 **Changes**:
 1. **Import** (lines 541-550): Added import for validation tools
@@ -220,7 +220,7 @@ else:
 
 ## Testing
 
-**Integration Test**: `/mnt/c/ev29/cli/engine/agent/test_reliable_integration.py`
+**Integration Test**: `engine/agent/test_reliable_integration.py`
 
 **Test Results**:
 ```
@@ -236,7 +236,7 @@ else:
 
 **Run Tests**:
 ```bash
-cd /mnt/c/ev29/cli/engine/agent
+cd engine/agent
 python3 test_reliable_integration.py
 ```
 

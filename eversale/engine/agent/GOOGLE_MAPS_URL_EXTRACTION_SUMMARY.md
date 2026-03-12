@@ -139,17 +139,17 @@ eversale "local businesses plumbers in Boston"
 
 ## Files Modified
 
-1. `/mnt/c/ev29/cli/engine/agent/utils/site_selectors.py` - Added Google Maps selectors
-2. `/mnt/c/ev29/cli/engine/agent/deterministic_workflows.py` - Updated workflow to use extract_list_auto
-3. `/mnt/c/ev29/cli/engine/agent/action_templates.py` - Enhanced template with full workflow
+1. `engine/agent/utils/site_selectors.py` - Added Google Maps selectors
+2. `engine/agent/deterministic_workflows.py` - Updated workflow to use extract_list_auto
+3. `engine/agent/action_templates.py` - Enhanced template with full workflow
 
 ## Testing
 
-Created test script at `/mnt/c/ev29/cli/engine/agent/test_google_maps_extraction.py`
+Created test script at `engine/agent/test_google_maps_extraction.py`
 
 Run with:
 ```bash
-cd /mnt/c/ev29/cli/engine/agent
+cd engine/agent
 python3 test_google_maps_extraction.py
 ```
 

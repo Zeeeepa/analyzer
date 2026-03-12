@@ -2,7 +2,7 @@
 
 ## What Was Implemented
 
-Successfully refactored `/mnt/c/ev29/agent/tool_search.py` to use Retrieval-Augmented Generation (RAG) for efficient tool discovery.
+Successfully refactored `engine/agent/tool_search.py` to use Retrieval-Augmented Generation (RAG) for efficient tool discovery.
 
 ## Problem Solved
 
@@ -59,7 +59,7 @@ Weights are configurable via `RAGConfig`.
 ## File Structure
 
 ```
-/mnt/c/ev29/agent/
+engine/agent/
 ├── tool_search.py                        # Main implementation (733 lines)
 ├── tool_search_rag_example.py            # Usage examples (400+ lines)
 ├── TOOL_SEARCH_RAG_README.md             # Full documentation (500+ lines)

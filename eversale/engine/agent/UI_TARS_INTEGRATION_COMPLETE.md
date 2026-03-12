@@ -125,7 +125,7 @@ Pruned 1 old screenshots, keeping last 5
 
 ### Manual Test
 ```bash
-cd /mnt/c/ev29/cli
+cd ./cli
 node bin/eversale.js "take a screenshot and describe it"
 ```
 
@@ -297,7 +297,7 @@ Look for:
 
 **Check**:
 ```bash
-cd /mnt/c/ev29/cli/engine/agent
+cd engine/agent
 python3 verify_uitars_integration.py
 ```
 

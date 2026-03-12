@@ -249,7 +249,7 @@ Potential improvements:
 
 ## Files Modified
 
-- `/mnt/c/ev29/cli/engine/agent/a11y_browser.py` - Core implementation
+- `engine/agent/a11y_browser.py` - Core implementation
 - Added: `SnapshotDiff` dataclass
 - Added: `ElementRef.__hash__()` and `__eq__()`
 - Added: `Snapshot.to_diff()`

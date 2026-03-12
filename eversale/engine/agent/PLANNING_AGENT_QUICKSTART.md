@@ -418,9 +418,9 @@ step.fallback_steps.append('manual_fallback_step')
 
 ## Next Steps
 
-1. **Read Full Documentation:** `/mnt/c/ev29/agent/PLANNING_AGENT_README.md`
-2. **Check Integration Guide:** `/mnt/c/ev29/agent/PLANNING_AGENT_INTEGRATION.md`
-3. **Run Examples:** `/mnt/c/ev29/examples/planning_agent_demo.py`
+1. **Read Full Documentation:** `engine/agent/PLANNING_AGENT_README.md`
+2. **Check Integration Guide:** `engine/agent/PLANNING_AGENT_INTEGRATION.md`
+3. **Run Examples:** `./examples/planning_agent_demo.py`
 4. **Create Custom Templates:** Based on your workflows
 5. **Integrate with Brain:** Use as action executor
 
@@ -470,9 +470,9 @@ await agent.executor.rollback(plan_id, -1)
 
 ## Support
 
-- Documentation: `/mnt/c/ev29/agent/PLANNING_AGENT_*.md`
-- Examples: `/mnt/c/ev29/examples/planning_agent_demo.py`
-- Source: `/mnt/c/ev29/agent/planning_agent.py`
+- Documentation: `engine/agent/PLANNING_AGENT_*.md`
+- Examples: `./examples/planning_agent_demo.py`
+- Source: `engine/agent/planning_agent.py`
 
 ---
 

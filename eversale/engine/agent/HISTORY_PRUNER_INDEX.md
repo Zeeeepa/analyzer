@@ -2,10 +2,10 @@
 
 ## Quick Start
 
-1. **Start here**: Read `/mnt/c/ev29/cli/engine/agent/HISTORY_PRUNER_SUMMARY.txt` (2 min read)
-2. **Details**: Read `/mnt/c/ev29/cli/engine/agent/CONFLICT_REPORT.txt` (10 min read)
-3. **Code refs**: Check `/mnt/c/ev29/cli/engine/agent/HISTORY_PRUNER_CODE_REFERENCES.md` for line numbers
-4. **Deep dive**: See `/mnt/c/ev29/cli/engine/agent/HISTORY_PRUNER_CONFLICT_ANALYSIS.md` for full analysis
+1. **Start here**: Read `engine/agent/HISTORY_PRUNER_SUMMARY.txt` (2 min read)
+2. **Details**: Read `engine/agent/CONFLICT_REPORT.txt` (10 min read)
+3. **Code refs**: Check `engine/agent/HISTORY_PRUNER_CODE_REFERENCES.md` for line numbers
+4. **Deep dive**: See `engine/agent/HISTORY_PRUNER_CONFLICT_ANALYSIS.md` for full analysis
 
 ## Documentation Files
 
@@ -220,19 +220,19 @@ if len(self.messages) >= self._compact_threshold:
 ## Files to Review
 
 ### Core Files (with conflicts)
-1. `/mnt/c/ev29/cli/engine/agent/history_pruner.py` (335 lines)
+1. `engine/agent/history_pruner.py` (335 lines)
    - Status: Complete, unused
    - Action: Keep, activate via _compact_context()
 
-2. `/mnt/c/ev29/cli/engine/agent/ui_tars_patterns.py` (ConversationContext, lines 100-147)
+2. `engine/agent/ui_tars_patterns.py` (ConversationContext, lines 100-147)
    - Status: Initialized but unused
    - Action: Remove or repurpose
 
-3. `/mnt/c/ev29/cli/engine/agent/brain_enhanced_v2.py` (lines 1013-1041, 4217-4286)
+3. `engine/agent/brain_enhanced_v2.py` (lines 1013-1041, 4217-4286)
    - Status: Partial implementation
    - Action: Add trigger mechanism
 
-4. `/mnt/c/ev29/cli/engine/agent/brain_config.py` (lines 99-100)
+4. `engine/agent/brain_config.py` (lines 99-100)
    - Status: Configuration defined, not used
    - Action: Keep, activate by using threshold
 

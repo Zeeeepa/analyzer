@@ -4,7 +4,7 @@
 
 ### The Bug in Action
 
-**File:** `/mnt/c/ev29/cli/engine/agent/a11y_browser.py` (lines 1162-1170)
+**File:** `engine/agent/a11y_browser.py` (lines 1162-1170)
 
 ```python
 # Current code:

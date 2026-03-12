@@ -105,6 +105,7 @@ except ImportError:
 from loguru import logger
 import re
 from functools import wraps
+from .a11y_compat import get_accessibility_snapshot
 
 # Import ToolResult for standardized return format
 try:
@@ -1868,7 +1869,7 @@ class PlaywrightClient:
                 from .captcha_solver import PageCaptchaHandler, LocalCaptchaSolver
 
                 # Create solver with vision model (UI-TARS is better for UI understanding)
-                solver = LocalCaptchaSolver(vision_model="0000/ui-tars-1.5-7b:latest")
+                solver = LocalCaptchaSolver(vision_model=os.environ.get("OPENAI_MODEL_VISION", "0000/ui-tars-1.5-7b:latest"))
                 handler = PageCaptchaHandler(self.page, solver=solver)
 
                 # Detect specific CAPTCHA type
@@ -1893,7 +1894,7 @@ class PlaywrightClient:
                             result = await solver.solve_image_with_vision(
                                 self.page,
                                 ollama_client=ollama,
-                                vision_model="0000/ui-tars-1.5-7b:latest",
+                                vision_model=os.environ.get("OPENAI_MODEL_VISION", "0000/ui-tars-1.5-7b:latest"),
                                 captcha_type=captcha_type_detected
                             )
 
@@ -2307,7 +2308,7 @@ class PlaywrightClient:
             captcha_detected = False
             captcha_solved = False
             try:
-                solver = LocalCaptchaSolver(vision_model="0000/ui-tars-1.5-7b:latest")
+                solver = LocalCaptchaSolver(vision_model=os.environ.get("OPENAI_MODEL_VISION", "0000/ui-tars-1.5-7b:latest"))
                 handler = PageCaptchaHandler(self.page, solver=solver)
 
                 # Detect any CAPTCHA on the page
@@ -2333,7 +2334,7 @@ class PlaywrightClient:
                             vision_result = await solver.solve_image_with_vision(
                                 self.page,
                                 ollama_client=ollama,
-                                vision_model="0000/ui-tars-1.5-7b:latest",
+                                vision_model=os.environ.get("OPENAI_MODEL_VISION", "0000/ui-tars-1.5-7b:latest"),
                                 captcha_type=captcha_subtype
                             )
 
@@ -3014,7 +3015,7 @@ class PlaywrightClient:
             await self._ensure_page()
 
             # Get accessibility tree snapshot
-            snapshot = await self.page.accessibility.snapshot()
+            snapshot = await get_accessibility_snapshot(self.page)
 
             if not snapshot:
                 return {"error": "No accessibility snapshot available"}
@@ -3823,7 +3824,7 @@ Example: {{"item_selector": "article", "title_selector": "h2 a", "link_selector"
                 logger.debug(f"Cloudflare check failed: {cf_check_err}")
 
             title = await self.page.title()
-            acc_tree = await self.page.accessibility.snapshot(interesting_only=True)
+            acc_tree = await get_accessibility_snapshot(self.page, interesting_only=True)
             snapshot_text = self._format_accessibility_tree(acc_tree)
             summary = await self._summarize_page()
 
@@ -3965,7 +3966,7 @@ Example: {{"item_selector": "article", "title_selector": "h2 a", "link_selector"
             self._mmid_elements = {el['mmid']: el for el in elements}
 
             # Get accessibility tree
-            acc_tree = await self.page.accessibility.snapshot(interesting_only=True)
+            acc_tree = await get_accessibility_snapshot(self.page, interesting_only=True)
 
             # Format for LLM consumption (compact view)
             formatted_lines = []
@@ -10106,7 +10107,7 @@ Return JSON with:
             await self._ensure_page()
 
             # Get accessibility tree - much faster than full HTML
-            acc_tree = await self.page.accessibility.snapshot(interesting_only=True)
+            acc_tree = await get_accessibility_snapshot(self.page, interesting_only=True)
             if not acc_tree:
                 return None
 

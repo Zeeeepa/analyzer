@@ -16,6 +16,7 @@ Reddit insight: "The graph/tools do the real work, model just chooses edges and 
 """
 
 import json
+import os
 import re
 from dataclasses import dataclass, field
 from enum import Enum
@@ -527,12 +528,14 @@ class AgentRoleManager:
     """
 
     # Default model assignments per role
+    # Use OPENAI_MODEL env var for remote APIs, fall back to local model
+    _default_role_model = os.environ.get('OPENAI_MODEL', '0000/ui-tars-1.5-7b:latest')
     DEFAULT_MODELS = {
-        AgentRole.PLANNER: "0000/ui-tars-1.5-7b:latest",          # Could upgrade to Kimi for complex tasks
-        AgentRole.EXECUTOR: "0000/ui-tars-1.5-7b:latest",         # Best for tool calling (BFCL benchmark)
-        AgentRole.CRITIC: "0000/ui-tars-1.5-7b:latest",           # Same model, different prompt
-        AgentRole.HEALER: "0000/ui-tars-1.5-7b:latest",           # Error recovery
-        AgentRole.DOM_NAVIGATOR: "0000/ui-tars-1.5-7b:latest",    # Element selection from compressed DOM
+        AgentRole.PLANNER: _default_role_model,
+        AgentRole.EXECUTOR: _default_role_model,
+        AgentRole.CRITIC: _default_role_model,
+        AgentRole.HEALER: _default_role_model,
+        AgentRole.DOM_NAVIGATOR: _default_role_model,
     }
 
     # Actions that require safety review
@@ -569,7 +572,7 @@ class AgentRoleManager:
 
     def get_model_for_role(self, role: AgentRole, complexity: str = "normal") -> str:
         """Get the appropriate model for a role, considering task complexity."""
-        base_model = self.DEFAULT_MODELS.get(role, "0000/ui-tars-1.5-7b:latest")
+        base_model = self.DEFAULT_MODELS.get(role, os.environ.get("OPENAI_MODEL", "0000/ui-tars-1.5-7b:latest"))
 
         # Escalate planner to Kimi for complex tasks
         if role == AgentRole.PLANNER and complexity == "complex":

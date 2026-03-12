@@ -294,7 +294,7 @@ const browser = await puppeteer.launch({ headless: true });
 - Token-constrained environments
 
 **Current Implementation**:
-Our current stack uses Playwright MCP via Python bindings (`playwright.async_api`). The `A11yBrowser` class (`/mnt/c/ev29/cli/engine/agent/a11y_browser.py`) implements full Playwright MCP parity with 71 public methods.
+Our current stack uses Playwright MCP via Python bindings (`playwright.async_api`). The `A11yBrowser` class (`engine/agent/a11y_browser.py`) implements full Playwright MCP parity with 71 public methods.
 
 **References**:
 - [Playwright MCP GitHub](https://github.com/microsoft/playwright-mcp) - v0.0.52

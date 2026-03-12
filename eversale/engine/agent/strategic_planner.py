@@ -13,6 +13,7 @@ Key insight: Planner is the "thinking" brain, local LLM is the "doing" brain.
 """
 
 import asyncio
+import os
 import hashlib
 import json
 import time
@@ -206,11 +207,11 @@ class StrategicPlanner:
                 loaded_config = loader_load_config()
                 loaded_llm = loaded_config.get("llm", {})
                 base_url = loaded_llm.get("base_url", "https://eversale.io/api/llm")
-                main_model = loaded_llm.get("main_model", "0000/ui-tars-1.5-7b:latest")
+                main_model = loaded_llm.get("main_model", os.environ.get("OPENAI_MODEL", "0000/ui-tars-1.5-7b:latest"))
                 vision_model = loaded_llm.get("vision_model", "moondream:latest")
             except ImportError:
                 base_url = llm_config.get("base_url", "https://eversale.io/api/llm")
-                main_model = llm_config.get("main_model", "0000/ui-tars-1.5-7b:latest")
+                main_model = llm_config.get("main_model", os.environ.get("OPENAI_MODEL", "0000/ui-tars-1.5-7b:latest"))
                 vision_model = llm_config.get("vision_model", "moondream:latest")
 
             fallback_config = FallbackConfig(

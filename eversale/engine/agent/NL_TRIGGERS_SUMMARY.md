@@ -25,9 +25,9 @@ Enable THOUGHT + REFLECTION prompts for deliberate reasoning before actions.
 - Based on UI-TARS patterns from ByteDance research
 
 **Files modified:**
-- `/mnt/c/ev29/cli/engine/agent/command_parser.py` - Added SYSTEM2_PATTERNS and parser
-- `/mnt/c/ev29/cli/engine/agent/action_templates.py` - Added enable_system2_reasoning template
-- `/mnt/c/ev29/cli/engine/agent/intelligent_task_router.py` - Added router detection
+- `engine/agent/command_parser.py` - Added SYSTEM2_PATTERNS and parser
+- `engine/agent/action_templates.py` - Added enable_system2_reasoning template
+- `engine/agent/intelligent_task_router.py` - Added router detection
 
 ---
 
@@ -50,9 +50,9 @@ Enable screenshot history management with automatic pruning.
 - Based on UI-TARS SDK patterns
 
 **Files modified:**
-- `/mnt/c/ev29/cli/engine/agent/command_parser.py` - Added CONTEXT_PATTERNS and parser
-- `/mnt/c/ev29/cli/engine/agent/action_templates.py` - Added enable_conversation_context template
-- `/mnt/c/ev29/cli/engine/agent/intelligent_task_router.py` - Added router detection
+- `engine/agent/command_parser.py` - Added CONTEXT_PATTERNS and parser
+- `engine/agent/action_templates.py` - Added enable_conversation_context template
+- `engine/agent/intelligent_task_router.py` - Added router detection
 
 ---
 
@@ -75,9 +75,9 @@ Enable UI-TARS tiered timeout strategy for different operations.
 - Different retry strategies for different operation types
 
 **Files modified:**
-- `/mnt/c/ev29/cli/engine/agent/command_parser.py` - Added RETRY_PATTERNS and parser
-- `/mnt/c/ev29/cli/engine/agent/action_templates.py` - Added enable_tiered_retry template
-- `/mnt/c/ev29/cli/engine/agent/intelligent_task_router.py` - Added router detection
+- `engine/agent/command_parser.py` - Added RETRY_PATTERNS and parser
+- `engine/agent/action_templates.py` - Added enable_tiered_retry template
+- `engine/agent/intelligent_task_router.py` - Added router detection
 
 ---
 
@@ -100,9 +100,9 @@ Enable UI-TARS coordinate normalization (0-1000 range to screen pixels).
 - Makes coordinates resolution-independent
 
 **Files modified:**
-- `/mnt/c/ev29/cli/engine/agent/command_parser.py` - Added NORMALIZE_PATTERNS and parser
-- `/mnt/c/ev29/cli/engine/agent/action_templates.py` - Added enable_coordinate_normalization template
-- `/mnt/c/ev29/cli/engine/agent/intelligent_task_router.py` - Added router detection
+- `engine/agent/command_parser.py` - Added NORMALIZE_PATTERNS and parser
+- `engine/agent/action_templates.py` - Added enable_coordinate_normalization template
+- `engine/agent/intelligent_task_router.py` - Added router detection
 
 ---
 
@@ -188,11 +188,11 @@ Deterministic workflows automatically detected by intelligent_task_router.py:
 
 ## Testing
 
-Comprehensive test suite created: `/mnt/c/ev29/cli/engine/agent/test_nl_triggers.py`
+Comprehensive test suite created: `engine/agent/test_nl_triggers.py`
 
 ### Run tests:
 ```bash
-cd /mnt/c/ev29/cli/engine/agent
+cd engine/agent
 python3 test_nl_triggers.py
 ```
 
@@ -310,13 +310,13 @@ Potential additions based on usage patterns:
 
 ## Related Documentation
 
-- UI-TARS Patterns: `/mnt/c/ev29/cli/engine/agent/ui_tars_patterns.py`
-- UI-TARS Integration: `/mnt/c/ev29/cli/engine/agent/ui_tars_integration.py`
-- Reliability Core: `/mnt/c/ev29/cli/engine/agent/reliability_core.py`
-- Fast Mode: `/mnt/c/ev29/cli/engine/agent/fast_mode.py`
-- Command Parser: `/mnt/c/ev29/cli/engine/agent/command_parser.py`
-- Action Templates: `/mnt/c/ev29/cli/engine/agent/action_templates.py`
-- Task Router: `/mnt/c/ev29/cli/engine/agent/intelligent_task_router.py`
+- UI-TARS Patterns: `engine/agent/ui_tars_patterns.py`
+- UI-TARS Integration: `engine/agent/ui_tars_integration.py`
+- Reliability Core: `engine/agent/reliability_core.py`
+- Fast Mode: `engine/agent/fast_mode.py`
+- Command Parser: `engine/agent/command_parser.py`
+- Action Templates: `engine/agent/action_templates.py`
+- Task Router: `engine/agent/intelligent_task_router.py`
 
 ---
 

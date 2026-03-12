@@ -4,7 +4,7 @@
 
 The Planner module implements tree-based planning that thinks multiple steps ahead before acting. Instead of reactive "next action" thinking, it builds a tree of possible futures, simulates them, and picks the best path.
 
-**File**: `/mnt/c/ev29/agent/planner.py` (1,218 lines, 40KB)
+**File**: `engine/agent/planner.py` (1,218 lines, 40KB)
 
 ## Key Features
 
@@ -264,7 +264,7 @@ CREATE TABLE plan_outcomes (
 );
 ```
 
-Database location: `/mnt/c/ev29/memory/planner.db`
+Database location: `./memory/planner.db`
 
 ## World Model
 
@@ -324,7 +324,7 @@ stats = planner.get_stats()
 
 Run standalone test:
 ```bash
-cd /mnt/c/ev29
+cd .
 python3 -m agent.planner
 ```
 

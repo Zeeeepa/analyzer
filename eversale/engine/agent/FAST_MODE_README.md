@@ -55,7 +55,7 @@ Fast Mode automatically falls back to full LLM mode for:
 
 ### Enable/Disable Fast Mode
 
-In `/mnt/c/ev29/cli/engine/config/config.yaml`:
+In `engine/config/config.yaml`:
 
 ```yaml
 fast_mode:

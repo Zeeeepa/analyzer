@@ -1,7 +1,7 @@
 # Security Scan Report: Hardcoded Credentials
 
 **Scan Date:** 2025-12-13
-**Directory:** `/mnt/c/ev29/cli/engine/agent/`
+**Directory:** `engine/agent/`
 **Files Scanned:** 580+ Python files
 **Status:** PASSED - No real credentials found
 **Risk Level:** LOW

@@ -8,11 +8,11 @@ This implementation provides a centralized configuration system for all browser 
 
 | File | Purpose | Size |
 |------|---------|------|
-| `/mnt/c/ev29/cli/engine/agent/config/browser_optimizations.yaml` | Configuration file with all settings | 1.6 KB |
-| `/mnt/c/ev29/cli/engine/agent/config_loader.py` | Updated with optimization loaders | +150 lines |
-| `/mnt/c/ev29/cli/engine/agent/config/README.md` | Quick reference guide | 3.0 KB |
-| `/mnt/c/ev29/cli/engine/agent/config/OPTIMIZATION_USAGE.md` | Detailed usage guide with examples | 7.2 KB |
-| `/mnt/c/ev29/cli/engine/agent/test_optimization_config.py` | Test suite (16 tests, all passing) | 5.0 KB |
+| `engine/agent/config/browser_optimizations.yaml` | Configuration file with all settings | 1.6 KB |
+| `engine/agent/config_loader.py` | Updated with optimization loaders | +150 lines |
+| `engine/agent/config/README.md` | Quick reference guide | 3.0 KB |
+| `engine/agent/config/OPTIMIZATION_USAGE.md` | Detailed usage guide with examples | 7.2 KB |
+| `engine/agent/test_optimization_config.py` | Test suite (16 tests, all passing) | 5.0 KB |
 
 ## Configuration Structure
 
@@ -215,7 +215,7 @@ Examples:
 All functionality is tested with 16 passing tests:
 
 ```bash
-cd /mnt/c/ev29/cli/engine/agent
+cd engine/agent
 python3 -m pytest test_optimization_config.py -v
 ```
 

@@ -77,7 +77,7 @@ REDDIT: thread=https://reddit.com/r/leadgen/456 user=sales_expert
 
 ## Files Modified
 
-- `/mnt/c/ev29/cli/engine/agent/output_format_handler.py` (NEW)
+- `engine/agent/output_format_handler.py` (NEW)
   - Added `_is_multi_task_result()`
   - Added `_format_multi_task_result()`
   - Added `_apply_selective_template()`

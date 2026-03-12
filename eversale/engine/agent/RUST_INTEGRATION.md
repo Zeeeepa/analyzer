@@ -187,7 +187,7 @@ All Rust failures are logged at DEBUG level:
 The agent works perfectly without Rust, using Python fallbacks:
 
 ```bash
-cd /mnt/c/ev29/agent
+cd ./agent
 python3 test_rust_integration.py
 ```
 
@@ -202,21 +202,21 @@ Output:
 1. Build the Rust core library:
 
 ```bash
-cd /mnt/c/ev29/eversale_core
+cd ./eversale_core
 cargo build --release
 ```
 
 2. Install the Python bindings:
 
 ```bash
-cd /mnt/c/ev29/eversale_core
+cd ./eversale_core
 maturin develop --release
 ```
 
 3. Test the integration:
 
 ```bash
-cd /mnt/c/ev29/agent
+cd ./agent
 python3 test_rust_integration.py
 ```
 
@@ -231,7 +231,7 @@ Output:
 Run the comprehensive test suite:
 
 ```bash
-cd /mnt/c/ev29/agent
+cd ./agent
 python3 test_rust_integration.py
 ```
 
@@ -363,7 +363,7 @@ WARNING: Rust core library not available - using Python fallbacks (slower)
 
 **Solution**: Make sure `eversale_core` is built and installed:
 ```bash
-cd /mnt/c/ev29/eversale_core
+cd ./eversale_core
 maturin develop --release
 ```
 
@@ -397,7 +397,7 @@ DEBUG: Rust email extraction failed, using Python: ...
 
 ```bash
 # Update Rust dependencies
-cd /mnt/c/ev29/eversale_core
+cd ./eversale_core
 cargo update
 
 # Rebuild

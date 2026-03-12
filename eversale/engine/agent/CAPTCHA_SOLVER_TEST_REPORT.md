@@ -2,7 +2,7 @@
 
 **Date**: 2025-12-12
 **Tested By**: Claude Code
-**File**: `/mnt/c/ev29/cli/engine/agent/captcha_solver.py`
+**File**: `engine/agent/captcha_solver.py`
 
 ## Executive Summary
 
@@ -499,10 +499,10 @@ The solver excels at providing a free, privacy-focused alternative to paid CAPTC
 ---
 
 **Test Files Created**:
-- `/mnt/c/ev29/cli/engine/agent/test_captcha_solver.py` - Comprehensive test suite
-- `/mnt/c/ev29/cli/engine/agent/test_captcha_vision_simple.py` - Simple vision verification
+- `engine/agent/test_captcha_solver.py` - Comprehensive test suite
+- `engine/agent/test_captcha_vision_simple.py` - Simple vision verification
 
 **Documentation**:
-- `/mnt/c/ev29/cli/engine/agent/CAPTCHA_QUICKSTART.md` - Quick start guide
-- `/mnt/c/ev29/cli/engine/agent/CAPTCHA_2FA_README.md` - Full documentation
-- `/mnt/c/ev29/cli/engine/agent/CAPTCHA_SOLVER_TEST_REPORT.md` - This report
+- `engine/agent/CAPTCHA_QUICKSTART.md` - Quick start guide
+- `engine/agent/CAPTCHA_2FA_README.md` - Full documentation
+- `engine/agent/CAPTCHA_SOLVER_TEST_REPORT.md` - This report

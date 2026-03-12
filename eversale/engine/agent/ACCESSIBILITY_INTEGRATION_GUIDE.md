@@ -360,7 +360,7 @@ Expected improvement: 70-80% → 95%+ success rate on first attempt.
 
 **Solution**: Ensure file is in correct location:
 ```bash
-ls /mnt/c/ev29/cli/engine/agent/accessibility_element_finder.py
+ls engine/agent/accessibility_element_finder.py
 ```
 
 ### Issue: MCP snapshot returns empty

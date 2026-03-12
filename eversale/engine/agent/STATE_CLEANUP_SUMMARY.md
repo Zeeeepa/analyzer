@@ -89,7 +89,7 @@ await self.cleanup_state()
 
 ## Files Modified
 
-- `/mnt/c/ev29/cli/engine/agent/orchestration.py`
+- `engine/agent/orchestration.py`
   - Added cleanup_state() method (70 lines)
   - Added __aenter__/__aexit__ methods (8 lines)
   - Modified _run_goal_sequence() with try-finally wrapper

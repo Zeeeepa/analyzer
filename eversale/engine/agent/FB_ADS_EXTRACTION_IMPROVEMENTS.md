@@ -127,7 +127,7 @@ The `extract_fb_ads_batch` method (in `playwright_direct.py` lines 6028+) uses m
 Run the test suite:
 
 ```bash
-cd /mnt/c/ev29/cli/engine/agent
+cd engine/agent
 python3 test_fb_ads_extraction.py
 ```
 
@@ -191,16 +191,16 @@ result = await execute_workflow(workflow, params, browser)
 
 ## Files Modified
 
-1. `/mnt/c/ev29/cli/engine/agent/action_templates.py`
-2. `/mnt/c/ev29/cli/engine/agent/deterministic_workflows.py`
+1. `engine/agent/action_templates.py`
+2. `engine/agent/deterministic_workflows.py`
 
 ## Files Added
 
-1. `/mnt/c/ev29/cli/engine/agent/test_fb_ads_extraction.py` - Test suite
+1. `engine/agent/test_fb_ads_extraction.py` - Test suite
 
 ## Related Code
 
 The extraction logic was already implemented in:
-- `/mnt/c/ev29/cli/engine/agent/playwright_direct.py` (lines 5382-5850)
+- `engine/agent/playwright_direct.py` (lines 5382-5850)
 
 This was a case of an unwired tool - the extraction capability existed but wasn't connected to the templates/workflows that users actually invoke.

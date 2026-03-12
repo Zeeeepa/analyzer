@@ -11,13 +11,13 @@ TEST RESULTS (test_ui_tars_captcha.py):
 
 CHANGES TO MAKE:
 
-1. File: /mnt/c/ev29/cli/engine/agent/captcha_solver.py
+1. File: engine/agent/captcha_solver.py
 
    Line 173: Change default text_model parameter
    FROM: text_model: str = "qwen3:8b"
    TO:   text_model: str = "avil/UI-TARS"
 
-2. File: /mnt/c/ev29/cli/engine/agent/captcha_solver.py
+2. File: engine/agent/captcha_solver.py
 
    Lines 177-188: Update docstring
    FROM:
@@ -47,12 +47,12 @@ CHANGES TO MAKE:
           Tests show UI-TARS validation is FASTER and MORE ACCURATE than qwen3:8b
         - moondream:latest - Fallback vision model for CAPTCHA image analysis
 
-3. File: /mnt/c/ev29/cli/engine/agent/captcha_solver.py
+3. File: engine/agent/captcha_solver.py
 
    Line 85: Already correct (default vision_model is avil/UI-TARS)
    def __init__(self, vision_model: str = "avil/UI-TARS"):
 
-4. File: /mnt/c/ev29/cli/engine/agent/captcha_solver.py
+4. File: engine/agent/captcha_solver.py
 
    Line 213-217: Update model chain comments
    FROM:
@@ -68,7 +68,7 @@ CHANGES TO MAKE:
             # Fallback to moondream if UI-TARS fails
             model_chain = ["avil/UI-TARS", "moondream:latest", "moondream"]
 
-5. File: /mnt/c/ev29/cli/engine/agent/captcha_solver.py
+5. File: engine/agent/captcha_solver.py
 
    Line 997: Update solve_amazon_captcha default
    FROM: vision_model: str = "moondream"

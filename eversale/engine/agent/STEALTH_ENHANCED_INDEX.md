@@ -1,6 +1,6 @@
 # Enhanced Stealth System - File Index
 
-**Location:** `/mnt/c/ev29/agent/`
+**Location:** `engine/agent/`
 **Created:** 2025-12-02
 **Total Lines:** 3,472
 **Total Size:** 109KB

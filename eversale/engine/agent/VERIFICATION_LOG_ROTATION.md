@@ -3,14 +3,14 @@
 ## Files Created
 
 ### Core Implementation
-- [x] `/mnt/c/ev29/cli/engine/agent/log_rotation.py` (518 lines)
-- [x] `/mnt/c/ev29/cli/engine/agent/forever_operations.py` (modified, +100 lines)
+- [x] `engine/agent/log_rotation.py` (518 lines)
+- [x] `engine/agent/forever_operations.py` (modified, +100 lines)
 
 ### Testing & Documentation
-- [x] `/mnt/c/ev29/cli/engine/agent/test_log_rotation.py` (450+ lines)
-- [x] `/mnt/c/ev29/cli/engine/agent/example_forever_with_rotation.py` (200+ lines)
-- [x] `/mnt/c/ev29/cli/engine/agent/LOG_ROTATION_README.md` (comprehensive docs)
-- [x] `/mnt/c/ev29/cli/engine/agent/LOG_ROTATION_IMPLEMENTATION.md` (summary)
+- [x] `engine/agent/test_log_rotation.py` (450+ lines)
+- [x] `engine/agent/example_forever_with_rotation.py` (200+ lines)
+- [x] `engine/agent/LOG_ROTATION_README.md` (comprehensive docs)
+- [x] `engine/agent/LOG_ROTATION_IMPLEMENTATION.md` (summary)
 
 ## Syntax Verification
 
@@ -225,7 +225,7 @@ ForeverConfig(
 
 ```bash
 # Run test suite
-cd /mnt/c/ev29/cli/engine/agent
+cd engine/agent
 python3 test_log_rotation.py
 
 # Run example

@@ -429,6 +429,6 @@ See `example_natural_language_triggers.py` for complete working examples.
 
 Quick test:
 ```bash
-cd /mnt/c/ev29/cli/engine/agent
+cd engine/agent
 python example_natural_language_triggers.py
 ```

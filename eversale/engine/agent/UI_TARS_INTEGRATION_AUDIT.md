@@ -30,8 +30,8 @@ The UI-TARS patterns from ByteDance (ui_tars_patterns.py, ui_tars_integration.py
 ### 1. UITarsEnhancer - NOT INTEGRATED
 
 **Files**:
-- `/mnt/c/ev29/cli/engine/agent/ui_tars_patterns.py` (442 lines)
-- `/mnt/c/ev29/cli/engine/agent/ui_tars_integration.py` (221 lines)
+- `engine/agent/ui_tars_patterns.py` (442 lines)
+- `engine/agent/ui_tars_integration.py` (221 lines)
 
 **Status**: Modules exist but are not imported or used in brain_enhanced_v2.py
 
@@ -395,7 +395,7 @@ self.messages.append({"role": "system", "content": system_prompt})
 
 ```bash
 # Create test file
-cat > /mnt/c/ev29/cli/engine/agent/test_uitars_integration.py << 'EOF'
+cat > engine/agent/test_uitars_integration.py << 'EOF'
 """Test UI-TARS integration."""
 import pytest
 from .ui_tars_integration import UITarsEnhancer
@@ -447,7 +447,7 @@ if __name__ == "__main__":
 EOF
 
 # Run tests
-cd /mnt/c/ev29/cli/engine/agent
+cd engine/agent
 python3 -m pytest test_uitars_integration.py -v
 ```
 
@@ -455,7 +455,7 @@ python3 -m pytest test_uitars_integration.py -v
 
 ```bash
 # Test with real agent
-cd /mnt/c/ev29/cli
+cd ./cli
 node bin/eversale.js "Take a screenshot and describe what you see"
 
 # Verify in logs:

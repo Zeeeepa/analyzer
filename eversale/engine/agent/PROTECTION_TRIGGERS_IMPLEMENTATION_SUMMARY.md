@@ -147,20 +147,20 @@ ActionResult(status=SUCCESS, data={solved: true})
 
 ## Files Modified
 
-1. `/mnt/c/ev29/cli/engine/agent/intent_detector.py`
+1. `engine/agent/intent_detector.py`
    - Added lines 382-407 (P-series patterns)
 
-2. `/mnt/c/ev29/cli/engine/agent/executors/__init__.py`
+2. `engine/agent/executors/__init__.py`
    - Added import lines 66-72
    - Updated ALL_EXECUTORS line 75
    - Added exports lines 127-132
 
 ## Files Created
 
-1. `/mnt/c/ev29/cli/engine/agent/executors/protection.py` (361 lines)
-2. `/mnt/c/ev29/cli/engine/agent/test_protection_triggers.py` (157 lines)
-3. `/mnt/c/ev29/cli/engine/agent/PROTECTION_TRIGGERS_README.md` (430 lines)
-4. `/mnt/c/ev29/cli/engine/agent/PROTECTION_TRIGGERS_IMPLEMENTATION_SUMMARY.md` (this file)
+1. `engine/agent/executors/protection.py` (361 lines)
+2. `engine/agent/test_protection_triggers.py` (157 lines)
+3. `engine/agent/PROTECTION_TRIGGERS_README.md` (430 lines)
+4. `engine/agent/PROTECTION_TRIGGERS_IMPLEMENTATION_SUMMARY.md` (this file)
 
 ## Integration with Existing Modules
 
@@ -262,7 +262,7 @@ Changes ready for deployment:
 
 Deploy with:
 ```bash
-cd /mnt/c/ev29/cli
+cd ./cli
 npm version patch
 npm publish
 ```

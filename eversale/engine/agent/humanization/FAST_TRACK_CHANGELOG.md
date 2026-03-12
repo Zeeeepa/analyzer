@@ -6,7 +6,7 @@ Added FAST_TRACK mode to all humanization modules, enabling 40-150x speed improv
 
 ## Files Modified
 
-### 1. `/mnt/c/ev29/agent/humanization/bezier_cursor.py`
+### 1. `engine/agent/humanization/bezier_cursor.py`
 
 **Changes:**
 - Added `fast_track: bool = False` to `CursorConfig` dataclass
@@ -26,7 +26,7 @@ Added FAST_TRACK mode to all humanization modules, enabling 40-150x speed improv
 - FAST_TRACK mode: <10ms for any distance
 - **40x faster cursor movement**
 
-### 2. `/mnt/c/ev29/agent/humanization/human_typer.py`
+### 2. `engine/agent/humanization/human_typer.py`
 
 **Changes:**
 - Added `fast_track: bool = False` to `TypingConfig` dataclass
@@ -42,7 +42,7 @@ Added FAST_TRACK mode to all humanization modules, enabling 40-150x speed improv
 - FAST_TRACK mode: <100ms for any text length
 - **100x faster typing**
 
-### 3. `/mnt/c/ev29/agent/humanization/human_scroller.py`
+### 3. `engine/agent/humanization/human_scroller.py`
 
 **Changes:**
 - Added `fast_track: bool = False` to `ScrollConfig` dataclass
@@ -62,7 +62,7 @@ Added FAST_TRACK mode to all humanization modules, enabling 40-150x speed improv
 - FAST_TRACK mode: <20ms
 - **150x faster scrolling**
 
-### 4. `/mnt/c/ev29/agent/humanization/fast_track_safety.py` (NEW)
+### 4. `engine/agent/humanization/fast_track_safety.py` (NEW)
 
 **Purpose:**
 Prevent FAST_TRACK from being used on public-facing websites where bot detection is critical.
@@ -97,7 +97,7 @@ Prevent FAST_TRACK from being used on public-facing websites where bot detection
 - 📝 Logs warnings when FAST_TRACK is rejected
 - 🔒 Strict mode by default - fail safe
 
-### 5. `/mnt/c/ev29/agent/humanization/__init__.py`
+### 5. `engine/agent/humanization/__init__.py`
 
 **Changes:**
 - Added imports for `fast_track_safety` module
@@ -109,7 +109,7 @@ Prevent FAST_TRACK from being used on public-facing websites where bot detection
   - `enforce_fast_track_safety`
 - Updated module docstring with FAST_TRACK usage examples
 
-### 6. `/mnt/c/ev29/agent/humanization/FAST_TRACK_README.md` (NEW)
+### 6. `engine/agent/humanization/FAST_TRACK_README.md` (NEW)
 
 **Contents:**
 - Overview and performance comparison
@@ -155,7 +155,7 @@ else:
 All modules tested successfully:
 
 ```bash
-$ cd /mnt/c/ev29/agent/humanization && python3 test_script.py
+$ cd engine/agent/humanization && python3 test_script.py
 
 ✅ All imports successful
 
@@ -250,7 +250,7 @@ No migration needed - this is a new feature. To adopt:
 ## Support
 
 For questions or issues:
-- See `/mnt/c/ev29/agent/humanization/FAST_TRACK_README.md`
+- See `engine/agent/humanization/FAST_TRACK_README.md`
 - Check safety with `is_fast_track_safe(url)`
 - Add custom domains: `get_safety_checker().add_safe_domain(domain)`
 

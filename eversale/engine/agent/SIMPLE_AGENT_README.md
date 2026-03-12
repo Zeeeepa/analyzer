@@ -201,7 +201,7 @@ Fallback logic:
 ## Testing
 
 ```bash
-cd /mnt/c/ev29/cli/engine/agent
+cd engine/agent
 python test_simple_agent.py
 ```
 
@@ -279,10 +279,10 @@ Potential enhancements (keep it simple!):
 
 ## Files
 
-- `/mnt/c/ev29/cli/engine/agent/a11y_browser.py` - Browser wrapper
-- `/mnt/c/ev29/cli/engine/agent/simple_agent.py` - Main agent
-- `/mnt/c/ev29/cli/engine/agent/test_simple_agent.py` - Tests
-- `/mnt/c/ev29/cli/engine/agent/SIMPLE_AGENT_README.md` - This file
+- `engine/agent/a11y_browser.py` - Browser wrapper
+- `engine/agent/simple_agent.py` - Main agent
+- `engine/agent/test_simple_agent.py` - Tests
+- `engine/agent/SIMPLE_AGENT_README.md` - This file
 
 ## License
 
