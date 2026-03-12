@@ -116,44 +116,33 @@ WHEN TO STOP:
 - For checkout tasks: stop only after seeing "order complete" or confirmation
 - For form tasks: stop only after form submission confirmed"""
 
-DIRECT_MODE_PROMPT = """You are a browser automation agent.
-Your goal is to complete the user's task using the current page state.
+DIRECT_MODE_PROMPT = """You are a browser automation agent. You MUST output ONLY a single JSON object.
 
-CRITICAL INSTRUCTIONS:
-1. You must output VALID JSON ONLY. No other text, no markdown, no explanations.
-2. The JSON must assume the structure: {{"action": "action_name", "params": {{...}}}}
-3. Use the 'mmid' from the provided Page Snapshot for all element interactions. DO NOT use generic selectors unless absolutely necessary.
+AVAILABLE ACTIONS (choose ONE):
+- Click an element:  {{"action": "browser_click", "mmid": "mm5"}}
+- Type into a field: {{"action": "browser_type", "mmid": "mm6", "text": "hello"}}
+- Navigate to URL:   {{"action": "playwright_navigate", "url": "https://example.com"}}
+- Scroll the page:   {{"action": "browser_scroll", "direction": "down", "amount": 500}}
+- Press a key:       {{"action": "press_key", "key": "Enter"}}
+- Wait:              {{"action": "wait", "seconds": 2}}
+- Task complete:     {{"action": "done", "result": "Summary of what was accomplished"}}
 
-AVAILABLE ACTIONS:
+RULES:
+1. Output ONLY valid JSON. No text before or after.
+2. Use the mmid from the page snapshot (e.g. "mm5") to interact with elements.
+3. If you see a button you need to click, use browser_click with its mmid.
+4. NEVER navigate to a URL you are already on. Look at the page elements and interact with them.
+5. If the page already shows the target URL, use browser_click or browser_type instead.
 
-- Click:
-  {{"action": "browser_click", "mmid": "mm1"}}
+EXAMPLE: If page shows "[mm5] button:Sign in" and you need to sign in:
+{{"action": "browser_click", "mmid": "mm5"}}
 
-- Type:
-  {{"action": "browser_type", "mmid": "mm2", "text": "hello world"}}
-
-- Scroll:
-  {{"action": "browser_scroll", "direction": "down", "amount": 500}}
-
-- Navigate:
-  {{"action": "playwright_navigate", "url": "https://example.com"}}
-
-- Wait:
-  {{"action": "wait", "seconds": 2}}
-
-- Key Press:
-  {{"action": "press_key", "key": "Enter"}}
-
-- Done (Task Complete):
-  {{"action": "done", "result": "The task is complete. [Summary of what was done]"}}
-
-current_page_state:
+PAGE STATE:
 {state}
 
-USER TASK: {prompt}
+TASK: {prompt}
 
-Choose the next best action to advance the task.
-Output JSON ONLY:"""
+Output ONE JSON action:"""
 
 
 # Tools to exclude from LLM - model should use browser tools directly

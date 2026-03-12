@@ -852,6 +852,21 @@ class OrchestrationMixin:
         await self.cleanup_state()
         return False
 
+    @staticmethod
+    def _unwrap_tool_result(result):
+        """
+        Extract data dict from ToolResult or return as-is if already a dict.
+        
+        MCP tool calls return ToolResult(success=True, data={...}) objects.
+        This unwraps to the nested dict for consumption by code expecting dicts.
+        """
+        if hasattr(result, 'data') and isinstance(result.data, dict):
+            return result.data
+        if isinstance(result, dict):
+            return result
+        # Fallback for unexpected types
+        return {"success": False, "error": f"Unexpected result type: {type(result).__name__}"}
+
     async def _run_direct_mode(self, prompt: str) -> str:
         """
         DIRECT MODE: Execute instructions with strict adherence using Playwright MCP tools.
@@ -877,6 +892,8 @@ class OrchestrationMixin:
              
         max_steps = 30  # Increased from 20 for complex tasks (v2.10)
         history = []
+        consecutive_parse_failures = 0  # Track silent failures for loop detection
+        last_url = None  # Detect URL repetition loops
         
         for i in range(max_steps):
             logger.debug(f"[DirectMode] Step {i+1}/{max_steps}")
@@ -884,14 +901,34 @@ class OrchestrationMixin:
             # 1. Get Page State (Snapshot)
             # We use browser_snapshot to get accessibility tree + mmids
             try:
-                snapshot_result = await self.mcp.call_tool("browser_snapshot", {})
+                snapshot_raw = await self.mcp.call_tool("browser_snapshot", {})
+                snapshot_result = self._unwrap_tool_result(snapshot_raw)
                 
                 state_desc = ""
                 if snapshot_result.get("success"):
                      # Format simplified state for LLM (url + snapshot text)
-                     state_desc = f"URL: {snapshot_result.get('url')}\nTitle: {snapshot_result.get('title')}\n\nInteractive Elements:\n{snapshot_result.get('snapshot')}"
+                     # Use 'formatted' key which has compact mmid-annotated element list
+                     # Fall back to 'snapshot' or 'accessibility_tree' if available
+                     a11y_tree = snapshot_result.get('accessibility_tree')
+                     # accessibility_tree may itself be a ToolResult
+                     if hasattr(a11y_tree, 'data'):
+                         a11y_data = a11y_tree.data if isinstance(a11y_tree.data, str) else str(a11y_tree.data)
+                     elif isinstance(a11y_tree, dict):
+                         a11y_data = a11y_tree.get('data', '')
+                     else:
+                         a11y_data = ''
+                     
+                     elements_text = (
+                         snapshot_result.get('formatted')
+                         or snapshot_result.get('snapshot')
+                         or a11y_data
+                         or str(snapshot_result.get('elements', []))[:2000]
+                     )
+                     state_desc = f"URL: {snapshot_result.get('url')}\nTitle: {snapshot_result.get('title')}\n\nInteractive Elements:\n{elements_text}"
+                     logger.debug(f"[DirectMode] State: {len(elements_text)} chars, {snapshot_result.get('element_count', 0)} elements")
                 else:
-                     state_desc = f"Error getting snapshot: {snapshot_result.get('error')}"
+                     state_desc = f"Error getting snapshot: {snapshot_result.get('error', 'unknown')}"
+                     logger.warning(f"[DirectMode] Snapshot failed: {state_desc}")
             except Exception as e:
                 state_desc = f"Critical Snapshot Error: {e}"
 
@@ -901,6 +938,8 @@ class OrchestrationMixin:
             # but we append the last few actions to avoid loops
             
             full_prompt = DIRECT_MODE_PROMPT.format(state=state_desc, prompt=prompt)
+            
+            logger.debug(f"[DirectMode] State desc ({len(state_desc)} chars): {state_desc[:200]}...")
             
             messages = [
                 {"role": "user", "content": full_prompt}
@@ -923,7 +962,8 @@ class OrchestrationMixin:
             
             try:
                 # We enforce JSON mode via prompt, but nice to have in API too if supported
-                response_text = await self._generate_llm_response(messages) # Helper we might need to find/add
+                response_text = await self._generate_llm_response(messages)
+                logger.debug(f"[DirectMode] LLM response ({len(response_text)} chars): {response_text[:200]}...")
             except AttributeError:
                  # Fallback if _generate_llm_response not found (handle different Brain versions)
                  # Reverting to self.model.generate if available
@@ -972,10 +1012,15 @@ class OrchestrationMixin:
                                 continue
 
                 if action_data is None:
-                    logger.warning("[DirectMode] Could not parse JSON from response")
-                    history.append(f"Parse error: {response_text[:100]}")
+                    consecutive_parse_failures += 1
+                    logger.warning(f"[DirectMode] Could not parse JSON from response (failure #{consecutive_parse_failures}): {response_text[:200]}")
+                    history.append(f"Parse error #{consecutive_parse_failures}: {response_text[:100]}")
+                    if consecutive_parse_failures >= 3:
+                        logger.error("[DirectMode] 3 consecutive parse failures — likely empty responses from thinking model. Aborting loop.")
+                        return f"Error: Agent could not produce valid actions after {consecutive_parse_failures} attempts. Response was: {response_text[:300]}"
                     continue
                 action_type = action_data.get("action")
+                consecutive_parse_failures = 0  # Reset on successful parse
                 
                 logger.info(f"🤖 Action: {action_type} params={json.dumps(action_data)}")
                 
@@ -995,11 +1040,13 @@ class OrchestrationMixin:
                 if action_type == "navigate": tool_name = "playwright_navigate"
 
                 # Use resilient MCP call with retry and self-healing
-                result = await self._execute_mcp_call(tool_name, params)
+                result_raw = await self._execute_mcp_call(tool_name, params)
+                result = self._unwrap_tool_result(result_raw) if not isinstance(result_raw, dict) else result_raw
 
                 # Record history
                 result_status = result.get('success', 'ok') if isinstance(result, dict) else 'ok'
                 history.append(f"Action: {tool_name} -> {result_status}")
+                logger.debug(f"[DirectMode] {tool_name} result: {result_status}")
                 
             except Exception as e:
                 logger.error(f"[DirectMode] loop error: {e}")
@@ -1008,13 +1055,52 @@ class OrchestrationMixin:
         return "Task ended (max steps reached)"
 
     async def _generate_llm_response(self, messages):
-        """Helper to call LLM - adapts to available model interface"""
+        """Helper to call LLM - adapts to available model interface.
+        
+        Priority order:
+        1. self.llm_client (LLMClient with Z.AI/OpenAI-compatible API support)
+        2. self.ollama_client (local Ollama)
+        3. self.gpu_llm_client (remote GPU server)
+        4. Ad-hoc LLMClient created from OPENAI_* env vars
+        """
         import asyncio
 
-        # Resolve model name: self.model → OPENAI_MODEL env → DEFAULT_MAIN_MODEL fallback
+        # Convert messages list to single prompt string for LLMClient
+        def _messages_to_prompt(msgs):
+            parts = []
+            for msg in msgs:
+                role = msg.get('role', 'user')
+                content = msg.get('content', '')
+                if role == 'system':
+                    parts.append(content)
+                else:
+                    parts.append(content)
+            return "\n\n".join(parts)
+
+        # Attempt 1: self.llm_client (LLMClient - supports Z.AI, OpenAI-compatible APIs)
+        if hasattr(self, 'llm_client') and self.llm_client:
+            try:
+                prompt_text = _messages_to_prompt(messages)
+                response = await self.llm_client.generate(
+                    prompt=prompt_text,
+                    temperature=0.1,
+                    max_tokens=4096
+                )
+                content = getattr(response, 'content', '') or ''
+                if content:
+                    logger.debug(f"[DirectMode] LLM response via llm_client ({len(content)} chars)")
+                    return content
+                # Check for error
+                error = getattr(response, 'error', None)
+                if error:
+                    logger.warning(f"[DirectMode] llm_client returned error: {error}")
+            except Exception as e:
+                logger.warning(f"[DirectMode] llm_client call failed: {e}")
+
+        # Resolve model name for ollama/gpu paths
         _model = getattr(self, 'model', None) or os.environ.get('OPENAI_MODEL', 'qwen3:8b')
 
-        # Attempt 1: self.ollama_client (standard in Brain - used by reasoning_engine)
+        # Attempt 2: self.ollama_client (standard in Brain - used by reasoning_engine)
         if hasattr(self, 'ollama_client') and self.ollama_client:
             try:
                 response = await asyncio.wait_for(
@@ -1022,7 +1108,10 @@ class OrchestrationMixin:
                         self.ollama_client.chat,
                         model=_model,
                         messages=messages,
-                        options={'temperature': getattr(self, 'temperature', 0.1)}
+                        options={
+                            'temperature': getattr(self, 'temperature', 0.1),
+                            'num_predict': 4096,
+                        }
                     ),
                     timeout=getattr(self, 'llm_timeout', 60)
                 )
@@ -1031,21 +1120,51 @@ class OrchestrationMixin:
                     msg = msg.model_dump()
                 elif not isinstance(msg, dict):
                     msg = dict(msg)
-                return msg.get('content', '')
+                return (
+                    msg.get('content', '')
+                    or msg.get('reasoning_content', '')
+                    or msg.get('reasoning', '')
+                )
             except Exception as e:
-                logger.error(f"[DirectMode] ollama_client call failed: {e}")
-                raise
+                logger.warning(f"[DirectMode] ollama_client call failed: {e}")
 
-        # Attempt 2: self.gpu_llm_client (remote GPU server)
+        # Attempt 3: self.gpu_llm_client (remote GPU server)
         if hasattr(self, 'gpu_llm_client') and self.gpu_llm_client:
             try:
-                response = await self.gpu_llm_client.chat(messages)
-                return response.get('content', '') if isinstance(response, dict) else str(response)
+                response = await self.gpu_llm_client.chat(messages, max_tokens=4096)
+                if isinstance(response, dict):
+                    return (
+                        response.get('content', '')
+                        or response.get('reasoning_content', '')
+                        or response.get('reasoning', '')
+                    )
+                return getattr(response, 'content', '') or str(response)
             except Exception as e:
-                logger.error(f"[DirectMode] gpu_llm_client call failed: {e}")
-                raise
+                logger.warning(f"[DirectMode] gpu_llm_client call failed: {e}")
 
-        raise AttributeError("No LLM client found (need ollama_client or gpu_llm_client)")
+        # Attempt 4: Create ad-hoc LLMClient if OPENAI_* env vars are set
+        if os.getenv('OPENAI_API_KEY') or os.getenv('OPENAI_BASE_URL'):
+            try:
+                from agent.llm_client import LLMClient
+                logger.info("[DirectMode] Creating ad-hoc LLMClient from OPENAI_* env vars")
+                llm = LLMClient()
+                # Store for reuse in subsequent calls
+                self.llm_client = llm
+                prompt_text = _messages_to_prompt(messages)
+                response = await llm.generate(
+                    prompt=prompt_text,
+                    temperature=0.1,
+                    max_tokens=4096
+                )
+                content = getattr(response, 'content', '') or ''
+                if content:
+                    return content
+                error = getattr(response, 'error', None)
+                logger.warning(f"[DirectMode] Ad-hoc LLMClient error: {error}")
+            except Exception as e:
+                logger.error(f"[DirectMode] Ad-hoc LLMClient failed: {e}")
+
+        raise AttributeError("No LLM client available (need llm_client, ollama_client, gpu_llm_client, or OPENAI_* env vars)")
 
     async def run(self, prompt: str) -> str:
         """Main entry with streaming output."""
@@ -4463,26 +4582,30 @@ class OrchestrationMixin:
         - Self-healing on failure (alternative selectors, timing adjustments)
         - Challenge resolution for navigation (Cloudflare, CAPTCHA detection)
         """
-        # Normalize tool name (remove 'playwright_' or 'browser_' prefix)
-        actual_tool = tool_name.replace('playwright_', '').replace('browser_', '')
-
-        # Map to actual MCP tool names (playwright_* format used by agent)
-        tool_mapping = {
-            'navigate': 'playwright_navigate',
-            'click': 'playwright_click',
-            'type': 'playwright_type',
-            'snapshot': 'playwright_snapshot',
-            'screenshot': 'playwright_screenshot',
-            'take_screenshot': 'playwright_screenshot',
-            'wait': 'playwright_wait',
-            'wait_for': 'playwright_wait',
-            'press_key': 'playwright_press_key',
-            'hover': 'playwright_hover',
-            'select_option': 'playwright_select_option',
-            'evaluate': 'playwright_evaluate',
-        }
-
-        mapped_tool = tool_mapping.get(actual_tool, tool_name)
+        # browser_* tools should be passed through directly (they use mmid-based a11y methods)
+        # Only normalize plain tool names and playwright_* prefixed names
+        if tool_name.startswith('browser_'):
+            mapped_tool = tool_name  # Keep as-is - these route to click_by_mmid, type_by_mmid etc.
+        else:
+            actual_tool = tool_name.replace('playwright_', '')
+            
+            # Map to actual MCP tool names
+            tool_mapping = {
+                'navigate': 'playwright_navigate',
+                'click': 'browser_click',       # Use mmid-based click
+                'type': 'browser_type',          # Use mmid-based type
+                'snapshot': 'browser_snapshot',   # Use a11y snapshot
+                'screenshot': 'playwright_screenshot',
+                'take_screenshot': 'playwright_screenshot',
+                'wait': 'playwright_wait',
+                'wait_for': 'playwright_wait',
+                'press_key': 'playwright_press_key',
+                'hover': 'playwright_hover',
+                'select_option': 'playwright_select_option',
+                'evaluate': 'playwright_evaluate',
+            }
+            
+            mapped_tool = tool_mapping.get(actual_tool, tool_name)
 
         # Handle special cases
         if mapped_tool == 'playwright_snapshot':
