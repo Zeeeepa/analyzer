@@ -222,7 +222,7 @@ class GPULLMClient:
         messages: List[Dict[str, str]],
         model: str = None,
         temperature: float = 0.1,
-        max_tokens: int = 2000,
+        max_tokens: int = 4096,
         stream: bool = False
     ) -> LLMResponse:
         """
@@ -326,12 +326,23 @@ class GPULLMClient:
 
         if data is not None:
             if 'choices' in data:
-                # OpenAI format
-                content = data['choices'][0]['message'].get('content', '')
+                # OpenAI format — thinking models (GLM-5, DeepSeek-R1, QwQ etc.)
+                # may return content="" with reasoning in reasoning_content field
+                msg = data['choices'][0].get('message', {})
+                content = (
+                    msg.get('content', '')
+                    or msg.get('reasoning_content', '')
+                    or msg.get('reasoning', '')
+                )
                 tokens = data.get('usage', {}).get('total_tokens', 0)
             elif 'message' in data:
-                # Ollama format
-                content = data['message'].get('content', '')
+                # Ollama format — also handle thinking model fields
+                msg = data['message']
+                content = (
+                    msg.get('content', '')
+                    or msg.get('reasoning_content', '')
+                    or msg.get('reasoning', '')
+                )
                 tokens = data.get('eval_count', 0) + data.get('prompt_eval_count', 0)
             else:
                 content = str(data)
@@ -388,7 +399,7 @@ class GPULLMClient:
         messages: List[Dict[str, str]],
         model: str = None,
         temperature: float = 0.1,
-        max_tokens: int = 2000
+        max_tokens: int = 4096
     ) -> LLMResponse:
         """
         Synchronous version of chat() for non-async contexts.
@@ -471,10 +482,23 @@ class GPULLMClient:
 
         if data is not None:
             if 'choices' in data:
-                content = data['choices'][0]['message'].get('content', '')
+                # OpenAI format — thinking models (GLM-5, DeepSeek-R1, QwQ etc.)
+                # may return content="" with reasoning in reasoning_content field
+                msg = data['choices'][0].get('message', {})
+                content = (
+                    msg.get('content', '')
+                    or msg.get('reasoning_content', '')
+                    or msg.get('reasoning', '')
+                )
                 tokens = data.get('usage', {}).get('total_tokens', 0)
             elif 'message' in data:
-                content = data['message'].get('content', '')
+                # Ollama format — also handle thinking model fields
+                msg = data['message']
+                content = (
+                    msg.get('content', '')
+                    or msg.get('reasoning_content', '')
+                    or msg.get('reasoning', '')
+                )
                 tokens = data.get('eval_count', 0) + data.get('prompt_eval_count', 0)
             else:
                 content = str(data)
@@ -561,7 +585,7 @@ class OllamaCompatibleClient:
         """
         options = options or {}
         temperature = options.get('temperature', 0.1)
-        max_tokens = options.get('num_predict', 2000)
+        max_tokens = options.get('num_predict', 4096)
 
         try:
             response = self._gpu_client.chat_sync(
@@ -624,7 +648,7 @@ class OllamaCompatibleClient:
         """
         options = options or {}
         temperature = options.get('temperature', 0.1)
-        max_tokens = options.get('num_predict', 2000)
+        max_tokens = options.get('num_predict', 4096)
 
         # Convert prompt to messages format
         messages = [{'role': 'user', 'content': prompt}]

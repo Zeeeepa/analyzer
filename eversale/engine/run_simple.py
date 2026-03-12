@@ -617,14 +617,17 @@ JSON only:
     # Captcha detection & solving (integrated from captcha_solver.py)
     # ------------------------------------------------------------------
 
+    _captcha_attempts = 0  # Track captcha solving attempts to prevent infinite loops
+
     async def _detect_and_solve_captcha(self) -> bool:
         """
         Detect captcha on the current page and attempt to solve it.
 
         Uses a multi-layer approach:
-        1. DOM-based detection for standard captcha types (reCAPTCHA, hCaptcha, Turnstile)
-        2. Screenshot-based detection via vision model for custom captchas (slider, puzzle)
-        3. ScrappyCaptchaBypasser free techniques as fallback
+        1. Cloudflare Turnstile detection (iframe-based, modern anti-bot)
+        2. DOM-based detection for standard captcha types (reCAPTCHA, hCaptcha, Turnstile)
+        3. Screenshot-based detection via vision model for custom captchas (slider, puzzle)
+        4. ScrappyCaptchaBypasser free techniques as fallback
 
         Returns:
             True if captcha was detected and solved (or no captcha found),
@@ -633,7 +636,104 @@ JSON only:
         if not self.page:
             return True
 
+        # Prevent infinite captcha retry loops
+        self._captcha_attempts += 1
+        if self._captcha_attempts > 5:
+            logger.warning("[CAPTCHA] Max captcha attempts (5) reached. Stopping retries.")
+            print("  ⚠️ Max captcha solving attempts reached. Moving on.", flush=True)
+            self._captcha_attempts = 0
+            return False
+
         try:
+            # Layer 0: Detect Cloudflare Turnstile specifically
+            turnstile_detected = await self.page.evaluate("""() => {
+                // Check for Turnstile iframe
+                const turnstileIframe = document.querySelector(
+                    'iframe[src*="challenges.cloudflare.com"], iframe[src*="turnstile"]'
+                );
+                // Check for Turnstile container
+                const turnstileContainer = document.querySelector(
+                    '#cf-turnstile, [data-sitekey], .cf-turnstile'
+                );
+                // Check for Cloudflare challenge page indicators
+                const cfChallenge = document.querySelector(
+                    '#challenge-running, #challenge-form, .main-wrapper .challenge-platform'
+                );
+                return !!(turnstileIframe || turnstileContainer || cfChallenge);
+            }""")
+
+            if turnstile_detected:
+                logger.info("[CAPTCHA] Cloudflare Turnstile/Challenge detected")
+                print("  🔐 Cloudflare Turnstile detected — attempting automated bypass...", flush=True)
+
+                # Strategy 1: Wait for auto-solve (Turnstile often auto-completes)
+                for wait_round in range(3):
+                    await asyncio.sleep(3)
+                    still_present = await self.page.evaluate("""() => {
+                        const iframe = document.querySelector(
+                            'iframe[src*="challenges.cloudflare.com"], iframe[src*="turnstile"]'
+                        );
+                        const challenge = document.querySelector(
+                            '#challenge-running, #challenge-form'
+                        );
+                        return !!(iframe || challenge);
+                    }""")
+                    if not still_present:
+                        logger.info("[CAPTCHA] Turnstile auto-resolved!")
+                        print("  ✅ Captcha auto-resolved!", flush=True)
+                        self._captcha_attempts = 0
+                        return True
+                    logger.debug(f"[CAPTCHA] Turnstile still present, waiting (attempt {wait_round+1}/3)...")
+
+                # Strategy 2: Try clicking the Turnstile checkbox if visible
+                try:
+                    turnstile_checkbox = await self.page.query_selector(
+                        'iframe[src*="challenges.cloudflare.com"]'
+                    )
+                    if turnstile_checkbox:
+                        box = await turnstile_checkbox.bounding_box()
+                        if box:
+                            # Click in the center of the Turnstile iframe
+                            await self.page.mouse.click(
+                                box['x'] + box['width'] / 2,
+                                box['y'] + box['height'] / 2
+                            )
+                            await asyncio.sleep(3)
+                            # Check if it resolved
+                            still_present = await self.page.evaluate("""() => {
+                                return !!document.querySelector(
+                                    'iframe[src*="challenges.cloudflare.com"], #challenge-running'
+                                );
+                            }""")
+                            if not still_present:
+                                logger.info("[CAPTCHA] Turnstile solved via click!")
+                                print("  ✅ Captcha solved via click!", flush=True)
+                                self._captcha_attempts = 0
+                                return True
+                except Exception as e:
+                    logger.debug(f"[CAPTCHA] Turnstile click attempt failed: {e}")
+
+                # Strategy 3: Wait longer for complex challenges (up to 15s more)
+                logger.info("[CAPTCHA] Waiting for Turnstile challenge completion (up to 15s)...")
+                print("  ⏳ Waiting for captcha challenge to complete...", flush=True)
+                for _ in range(5):
+                    await asyncio.sleep(3)
+                    still_present = await self.page.evaluate("""() => {
+                        return !!document.querySelector(
+                            'iframe[src*="challenges.cloudflare.com"], #challenge-running, #challenge-form'
+                        );
+                    }""")
+                    if not still_present:
+                        logger.info("[CAPTCHA] Turnstile resolved after extended wait!")
+                        print("  ✅ Captcha resolved!", flush=True)
+                        self._captcha_attempts = 0
+                        return True
+
+                # If we still can't solve it, report clearly
+                logger.warning("[CAPTCHA] Cloudflare Turnstile could not be solved automatically")
+                print("  ❌ Cloudflare Turnstile captcha not solvable automatically", flush=True)
+                return False
+
             # Layer 1: DOM-based detection via PageCaptchaHandler
             if HAS_CAPTCHA_SOLVER:
                 handler = PageCaptchaHandler(self.page, LocalCaptchaSolver())
@@ -650,6 +750,7 @@ JSON only:
                     if await scrappy.try_checkbox_click():
                         await asyncio.sleep(2)
                         logger.info("[CAPTCHA] Checkbox click may have worked")
+                        self._captcha_attempts = 0
                         return True
 
                     # For standard captchas, try solve_and_inject
@@ -657,11 +758,17 @@ JSON only:
                     if solved:
                         logger.success("[CAPTCHA] Standard captcha solved!")
                         print("  ✅ Captcha solved!", flush=True)
+                        self._captcha_attempts = 0
                         return True
+
+                    # DOM detected but could not solve
+                    logger.warning(f"[CAPTCHA] Detected {detection.challenge_type.value} but could not solve")
+                    return False
 
             # Layer 2: Screenshot-based detection for custom captchas (slider, puzzle)
             slider_solved = await self._detect_and_solve_slider_captcha()
             if slider_solved:
+                self._captcha_attempts = 0
                 return True
 
             # Layer 3: Check for any visual captcha via vision model
@@ -672,8 +779,11 @@ JSON only:
                 # Try to solve based on vision description
                 solved = await self._solve_captcha_via_vision(visual_captcha)
                 if solved:
+                    self._captcha_attempts = 0
                     return True
+                return False  # Vision detected but couldn't solve
 
+            self._captcha_attempts = 0  # Reset on no-captcha pages
             return True  # No captcha found
 
         except Exception as e:

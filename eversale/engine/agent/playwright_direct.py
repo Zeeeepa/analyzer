@@ -5448,19 +5448,36 @@ Example: {{"item_selector": "article", "title_selector": "h2 a", "link_selector"
 
         elif tool_name == "playwright_click":
             # Normalize parameter names: accept selector, element, target, mmid
-            selector = params.get("selector") or params.get("element") or params.get("target") or params.get("mmid") or ""
-            if not selector:
-                return {"error": "playwright_click requires a 'selector' parameter", "success": False}
-            return await _call(self.click(selector))
+            mmid = params.get("mmid") or ""
+            selector = params.get("selector") or params.get("element") or params.get("target") or ""
+            
+            # If mmid provided explicitly, or selector looks like an mmid ref (e.g. "mm5"),
+            # use accessibility-based click_by_mmid which is more reliable
+            target = mmid or selector
+            if not target:
+                return {"error": "playwright_click requires a 'selector' or 'mmid' parameter", "success": False}
+            
+            if target.startswith("mm") and target[2:].isdigit():
+                return await _call(self.click_by_mmid(target))
+            else:
+                return await _call(self.click(target))
 
         elif tool_name == "playwright_fill":
             # Normalize parameter names: accept value, text, content, input
             value = params.get("value") or params.get("text") or params.get("content") or params.get("input") or ""
+            mmid = params.get("mmid") or ""
             selector = params.get("selector") or params.get("element") or params.get("target") or ""
             press_enter = params.get("press_enter")  # Can be True, False, or None (auto-detect)
-            if not selector:
-                return {"error": "playwright_fill requires a 'selector' parameter", "success": False}
-            return await _call(self.fill(selector, value, press_enter=press_enter))
+            
+            target = mmid or selector
+            if not target:
+                return {"error": "playwright_fill requires a 'selector' or 'mmid' parameter", "success": False}
+            
+            # If target looks like an mmid ref, use type_by_mmid
+            if target.startswith("mm") and target[2:].isdigit():
+                return await _call(self.type_by_mmid(target, value, clear=True))
+            else:
+                return await _call(self.fill(target, value, press_enter=press_enter))
 
         elif tool_name == "batch_execute" or tool_name == "playwright_batch_execute":
             # Batch execution of multiple actions
