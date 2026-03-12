@@ -69,6 +69,12 @@ def _show_version():
 
 def main():
     """Main entry point for the eversale command."""
+    # Force unbuffered stdout so users see progress in real-time
+    try:
+        sys.stdout.reconfigure(line_buffering=True)
+    except AttributeError:
+        pass  # Python < 3.7
+
     args = sys.argv[1:]
 
     # Quick flags that don't need engine imports
@@ -137,4 +143,3 @@ def _run_ultimate():
 
 if __name__ == "__main__":
     main()
-

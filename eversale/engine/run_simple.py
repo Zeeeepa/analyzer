@@ -96,18 +96,33 @@ class SimpleAgent:
         self._ref_map: Dict[str, Dict[str, str]] = {}
 
     async def _init_browser(self):
-        """Initialize Playwright browser."""
+        """Initialize Playwright browser.
+
+        Auto-detects headless environments (no DISPLAY on Linux) and forces
+        headless mode to prevent silent hangs when no display server is available.
+        """
         if self.browser is not None:
             return
+
+        # Auto-detect: if no DISPLAY on Linux and headless wasn't explicitly set,
+        # force headless to prevent silent hang waiting for a GUI window.
+        headless = self.headless
+        if not headless and sys.platform.startswith("linux"):
+            display = os.environ.get("DISPLAY", "")
+            wayland = os.environ.get("WAYLAND_DISPLAY", "")
+            if not display and not wayland:
+                headless = True
+                logger.warning("No display server detected — auto-enabling headless mode")
+                print("⚠ No display detected, running headless", flush=True)
 
         try:
             from playwright.async_api import async_playwright
 
             self.playwright = await async_playwright().start()
-            self.browser = await self.playwright.chromium.launch(headless=self.headless)
+            self.browser = await self.playwright.chromium.launch(headless=headless)
             self.page = await self.browser.new_page()
 
-            logger.debug(f"Browser initialized (headless={self.headless})")
+            logger.debug(f"Browser initialized (headless={headless})")
         except Exception as e:
             logger.error(f"Failed to initialize browser: {e}")
             raise
@@ -438,23 +453,37 @@ JSON only:
 
         try:
             if action_type == "navigate":
+                # Resolve the actual URL: LLMs sometimes return target="URL" (literal)
+                # with the real URL in the value field. Prefer whichever looks like a URL.
+                url = target
+                if value and isinstance(value, str) and value.startswith(("http://", "https://")):
+                    # If value is a valid URL, prefer it when target isn't
+                    if not target or not isinstance(target, str) or not target.startswith(("http://", "https://")):
+                        url = value
+                elif target and isinstance(target, str) and not target.startswith(("http://", "https://")):
+                    # Target isn't a URL — try value, or prepend https://
+                    if value and isinstance(value, str) and value.startswith(("http://", "https://")):
+                        url = value
+                    elif target and "." in target and " " not in target:
+                        url = f"https://{target}"  # bare domain like "chat.z.ai"
+
                 nav_error = None
                 try:
-                    await self.page.goto(target, wait_until="networkidle", timeout=15000)
+                    await self.page.goto(url, wait_until="networkidle", timeout=15000)
                 except Exception as e1:
                     # Fallback: some SPAs never reach networkidle
                     try:
-                        await self.page.goto(target, wait_until="domcontentloaded", timeout=10000)
+                        await self.page.goto(url, wait_until="domcontentloaded", timeout=10000)
                     except Exception as e2:
                         nav_error = e2
 
                 if nav_error is not None:
-                    logger.error(f"Navigation to {target} failed: {nav_error}")
-                    return f"Navigation failed for {target}: {nav_error}"
+                    logger.error(f"Navigation to {url} failed: {nav_error}")
+                    return f"Navigation failed for {url}: {nav_error}"
 
                 # Extra wait for SPA hydration
                 await asyncio.sleep(1.0)
-                return f"Navigated to {target}"
+                return f"Navigated to {url}"
 
             elif action_type == "click":
                 element = await self._resolve_element(target)
@@ -597,6 +626,9 @@ JSON only:
                 status = await self._execute_action(action)
                 history.append(f"Step {steps}: {action.get('action')} - {status}")
 
+                # Print progress so CLI users see what's happening
+                reason = action.get("reason", "")
+                print(f"  [{steps}/{self.max_steps}] {action.get('action', '?')}: {reason or status}", flush=True)
                 logger.debug(f"Step {steps}: {action.get('action')} - {status}")
 
                 # Check if done
