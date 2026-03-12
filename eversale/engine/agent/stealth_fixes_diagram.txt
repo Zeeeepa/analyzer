@@ -222,12 +222,12 @@
 ║ FILES                                                                          ║
 ╚═══════════════════════════════════════════════════════════════════════════════╝
 
-   📄 /mnt/c/ev29/agent/stealth_enhanced.py         ← Original (backup)
-   📄 /mnt/c/ev29/agent/stealth_enhanced_v2.py      ← Fixed version
-   📄 /mnt/c/ev29/agent/STEALTH_AUDIT_FIXES.md      ← Detailed docs
-   📄 /mnt/c/ev29/agent/STEALTH_IMPROVEMENTS_SUMMARY.md  ← Summary
-   📄 /mnt/c/ev29/test_stealth_audit_fixes.py       ← Test suite
-   📄 /mnt/c/ev29/agent/stealth_fixes_diagram.txt   ← This file
+   📄 agent/stealth_enhanced.py         ← Original (backup)
+   📄 agent/stealth_enhanced_v2.py      ← Fixed version
+   📄 agent/STEALTH_AUDIT_FIXES.md      ← Detailed docs
+   📄 agent/STEALTH_IMPROVEMENTS_SUMMARY.md  ← Summary
+   📄 test_stealth_audit_fixes.py       ← Test suite
+   📄 agent/stealth_fixes_diagram.txt   ← This file
 
 
 ╔═══════════════════════════════════════════════════════════════════════════════╗

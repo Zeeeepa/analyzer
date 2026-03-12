@@ -406,6 +406,6 @@ if __name__ == "__main__":
 ## Next Steps
 
 See also:
-- `/mnt/c/ev29/cli/test_reddit_commenters.py` - Test suite
-- `/mnt/c/ev29/cli/engine/agent/reddit_handler.py` - Full implementation
+- `test_reddit_commenters.py` - Test suite
+- `engine/agent/reddit_handler.py` - Full implementation
 - Reddit API docs: https://www.reddit.com/dev/api

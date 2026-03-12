@@ -1,7 +1,7 @@
 # Validators Module Consolidation Summary
 
 **Created**: 2025-12-12
-**Location**: `/mnt/c/ev29/cli/engine/agent/utils/validators.py`
+**Location**: `engine/agent/utils/validators.py`
 
 ## What Was Consolidated
 
@@ -128,9 +128,9 @@ All validators tested with comprehensive test suite covering:
 
 ## Files Created
 
-1. `/mnt/c/ev29/cli/engine/agent/utils/validators.py` - Main module (530 lines)
-2. `/mnt/c/ev29/cli/engine/agent/utils/VALIDATORS_README.md` - User documentation
-3. `/mnt/c/ev29/cli/engine/agent/utils/VALIDATORS_CONSOLIDATION.md` - This file
+1. `engine/agent/utils/validators.py` - Main module (530 lines)
+2. `engine/agent/utils/VALIDATORS_README.md` - User documentation
+3. `engine/agent/utils/VALIDATORS_CONSOLIDATION.md` - This file
 
 ## Next Steps
 

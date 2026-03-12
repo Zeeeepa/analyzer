@@ -111,7 +111,7 @@ triggers:
 Run the test script to verify configuration loading:
 
 ```bash
-cd /mnt/c/ev29/cli
+cd cli
 python3 test_optimization_config.py
 ```
 

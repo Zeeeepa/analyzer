@@ -407,10 +407,10 @@ from agent.bs_detector import get_integrity_validator
 
 ## Files
 
-- `/mnt/c/ev29/agent/stealth_enhanced.py` - Main implementation (1555 lines)
-- `/mnt/c/ev29/agent/stealth_enhanced_integration.py` - Integration examples (493 lines)
-- `/mnt/c/ev29/agent/STEALTH_ENHANCED_README.md` - Full documentation (643 lines)
-- `/mnt/c/ev29/agent/STEALTH_QUICK_REFERENCE.md` - This file
+- `agent/stealth_enhanced.py` - Main implementation (1555 lines)
+- `agent/stealth_enhanced_integration.py` - Integration examples (493 lines)
+- `agent/STEALTH_ENHANCED_README.md` - Full documentation (643 lines)
+- `agent/STEALTH_QUICK_REFERENCE.md` - This file
 
 ---
 

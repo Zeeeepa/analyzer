@@ -2,7 +2,7 @@
 
 ## Files Modified
 
-### 1. /mnt/c/ev29/cli/engine/agent/llm_client.py
+### 1. engine/agent/llm_client.py
 
 **Changes:**
 - Added imports: `hashlib`, `time`
@@ -25,7 +25,7 @@
 
 ---
 
-### 2. /mnt/c/ev29/cli/engine/agent/dom_distillation.py
+### 2. engine/agent/dom_distillation.py
 
 **Changes:**
 - Added imports: `time`, `lru_cache`
@@ -49,7 +49,7 @@
 
 ---
 
-### 3. /mnt/c/ev29/cli/engine/agent/skill_library.py
+### 3. engine/agent/skill_library.py
 
 **Changes:**
 - Added import: `lru_cache`
@@ -70,7 +70,7 @@
 
 ## New Files Created
 
-### 1. /mnt/c/ev29/cli/engine/agent/CACHING_IMPLEMENTATION.md
+### 1. engine/agent/CACHING_IMPLEMENTATION.md
 Comprehensive documentation covering:
 - Overview of caching strategy
 - Detailed explanation of each cache
@@ -80,7 +80,7 @@ Comprehensive documentation covering:
 - Debugging tips
 - Future enhancement ideas
 
-### 2. /mnt/c/ev29/cli/engine/agent/test_caching.py
+### 2. engine/agent/test_caching.py
 Test suite covering:
 - LLMCache basic operations
 - LRU eviction
@@ -145,7 +145,7 @@ All changes are backward compatible:
 
 Run tests with:
 ```bash
-cd /mnt/c/ev29/cli/engine/agent
+cd engine/agent
 python3 test_caching.py
 ```
 

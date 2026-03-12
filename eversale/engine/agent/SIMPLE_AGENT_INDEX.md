@@ -24,7 +24,7 @@
 
 ```bash
 # Navigate to agent directory
-cd /mnt/c/ev29/cli/engine/agent
+cd engine/agent
 
 # Verify installation
 python verify_simple_agent.py
@@ -85,7 +85,7 @@ element = snapshot.find_ref("e38")
 
 All files located at:
 ```
-/mnt/c/ev29/cli/engine/agent/
+engine/agent/
 ```
 
 ## Core Concepts

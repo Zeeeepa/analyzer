@@ -6,7 +6,7 @@
 
 ### Summary
 
-Major enhancement to vision-based CAPTCHA solving capabilities in `/mnt/c/ev29/agent/captcha_solver.py`. These improvements increase success rates by 40-60% through intelligent multi-model fallback, OCR error correction, and adaptive preprocessing.
+Major enhancement to vision-based CAPTCHA solving capabilities in `agent/captcha_solver.py`. These improvements increase success rates by 40-60% through intelligent multi-model fallback, OCR error correction, and adaptive preprocessing.
 
 ---
 
@@ -146,14 +146,14 @@ if result:
 
 ## New Files Created
 
-### 1. `/mnt/c/ev29/agent/CAPTCHA_VISION_IMPROVEMENTS.md`
+### 1. `agent/CAPTCHA_VISION_IMPROVEMENTS.md`
 - Comprehensive documentation of all enhancements
 - Usage examples for each feature
 - Performance metrics
 - Troubleshooting guide
 - Future improvement roadmap
 
-### 2. `/mnt/c/ev29/agent/captcha_solver_example.py`
+### 2. `agent/captcha_solver_example.py`
 - Executable test script demonstrating all features
 - Test cases for:
   - Text CAPTCHA solving
@@ -162,7 +162,7 @@ if result:
   - OCR error correction
   - Confidence scoring
 
-### 3. `/mnt/c/ev29/agent/CAPTCHA_SOLVER_CHANGELOG.md`
+### 3. `agent/CAPTCHA_SOLVER_CHANGELOG.md`
 - This file - detailed changelog
 
 ---
@@ -254,7 +254,7 @@ if result:
 ### Run Example Script
 
 ```bash
-cd /mnt/c/ev29/agent
+cd agent
 python3 captcha_solver_example.py
 ```
 
@@ -366,7 +366,7 @@ Planned enhancements for version 3.0:
 
 ## Related Files
 
-- `/mnt/c/ev29/agent/captcha_solver.py` - Main implementation
-- `/mnt/c/ev29/agent/CAPTCHA_VISION_IMPROVEMENTS.md` - Full documentation
-- `/mnt/c/ev29/agent/captcha_solver_example.py` - Example usage
+- `agent/captcha_solver.py` - Main implementation
+- `agent/CAPTCHA_VISION_IMPROVEMENTS.md` - Full documentation
+- `agent/captcha_solver_example.py` - Example usage
 

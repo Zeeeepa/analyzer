@@ -2,10 +2,10 @@
 
 ## Quick Links
 
-- **Source:** `/mnt/c/ev29/agent/structured_logger.py`
-- **Tests:** `/mnt/c/ev29/agent/test_structured_logger.py`
-- **Examples:** `/mnt/c/ev29/agent/structured_logger_example.py`
-- **Migration Guide:** `/mnt/c/ev29/STRUCTURED_LOGGER_MIGRATION.md`
+- **Source:** `agent/structured_logger.py`
+- **Tests:** `agent/test_structured_logger.py`
+- **Examples:** `agent/structured_logger_example.py`
+- **Migration Guide:** `STRUCTURED_LOGGER_MIGRATION.md`
 
 ## What is This?
 
@@ -24,7 +24,7 @@ A drop-in replacement for loguru with **structured JSON logging**, **correlation
 
 ## Installation
 
-No installation needed - it's already in the codebase at `/mnt/c/ev29/agent/structured_logger.py`.
+No installation needed - it's already in the codebase at `agent/structured_logger.py`.
 
 ## Quick Start
 
@@ -144,7 +144,7 @@ python3 agent/structured_logger.py
 Run integration examples:
 
 ```bash
-PYTHONPATH=/mnt/c/ev29 python3 agent/structured_logger_example.py
+PYTHONPATH=. python3 agent/structured_logger_example.py
 ```
 
 ## Performance Metrics
@@ -354,7 +354,7 @@ agent/
 ├── test_structured_logger.py         # Test suite (15 tests, all passing)
 └── structured_logger_example.py      # Integration examples
 
-/mnt/c/ev29/
+
 └── STRUCTURED_LOGGER_MIGRATION.md    # Full migration guide
 ```
 
@@ -437,9 +437,9 @@ configure_logger(console=True, json_file=False)
 
 ## Support
 
-- **Issues**: Create test cases in `/mnt/c/ev29/agent/test_structured_logger.py`
-- **Questions**: See migration guide at `/mnt/c/ev29/STRUCTURED_LOGGER_MIGRATION.md`
-- **Examples**: Run `/mnt/c/ev29/agent/structured_logger_example.py`
+- **Issues**: Create test cases in `agent/test_structured_logger.py`
+- **Questions**: See migration guide at `STRUCTURED_LOGGER_MIGRATION.md`
+- **Examples**: Run `agent/structured_logger_example.py`
 
 ## License
 

@@ -2,7 +2,7 @@
 REDIS MEMORY ADAPTER - IMPLEMENTATION COMPLETE
 ================================================================================
 
-PROJECT LOCATION: /mnt/c/ev29/agent/
+PROJECT LOCATION: agent/
 
 FILES CREATED:
 --------------

@@ -207,24 +207,24 @@ ALL TESTS PASSED
 ## Files Modified/Created
 
 ### Modified:
-1. `/mnt/c/ev29/cli/engine/agent/intent_detector.py`
+1. `engine/agent/intent_detector.py`
    - Added P1, P2, P3 intent patterns
 
-2. `/mnt/c/ev29/cli/engine/agent/executors/__init__.py`
+2. `engine/agent/executors/__init__.py`
    - Imported PROTECTION_EXECUTORS
    - Added to ALL_EXECUTORS registry
    - Exported in `__all__`
 
 ### Created:
-1. `/mnt/c/ev29/cli/engine/agent/executors/protection.py`
+1. `engine/agent/executors/protection.py`
    - P1_CaptchaSolver executor
    - P2_CloudflareHandler executor
    - P3_StealthMode executor
 
-2. `/mnt/c/ev29/cli/engine/agent/test_protection_triggers.py`
+2. `engine/agent/test_protection_triggers.py`
    - Comprehensive test suite
 
-3. `/mnt/c/ev29/cli/engine/agent/PROTECTION_TRIGGERS_README.md`
+3. `engine/agent/PROTECTION_TRIGGERS_README.md`
    - This documentation
 
 ---

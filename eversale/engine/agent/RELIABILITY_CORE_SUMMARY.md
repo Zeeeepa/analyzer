@@ -1,7 +1,7 @@
 # Reliability Core - Implementation Summary
 
 **Created:** 2025-12-12
-**Location:** `/mnt/c/ev29/cli/engine/agent/`
+**Location:** `engine/agent/`
 **Status:** Production-Ready
 
 ## What Was Created
@@ -220,7 +220,7 @@ All tests passing:
 ## Files Created
 
 ```
-/mnt/c/ev29/cli/engine/agent/
+engine/agent/
 ├── reliability_core.py                    # Core module (751 lines)
 ├── test_reliability_core.py               # Test suite
 ├── example_reliability_integration.py     # Integration examples

@@ -1,7 +1,7 @@
 # A11yBrowser Testing/Assertion Implementation Summary
 
 **Date:** 2025-12-12
-**File:** `/mnt/c/ev29/cli/engine/agent/a11y_browser.py`
+**File:** `engine/agent/a11y_browser.py`
 **Status:** Complete - Full Playwright MCP Parity
 
 ---
@@ -86,7 +86,7 @@ Methods integrate with existing A11yBrowser infrastructure:
 
 Run tests:
 ```bash
-cd /mnt/c/ev29/cli/engine/agent
+cd engine/agent
 python3 test_a11y_assertions.py
 ```
 

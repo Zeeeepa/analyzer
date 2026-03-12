@@ -193,14 +193,14 @@ All sleep optimizations have been properly integrated across the CLI agent codeb
 
 ## Files Modified
 
-1. `/mnt/c/ev29/cli/engine/agent/brain_enhanced_v2.py` - 3 hardcoded sleeps replaced with smart waits
+1. `engine/agent/brain_enhanced_v2.py` - 3 hardcoded sleeps replaced with smart waits
 
 ## Files Verified (No Changes Needed)
 
-1. `/mnt/c/ev29/cli/engine/agent/a11y_browser.py` - Already optimal
-2. `/mnt/c/ev29/cli/engine/agent/autonomous_challenge_resolver.py` - All sleeps justified
-3. `/mnt/c/ev29/cli/engine/agent/ui_tars_patterns.py` - Retry pattern available but not universally needed
-4. `/mnt/c/ev29/cli/engine/agent/vision_handler.py` - Proper error handling, no sleeps
+1. `engine/agent/a11y_browser.py` - Already optimal
+2. `engine/agent/autonomous_challenge_resolver.py` - All sleeps justified
+3. `engine/agent/ui_tars_patterns.py` - Retry pattern available but not universally needed
+4. `engine/agent/vision_handler.py` - Proper error handling, no sleeps
 
 ## Conclusion
 

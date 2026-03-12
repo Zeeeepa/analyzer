@@ -268,7 +268,7 @@ This is the same approach used by Playwright MCP, which achieves industry-leadin
 
 ### Default Behavior
 
-`run_simple.py` uses the LLM client configured in `/mnt/c/ev29/cli/engine/config/config.yaml`.
+`run_simple.py` uses the LLM client configured in `engine/config/config.yaml`.
 
 **Default mode:** Remote (via eversale.io)
 
@@ -376,7 +376,7 @@ If you're currently using `run_ultimate.py`, try `run_simple.py` first. If it wo
 ## Code Structure
 
 ```
-/mnt/c/ev29/cli/engine/run_simple.py
+engine/run_simple.py
     |
     +-- SimpleAgent class
     |       |
@@ -440,11 +440,11 @@ Planned improvements for v3.0:
 
 ## See Also
 
-- `/mnt/c/ev29/cli/CAPABILITY_REPORT.md` - Full CLI capabilities
-- `/mnt/c/ev29/cli/engine/agent/ACCESSIBILITY_ELEMENT_FINDER_QUICKREF.md` - Accessibility patterns
-- `/mnt/c/ev29/cli/engine/agent/SIMPLE_WORKFLOW_QUICKSTART.md` - Workflow examples
-- `/mnt/c/ev29/cli/CLAUDE.md` - Development guide
+- `CAPABILITY_REPORT.md` - Full CLI capabilities
+- `engine/agent/ACCESSIBILITY_ELEMENT_FINDER_QUICKREF.md` - Accessibility patterns
+- `engine/agent/SIMPLE_WORKFLOW_QUICKSTART.md` - Workflow examples
+- `CLAUDE.md` - Development guide
 
 ---
 
-**Questions?** Check `/mnt/c/ev29/cli/engine/run_simple.py` source code for implementation details.
+**Questions?** Check `engine/run_simple.py` source code for implementation details.

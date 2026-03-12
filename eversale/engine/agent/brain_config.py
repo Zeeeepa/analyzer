@@ -56,13 +56,14 @@ from .session_state import SessionState
 # Default Configuration Constants
 # ============================================================================
 
-# LLM Defaults - Dual model architecture:
-# - qwen3:8b for text reasoning, tool calling, action execution (fast)
-# - UI-TARS (0000/ui-tars-1.5-7b) for vision tasks, UI understanding
-DEFAULT_LLM_BASE_URL = 'http://localhost:11434'
-DEFAULT_MAIN_MODEL = 'qwen3:8b'
-DEFAULT_VISION_MODEL = '0000/ui-tars-1.5-7b:latest'  # UI-TARS for vision
-DEFAULT_FAST_MODEL = 'qwen3:8b'
+# LLM Defaults - Cloud-first architecture:
+# Environment variables take priority for pip-installed CLI usage:
+#   OPENAI_BASE_URL, OPENAI_MODEL, OPENAI_MODEL_VISION, OPENAI_MODEL_FAST
+# Hardcoded defaults below are used ONLY when no env vars or config.yaml are set.
+DEFAULT_LLM_BASE_URL = os.environ.get('OPENAI_BASE_URL', '').strip() or os.environ.get('EVERSALE_LLM_URL', '').strip() or 'http://localhost:11434'
+DEFAULT_MAIN_MODEL = os.environ.get('OPENAI_MODEL', '').strip() or 'glm-5'
+DEFAULT_VISION_MODEL = os.environ.get('OPENAI_MODEL_VISION', '').strip() or os.environ.get('OPENAI_MODEL', '').strip() or 'glm-4.7v'
+DEFAULT_FAST_MODEL = os.environ.get('OPENAI_MODEL_FAST', '').strip() or os.environ.get('OPENAI_MODEL', '').strip() or 'glm-5'
 DEFAULT_TEMPERATURE = 0.1
 DEFAULT_MAX_ITERATIONS = 25  # Increased for multi-step tasks (checkout flows, forms)
 
@@ -79,17 +80,16 @@ DEFAULT_LLM_TIMEOUT_MS = _get_default_llm_timeout_ms()
 DEFAULT_MODE = 'build'
 
 # Vision Model Configuration
-# UI-TARS is the ONLY vision model - designed specifically for UI understanding
-# No fallbacks needed - UI-TARS handles all vision tasks
+# Uses the same env-var-aware DEFAULT_VISION_MODEL for all vision tasks
 FAST_VISION_MODELS = [
-    '0000/ui-tars-1.5-7b:latest',  # UI-TARS for all vision
+    DEFAULT_VISION_MODEL,
 ]
-DEFAULT_FAST_VISION_MODEL = '0000/ui-tars-1.5-7b:latest'
+DEFAULT_FAST_VISION_MODEL = DEFAULT_VISION_MODEL
 
 # Visual Targeting Models (for element location)
-DEFAULT_TARGETING_MODEL = '0000/ui-tars-1.5-7b:latest'
+DEFAULT_TARGETING_MODEL = DEFAULT_VISION_MODEL
 TARGETING_MODELS = [
-    '0000/ui-tars-1.5-7b:latest',  # UI-TARS for all targeting
+    DEFAULT_VISION_MODEL,
 ]
 
 # Agent Defaults

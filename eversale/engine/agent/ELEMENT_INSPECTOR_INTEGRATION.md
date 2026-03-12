@@ -429,11 +429,11 @@ Planned features for element inspector:
 
 ## Related Documentation
 
-- **Main README**: `/mnt/c/ev29/agent/ELEMENT_INSPECTOR_README.md`
-- **Visual Targeting**: `/mnt/c/ev29/agent/visual_targeting.py`
-- **Humanization**: `/mnt/c/ev29/agent/humanization/README.md`
-- **Browser Manager**: `/mnt/c/ev29/agent/browser_manager.py`
-- **ReAct Loop**: `/mnt/c/ev29/agent/react_loop.py`
+- **Main README**: `agent/ELEMENT_INSPECTOR_README.md`
+- **Visual Targeting**: `agent/visual_targeting.py`
+- **Humanization**: `agent/humanization/README.md`
+- **Browser Manager**: `agent/browser_manager.py`
+- **ReAct Loop**: `agent/react_loop.py`
 
 ## Support
 

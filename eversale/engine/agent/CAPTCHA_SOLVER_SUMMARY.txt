@@ -3,7 +3,7 @@ CAPTCHA SOLVER TEST SUMMARY
 ================================================================================
 
 Date: 2025-12-12
-File: /mnt/c/ev29/cli/engine/agent/captcha_solver.py
+File: engine/agent/captcha_solver.py
 
 ================================================================================
 VERDICT: CAPTCHA SOLVER WORKS - PRODUCTION READY
@@ -197,21 +197,21 @@ FILES CREATED
 ================================================================================
 
 Test Files:
-  /mnt/c/ev29/cli/engine/agent/test_captcha_solver.py
+  engine/agent/test_captcha_solver.py
     - Comprehensive test suite (8 tests)
     - Tests initialization, OCR, confidence, detection, metrics
 
-  /mnt/c/ev29/cli/engine/agent/test_captcha_vision_simple.py
+  engine/agent/test_captcha_vision_simple.py
     - Simple vision verification (3 tests)
     - Tests dependencies, vision model, LocalCaptchaSolver
 
 Documentation:
-  /mnt/c/ev29/cli/engine/agent/CAPTCHA_SOLVER_TEST_REPORT.md
+  engine/agent/CAPTCHA_SOLVER_TEST_REPORT.md
     - Full test report with analysis
     - Integration examples
     - Troubleshooting guide
 
-  /mnt/c/ev29/cli/engine/agent/CAPTCHA_SOLVER_SUMMARY.txt
+  engine/agent/CAPTCHA_SOLVER_SUMMARY.txt
     - This file (quick reference)
 
 ================================================================================

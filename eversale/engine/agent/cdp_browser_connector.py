@@ -41,6 +41,7 @@ from typing import Any, Dict, List, Optional
 
 import aiohttp
 from loguru import logger
+from .a11y_compat import get_accessibility_snapshot
 
 # Check for Playwright CDP support
 try:
@@ -76,7 +77,7 @@ class CDPBrowserInstance:
         """Get accessibility-focused snapshot of current page"""
         try:
             title = await self.page.title()
-            acc_tree = await self.page.accessibility.snapshot(interesting_only=True)
+            acc_tree = await get_accessibility_snapshot(self.page, interesting_only=True)
             snapshot_text = self._format_accessibility_tree(acc_tree)
 
             return {

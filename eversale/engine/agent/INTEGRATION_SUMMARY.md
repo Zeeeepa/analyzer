@@ -269,7 +269,7 @@ All reliability-related logs use these prefixes:
 
 **Run Integration Tests**:
 ```bash
-cd /mnt/c/ev29/cli/engine/agent
+cd engine/agent
 python3 test_reliable_integration.py
 ```
 

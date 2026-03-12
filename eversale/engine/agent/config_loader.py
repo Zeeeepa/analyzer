@@ -110,6 +110,28 @@ def load_config() -> Dict[str, Any]:
             # Default to eversale.io proxy
             config['llm']['base_url'] = os.environ.get('OPENAI_BASE_URL', os.environ.get('ANTHROPIC_BASE_URL', 'https://api.z.ai/api/coding/paas/v4'))
 
+    # ── Propagate OPENAI_MODEL env vars into config dict ──────────────
+    # Env vars always override config.yaml values (user intent > file defaults).
+    # This ensures BrainConfig.from_dict() receives the correct model names
+    # even when config.yaml is missing or incomplete (e.g., fresh pip install).
+    env_model = os.environ.get('OPENAI_MODEL', '').strip()
+    env_vision = os.environ.get('OPENAI_MODEL_VISION', '').strip()
+    env_fast = os.environ.get('OPENAI_MODEL_FAST', '').strip()
+
+    if env_model:
+        config['llm'].setdefault('main_model', env_model)
+        config['llm'].setdefault('fast_model', env_model)
+        config['llm'].setdefault('tool_calling_model', env_model)
+        config['llm'].setdefault('complex_model', env_model)
+    if env_vision:
+        config['llm'].setdefault('vision_model', env_vision)
+        config['llm'].setdefault('web_vision_model', env_vision)
+    elif env_model:
+        # If no vision-specific model, don't override — let brain_config defaults handle it
+        pass
+    if env_fast:
+        config['llm']['fast_model'] = env_fast  # Explicit fast model overrides
+
     return config
 
 

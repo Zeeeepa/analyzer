@@ -276,10 +276,10 @@ See: **RUN_SIMPLE_QUICKSTART.md** - When to Use
 
 ### In This Repository
 
-- `/mnt/c/ev29/cli/CAPABILITY_REPORT.md` - Full CLI capabilities
-- `/mnt/c/ev29/cli/CLAUDE.md` - Development guide
-- `/mnt/c/ev29/cli/engine/agent/ACCESSIBILITY_ELEMENT_FINDER_QUICKREF.md` - Accessibility patterns
-- `/mnt/c/ev29/cli/engine/agent/SIMPLE_WORKFLOW_QUICKSTART.md` - Workflow patterns
+- `CAPABILITY_REPORT.md` - Full CLI capabilities
+- `CLAUDE.md` - Development guide
+- `engine/agent/ACCESSIBILITY_ELEMENT_FINDER_QUICKREF.md` - Accessibility patterns
+- `engine/agent/SIMPLE_WORKFLOW_QUICKSTART.md` - Workflow patterns
 
 ### External Resources
 
@@ -291,10 +291,10 @@ See: **RUN_SIMPLE_QUICKSTART.md** - When to Use
 
 ## File Locations
 
-All files in: `/mnt/c/ev29/cli/engine/`
+All files in: `engine/`
 
 ```
-/mnt/c/ev29/cli/engine/
+engine/
     |
     +-- run_simple.py                    # Main entry point
     +-- RUN_SIMPLE_INDEX.md              # This file

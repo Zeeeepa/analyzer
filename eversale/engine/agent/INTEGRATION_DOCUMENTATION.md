@@ -320,7 +320,7 @@ hal_stats = validator.get_hallucination_stats()
 Run the integration tests:
 
 ```bash
-cd /mnt/c/ev29
+cd .
 python3 test_integration_direct.py
 ```
 

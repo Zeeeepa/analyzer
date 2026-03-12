@@ -41,27 +41,40 @@ os.environ.setdefault("OMP_NUM_THREADS", "1")
 os.environ.setdefault("CHROMA_ANONYMIZED_TELEMETRY", "false")
 
 # Required directories
-REQUIRED_DIRS = [
-    "config",
-    "memory",
-    "logs",
-    "coordination",
-    "coordination/instances",
-    "coordination/locks",
-    "coordination/work",
-    "coordination/results",
-    "output",
-    "data",
-]
+def _engine_dir() -> Path:
+    """Return the engine directory (parent of agent/)."""
+    return Path(__file__).resolve().parent.parent
 
-# Default config files
-DEFAULT_CONFIGS = {
-    "config/dead_mans_switch.yaml": """# Dead Man's Switch Configuration
+
+def _resolve_dirs() -> list:
+    """Resolve REQUIRED_DIRS relative to the engine directory."""
+    base = _engine_dir()
+    return [
+        str(base / "config"),
+        str(base / "memory"),
+        str(base / "logs"),
+        str(base / "coordination"),
+        str(base / "coordination" / "instances"),
+        str(base / "coordination" / "locks"),
+        str(base / "coordination" / "work"),
+        str(base / "coordination" / "results"),
+        str(base / "output"),
+        str(base / "data"),
+    ]
+
+
+REQUIRED_DIRS = _resolve_dirs()
+
+def _resolve_configs() -> dict:
+    """Resolve DEFAULT_CONFIGS paths relative to the engine directory."""
+    base = _engine_dir()
+    return {
+        str(base / "config" / "dead_mans_switch.yaml"): """# Dead Man's Switch Configuration
 timeout_hours: 4.0
 fallback_tasks:
   - "Log system status and send diagnostic report"
 """,
-    "config/resources.yaml": """# Resource Limits Configuration
+        str(base / "config" / "resources.yaml"): """# Resource Limits Configuration
 max_memory_mb: 2048
 max_task_minutes: 120
 max_total_memory_mb: 4096
@@ -71,15 +84,18 @@ check_interval_seconds: 5.0
 kill_on_exceed: true
 warn_threshold_percent: 0.8
 """,
-    "config/schedule.yaml": """# Scheduled Tasks
+        str(base / "config" / "schedule.yaml"): """# Scheduled Tasks
 # Add your recurring tasks here
 scheduled_tasks: []
 """,
-    "config/missions.yaml": """# Persistent Missions
+        str(base / "config" / "missions.yaml"): """# Persistent Missions
 # These tasks auto-reload on startup
 missions: []
 """,
-}
+    }
+
+
+DEFAULT_CONFIGS = _resolve_configs()
 
 
 def ensure_directories() -> List[str]:
@@ -358,17 +374,47 @@ def check_network() -> Tuple[bool, str]:
         return False, "No internet connection"
 
 
+def _get_initialized_marker() -> Path:
+    """Return the path to the initialization marker file.
+
+    Uses EVERSALE_HOME (~/.eversale) for a stable, CWD-independent location.
+    Falls back to the engine directory for legacy compatibility.
+    """
+    import os
+    # Primary: ~/.eversale/.initialized (works regardless of CWD)
+    home = Path(os.environ.get("EVERSALE_HOME", Path.home() / ".eversale"))
+    home.mkdir(parents=True, exist_ok=True)
+    marker = home / ".initialized"
+    if marker.exists():
+        return marker
+    # Legacy fallback: check engine-relative path
+    engine_marker = Path(__file__).resolve().parent.parent / "memory" / ".initialized"
+    if engine_marker.exists():
+        return engine_marker
+    # Return the primary location for creation
+    return marker
+
+
 def is_first_run() -> bool:
     """Check if this is the first run."""
-    marker = Path("memory/.initialized")
-    return not marker.exists()
+    return not _get_initialized_marker().exists()
 
 
 def mark_initialized():
     """Mark that first-run setup is complete."""
-    marker = Path("memory/.initialized")
-    marker.parent.mkdir(parents=True, exist_ok=True)
+    import os
+    # Write to EVERSALE_HOME (~/.eversale/.initialized)
+    home = Path(os.environ.get("EVERSALE_HOME", Path.home() / ".eversale"))
+    home.mkdir(parents=True, exist_ok=True)
+    marker = home / ".initialized"
     marker.write_text("initialized")
+    # Also write legacy marker for backward compat
+    try:
+        legacy = Path(__file__).resolve().parent.parent / "memory" / ".initialized"
+        legacy.parent.mkdir(parents=True, exist_ok=True)
+        legacy.write_text("initialized")
+    except Exception:
+        pass  # Non-critical
 
 
 def run_bootstrap(verbose: bool = True, skip_browser_check: bool = False) -> bool:
@@ -483,30 +529,43 @@ def show_example_prompts():
 
 
 def run_first_time_setup():
-    """Complete first-time setup experience."""
-    console.clear()
+    """Complete first-time setup experience.
 
-    # Show welcome
-    show_first_run_welcome()
+    Non-interactive when stdin is not a TTY (e.g. piped input, CI,
+    or when invoked via ``eversale --ultimate "task"``).
+    """
+    import sys
 
-    try:
-        input()  # Wait for Enter
-    except (EOFError, KeyboardInterrupt):
+    is_interactive = sys.stdin.isatty()
+
+    if is_interactive:
+        console.clear()
+        # Show welcome
+        show_first_run_welcome()
+
+        try:
+            input()  # Wait for Enter
+        except (EOFError, KeyboardInterrupt):
+            pass
+
+        console.clear()
+        console.print("[bold]Running setup checks...[/bold]\n")
+    else:
+        # Non-interactive: skip welcome screen, run setup silently
         pass
 
-    console.clear()
-    console.print("[bold]Running setup checks...[/bold]\n")
-
     # Run bootstrap
-    success = run_bootstrap(verbose=True, skip_browser_check=False)
+    success = run_bootstrap(verbose=is_interactive, skip_browser_check=False)
 
     if success:
-        console.print("\n[bold green]✓ Setup complete![/bold green]\n")
-        show_example_prompts()
+        if is_interactive:
+            console.print("\n[bold green]✓ Setup complete![/bold green]\n")
+            show_example_prompts()
         mark_initialized()
     else:
-        console.print("\n[bold red]Please fix the issues above and try again.[/bold red]")
-        console.print("[dim]Most issues can be fixed with: pip install -r requirements.txt[/dim]\n")
+        if is_interactive:
+            console.print("\n[bold red]Please fix the issues above and try again.[/bold red]")
+            console.print("[dim]Most issues can be fixed with: pip install -r requirements.txt[/dim]\n")
 
     return success
 

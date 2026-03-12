@@ -94,7 +94,7 @@ All existing code continues to work. Changes are to DEFAULT values only:
 
 If issues occur, restore from backup:
 ```bash
-cd /mnt/c/ev29/cli/engine/agent
+cd engine/agent
 cp captcha_solver.py.backup captcha_solver.py
 ```
 
@@ -107,7 +107,7 @@ Or manually revert:
 
 ### Verification Script
 ```bash
-cd /mnt/c/ev29/cli/engine/agent
+cd engine/agent
 python3 test_ui_tars_captcha.py
 ```
 

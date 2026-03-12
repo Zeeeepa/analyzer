@@ -23,20 +23,20 @@ for r in results:
 5. Serper.dev API (if `SERPER_API_KEY` set)
 
 ## Files Modified
-- `/mnt/c/ev29/cli/engine/test_full_extraction.py` (lines 126-243)
+- `engine/test_full_extraction.py` (lines 126-243)
 
 ## Files Created
-- `/mnt/c/ev29/cli/engine/test_search_alternatives.py` (test suite)
-- `/mnt/c/ev29/cli/engine/LINKEDIN_FALLBACK_FIX.md` (full docs)
-- `/mnt/c/ev29/cli/engine/LINKEDIN_SEARCH_QUICK_REF.md` (this file)
+- `engine/test_search_alternatives.py` (test suite)
+- `engine/LINKEDIN_FALLBACK_FIX.md` (full docs)
+- `engine/LINKEDIN_SEARCH_QUICK_REF.md` (this file)
 
 ## Testing
 ```bash
 # Test full extraction (includes LinkedIn)
-python3 /mnt/c/ev29/cli/engine/test_full_extraction.py
+python3 engine/test_full_extraction.py
 
 # Test just search alternatives
-python3 /mnt/c/ev29/cli/engine/test_search_alternatives.py
+python3 engine/test_search_alternatives.py
 ```
 
 ## Results
@@ -88,8 +88,8 @@ if "login" in current_url.lower() or "authwall" in current_url.lower():
 - Implement result scoring (prefer companies over profiles)
 
 ## Related Files
-- `/mnt/c/ev29/cli/engine/agent/search_alternatives.py` - Search wrapper
-- `/mnt/c/ev29/cli/engine/agent/challenge_handler.py` - Cloudflare alternatives
+- `engine/agent/search_alternatives.py` - Search wrapper
+- `engine/agent/challenge_handler.py` - Cloudflare alternatives
 
 ## Status
 FIXED - Real search implemented, hardcoded URLs removed.

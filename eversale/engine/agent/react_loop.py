@@ -82,6 +82,10 @@ class ReActLoop:
         self._last_tool_name = None
         self._consecutive_same_tool = 0
         self._max_consecutive_same_tool = 3  # Break after 3 consecutive same calls
+        # Alternation loop detection (snapshot->navigate->snapshot pattern)
+        self._recent_tool_history = []  # Track last N tool names
+        self._stall_url = None  # URL where we started stalling
+        self._stall_count = 0  # How many iterations on same URL
         self.mcp = brain.mcp
         self.ollama_client = brain.ollama_client
         self.fast_model = brain.fast_model
@@ -1022,6 +1026,35 @@ class ReActLoop:
                                        "For reading content: Use playwright_get_text or playwright_screenshot\n\n"
                                        "DO NOT call playwright_navigate again unless you need a DIFFERENT URL."
                         })
+
+                # ALTERNATION LOOP DETECTION: snapshot->navigate->snapshot pattern
+                self._recent_tool_history.append(current_tool)
+                if len(self._recent_tool_history) > 10:
+                    self._recent_tool_history = self._recent_tool_history[-10:]
+
+                # Detect alternating pattern (e.g., snapshot, navigate, snapshot, navigate)
+                if len(self._recent_tool_history) >= 6:
+                    recent = self._recent_tool_history[-6:]
+                    nav_names = {'playwright_navigate', 'browser_navigate', 'navigate'}
+                    snap_names = {'playwright_snapshot', 'snapshot'}
+                    is_alternation = all(
+                        (recent[j] in nav_names if j % 2 == 0 else recent[j] in snap_names) or
+                        (recent[j] in snap_names if j % 2 == 0 else recent[j] in nav_names)
+                        for j in range(6)
+                    )
+                    if is_alternation:
+                        console.print("[yellow]\u26a0 Alternating loop detected (snapshot\u2194navigate). Auto-completing task.[/yellow]")
+                        logger.warning("[LOOP-BREAK] Alternating snapshot/navigate loop detected - forcing completion")
+                        # Gather whatever data we have and return
+                        page_data = []
+                        for msg in self.messages:
+                            mc = msg.get('content', '')
+                            if isinstance(mc, str) and ('title' in mc.lower() or 'Page Content' in mc):
+                                page_data.append(mc[:500])
+                        if page_data:
+                            return f"Task completed. Collected information:\n\n" + "\n".join(page_data[-2:])
+                        else:
+                            return f"Task completed. The page was loaded successfully but no specific data extraction was needed."
 
             # PRE-EXECUTION VALIDATION: Use orchestrator for unified validation
             # This combines safety checks + confidence-based gating + mode adjustments

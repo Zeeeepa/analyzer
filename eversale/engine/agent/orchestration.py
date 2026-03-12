@@ -13,6 +13,7 @@ inherited by the main agent brain class.
 """
 
 import asyncio
+import os
 import hashlib
 import json
 import re
@@ -1016,7 +1017,7 @@ class OrchestrationMixin:
                 response = await asyncio.wait_for(
                     asyncio.to_thread(
                         self.ollama_client.chat,
-                        model=getattr(self, 'model', '0000/ui-tars-1.5-7b:latest'),
+                        model=getattr(self, 'model', None) or os.environ.get('OPENAI_MODEL', 'glm-5'),
                         messages=messages,
                         options={'temperature': getattr(self, 'temperature', 0.1)}
                     ),

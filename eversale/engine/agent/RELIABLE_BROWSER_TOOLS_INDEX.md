@@ -333,7 +333,7 @@ Last Updated: 2025-12-12
 
 ## Files Location
 
-All files in: `/mnt/c/ev29/cli/engine/agent/`
+All files in: `engine/agent/`
 
 ```
 reliable_browser_tools.py                    # Main module (728 lines)

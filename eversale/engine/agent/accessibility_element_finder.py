@@ -32,7 +32,8 @@ USAGE:
     await page.click(f'[data-ref="{ref.ref}"]')
 
     # Option 3: Smart matching
-    snapshot = await page.accessibility.snapshot()
+    from .a11y_compat import get_accessibility_snapshot
+    snapshot = await get_accessibility_snapshot(page)
     parser = AccessibilityTreeParser()
     refs = parser.parse_snapshot(snapshot)
     buttons = parser.find_by_role(refs, "button")
@@ -428,16 +429,13 @@ class SmartElementFinder:
                 return None
 
         # Otherwise assume it's a Playwright page
-        elif hasattr(page_or_mcp, 'accessibility'):
+        else:
             try:
-                return await page_or_mcp.accessibility.snapshot()
+                from .a11y_compat import get_accessibility_snapshot
+                return await get_accessibility_snapshot(page_or_mcp)
             except Exception as e:
                 logger.error(f"Playwright snapshot failed: {e}")
                 return None
-
-        else:
-            logger.error(f"Unknown page type: {type(page_or_mcp)}")
-            return None
 
     def _find_best_match(
         self,

@@ -2,7 +2,7 @@
 HISTORY PRUNER CONFLICT ANALYSIS - EXECUTIVE REPORT
 ================================================================================
 
-SEARCH SCOPE: /mnt/c/ev29/cli/engine/agent/
+SEARCH SCOPE: engine/agent/
 TARGET: Identify conflicts between history/context compaction mechanisms
 
 ================================================================================
@@ -245,38 +245,38 @@ FILES AFFECTED
 ================================================================================
 
 Core conflict files:
-  /mnt/c/ev29/cli/engine/agent/history_pruner.py
+  engine/agent/history_pruner.py
     - 325 lines
     - Status: Complete implementation, unused
     - Action: Keep as-is, wire into _compact_context()
 
-  /mnt/c/ev29/cli/engine/agent/ui_tars_patterns.py
+  engine/agent/ui_tars_patterns.py
     - ConversationContext class (lines 100-147)
     - Status: Initialized but unused
     - Action: Remove or repurpose
 
-  /mnt/c/ev29/cli/engine/agent/brain_enhanced_v2.py
+  engine/agent/brain_enhanced_v2.py
     - Initialization (lines 1013-1041)
     - _compact_context() method (lines 4217-4286)
     - Status: Partial implementation
     - Action: Wire _compact_context() into execution flow
 
-  /mnt/c/ev29/cli/engine/agent/brain_config.py
+  engine/agent/brain_config.py
     - Configuration values (lines 99-100)
     - Status: Defined, never used
     - Action: Keep, make active by using threshold
 
 Supporting documentation:
-  /mnt/c/ev29/cli/engine/agent/HISTORY_PRUNER_CONFLICT_ANALYSIS.md
+  engine/agent/HISTORY_PRUNER_CONFLICT_ANALYSIS.md
     - Detailed technical analysis
     - Code references with line numbers
 
-  /mnt/c/ev29/cli/engine/agent/HISTORY_PRUNER_CODE_REFERENCES.md
+  engine/agent/HISTORY_PRUNER_CODE_REFERENCES.md
     - Exact code snippets
     - Import chain analysis
     - Token accumulation risk calculation
 
-  /mnt/c/ev29/cli/engine/agent/HISTORY_PRUNER_SUMMARY.txt
+  engine/agent/HISTORY_PRUNER_SUMMARY.txt
     - Quick reference guide
     - Conflict matrix
     - Decision tree

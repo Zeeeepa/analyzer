@@ -2,7 +2,7 @@
 
 ## Executive Summary
 
-Based on the December 2024 security audit, **4 critical stealth vulnerabilities** were identified and fixed in the browser fingerprinting system. All improvements have been implemented in `/mnt/c/ev29/agent/stealth_enhanced_v2.py` and verified through comprehensive testing.
+Based on the December 2024 security audit, **4 critical stealth vulnerabilities** were identified and fixed in the browser fingerprinting system. All improvements have been implemented in `agent/stealth_enhanced_v2.py` and verified through comprehensive testing.
 
 ---
 
@@ -262,7 +262,7 @@ RESULTS: 5 passed, 0 failed
 
 ### 1. Deploy to Main File
 ```bash
-cd /mnt/c/ev29
+cd .
 mv agent/stealth_enhanced.py agent/stealth_enhanced_old.py
 mv agent/stealth_enhanced_v2.py agent/stealth_enhanced.py
 ```
@@ -293,9 +293,9 @@ Track CAPTCHA/block rates over 2 weeks:
 ## References
 
 - **Audit Report:** December 2024 Security Audit
-- **Test Results:** `/mnt/c/ev29/test_stealth_audit_fixes.py`
-- **Implementation:** `/mnt/c/ev29/agent/stealth_enhanced_v2.py`
-- **Documentation:** `/mnt/c/ev29/agent/STEALTH_AUDIT_FIXES.md`
+- **Test Results:** `test_stealth_audit_fixes.py`
+- **Implementation:** `agent/stealth_enhanced_v2.py`
+- **Documentation:** `agent/STEALTH_AUDIT_FIXES.md`
 
 ---
 

@@ -430,7 +430,7 @@ logger.debug(f"Snapshot cache hit - DOM unchanged")
 Run tests with pytest:
 
 ```bash
-cd /mnt/c/ev29/cli/engine/agent
+cd engine/agent
 pytest test_dom_first_browser.py -v
 ```
 

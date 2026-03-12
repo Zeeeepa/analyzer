@@ -2,32 +2,32 @@
 
 ## ✅ Files Created
 
-- [x] `/mnt/c/ev29/agent/rust_bridge.py` - Unified Rust FFI interface (11KB)
-- [x] `/mnt/c/ev29/agent/test_rust_integration.py` - Test suite (9.2KB)
-- [x] `/mnt/c/ev29/agent/RUST_INTEGRATION.md` - Documentation (11KB)
-- [x] `/mnt/c/ev29/RUST_INTEGRATION_SUMMARY.md` - Summary
+- [x] `agent/rust_bridge.py` - Unified Rust FFI interface (11KB)
+- [x] `agent/test_rust_integration.py` - Test suite (9.2KB)
+- [x] `agent/RUST_INTEGRATION.md` - Documentation (11KB)
+- [x] `RUST_INTEGRATION_SUMMARY.md` - Summary
 
 ## ✅ Files Modified
 
-- [x] `/mnt/c/ev29/agent/dom_distillation.py`
+- [x] `agent/dom_distillation.py`
   - Added Rust bridge imports
   - Modified `_convert_a11y_snapshot()` for Rust acceleration
   - Modified `estimate_tokens()` for fast JSON
   - Added logging
 
-- [x] `/mnt/c/ev29/agent/llm_extractor.py`
+- [x] `agent/llm_extractor.py`
   - Added Rust bridge imports
   - Modified `__init__()` for CompiledPatterns
   - Modified `_parse_response()` for fast JSON
   - Added logging
 
-- [x] `/mnt/c/ev29/agent/contact_extractor.py`
+- [x] `agent/contact_extractor.py`
   - Added Rust bridge imports
   - Modified `_extract_emails_from_text()` for Rust
   - Modified `_extract_phones_from_text()` for Rust
   - Added logging
 
-- [x] `/mnt/c/ev29/agent/document_processor.py`
+- [x] `agent/document_processor.py`
   - Added Rust bridge imports
   - Modified `_parse_tickets()` for fast JSON
   - Modified `_parse_single_resume()` for Rust extraction
@@ -118,14 +118,14 @@ To enable Rust acceleration:
 
 ```bash
 # 1. Build Rust library
-cd /mnt/c/ev29/eversale_core
+cd eversale_core
 cargo build --release
 
 # 2. Install Python bindings
 maturin develop --release
 
 # 3. Verify
-cd /mnt/c/ev29/agent
+cd agent
 python3 test_rust_integration.py
 # Should show: "Mode: rust" and 8/8 tests passing
 ```

@@ -447,8 +447,8 @@ A: Wait until you have 10+ attempts, then check recommendations in metrics summa
 
 ## Related Files
 
-- `/mnt/c/ev29/agent/captcha_solver.py` - Main implementation
-- `/mnt/c/ev29/test_captcha_confidence.py` - Test script
+- `agent/captcha_solver.py` - Main implementation
+- `test_captcha_confidence.py` - Test script
 - `~/.eversale/captcha_metrics.jsonl` - Metrics log
-- `/mnt/c/ev29/agent/CAPTCHA_CONFIDENCE_SCORING.md` - This documentation
+- `agent/CAPTCHA_CONFIDENCE_SCORING.md` - This documentation
 

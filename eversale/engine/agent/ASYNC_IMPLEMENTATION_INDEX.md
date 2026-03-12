@@ -8,7 +8,7 @@ This index provides a complete reference to all files related to the async I/O a
 ### 1. site_memory.py (29K, 828 lines)
 **Status:** MODIFIED - Complete rewrite with async support
 
-**Location:** `/mnt/c/ev29/eversale-cli/engine/agent/site_memory.py`
+**Location:** `eversale-cli/engine/agent/site_memory.py`
 
 **Key Features:**
 - Async I/O using `aiofiles`
@@ -41,7 +41,7 @@ memory.record_visit_sync(url, 5.0)
 ## Documentation
 
 ### 2. QUICK_START.md (5.4K)
-**Location:** `/mnt/c/ev29/eversale-cli/engine/agent/QUICK_START.md`
+**Location:** `eversale-cli/engine/agent/QUICK_START.md`
 
 **Purpose:** Fast-track guide to get started in minutes
 
@@ -55,7 +55,7 @@ memory.record_visit_sync(url, 5.0)
 **Audience:** Developers who want to start using it immediately
 
 ### 3. SITE_MEMORY_ASYNC_README.md (13K)
-**Location:** `/mnt/c/ev29/eversale-cli/engine/agent/SITE_MEMORY_ASYNC_README.md`
+**Location:** `eversale-cli/engine/agent/SITE_MEMORY_ASYNC_README.md`
 
 **Purpose:** Comprehensive technical documentation
 
@@ -72,7 +72,7 @@ memory.record_visit_sync(url, 5.0)
 **Audience:** Developers who need deep understanding
 
 ### 4. MIGRATION_CHECKLIST.md (6.0K)
-**Location:** `/mnt/c/ev29/eversale-cli/engine/agent/MIGRATION_CHECKLIST.md`
+**Location:** `eversale-cli/engine/agent/MIGRATION_CHECKLIST.md`
 
 **Purpose:** Step-by-step migration guide
 
@@ -87,7 +87,7 @@ memory.record_visit_sync(url, 5.0)
 **Audience:** Teams migrating existing code
 
 ### 5. ARCHITECTURE_DIAGRAM.txt (26K)
-**Location:** `/mnt/c/ev29/eversale-cli/engine/agent/ARCHITECTURE_DIAGRAM.txt`
+**Location:** `eversale-cli/engine/agent/ARCHITECTURE_DIAGRAM.txt`
 
 **Purpose:** Visual architecture and flow diagrams
 
@@ -103,7 +103,7 @@ memory.record_visit_sync(url, 5.0)
 **Audience:** Architects and advanced developers
 
 ### 6. CHANGES_SUMMARY.md (9.0K)
-**Location:** `/mnt/c/ev29/eversale-cli/engine/agent/CHANGES_SUMMARY.md`
+**Location:** `eversale-cli/engine/agent/CHANGES_SUMMARY.md`
 
 **Purpose:** Complete change log and technical details
 
@@ -123,7 +123,7 @@ memory.record_visit_sync(url, 5.0)
 ## Examples and Tests
 
 ### 7. site_memory_example.py (5.1K, 180 lines)
-**Location:** `/mnt/c/ev29/eversale-cli/engine/agent/site_memory_example.py`
+**Location:** `eversale-cli/engine/agent/site_memory_example.py`
 
 **Purpose:** Working examples demonstrating all features
 
@@ -138,7 +138,7 @@ memory.record_visit_sync(url, 5.0)
 **Audience:** Developers learning by example
 
 ### 8. test_site_memory_async.py (13K, 375 lines)
-**Location:** `/mnt/c/ev29/eversale-cli/engine/agent/test_site_memory_async.py`
+**Location:** `eversale-cli/engine/agent/test_site_memory_async.py`
 
 **Purpose:** Comprehensive test suite
 
@@ -157,7 +157,7 @@ memory.record_visit_sync(url, 5.0)
 ## Dependencies
 
 ### 9. requirements_async.txt (532 bytes)
-**Location:** `/mnt/c/ev29/eversale-cli/engine/agent/requirements_async.txt`
+**Location:** `eversale-cli/engine/agent/requirements_async.txt`
 
 **Purpose:** Python dependencies for async features
 
@@ -265,7 +265,7 @@ All requested features implemented:
 
 ### Installation (1 minute)
 ```bash
-cd /mnt/c/ev29/eversale-cli/engine/agent
+cd eversale-cli/engine/agent
 pip install -r requirements_async.txt
 ```
 

@@ -124,7 +124,7 @@ python3 test_smart_scrolling.py
 
 ## Full Documentation
 
-- **Guide:** `/mnt/c/ev29/agent/SMART_SCROLLING_GUIDE.md`
-- **Summary:** `/mnt/c/ev29/SMART_SCROLLING_SUMMARY.md`
-- **Code:** `/mnt/c/ev29/agent/navigation_handlers.py`
+- **Guide:** `agent/SMART_SCROLLING_GUIDE.md`
+- **Summary:** `SMART_SCROLLING_SUMMARY.md`
+- **Code:** `agent/navigation_handlers.py`
 

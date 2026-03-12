@@ -4,7 +4,7 @@ RELIABLE BROWSER TOOLS - COMPLETE IMPLEMENTATION
 
 PROJECT: Eversale CLI Desktop Agent
 MODULE: Reliable Browser Tools Wrapper
-LOCATION: /mnt/c/ev29/cli/engine/agent/
+LOCATION: engine/agent/
 STATUS: ✓ COMPLETE AND TESTED
 DATE: 2025-12-12
 
@@ -241,7 +241,7 @@ COMPLIANCE
 FILE STRUCTURE
 ================================================================================
 
-/mnt/c/ev29/cli/engine/agent/
+engine/agent/
 ├── reliable_browser_tools.py              (Main module)
 ├── reliable_browser_tools_example.py      (Examples)
 ├── RELIABLE_BROWSER_TOOLS_README.md       (Full documentation)

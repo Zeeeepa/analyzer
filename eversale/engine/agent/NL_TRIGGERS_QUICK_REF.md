@@ -190,7 +190,7 @@ Quick reference for all natural language commands available in the Eversale CLI 
 
 Run the test suite to see all supported patterns:
 ```bash
-cd /mnt/c/ev29/cli/engine/agent
+cd engine/agent
 python3 test_nl_triggers.py
 ```
 
@@ -231,8 +231,8 @@ python3 test_nl_triggers.py
 
 ## Related Files
 
-- Full documentation: `/mnt/c/ev29/cli/engine/agent/NL_TRIGGERS_SUMMARY.md`
-- Test suite: `/mnt/c/ev29/cli/engine/agent/test_nl_triggers.py`
-- Parser code: `/mnt/c/ev29/cli/engine/agent/command_parser.py`
-- Templates: `/mnt/c/ev29/cli/engine/agent/action_templates.py`
-- Router: `/mnt/c/ev29/cli/engine/agent/intelligent_task_router.py`
+- Full documentation: `engine/agent/NL_TRIGGERS_SUMMARY.md`
+- Test suite: `engine/agent/test_nl_triggers.py`
+- Parser code: `engine/agent/command_parser.py`
+- Templates: `engine/agent/action_templates.py`
+- Router: `engine/agent/intelligent_task_router.py`
