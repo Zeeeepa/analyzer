@@ -255,26 +255,76 @@ CRITICAL RULES:
 JSON only:
 {{"action":"...","target":"ref","value":"text if needed","reason":"why"}}"""
 
-        try:
-            response = await self.llm_client.generate(prompt, temperature=0.1)
+        import json
+        import re
 
-            # Parse JSON from response
-            import json
-            import re
+        # Try up to 2 times (initial + 1 retry on parse failure)
+        for attempt in range(2):
+            try:
+                response = await self.llm_client.generate(prompt, temperature=0.1)
 
-            # Extract JSON from response (handle markdown code blocks)
-            content = response.content.strip()
-            json_match = re.search(r'\{.*\}', content, re.DOTALL)
-            if json_match:
-                action_data = json.loads(json_match.group(0))
-                return action_data
-            else:
-                logger.warning(f"Could not parse LLM response: {content}")
-                return {"action": "done", "reason": "Could not parse plan"}
+                # Check for LLM errors first
+                if response.error:
+                    logger.warning(f"LLM returned error: {response.error}")
+                    if attempt == 0:
+                        continue
+                    return {"action": "done", "reason": f"LLM error: {response.error}"}
 
-        except Exception as e:
-            logger.error(f"Planning failed: {e}")
-            return {"action": "done", "reason": f"Planning error: {e}"}
+                # Extract JSON from response (handle markdown code blocks)
+                content = response.content.strip()
+                if not content:
+                    logger.warning("LLM returned empty response")
+                    if attempt == 0:
+                        continue
+                    return {"action": "done", "reason": "LLM returned empty response"}
+
+                # Strip markdown code fences if present
+                content = re.sub(r'^```(?:json)?\s*', '', content)
+                content = re.sub(r'\s*```$', '', content)
+
+                # Log raw response for debugging
+                if attempt == 0:
+                    logger.debug(f"Raw LLM response: {content[:300]}")
+
+                json_match = re.search(r'\{[^{}]*\}', content, re.DOTALL)
+                if not json_match:
+                    # Try more aggressive: find any JSON-like structure
+                    json_match = re.search(r'\{.*\}', content, re.DOTALL)
+
+                if json_match:
+                    try:
+                        action_data = json.loads(json_match.group(0))
+                        if "action" in action_data:
+                            return action_data
+                    except json.JSONDecodeError:
+                        pass
+
+                # If first attempt failed, retry with stricter prompt
+                if attempt == 0:
+                    logger.warning(f"Parse attempt {attempt+1} failed, retrying...")
+                    prompt += "\n\nIMPORTANT: Respond with ONLY a single JSON object, no other text."
+                    continue
+
+                # After retries, try to extract any useful action from the raw text
+                logger.warning(f"Could not parse LLM response after retries: {content[:200]}")
+                # Check if the LLM gave a natural language hint we can interpret
+                content_lower = content.lower()
+                if "click" in content_lower:
+                    return {"action": "extract", "reason": "Re-scanning page after unclear LLM response"}
+                elif "wait" in content_lower or "loading" in content_lower:
+                    return {"action": "wait", "value": "2", "reason": "Page may still be loading"}
+                elif "done" in content_lower or "complete" in content_lower:
+                    return {"action": "done", "reason": "LLM indicates task may be complete"}
+                else:
+                    return {"action": "done", "reason": "Could not determine next action"}
+
+            except Exception as e:
+                logger.error(f"Planning failed: {e}")
+                if attempt == 0:
+                    continue
+                return {"action": "done", "reason": f"Planning error: {e}"}
+
+        return {"action": "done", "reason": "Planning failed after retries"}
 
     def _fallback_planner(self, goal: str, snapshot: str) -> Dict[str, Any]:
         """
