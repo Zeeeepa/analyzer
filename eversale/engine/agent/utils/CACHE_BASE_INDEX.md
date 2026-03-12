@@ -81,7 +81,7 @@ def expensive_call(arg):
 
 ```bash
 # Run test suite
-cd /mnt/c/ev29/cli/engine/agent
+cd engine/agent
 python3 test_cache_base.py
 
 # Quick import test

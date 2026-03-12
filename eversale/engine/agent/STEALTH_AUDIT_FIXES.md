@@ -2,7 +2,7 @@
 
 ## Summary
 
-This document describes the 4 critical security/stealth improvements made to `/mnt/c/ev29/agent/stealth_enhanced.py` based on the December 2024 security audit findings.
+This document describes the 4 critical security/stealth improvements made to `engine/agent/stealth_enhanced.py` based on the December 2024 security audit findings.
 
 ## Audit Findings & Fixes
 
@@ -170,9 +170,9 @@ Anti-bot systems can detect these impossible/improbable combinations.
 
 ## Files Modified
 
-1. **`/mnt/c/ev29/agent/stealth_enhanced.py`** - Main stealth implementation (backup created as `stealth_enhanced_backup.py`)
-2. **`/mnt/c/ev29/agent/stealth_enhanced_v2.py`** - New version with all fixes (can replace original)
-3. **`/mnt/c/ev29/agent/STEALTH_AUDIT_FIXES.md`** - This documentation
+1. **`engine/agent/stealth_enhanced.py`** - Main stealth implementation (backup created as `stealth_enhanced_backup.py`)
+2. **`engine/agent/stealth_enhanced_v2.py`** - New version with all fixes (can replace original)
+3. **`engine/agent/STEALTH_AUDIT_FIXES.md`** - This documentation
 
 ---
 
@@ -263,7 +263,7 @@ console.log(ctx2.sampleRate);
 
 ### Option 1: Replace Original File
 ```bash
-cd /mnt/c/ev29
+cd .
 cp agent/stealth_enhanced.py agent/stealth_enhanced_old.py
 cp agent/stealth_enhanced_v2.py agent/stealth_enhanced.py
 ```
@@ -276,7 +276,7 @@ from agent.stealth_enhanced_v2 import FingerprintManager
 
 ### Option 3: Sync to CLI Package
 ```bash
-cd /mnt/c/ev29
+cd .
 ./sync-cli.sh
 cd eversale-cli
 npm version patch

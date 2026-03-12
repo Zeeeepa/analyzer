@@ -6,7 +6,7 @@ Added natural language trigger system to `playwright_direct.py` for instant exec
 
 ## Files Modified
 
-### 1. `/mnt/c/ev29/cli/engine/agent/playwright_direct.py`
+### 1. `engine/agent/playwright_direct.py`
 
 **Changes:**
 
@@ -39,7 +39,7 @@ Added natural language trigger system to `playwright_direct.py` for instant exec
 
 ## Files Created
 
-### 2. `/mnt/c/ev29/cli/engine/agent/example_natural_language_triggers.py`
+### 2. `engine/agent/example_natural_language_triggers.py`
 
 **Purpose:** Complete working examples of all trigger types
 
@@ -53,11 +53,11 @@ Added natural language trigger system to `playwright_direct.py` for instant exec
 
 **Usage:**
 ```bash
-cd /mnt/c/ev29/cli/engine/agent
+cd engine/agent
 python example_natural_language_triggers.py
 ```
 
-### 3. `/mnt/c/ev29/cli/engine/agent/NATURAL_LANGUAGE_TRIGGERS.md`
+### 3. `engine/agent/NATURAL_LANGUAGE_TRIGGERS.md`
 
 **Purpose:** Complete reference documentation
 
@@ -248,7 +248,7 @@ logging.basicConfig(level=logging.INFO)
 
 Run comprehensive test suite:
 ```bash
-cd /mnt/c/ev29/cli/engine/agent
+cd engine/agent
 python example_natural_language_triggers.py
 ```
 

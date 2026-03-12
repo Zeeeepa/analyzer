@@ -17,13 +17,13 @@ Eversale's autonomous AI worker has been hardened with **four layers of defense*
 
 **Purpose:** Deny-by-default security policy preventing unauthorized system access, credential theft, and malicious operations.
 
-**File:** `/mnt/c/ev29/agent/security_guardrails.py` (800 lines)
+**File:** `engine/agent/security_guardrails.py` (800 lines)
 
 ### Core Philosophy
 
 - **Default Policy:** DENY unless explicitly allowed
 - **Defense in Depth:** Multiple overlapping security checks
-- **Workspace Isolation:** Operations restricted to `/mnt/c/ev29`
+- **Workspace Isolation:** Operations restricted to `.`
 - **Rate Limiting:** Throttles sensitive operations to prevent abuse
 
 ### Threat Categories (47 Patterns)
@@ -119,11 +119,11 @@ Prevents abuse through request throttling:
 
 ### Workspace Boundary Enforcement
 
-All operations are restricted to the workspace root (`/mnt/c/ev29`):
+All operations are restricted to the workspace root (`.`):
 ```python
 # Write/delete/modify/execute operations BLOCKED outside workspace
 # Read operations MAY be allowed (less risky)
-WORKSPACE_ROOT = "/mnt/c/ev29"
+WORKSPACE_ROOT = "."
 ```
 
 ### Strict Mode
@@ -179,7 +179,7 @@ report = guardrails.get_blocked_actions_report()
 
 **Purpose:** Protects agent identity from corruption through prompt injection, jailbreaks, and social engineering.
 
-**File:** `/mnt/c/ev29/agent/immune_system.py` (1,703 lines)
+**File:** `engine/agent/immune_system.py` (1,703 lines)
 
 ### Core Philosophy
 
@@ -437,7 +437,7 @@ The immune system auto-integrates with the agent:
 
 **Purpose:** Prevents fake/made-up data from being returned by the agent.
 
-**File:** `/mnt/c/ev29/agent/hallucination_guard.py` (1,167 lines)
+**File:** `engine/agent/hallucination_guard.py` (1,167 lines)
 
 ### Core Philosophy
 
@@ -696,7 +696,7 @@ else:
 
 **Purpose:** Validates actions **BEFORE** they execute (inspired by Claude Code's Haiku safety check).
 
-**File:** `/mnt/c/ev29/agent/pre_execution_validator.py` (290 lines)
+**File:** `engine/agent/pre_execution_validator.py` (290 lines)
 
 ### Core Philosophy
 
@@ -1137,7 +1137,7 @@ result = guard.validate_output(data, source_tool=source.tool_name, source_url=so
 
 ```bash
 # Run all security tests
-cd /mnt/c/ev29
+cd .
 pytest agent/test_security_guardrails.py -v
 pytest agent/test_immune_system.py -v
 pytest agent/test_hallucination_guard.py -v
@@ -1191,11 +1191,11 @@ The system is **production-ready** for secure autonomous operations across 31 in
 
 | File | Lines | Purpose |
 |------|-------|---------|
-| `/mnt/c/ev29/agent/security_guardrails.py` | 800 | Deny-by-default policy, rate limiting, workspace isolation |
-| `/mnt/c/ev29/agent/immune_system.py` | 1,703 | Prompt injection defense, social engineering resistance |
-| `/mnt/c/ev29/agent/hallucination_guard.py` | 1,167 | Fake data detection, instruction leakage prevention |
-| `/mnt/c/ev29/agent/pre_execution_validator.py` | 290 | Pre-execution safety validation |
-| `/mnt/c/ev29/agent/SECURITY_IMPROVEMENTS.md` | This document | Comprehensive security documentation |
+| `engine/agent/security_guardrails.py` | 800 | Deny-by-default policy, rate limiting, workspace isolation |
+| `engine/agent/immune_system.py` | 1,703 | Prompt injection defense, social engineering resistance |
+| `engine/agent/hallucination_guard.py` | 1,167 | Fake data detection, instruction leakage prevention |
+| `engine/agent/pre_execution_validator.py` | 290 | Pre-execution safety validation |
+| `engine/agent/SECURITY_IMPROVEMENTS.md` | This document | Comprehensive security documentation |
 
 **Total:** 3,960 lines of security code + documentation
 

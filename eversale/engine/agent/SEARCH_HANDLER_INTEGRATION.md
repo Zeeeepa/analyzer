@@ -125,7 +125,7 @@ This integration follows the same pattern as `reddit_handler`:
 Run the integration test:
 
 ```bash
-cd /mnt/c/ev29/cli/engine/agent
+cd engine/agent
 python3 test_search_integration.py
 ```
 
@@ -143,10 +143,10 @@ Expected output:
 
 ## Files Modified
 
-1. `/mnt/c/ev29/cli/engine/agent/a11y_browser.py` - Main integration
-2. `/mnt/c/ev29/cli/engine/agent/test_search_integration.py` - New test file
+1. `engine/agent/a11y_browser.py` - Main integration
+2. `engine/agent/test_search_integration.py` - New test file
 
 ## Files Referenced
 
-1. `/mnt/c/ev29/cli/engine/agent/search_handler.py` - Search module
-2. `/mnt/c/ev29/cli/engine/agent/reddit_handler.py` - Pattern reference
+1. `engine/agent/search_handler.py` - Search module
+2. `engine/agent/reddit_handler.py` - Pattern reference

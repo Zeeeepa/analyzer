@@ -110,7 +110,7 @@ ConversationContext(
 
 **Check integration**:
 ```bash
-cd /mnt/c/ev29/cli/engine/agent
+cd engine/agent
 python3 verify_uitars_integration.py
 ```
 
@@ -333,13 +333,13 @@ async def click_with_retry(selector):
 
 ### Unit Tests
 ```bash
-cd /mnt/c/ev29/cli/engine/agent
+cd engine/agent
 python3 test_uitars_integration.py
 ```
 
 ### Integration Test
 ```bash
-cd /mnt/c/ev29/cli
+cd ./cli
 node bin/eversale.js "take a screenshot and describe it"
 ```
 

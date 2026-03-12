@@ -246,7 +246,7 @@ dismissed = await browser_mgr.scan_and_dismiss_obstructions(aggressive=False)
 ## Examples
 
 See:
-- `/mnt/c/ev29/agent/OBSTRUCTION_HANDLING.md` - Full guide
-- `/mnt/c/ev29/agent/test_obstruction_handling.py` - Test suite
-- `/mnt/c/ev29/agent/obstruction_integration_example.py` - Integration examples
+- `engine/agent/OBSTRUCTION_HANDLING.md` - Full guide
+- `engine/agent/test_obstruction_handling.py` - Test suite
+- `engine/agent/obstruction_integration_example.py` - Integration examples
 

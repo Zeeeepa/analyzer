@@ -59,10 +59,11 @@ from .session_state import SessionState
 # LLM Defaults - Dual model architecture:
 # - qwen3:8b for text reasoning, tool calling, action execution (fast)
 # - UI-TARS (0000/ui-tars-1.5-7b) for vision tasks, UI understanding
-DEFAULT_LLM_BASE_URL = 'http://localhost:11434'
-DEFAULT_MAIN_MODEL = 'qwen3:8b'
-DEFAULT_VISION_MODEL = '0000/ui-tars-1.5-7b:latest'  # UI-TARS for vision
-DEFAULT_FAST_MODEL = 'qwen3:8b'
+# Environment variables take priority to support OpenAI-compatible APIs (e.g. Z.AI)
+DEFAULT_LLM_BASE_URL = os.environ.get('OPENAI_BASE_URL', 'http://localhost:11434')
+DEFAULT_MAIN_MODEL = os.environ.get('OPENAI_MODEL', 'qwen3:8b')
+DEFAULT_VISION_MODEL = os.environ.get('OPENAI_MODEL_VISION', '0000/ui-tars-1.5-7b:latest')
+DEFAULT_FAST_MODEL = os.environ.get('OPENAI_MODEL', 'qwen3:8b')
 DEFAULT_TEMPERATURE = 0.1
 DEFAULT_MAX_ITERATIONS = 25  # Increased for multi-step tasks (checkout flows, forms)
 

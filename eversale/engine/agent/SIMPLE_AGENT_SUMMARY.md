@@ -175,7 +175,7 @@ async def handle_simple_task(goal: str):
 ### Test Suite
 
 ```bash
-cd /mnt/c/ev29/cli/engine/agent
+cd engine/agent
 python test_simple_agent.py
 ```
 
@@ -298,7 +298,7 @@ Successfully delivered a minimal, reliable browser automation solution for Evers
 
 All files located at:
 ```
-/mnt/c/ev29/cli/engine/agent/
+engine/agent/
 ```
 
 Ready for integration and production use.

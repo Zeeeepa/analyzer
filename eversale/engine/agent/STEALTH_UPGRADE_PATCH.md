@@ -17,7 +17,7 @@ Missing critical browser launch arguments and headers that successful MCP implem
 
 ## Solution
 
-Created `/mnt/c/ev29/cli/engine/agent/stealth_browser_config.py` with:
+Created `engine/agent/stealth_browser_config.py` with:
 
 1. **get_mcp_compatible_launch_args()** - Exact Chrome launch args that bypass Cloudflare
 2. **get_chrome_context_options()** - Complete Sec-CH-UA headers matching Chrome 131
@@ -171,8 +171,8 @@ Using MCP-compatible stealth configuration
 
 ## Files Modified
 
-1. **NEW**: `/mnt/c/ev29/cli/engine/agent/stealth_browser_config.py` (570 lines)
-2. **MODIFIED**: `/mnt/c/ev29/cli/engine/agent/playwright_direct.py` (add imports + use new config)
+1. **NEW**: `engine/agent/stealth_browser_config.py` (570 lines)
+2. **MODIFIED**: `engine/agent/playwright_direct.py` (add imports + use new config)
 
 ## Backward Compatibility
 

@@ -213,7 +213,7 @@
 ### ✅ Static Analysis
 
 ```bash
-cd /mnt/c/ev29/eversale-cli/engine/agent
+cd engine/agent
 python3 test_date_picker_simple.py
 ```
 

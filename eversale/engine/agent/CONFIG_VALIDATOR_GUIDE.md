@@ -389,9 +389,9 @@ Potential additions:
 
 ## Related Files
 
-- `/mnt/c/ev29/agent/config_validator.py` - Main validator implementation
-- `/mnt/c/ev29/agent/config_loader.py` - Configuration loading utilities
-- `/mnt/c/ev29/config/config.yaml` - Main configuration file
-- `/mnt/c/ev29/.env.example` - Environment variable template
-- `/mnt/c/ev29/test_config_validator.py` - Comprehensive test suite
+- `engine/agent/config_validator.py` - Main validator implementation
+- `engine/agent/config_loader.py` - Configuration loading utilities
+- `./config/config.yaml` - Main configuration file
+- `./.env.example` - Environment variable template
+- `./test_config_validator.py` - Comprehensive test suite
 

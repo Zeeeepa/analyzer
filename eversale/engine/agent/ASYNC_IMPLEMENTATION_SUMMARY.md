@@ -2,7 +2,7 @@
 
 ## Overview
 
-Successfully added comprehensive async operations to `/mnt/c/ev29/agent/skill_library.py` to support concurrent skill access from parallel agents.
+Successfully added comprehensive async operations to `engine/agent/skill_library.py` to support concurrent skill access from parallel agents.
 
 ## Implementation Details
 
@@ -294,7 +294,7 @@ All original synchronous methods remain unchanged:
 ## File Structure
 
 ```
-/mnt/c/ev29/agent/
+engine/agent/
 ├── skill_library.py (2756 lines)
 │   ├── AsyncRWLock (151-193)
 │   ├── SkillCache (195-261)
@@ -378,7 +378,7 @@ results = await library.batch_execute_skills(executions, max_concurrent=10)
 
 ## Documentation
 
-- **Usage Guide**: `/mnt/c/ev29/agent/ASYNC_SKILL_LIBRARY_USAGE.md`
+- **Usage Guide**: `engine/agent/ASYNC_SKILL_LIBRARY_USAGE.md`
 - **API Reference**: See usage guide
 - **Examples**: `skill_library.py` (lines 2585-2756)
 

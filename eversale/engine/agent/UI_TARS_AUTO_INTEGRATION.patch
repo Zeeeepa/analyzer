@@ -1,5 +1,5 @@
 # UI-TARS Automatic Integration Patch
-# Apply with: cd /mnt/c/ev29/cli/engine/agent && patch -p0 < UI_TARS_AUTO_INTEGRATION.patch
+# Apply with: cd engine/agent && patch -p0 < UI_TARS_AUTO_INTEGRATION.patch
 
 --- brain_enhanced_v2.py.orig
 +++ brain_enhanced_v2.py

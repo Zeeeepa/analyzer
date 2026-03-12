@@ -1,6 +1,6 @@
 # Auto-Optimization Module - Summary
 
-**Location:** `/mnt/c/ev29/cli/engine/agent/auto_optimize.py`
+**Location:** `engine/agent/auto_optimize.py`
 **Version:** 2.1.191
 **Status:** Complete and Exported
 
@@ -169,7 +169,7 @@ Test suite: `test_auto_optimize.py`
 
 Run tests:
 ```bash
-cd /mnt/c/ev29/cli/engine/agent
+cd engine/agent
 python3 test_auto_optimize.py
 ```
 

@@ -3,7 +3,7 @@
 ## 1. Install Dependencies (1 minute)
 
 ```bash
-cd /mnt/c/ev29/eversale-cli/engine/agent
+cd engine/agent
 pip install -r requirements_async.txt
 ```
 

@@ -246,10 +246,10 @@ from engine.agent import (
 
 ## Key Files Modified
 
-1. `/mnt/c/ev29/cli/engine/agent/a11y_config.py` - NEW - Configuration
-2. `/mnt/c/ev29/cli/engine/agent/a11y_browser.py` - Enhanced with caching, metrics, timeouts
-3. `/mnt/c/ev29/cli/engine/agent/simple_agent.py` - Enhanced with retry, logging, metrics
-4. `/mnt/c/ev29/cli/engine/agent/__init__.py` - Updated exports
+1. `engine/agent/a11y_config.py` - NEW - Configuration
+2. `engine/agent/a11y_browser.py` - Enhanced with caching, metrics, timeouts
+3. `engine/agent/simple_agent.py` - Enhanced with retry, logging, metrics
+4. `engine/agent/__init__.py` - Updated exports
 
 ## Production Readiness Checklist
 

@@ -19,7 +19,7 @@
 
 ### 1. Import into Brain/ReAct Loop
 
-Add to `/mnt/c/ev29/eversale-cli/engine/agent/brain_enhanced_v2.py`:
+Add to `engine/agent/brain_enhanced_v2.py`:
 
 ```python
 # Add to imports section
@@ -57,7 +57,7 @@ async def handle_form_fill(self, params):
 
 ### 2. Add as Playwright Tool
 
-Add to `/mnt/c/ev29/eversale-cli/engine/agent/playwright_direct.py`:
+Add to `engine/agent/playwright_direct.py`:
 
 ```python
 from .complex_form_handler import ComplexFormHandler, SiteSpecificHandlers
@@ -122,7 +122,7 @@ class PlaywrightDirectClient:
 
 ### 3. Register Tools in MCP
 
-Add to `/mnt/c/ev29/eversale-cli/engine/agent/mcp_client.py`:
+Add to `engine/agent/mcp_client.py`:
 
 ```python
 # In tool registration
@@ -169,7 +169,7 @@ TOOLS = {
 
 ### 4. Add to Workflow Handlers
 
-Add to `/mnt/c/ev29/eversale-cli/engine/agent/workflow_handlers.py`:
+Add to `engine/agent/workflow_handlers.py`:
 
 ```python
 from .complex_form_handler import SiteSpecificHandlers
@@ -210,7 +210,7 @@ class WorkflowHandlers:
 
 ### 5. Update Agent Capabilities
 
-Add to `/mnt/c/ev29/eversale-cli/engine/agent/capabilities.py`:
+Add to `engine/agent/capabilities.py`:
 
 ```python
 # In CAPABILITIES dict
@@ -423,7 +423,7 @@ async def fill_multiple_sites(job_title, location):
 ### Issue: Handler not found
 **Solution:** Check imports in `__init__.py`:
 ```python
-# In /mnt/c/ev29/eversale-cli/engine/agent/__init__.py
+# In engine/agent/__init__.py
 from .complex_form_handler import (
     ComplexFormHandler,
     SiteSpecificHandlers,

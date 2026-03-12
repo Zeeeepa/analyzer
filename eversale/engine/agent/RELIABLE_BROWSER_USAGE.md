@@ -173,19 +173,19 @@ else:
 
 ### Where Reliability is Active
 
-1. **EnhancedBrain** (`/mnt/c/ev29/cli/engine/agent/brain_enhanced_v2.py`)
+1. **EnhancedBrain** (`engine/agent/brain_enhanced_v2.py`)
    - All MCP tool calls
    - All browser operations
    - Deterministic workflows
    - Cloudflare handler
    - Accessibility finder
 
-2. **BrowserToolAdapter** (`/mnt/c/ev29/cli/engine/agent/brain_enhanced_v2.py`)
+2. **BrowserToolAdapter** (`engine/agent/brain_enhanced_v2.py`)
    - Workflow execution
    - Alternative site routing
    - Challenge handling
 
-3. **PlaywrightClient** (`/mnt/c/ev29/cli/engine/agent/playwright_direct.py`)
+3. **PlaywrightClient** (`engine/agent/playwright_direct.py`)
    - Direct Playwright operations
    - Input validation layer
    - navigate(), click(), fill() methods

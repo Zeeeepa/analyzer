@@ -4,7 +4,7 @@ This document lists all browser improvement modules that have been added to the 
 
 ## Summary of Changes
 
-The `/mnt/c/ev29/cli/engine/agent/__init__.py` file has been updated to export all browser improvement modules with graceful error handling using try/except blocks.
+The `engine/agent/__init__.py` file has been updated to export all browser improvement modules with graceful error handling using try/except blocks.
 
 ## New Exports Added
 
@@ -234,10 +234,10 @@ See `BROWSER_IMPROVEMENTS_USAGE.md` for detailed usage examples and best practic
 
 ## Files Modified
 
-- `/mnt/c/ev29/cli/engine/agent/__init__.py` - Updated with new exports
+- `engine/agent/__init__.py` - Updated with new exports
 
 ## Files Created
 
-- `/mnt/c/ev29/cli/engine/agent/BROWSER_IMPROVEMENTS_USAGE.md` - Usage guide
-- `/mnt/c/ev29/cli/engine/agent/BROWSER_IMPROVEMENTS_EXPORTS.md` - This file
-- `/mnt/c/ev29/cli/engine/agent/test_browser_improvements_exports.py` - Test file
+- `engine/agent/BROWSER_IMPROVEMENTS_USAGE.md` - Usage guide
+- `engine/agent/BROWSER_IMPROVEMENTS_EXPORTS.md` - This file
+- `engine/agent/test_browser_improvements_exports.py` - Test file

@@ -10,7 +10,7 @@ The template result handling in `orchestration.py` (lines 739-790) was checking 
 3. Cases where no data was extracted
 
 ## Solution
-Enhanced the prospect extraction and display logic in `/mnt/c/ev29/cli/engine/agent/orchestration.py`:
+Enhanced the prospect extraction and display logic in `engine/agent/orchestration.py`:
 
 ### Changes Made (lines 739-815)
 
@@ -101,7 +101,7 @@ Changed wording from "Found X results" to "Found X total" for clarity.
 ## Testing
 
 ### Unit Tests
-Created test script at `/mnt/c/ev29/cli/test_orchestration_fix.py` that validates:
+Created test script at `./test_orchestration_fix.py` that validates:
 
 1. **Test 1**: Ads with advertiser + URL
    - Input: Result with 'ads' key containing 2 prospects
@@ -143,11 +143,11 @@ python3 -c "from agent.orchestration import OrchestrationMixin; print('Success')
 - Clear "No prospects found" messages for failed extractions
 
 ## Files Modified
-- `/mnt/c/ev29/cli/engine/agent/orchestration.py` (lines 739-815)
+- `engine/agent/orchestration.py` (lines 739-815)
 
 ## Files Created
-- `/mnt/c/ev29/cli/test_orchestration_fix.py` (test script)
-- `/mnt/c/ev29/cli/engine/ORCHESTRATION_PROSPECT_FIX.md` (this document)
+- `./test_orchestration_fix.py` (test script)
+- `engine/ORCHESTRATION_PROSPECT_FIX.md` (this document)
 
 ## Backwards Compatibility
 The changes are fully backwards compatible:

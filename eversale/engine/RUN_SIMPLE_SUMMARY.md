@@ -8,7 +8,7 @@
 
 ## What Was Created
 
-### 1. Main Entry Point: `/mnt/c/ev29/cli/engine/run_simple.py` (16KB)
+### 1. Main Entry Point: `engine/run_simple.py` (16KB)
 
 A new accessibility-first agent entry point with:
 
@@ -33,7 +33,7 @@ A new accessibility-first agent entry point with:
 - `playwright.async_api` - For browser automation
 - `loguru` - For logging
 
-### 2. Quick Start Guide: `/mnt/c/ev29/cli/engine/RUN_SIMPLE_QUICKSTART.md` (11KB)
+### 2. Quick Start Guide: `engine/RUN_SIMPLE_QUICKSTART.md` (11KB)
 
 Comprehensive documentation with:
 - Quick start examples
@@ -205,7 +205,7 @@ This is the same pattern used by Playwright MCP, which has industry-leading reli
 
 ### Import Test
 ```bash
-cd /mnt/c/ev29/cli/engine
+cd ./engine
 python3 -c "import run_simple; print('Import successful')"
 # Output: Import successful
 ```
@@ -273,9 +273,9 @@ python3 run_simple.py --no-llm "Test task"
 
 | File | Size | Status |
 |------|------|--------|
-| `/mnt/c/ev29/cli/engine/run_simple.py` | 16KB | Created (executable) |
-| `/mnt/c/ev29/cli/engine/RUN_SIMPLE_QUICKSTART.md` | 11KB | Created |
-| `/mnt/c/ev29/cli/engine/RUN_SIMPLE_SUMMARY.md` | This file | Created |
+| `engine/run_simple.py` | 16KB | Created (executable) |
+| `engine/RUN_SIMPLE_QUICKSTART.md` | 11KB | Created |
+| `engine/RUN_SIMPLE_SUMMARY.md` | This file | Created |
 
 ---
 

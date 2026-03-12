@@ -256,7 +256,7 @@ The verifier **never fails** - it gracefully degrades:
 python3 test_self_verifier.py
 
 # Run integration examples
-PYTHONPATH=/mnt/c/ev29 python3 agent/self_verifier_example.py
+PYTHONPATH=. python3 agent/self_verifier_example.py
 ```
 
 ## Common Issues

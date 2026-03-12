@@ -269,7 +269,7 @@ All components have been successfully implemented and integrated.
 
 ### Publish Commands
 ```bash
-cd /mnt/c/ev29/cli
+cd ./cli
 
 # Test locally first
 node bin/eversale.js "go to google.com"
@@ -392,10 +392,10 @@ npm view eversale-cli version
 ## Contact & Resources
 
 ### Files to Reference
-- Implementation: `/mnt/c/ev29/cli/engine/agent/fast_mode.py`
-- Integration: `/mnt/c/ev29/cli/engine/agent/orchestration.py`
-- Config: `/mnt/c/ev29/cli/engine/config/config.yaml`
-- Parser: `/mnt/c/ev29/cli/engine/agent/command_parser.py`
+- Implementation: `engine/agent/fast_mode.py`
+- Integration: `engine/agent/orchestration.py`
+- Config: `engine/config/config.yaml`
+- Parser: `engine/agent/command_parser.py`
 
 ### Documentation
 - Main: `FAST_MODE_README.md`

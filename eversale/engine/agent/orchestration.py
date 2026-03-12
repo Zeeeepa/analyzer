@@ -13,6 +13,7 @@ inherited by the main agent brain class.
 """
 
 import asyncio
+import os
 import hashlib
 import json
 import re
@@ -1010,13 +1011,16 @@ class OrchestrationMixin:
         """Helper to call LLM - adapts to available model interface"""
         import asyncio
 
+        # Resolve model name: self.model → OPENAI_MODEL env → DEFAULT_MAIN_MODEL fallback
+        _model = getattr(self, 'model', None) or os.environ.get('OPENAI_MODEL', 'qwen3:8b')
+
         # Attempt 1: self.ollama_client (standard in Brain - used by reasoning_engine)
         if hasattr(self, 'ollama_client') and self.ollama_client:
             try:
                 response = await asyncio.wait_for(
                     asyncio.to_thread(
                         self.ollama_client.chat,
-                        model=getattr(self, 'model', '0000/ui-tars-1.5-7b:latest'),
+                        model=_model,
                         messages=messages,
                         options={'temperature': getattr(self, 'temperature', 0.1)}
                     ),

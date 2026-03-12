@@ -54,7 +54,7 @@ Complex/failed   → Escalate to Kimi K2 (best quality)
 
 ## Configuration
 
-Add to `/mnt/c/ev29/config/config.yaml`:
+Add to `./config/config.yaml`:
 
 ```yaml
 strategic_planner:
@@ -229,7 +229,7 @@ Savings: $26.28/year
 Run the test script:
 
 ```bash
-cd /mnt/c/ev29/agent
+cd ./agent
 python test_fallback_chain.py
 ```
 
@@ -243,22 +243,22 @@ This will:
 
 ### Files Added/Modified
 
-1. **NEW: `/mnt/c/ev29/agent/llm_fallback_chain.py`**
+1. **NEW: `engine/agent/llm_fallback_chain.py`**
    - Main fallback chain implementation
    - Cost tracking
    - Timeout handling
    - Auto-escalation logic
 
-2. **MODIFIED: `/mnt/c/ev29/agent/strategic_planner.py`**
+2. **MODIFIED: `engine/agent/strategic_planner.py`**
    - Added `_init_fallback_chain()` method
    - Added `_plan_with_fallback()` method
    - Added `get_cost_report()` method
    - Added `close()` method for cleanup
 
-3. **MODIFIED: `/mnt/c/ev29/config/config.yaml`**
+3. **MODIFIED: `./config/config.yaml`**
    - Added `strategic_planner` section with all fallback settings
 
-4. **NEW: `/mnt/c/ev29/agent/test_fallback_chain.py`**
+4. **NEW: `engine/agent/test_fallback_chain.py`**
    - Comprehensive test suite
    - Demonstrates all features
 

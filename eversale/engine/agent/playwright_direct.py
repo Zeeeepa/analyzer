@@ -1869,7 +1869,7 @@ class PlaywrightClient:
                 from .captcha_solver import PageCaptchaHandler, LocalCaptchaSolver
 
                 # Create solver with vision model (UI-TARS is better for UI understanding)
-                solver = LocalCaptchaSolver(vision_model="0000/ui-tars-1.5-7b:latest")
+                solver = LocalCaptchaSolver(vision_model=os.environ.get("OPENAI_MODEL_VISION", "0000/ui-tars-1.5-7b:latest"))
                 handler = PageCaptchaHandler(self.page, solver=solver)
 
                 # Detect specific CAPTCHA type
@@ -1894,7 +1894,7 @@ class PlaywrightClient:
                             result = await solver.solve_image_with_vision(
                                 self.page,
                                 ollama_client=ollama,
-                                vision_model="0000/ui-tars-1.5-7b:latest",
+                                vision_model=os.environ.get("OPENAI_MODEL_VISION", "0000/ui-tars-1.5-7b:latest"),
                                 captcha_type=captcha_type_detected
                             )
 
@@ -2308,7 +2308,7 @@ class PlaywrightClient:
             captcha_detected = False
             captcha_solved = False
             try:
-                solver = LocalCaptchaSolver(vision_model="0000/ui-tars-1.5-7b:latest")
+                solver = LocalCaptchaSolver(vision_model=os.environ.get("OPENAI_MODEL_VISION", "0000/ui-tars-1.5-7b:latest"))
                 handler = PageCaptchaHandler(self.page, solver=solver)
 
                 # Detect any CAPTCHA on the page
@@ -2334,7 +2334,7 @@ class PlaywrightClient:
                             vision_result = await solver.solve_image_with_vision(
                                 self.page,
                                 ollama_client=ollama,
-                                vision_model="0000/ui-tars-1.5-7b:latest",
+                                vision_model=os.environ.get("OPENAI_MODEL_VISION", "0000/ui-tars-1.5-7b:latest"),
                                 captcha_type=captcha_subtype
                             )
 

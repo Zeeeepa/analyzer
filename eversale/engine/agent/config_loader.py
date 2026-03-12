@@ -78,14 +78,27 @@ def load_config() -> Dict[str, Any]:
         else:
             config['llm']['base_url'] = 'http://localhost:11434'
 
-        # Map remote model names to local Ollama model names
-        llm_config = config.get('llm', {})
-        model_keys = ['main_model', 'fast_model', 'tool_calling_model', 'vision_model', 'web_vision_model']
-        for key in model_keys:
-            if key in llm_config:
-                remote_model = llm_config[key]
-                local_model = LOCAL_MODEL_MAPPING.get(remote_model, remote_model)
-                llm_config[key] = local_model
+        # Propagate OPENAI_MODEL / OPENAI_MODEL_VISION env vars into config
+        # so brain_config.py picks up the correct model names for remote APIs
+        _env_model = os.environ.get('OPENAI_MODEL', '').strip()
+        _env_vision = os.environ.get('OPENAI_MODEL_VISION', '').strip()
+        if _env_model:
+            config['llm']['main_model'] = _env_model
+            config['llm']['fast_model'] = _env_model
+            config['llm']['tool_calling_model'] = _env_model
+        if _env_vision:
+            config['llm']['vision_model'] = _env_vision
+            config['llm']['web_vision_model'] = _env_vision
+
+        # Map remote model names to local Ollama model names (only when NOT overridden)
+        if not _env_model:
+            llm_config = config.get('llm', {})
+            model_keys = ['main_model', 'fast_model', 'tool_calling_model', 'vision_model', 'web_vision_model']
+            for key in model_keys:
+                if key in llm_config:
+                    remote_model = llm_config[key]
+                    local_model = LOCAL_MODEL_MAPPING.get(remote_model, remote_model)
+                    llm_config[key] = local_model
     else:
         # CLI mode - remote by default
         config['llm']['mode'] = 'remote'
@@ -109,6 +122,18 @@ def load_config() -> Dict[str, Any]:
         else:
             # Default to eversale.io proxy
             config['llm']['base_url'] = os.environ.get('OPENAI_BASE_URL', os.environ.get('ANTHROPIC_BASE_URL', 'https://api.z.ai/api/coding/paas/v4'))
+
+        # Propagate OPENAI_MODEL / OPENAI_MODEL_VISION env vars into config
+        # so brain_config.py picks up the correct model names for remote APIs
+        _env_model = os.environ.get('OPENAI_MODEL', '').strip()
+        _env_vision = os.environ.get('OPENAI_MODEL_VISION', '').strip()
+        if _env_model:
+            config['llm']['main_model'] = _env_model
+            config['llm']['fast_model'] = _env_model
+            config['llm']['tool_calling_model'] = _env_model
+        if _env_vision:
+            config['llm']['vision_model'] = _env_vision
+            config['llm']['web_vision_model'] = _env_vision
 
     return config
 

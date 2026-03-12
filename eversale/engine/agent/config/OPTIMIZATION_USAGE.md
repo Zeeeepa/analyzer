@@ -4,8 +4,8 @@ This document shows how to use the browser optimization configuration system in 
 
 ## Configuration Files
 
-- `/mnt/c/ev29/cli/engine/agent/config/browser_optimizations.yaml` - Browser optimization settings
-- `/mnt/c/ev29/cli/engine/agent/config_loader.py` - Configuration loader with helper functions
+- `engine/agent/config/browser_optimizations.yaml` - Browser optimization settings
+- `engine/agent/config_loader.py` - Configuration loader with helper functions
 
 ## Basic Usage
 
@@ -215,7 +215,7 @@ reload_config()
 
 To add new optimization settings:
 
-1. Add to `/mnt/c/ev29/cli/engine/agent/config/browser_optimizations.yaml`:
+1. Add to `engine/agent/config/browser_optimizations.yaml`:
 
 ```yaml
 optimization:

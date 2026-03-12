@@ -156,7 +156,7 @@ done Task completed successfully
 ## Testing
 
 ```bash
-cd /mnt/c/ev29/cli/engine/agent
+cd engine/agent
 
 # Run tests
 python test_simple_agent.py
@@ -170,7 +170,7 @@ python simple_agent_integration_example.py mock
 ## File Locations
 
 ```
-/mnt/c/ev29/cli/engine/agent/
+engine/agent/
 ├── a11y_browser.py                    # Browser wrapper (946 lines)
 ├── simple_agent.py                    # Simple agent (343 lines)
 ├── test_simple_agent.py               # Tests

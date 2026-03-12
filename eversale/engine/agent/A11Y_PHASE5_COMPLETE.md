@@ -113,7 +113,7 @@ result.metrics = {
 
 **Run with:**
 ```bash
-cd /mnt/c/ev29/cli/engine/agent
+cd engine/agent
 python test_a11y_optimized.py
 ```
 
@@ -264,22 +264,22 @@ print(f"Total time: {result.metrics['total_time']:.2f}s")
 ## Files Modified/Created
 
 ### New Files
-1. `/mnt/c/ev29/cli/engine/agent/a11y_config.py` - Configuration
-2. `/mnt/c/ev29/cli/engine/agent/test_a11y_optimized.py` - Tests
-3. `/mnt/c/ev29/cli/engine/agent/A11Y_OPTIMIZATION_SUMMARY.md` - Detailed docs
-4. `/mnt/c/ev29/cli/engine/agent/A11Y_QUICK_START.md` - Quick guide
-5. `/mnt/c/ev29/cli/engine/agent/A11Y_PHASE5_COMPLETE.md` - This file
+1. `engine/agent/a11y_config.py` - Configuration
+2. `engine/agent/test_a11y_optimized.py` - Tests
+3. `engine/agent/A11Y_OPTIMIZATION_SUMMARY.md` - Detailed docs
+4. `engine/agent/A11Y_QUICK_START.md` - Quick guide
+5. `engine/agent/A11Y_PHASE5_COMPLETE.md` - This file
 
 ### Modified Files
-1. `/mnt/c/ev29/cli/engine/agent/a11y_browser.py` - Enhanced
-2. `/mnt/c/ev29/cli/engine/agent/simple_agent.py` - Enhanced
-3. `/mnt/c/ev29/cli/engine/agent/__init__.py` - Updated exports
+1. `engine/agent/a11y_browser.py` - Enhanced
+2. `engine/agent/simple_agent.py` - Enhanced
+3. `engine/agent/__init__.py` - Updated exports
 
 ## Testing
 
 All modules compile and import successfully:
 ```bash
-cd /mnt/c/ev29/cli/engine/agent
+cd engine/agent
 python3 -m py_compile a11y_config.py a11y_browser.py simple_agent.py
 python3 -c "import a11y_config; import a11y_browser; import simple_agent"
 ```

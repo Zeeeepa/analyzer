@@ -523,7 +523,7 @@ async with async_playwright() as p:
 Run integration examples:
 
 ```bash
-cd /mnt/c/ev29/agent
+cd ./agent
 python3 stealth_enhanced_integration.py
 ```
 
@@ -590,8 +590,8 @@ For speed-critical operations, use fast profile or disable unnecessary behaviors
 ## API Reference
 
 See inline documentation in:
-- `/mnt/c/ev29/agent/stealth_enhanced.py` - Main implementation
-- `/mnt/c/ev29/agent/stealth_enhanced_integration.py` - Usage examples
+- `engine/agent/stealth_enhanced.py` - Main implementation
+- `engine/agent/stealth_enhanced_integration.py` - Usage examples
 
 Key classes:
 - `FingerprintManager` - Fingerprint generation and injection

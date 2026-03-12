@@ -13,8 +13,8 @@ Search reveals **MULTIPLE SPEED/SIMPLIFICATION MECHANISMS** already implemented 
 ## CRITICAL CONFLICT 1: Fast Mode vs Flash Mode Naming
 
 ### Locations
-- **Fast Mode**: `/mnt/c/ev29/cli/engine/agent/fast_mode.py` (entire module)
-- **Flash Mode**: `/mnt/c/ev29/cli/engine/agent/simple_agent.py` (lines 86-103, 110, 115, 126-134, 154-158, 400, 423-431)
+- **Fast Mode**: `engine/agent/fast_mode.py` (entire module)
+- **Flash Mode**: `engine/agent/simple_agent.py` (lines 86-103, 110, 115, 126-134, 154-158, 400, 423-431)
 
 ### The Conflict
 Both are **execution speed optimization mechanisms** but operate at different layers:
@@ -330,6 +330,6 @@ User Input
 - brain_config.py
 
 **Auto-detection mechanisms found:**
-- `/mnt/c/ev29/cli/engine/agent/a11y_config.py:190` - FLASH_MODE_AUTO_DETECT = True
-- `/mnt/c/ev29/cli/engine/agent/simple_agent.py:154-158` - Auto-detection in run()
-- `/mnt/c/ev29/cli/engine/agent/fast_mode.py:322-364` - should_use_fast_mode() function
+- `engine/agent/a11y_config.py:190` - FLASH_MODE_AUTO_DETECT = True
+- `engine/agent/simple_agent.py:154-158` - Auto-detection in run()
+- `engine/agent/fast_mode.py:322-364` - should_use_fast_mode() function

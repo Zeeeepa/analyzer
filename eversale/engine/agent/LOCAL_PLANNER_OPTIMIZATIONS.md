@@ -2,7 +2,7 @@
 
 ## Summary
 
-Optimized `/mnt/c/ev29/cli/engine/agent/local_planner.py` to eliminate redundant computations and reduce planning overhead by up to 90% for repeated tasks.
+Optimized `engine/agent/local_planner.py` to eliminate redundant computations and reduce planning overhead by up to 90% for repeated tasks.
 
 ## Optimizations Implemented
 
@@ -184,9 +184,9 @@ All optimizations are transparent to callers:
 
 ## Related Files
 
-- `/mnt/c/ev29/cli/engine/agent/local_planner.py` - Optimized file
-- `/mnt/c/ev29/cli/engine/agent/kimi_k2_client.py` - Fallback planner (not optimized)
-- `/mnt/c/ev29/cli/engine/agent/brain_enhanced_v2.py` - Main agent using planner
+- `engine/agent/local_planner.py` - Optimized file
+- `engine/agent/kimi_k2_client.py` - Fallback planner (not optimized)
+- `engine/agent/brain_enhanced_v2.py` - Main agent using planner
 
 ---
 

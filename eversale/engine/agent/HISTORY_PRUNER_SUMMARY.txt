@@ -121,13 +121,13 @@ FILES INVOLVED
 ================================================================================
 
 Source files with conflicts:
-  - /mnt/c/ev29/cli/engine/agent/history_pruner.py (325 lines, unused)
-  - /mnt/c/ev29/cli/engine/agent/ui_tars_patterns.py (200+ lines, partially used)
-  - /mnt/c/ev29/cli/engine/agent/brain_enhanced_v2.py (4300+ lines, has dead code)
-  - /mnt/c/ev29/cli/engine/agent/brain_config.py (config values unused)
+  - engine/agent/history_pruner.py (325 lines, unused)
+  - engine/agent/ui_tars_patterns.py (200+ lines, partially used)
+  - engine/agent/brain_enhanced_v2.py (4300+ lines, has dead code)
+  - engine/agent/brain_config.py (config values unused)
 
 Documentation:
-  - /mnt/c/ev29/cli/engine/agent/HISTORY_PRUNER_CONFLICT_ANALYSIS.md (detailed report)
+  - engine/agent/HISTORY_PRUNER_CONFLICT_ANALYSIS.md (detailed report)
 
 ================================================================================
 CONCLUSION
