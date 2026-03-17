@@ -45,7 +45,7 @@ https://github.com/tom-pytel/pfst
 https://github.com/Team-intN18-SoybeanSeclab/Phantom
 https://github.com/OmniNode-ai/omniintelligence
 
-
+https://pypi.org/project/sari/   LSP-first local indexing/search engine + MCP daemon.
 
 
 
