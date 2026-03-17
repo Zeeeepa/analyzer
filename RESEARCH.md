@@ -1,0 +1,5 @@
+https://github.com/karpathy/autoresearch
+
+https://github.com/ywatanabe1989/scitex-python
+https://github.com/LearningCircuit/local-deep-research
+https://github.com/DragonShadows1978/AI-AtlasForge
