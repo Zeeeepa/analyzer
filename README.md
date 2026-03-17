@@ -44,6 +44,13 @@ https://pypi.org/project/axm-ast/
 https://github.com/tom-pytel/pfst
 https://github.com/Team-intN18-SoybeanSeclab/Phantom
 https://github.com/OmniNode-ai/omniintelligence
+https://github.com/massgen/MassGen
+https://github.com/Smart-AI-Memory/attune-ai
+https://github.com/CodeGraphContext/CodeGraphContext
+https://github.com/mleoca/ucn
+
+https://pypi.org/project/archex/  archex is a Python library and CLI that transforms any Git repository into structured architectural intelligence and token-budget-aware code context. It serves two consumers from a single index: human architects receive an ArchProfile with module boundaries, dependency graphs, detected patterns, and interface surfaces; AI agents receive a ContextBundle with relevance-ranked, syntax-aligned code chunks assembled to fit within a specified token budget.
+
 
 https://pypi.org/project/sari/   LSP-first local indexing/search engine + MCP daemon.
 
