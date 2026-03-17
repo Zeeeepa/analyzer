@@ -1,0 +1,38 @@
+[
+  {
+    "id": "c48c2171-5a7f-4b58-9b5a-75c5a141faad",
+    "content": "Goal 1: Go to wikipedia.org",
+    "status": "completed",
+    "priority": "low",
+    "created_at": 1766083961.531715,
+    "updated_at": 1766083974.1970408,
+    "metadata": {
+      "sequence_id": "59a49daba1d138b4",
+      "goal_index": 0
+    }
+  },
+  {
+    "id": "752203fd-2bfe-412a-b801-f8709834cd7f",
+    "content": "Goal 2: search for 'Turing Test',",
+    "status": "completed",
+    "priority": "low",
+    "created_at": 1766083961.5447228,
+    "updated_at": 1766083974.2083108,
+    "metadata": {
+      "sequence_id": "59a49daba1d138b4",
+      "goal_index": 1
+    }
+  },
+  {
+    "id": "2808317b-f93a-445c-954c-34b7ce9afbd7",
+    "content": "Goal 3: extract the first paragraph.",
+    "status": "completed",
+    "priority": "low",
+    "created_at": 1766083961.5569746,
+    "updated_at": 1766083974.2190619,
+    "metadata": {
+      "sequence_id": "59a49daba1d138b4",
+      "goal_index": 2
+    }
+  }
+]

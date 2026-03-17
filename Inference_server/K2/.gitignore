@@ -1,0 +1,19 @@
+__pycache__/
+工具调用参考/
+test/
+utils/
+
+.vscode/
+
+.env
+tokens.txt
+accounts.txt
+tokens.txt.backup
+*.pyc
+*.log
+# Auto-generated helper scripts
+python-k2
+activate-k2.sh
+.server.pid
+k2think_deployment.log
+.env.backup.*

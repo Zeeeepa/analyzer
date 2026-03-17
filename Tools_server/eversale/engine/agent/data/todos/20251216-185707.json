@@ -1,0 +1,38 @@
+[
+  {
+    "id": "e1bec631-b6cb-4da1-840c-b8f2a63c3c64",
+    "content": "Goal 1: navigate to yelp.com",
+    "status": "in_progress",
+    "priority": "low",
+    "created_at": 1765940227.8770356,
+    "updated_at": 1765940227.927379,
+    "metadata": {
+      "sequence_id": "a8cd592a3d20e5d0",
+      "goal_index": 0
+    }
+  },
+  {
+    "id": "68ac2631-65fe-43a0-8a4d-4da1c516b82e",
+    "content": "Goal 2: search for coffee shops,",
+    "status": "pending",
+    "priority": "low",
+    "created_at": 1765940227.8941197,
+    "updated_at": 1765940227.8941197,
+    "metadata": {
+      "sequence_id": "a8cd592a3d20e5d0",
+      "goal_index": 1
+    }
+  },
+  {
+    "id": "d393988c-92b6-40b7-9e05-85ad788f457e",
+    "content": "Goal 3: get the first result name",
+    "status": "pending",
+    "priority": "low",
+    "created_at": 1765940227.9100204,
+    "updated_at": 1765940227.9100204,
+    "metadata": {
+      "sequence_id": "a8cd592a3d20e5d0",
+      "goal_index": 2
+    }
+  }
+]

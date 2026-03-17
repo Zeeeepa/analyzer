@@ -1,0 +1,64 @@
+name: Test Docker Build
+
+on:
+  # 对PR进行测试构建，但不推送
+  pull_request:
+    branches:
+      - main
+      - master
+    paths-ignore:
+      - 'README.md'
+      - '*.md'
+      - '.gitignore'
+      - 'LICENSE'
+
+jobs:
+  test-build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+    
+    - name: Test Docker build
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        file: ./Dockerfile
+        push: false
+        tags: test:latest
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
+    
+    - name: Test container startup
+      run: |
+        # 创建测试环境变量文件
+        cat > .env.test << EOF
+        VALID_API_KEY=test-key
+        K2THINK_TOKEN=test-token
+        TOOL_SUPPORT=true
+        DEBUG_LOGGING=true
+        HOST=0.0.0.0
+        PORT=8001
+        EOF
+        
+        # 启动容器
+        docker run -d --name test-container -p 8001:8001 --env-file .env.test test:latest
+        
+        # 等待容器启动
+        sleep 10
+        
+        # 测试健康检查
+        curl -f http://localhost:8001/health || exit 1
+        
+        # 测试模型接口
+        curl -f http://localhost:8001/v1/models || exit 1
+        
+        # 停止容器
+        docker stop test-container
+        docker rm test-container
+        
+        echo "✅ Docker container test passed!"

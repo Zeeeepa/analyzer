@@ -1,0 +1,26 @@
+[
+  {
+    "id": "6c02e197-cb1d-4cd8-841e-f42b14d7adff",
+    "content": "Goal 1: Go to https://example.com",
+    "status": "completed",
+    "priority": "low",
+    "created_at": 1765604389.778357,
+    "updated_at": 1765604390.1648574,
+    "metadata": {
+      "sequence_id": "e544070e6e4be3ed",
+      "goal_index": 0
+    }
+  },
+  {
+    "id": "4bd5be97-adbf-49ce-94b4-758acce4084e",
+    "content": "Goal 2: open https://httpbin.org/get",
+    "status": "completed",
+    "priority": "low",
+    "created_at": 1765604389.7998486,
+    "updated_at": 1765604390.1820178,
+    "metadata": {
+      "sequence_id": "e544070e6e4be3ed",
+      "goal_index": 1
+    }
+  }
+]

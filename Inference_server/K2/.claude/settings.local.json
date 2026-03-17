@@ -1,0 +1,38 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(chmod:*)",
+      "Bash(python setup.py:*)",
+      "Bash(python:*)",
+      "Bash(./venv/bin/python:*)",
+      "Bash(bash:*)",
+      "Bash(python3:*)",
+      "Bash(accounts.txt)",
+      "Bash(data/tokens.txt)",
+      "Bash(mv:*)",
+      "Bash(where:*)",
+      "Bash(venv\\Scripts\\python.exe:*)",
+      "Bash(venv/Scripts/python.exe:*)",
+      "Bash(cat:*)",
+      "Bash(curl:*)",
+      "Bash(pkill:*)",
+      "Bash(find:*)",
+      "Bash(PYTHONPATH=src venv/Scripts/python.exe:*)",
+      "WebFetch(domain:www.k2think.ai)",
+      "Bash(echo \"2. Server Test:\" curl -s http://localhost:7000/)",
+      "Bash(sleep 3 echo \"3. Model Flexibility Demonstration:\" echo \"   Testing enhanced ALLOW_ANY_MODEL_NAME feature...\" echo \"\" echo \"   Test 1: GPT-4 (alias mapping)\" curl -s -X POST http://localhost:7000/v1/chat/completions -H \"Authorization: Bearer sk-k2think\" -H \"Content-Type: application/json\" -d '{\"\"\"\"model\"\"\"\":\"\"\"\"gpt-4\"\"\"\",\"\"\"\"messages\"\"\"\":[{\"\"\"\"role\"\"\"\":\"\"\"\"user\"\"\"\",\"\"\"\"content\"\"\"\":\"\"\"\"Hello\"\"\"\"}],\"\"\"\"max_tokens\"\"\"\":5}')",
+      "Bash(timeout:*)",
+      "Bash(echo \"   Test 2: Custom model name (any-name support)\" curl -s -X POST http://localhost:7000/v1/chat/completions -H \"Authorization: Bearer sk-k2think\" -H \"Content-Type: application/json\" -d '{\"\"\"\"model\"\"\"\":\"\"\"\"any-random-model-name\"\"\"\",\"\"\"\"messages\"\"\"\":[{\"\"\"\"role\"\"\"\":\"\"\"\"user\"\"\"\",\"\"\"\"content\"\"\"\":\"\"\"\"Test\"\"\"\"}],\"\"\"\"max_tokens\"\"\"\":5}' echo \"\" echo \"\" echo \"4. Server Status Check:\" curl -s http://localhost:7000/)",
+      "Bash(echo:*)",
+      "Bash(head -3 echo \"\" echo \"2. Try alternate endpoint:\" curl -s -X POST https://www.k2think.ai/api/v1/auth/login -H \"Content-Type: application/json\" -d '{\"\"\"\"email\"\"\"\":\"\"\"\"developer@pixelium.uk\"\"\"\",\"\"\"\"password\"\"\"\":\"\"\"\"developer123\"\"\"\"}')",
+      "Bash(head:*)",
+      "Bash(/tmp/test.json)",
+      "Bash(test_request.json)",
+      "Bash(printf:*)",
+      "Bash(git clone:*)",
+      "Bash(export:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

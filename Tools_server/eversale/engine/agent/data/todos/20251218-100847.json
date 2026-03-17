@@ -1,0 +1,38 @@
+[
+  {
+    "id": "b3dcd573-4e2d-4181-baaf-d801e5136832",
+    "content": "Goal 1: Go to amazon.com",
+    "status": "completed",
+    "priority": "low",
+    "created_at": 1766081448.0912411,
+    "updated_at": 1766081472.9083908,
+    "metadata": {
+      "sequence_id": "0aa56820b1e56054",
+      "goal_index": 0
+    }
+  },
+  {
+    "id": "8ca0affb-3726-4e2b-858b-cab8675675bc",
+    "content": "Goal 2: search for 'nvidia 4090'",
+    "status": "completed",
+    "priority": "low",
+    "created_at": 1766081448.107561,
+    "updated_at": 1766081472.9209383,
+    "metadata": {
+      "sequence_id": "0aa56820b1e56054",
+      "goal_index": 1
+    }
+  },
+  {
+    "id": "2f2c64a6-98ea-48c9-8606-7025ac29769b",
+    "content": "Goal 3: find the price of the first item that is in stock and tell me if it's over $1500.",
+    "status": "completed",
+    "priority": "low",
+    "created_at": 1766081448.1230025,
+    "updated_at": 1766081472.9349957,
+    "metadata": {
+      "sequence_id": "0aa56820b1e56054",
+      "goal_index": 2
+    }
+  }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "id": "c03aa3a9-88b1-462a-8f02-c9aa604fd7ca",
+    "content": "Goal 1: Go to news.ycombinator.com",
+    "status": "completed",
+    "priority": "low",
+    "created_at": 1766080957.9193485,
+    "updated_at": 1766080963.0754566,
+    "metadata": {
+      "sequence_id": "d8156479cbd56b40",
+      "goal_index": 0
+    }
+  },
+  {
+    "id": "830f3a0c-5833-4e84-a101-aa6eba12852d",
+    "content": "Goal 2: find the top 3 stories, and save their titles and links to a markdown file.",
+    "status": "completed",
+    "priority": "low",
+    "created_at": 1766080957.9316015,
+    "updated_at": 1766080963.0859346,
+    "metadata": {
+      "sequence_id": "d8156479cbd56b40",
+      "goal_index": 1
+    }
+  }
+]

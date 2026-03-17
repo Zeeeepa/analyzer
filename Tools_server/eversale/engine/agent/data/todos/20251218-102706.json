@@ -1,0 +1,38 @@
+[
+  {
+    "id": "6370b85b-a171-4997-bfb7-8087c94d1f2b",
+    "content": "Goal 1: Go to trello.com (or a similar Kanban demo), create a new board called 'Agent Test'. Add three cards: 'Research', 'Design', and 'Deploy'. Attach a screenshot of the Playwright homepage to the 'Research' card.",
+    "status": "completed",
+    "priority": "low",
+    "created_at": 1766082547.31671,
+    "updated_at": 1766082563.899694,
+    "metadata": {
+      "sequence_id": "792201aa0ac961a3",
+      "goal_index": 0
+    }
+  },
+  {
+    "id": "8397999f-8b7d-42ca-a529-8d6295c8cb85",
+    "content": "Goal 2: move the 'Design' card to a new column called 'In Progress'.",
+    "status": "in_progress",
+    "priority": "low",
+    "created_at": 1766082547.3332157,
+    "updated_at": 1766082563.9279315,
+    "metadata": {
+      "sequence_id": "792201aa0ac961a3",
+      "goal_index": 1
+    }
+  },
+  {
+    "id": "9c17dec5-156c-428a-a45f-65b41b3fde07",
+    "content": "Goal 3: verify the board's URL and title are correct and delete the 'Deploy' card.",
+    "status": "pending",
+    "priority": "low",
+    "created_at": 1766082547.3479981,
+    "updated_at": 1766082547.3479981,
+    "metadata": {
+      "sequence_id": "792201aa0ac961a3",
+      "goal_index": 2
+    }
+  }
+]

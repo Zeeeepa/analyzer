@@ -1,0 +1,38 @@
+[
+  {
+    "id": "a948bc47-d5e7-4a0c-a4b5-fe3867f5a426",
+    "content": "Goal 1: navigate to weather.com",
+    "status": "in_progress",
+    "priority": "low",
+    "created_at": 1765940273.0366411,
+    "updated_at": 1765940273.0884252,
+    "metadata": {
+      "sequence_id": "b3b01f5e1245a6f4",
+      "goal_index": 0
+    }
+  },
+  {
+    "id": "5f58080f-6361-4088-a1d3-90a1c93330a0",
+    "content": "Goal 2: search for new york,",
+    "status": "pending",
+    "priority": "low",
+    "created_at": 1765940273.0533593,
+    "updated_at": 1765940273.0533593,
+    "metadata": {
+      "sequence_id": "b3b01f5e1245a6f4",
+      "goal_index": 1
+    }
+  },
+  {
+    "id": "f3f9e558-abde-42ba-832f-e3e4c3cf2c01",
+    "content": "Goal 3: get the temperature",
+    "status": "pending",
+    "priority": "low",
+    "created_at": 1765940273.0711043,
+    "updated_at": 1765940273.0711043,
+    "metadata": {
+      "sequence_id": "b3b01f5e1245a6f4",
+      "goal_index": 2
+    }
+  }
+]

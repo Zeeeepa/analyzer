@@ -1,0 +1,38 @@
+[
+  {
+    "id": "f9a6472b-4809-415c-82a5-8901d51c52d1",
+    "content": "Goal 1: navigate to amazon.com",
+    "status": "in_progress",
+    "priority": "low",
+    "created_at": 1765939989.124787,
+    "updated_at": 1765939989.1771262,
+    "metadata": {
+      "sequence_id": "ca7ac94cae67e085",
+      "goal_index": 0
+    }
+  },
+  {
+    "id": "423060bc-601a-4eaa-b896-1ea16fd6f965",
+    "content": "Goal 2: search for books,",
+    "status": "pending",
+    "priority": "low",
+    "created_at": 1765939989.142351,
+    "updated_at": 1765939989.142351,
+    "metadata": {
+      "sequence_id": "ca7ac94cae67e085",
+      "goal_index": 1
+    }
+  },
+  {
+    "id": "1733cdea-f90b-4e79-b1f9-85248a7b6d7c",
+    "content": "Goal 3: get the first product title",
+    "status": "pending",
+    "priority": "low",
+    "created_at": 1765939989.1608844,
+    "updated_at": 1765939989.1608844,
+    "metadata": {
+      "sequence_id": "ca7ac94cae67e085",
+      "goal_index": 2
+    }
+  }
+]

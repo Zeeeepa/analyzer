@@ -1,0 +1,26 @@
+[
+  {
+    "id": "609ce52d-1f33-4071-a164-d51a8bc7bf9d",
+    "content": "Goal 1: Go to google.com",
+    "status": "completed",
+    "priority": "low",
+    "created_at": 1766080663.54135,
+    "updated_at": 1766080676.5917177,
+    "metadata": {
+      "sequence_id": "51d754ad8f61ec94",
+      "goal_index": 0
+    }
+  },
+  {
+    "id": "9949f9a5-c5d7-4008-9709-f4b2b59e6353",
+    "content": "Goal 2: search for 'playwright mcp', take a screenshot of the results, and tell me the title of the first result.",
+    "status": "completed",
+    "priority": "low",
+    "created_at": 1766080663.5553389,
+    "updated_at": 1766080676.6030362,
+    "metadata": {
+      "sequence_id": "51d754ad8f61ec94",
+      "goal_index": 1
+    }
+  }
+]

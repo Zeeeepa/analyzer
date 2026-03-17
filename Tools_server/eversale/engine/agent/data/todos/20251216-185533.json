@@ -1,0 +1,38 @@
+[
+  {
+    "id": "2b7de60a-59c9-4d5f-b50d-02ef4afcd7b1",
+    "content": "Goal 1: navigate to imdb.com",
+    "status": "in_progress",
+    "priority": "low",
+    "created_at": 1765940134.8328238,
+    "updated_at": 1765940134.8854322,
+    "metadata": {
+      "sequence_id": "cc53fa28373e70ce",
+      "goal_index": 0
+    }
+  },
+  {
+    "id": "46c8c19c-ab20-4b56-b3d1-b25fcd18f1d6",
+    "content": "Goal 2: search for action movies,",
+    "status": "pending",
+    "priority": "low",
+    "created_at": 1765940134.850172,
+    "updated_at": 1765940134.850172,
+    "metadata": {
+      "sequence_id": "cc53fa28373e70ce",
+      "goal_index": 1
+    }
+  },
+  {
+    "id": "404223c8-069e-48a7-a1c2-0892be6a5fb6",
+    "content": "Goal 3: get the first result",
+    "status": "pending",
+    "priority": "low",
+    "created_at": 1765940134.8675692,
+    "updated_at": 1765940134.8675692,
+    "metadata": {
+      "sequence_id": "cc53fa28373e70ce",
+      "goal_index": 2
+    }
+  }
+]

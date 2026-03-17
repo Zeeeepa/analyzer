@@ -1,0 +1,17 @@
+# Requirements for SiteMemory Async Support
+# Install with: pip install -r requirements_async.txt
+
+# Async file I/O
+aiofiles>=23.0.0
+
+# Note: The following are part of Python standard library (no install needed):
+# - asyncio (async runtime)
+# - fcntl (file locking - POSIX only)
+# - tempfile (atomic writes)
+# - shutil (file operations)
+# - json (serialization)
+# - time (timestamps)
+
+# Optional: For cross-platform file locking (Windows support)
+# Uncomment if you need Windows compatibility:
+# portalocker>=2.0.0

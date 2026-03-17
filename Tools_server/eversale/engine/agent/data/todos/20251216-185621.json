@@ -1,0 +1,38 @@
+[
+  {
+    "id": "5e5535ec-ff2c-45f9-8075-4f9b4df27e12",
+    "content": "Goal 1: navigate to ebay.com",
+    "status": "in_progress",
+    "priority": "low",
+    "created_at": 1765940182.7471104,
+    "updated_at": 1765940182.7972388,
+    "metadata": {
+      "sequence_id": "76f3340b482aec5a",
+      "goal_index": 0
+    }
+  },
+  {
+    "id": "bc70287e-2a71-4a71-b4e0-7d7b57d5d73a",
+    "content": "Goal 2: search for electronics,",
+    "status": "pending",
+    "priority": "low",
+    "created_at": 1765940182.7640574,
+    "updated_at": 1765940182.7640574,
+    "metadata": {
+      "sequence_id": "76f3340b482aec5a",
+      "goal_index": 1
+    }
+  },
+  {
+    "id": "88025db2-5f5c-450b-9a64-cff6c940722e",
+    "content": "Goal 3: get the first listing title",
+    "status": "pending",
+    "priority": "low",
+    "created_at": 1765940182.7803497,
+    "updated_at": 1765940182.7803497,
+    "metadata": {
+      "sequence_id": "76f3340b482aec5a",
+      "goal_index": 2
+    }
+  }
+]

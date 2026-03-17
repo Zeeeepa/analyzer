@@ -1,0 +1,38 @@
+[
+  {
+    "id": "3a7e3610-f720-4d43-8627-798f1c2f4d3b",
+    "content": "Goal 1: navigate to reddit.com/r/technology",
+    "status": "in_progress",
+    "priority": "low",
+    "created_at": 1765940082.1106262,
+    "updated_at": 1765940082.162418,
+    "metadata": {
+      "sequence_id": "24c5b9c184fd513c",
+      "goal_index": 0
+    }
+  },
+  {
+    "id": "ee793804-48e5-4f4c-8571-a71e4e30aaf6",
+    "content": "Goal 2: click on the top post,",
+    "status": "pending",
+    "priority": "low",
+    "created_at": 1765940082.1273205,
+    "updated_at": 1765940082.1273205,
+    "metadata": {
+      "sequence_id": "24c5b9c184fd513c",
+      "goal_index": 1
+    }
+  },
+  {
+    "id": "22331441-faa3-4370-b42b-3d85273179e8",
+    "content": "Goal 3: scroll down",
+    "status": "pending",
+    "priority": "low",
+    "created_at": 1765940082.1447196,
+    "updated_at": 1765940082.1447196,
+    "metadata": {
+      "sequence_id": "24c5b9c184fd513c",
+      "goal_index": 2
+    }
+  }
+]
