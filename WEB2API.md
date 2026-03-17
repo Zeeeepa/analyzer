@@ -7,3 +7,4 @@ https://github.com/Zeeeepa/orchids-api
 https://github.com/Zeeeepa/k2think2api3
 https://github.com/Zeeeepa/assistant-2api
 https://github.com/Zeeeepa/sub2api
+https://github.com/Zeeeepa/oracle
