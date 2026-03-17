@@ -8,3 +8,5 @@ https://github.com/Zeeeepa/k2think2api3
 https://github.com/Zeeeepa/assistant-2api
 https://github.com/Zeeeepa/sub2api
 https://github.com/Zeeeepa/oracle
+
+phantomwright_driver-1.58.0
