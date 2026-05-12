@@ -1,1 +1,12 @@
 https://github.com/HaroonPashaaa/open-mythos
+
+https://github.com/muxprotocol/kalshi-trading-bot
+https://github.com/TitanFlow-Systems/polymarket-trading-bot-v2
+https://github.com/freq-trades/hyperliquid-trading-bot
+https://github.com/bestpracticaI/kalshi-ai-trading-bot
+https://github.com/freq-trades/polymarket-trading-bot-v2
+
+
+https://github.com/TitanFlow-Systems/best-of-algorithmic-trading
+https://github.com/Composio-HQ/polymarket-kalshi-arbitrage-bot
+https://github.com/NoFxAi-OS/hyperliquid-trading-bot
