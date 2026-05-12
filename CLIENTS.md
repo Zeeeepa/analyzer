@@ -22,6 +22,7 @@ https://github.com/Peiiii/nextclaw
 https://github.com/Yuan-lab-LLM/ClawManager
 https://github.com/connortessaro/arc
 
+https://github.com/Hmbown/DeepSeek-TUI/releases/tag/v0.8.30
 
 https://github.com/SolaceLabs/solace-agent-mesh
 https://www.npmjs.com/package/aiden-runtime
