@@ -19,7 +19,7 @@ WorkBuddy.lnk
 Lingtai 
 
 pocketpaw
-synapse.bat
+[synapse.bat ](https://synapseorch.com/)   https://github.com/synapseorch-ai/synapse-ai
 openakita.bat
 Cognithor
 Claude Setup
