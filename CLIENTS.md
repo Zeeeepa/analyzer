@@ -20,6 +20,8 @@ https://www.npmjs.com/package/devmine  - desktop GUI
 https://github.com/Peiiii/nextclaw
 
 https://github.com/Yuan-lab-LLM/ClawManager
+https://github.com/connortessaro/arc
+
 
 https://github.com/SolaceLabs/solace-agent-mesh
 https://www.npmjs.com/package/aiden-runtime
