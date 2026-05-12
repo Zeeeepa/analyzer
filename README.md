@@ -1,4 +1,5 @@
 [https://github.com/vmoranv/jshookmcp
+https://www.npmjs.com/package/graphmind-mcp
 https://github.com/quantamixsol/graqle
 https://github.com/hhy5562877/auto_js_reverse
 https://github.com/optave/codegraph
