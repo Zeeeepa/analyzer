@@ -17,6 +17,7 @@ WorkBuddy.lnk
 心甜Claw.lnk
 
 https://www.npmjs.com/package/devmine  - desktop GUI
+https://github.com/Peiiii/nextclaw
 
 https://github.com/tumf/conflux
 https://github.com/rustakka/atomr-agents
