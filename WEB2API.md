@@ -1,6 +1,12 @@
 https://github.com/Zeeeepa/openclaw-zero-token
 https://github.com/Zeeeepa/unbrowse-openclaw
 
+https://github.com/browser-use/browser-harness
+https://github.com/mattpocock/skills
+https://github.com/Hmbown/DeepSeek-TUI/releases/tag/v0.8.30
+obscura - stealth browser
+jshookmcp
+
 https://github.com/linuxhsj/doubao-free-api
 https://github.com/Zeeeepa/k2Think2Api
 https://github.com/Zeeeepa/orchids-api
