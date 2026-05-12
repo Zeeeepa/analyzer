@@ -1,6 +1,7 @@
 https://github.com/Zeeeepa/openclaw-zero-token
 https://github.com/Zeeeepa/unbrowse-openclaw
 
+https://github.com/lxf746/any2api
 https://github.com/browser-use/browser-harness
 https://github.com/mattpocock/skills
 https://github.com/Hmbown/DeepSeek-TUI/releases/tag/v0.8.30
@@ -24,3 +25,4 @@ https://github.com/Zeeeepa/CodeFreeMax
 https://github.com/Zeeeepa/grok2api
 
 phantomwright_driver-1.58.0
+
