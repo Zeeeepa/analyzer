@@ -16,7 +16,13 @@ QClaw.lnk
 WorkBuddy.lnk
 心甜Claw.lnk
 
+https://github.com/tumf/conflux
+
 Lingtai 
+https://github.com/agentroadmap/AgentHive
+https://github.com/Zeeeepa/code-buddy/tree/main
+https://github.com/Runfusion/Fusion
+https://github.com/umyunsang/UMMAYA
 
 pocketpaw
 [synapse.bat ](https://synapseorch.com/)   https://github.com/synapseorch-ai/synapse-ai
