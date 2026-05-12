@@ -6,6 +6,7 @@ https://github.com/mattpocock/skills
 https://github.com/Hmbown/DeepSeek-TUI/releases/tag/v0.8.30
 obscura - stealth browser
 jshookmcp
+https://github.com/Mouseww/anything-analyzer  - good ui
 
 https://github.com/basketikun/chatgpt2api
 
