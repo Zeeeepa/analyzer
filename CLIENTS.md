@@ -16,8 +16,10 @@ QClaw.lnk
 WorkBuddy.lnk
 心甜Claw.lnk
 
-https://github.com/tumf/conflux
+https://www.npmjs.com/package/devmine  - desktop GUI
 
+https://github.com/tumf/conflux
+https://github.com/rustakka/atomr-agents
 Lingtai 
 https://github.com/agentroadmap/AgentHive
 https://github.com/Zeeeepa/code-buddy/tree/main
