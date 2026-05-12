@@ -16,6 +16,8 @@ QClaw.lnk
 WorkBuddy.lnk
 心甜Claw.lnk
 
+Lingtai 
+
 pocketpaw
 synapse.bat
 openakita.bat
