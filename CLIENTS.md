@@ -19,6 +19,7 @@ WorkBuddy.lnk
 https://www.npmjs.com/package/devmine  - desktop GUI
 https://github.com/Peiiii/nextclaw
 
+https://www.npmjs.com/package/aiden-runtime
 https://github.com/tumf/conflux
 https://github.com/rustakka/atomr-agents
 Lingtai 
