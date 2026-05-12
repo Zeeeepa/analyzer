@@ -1,6 +1,8 @@
 https://github.com/Zeeeepa/openclaw-zero-token
 https://github.com/Zeeeepa/unbrowse-openclaw
 
+https://github.com/Zeeeepa/zerotoken2
+
 https://github.com/Zeeeepa/deepseek-free-api
 https://github.com/Zeeeepa/deepseek-web-api
 
