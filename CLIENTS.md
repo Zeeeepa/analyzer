@@ -26,6 +26,8 @@ Claude Setup
 Microi.OpenClaw
 rIDE_3.19.7
 
+https://github.com/DDS-Solutions/AI-TadPole-OS
+
 wechat
 DISCORD
 TELEGRAM
