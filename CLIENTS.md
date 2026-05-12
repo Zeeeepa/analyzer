@@ -15,7 +15,7 @@ Pocket Agent.lnk
 QClaw.lnk
 WorkBuddy.lnk
 心甜Claw.lnk
-
+https://github.com/williamzujkowski/nexus-agents
 https://www.npmjs.com/package/devmine  - desktop GUI
 https://github.com/Peiiii/nextclaw
 
