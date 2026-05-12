@@ -2,6 +2,7 @@ https://github.com/Zeeeepa/openclaw-zero-token
 https://github.com/Zeeeepa/unbrowse-openclaw
 
 https://github.com/Zeeeepa/deepseek-free-api
+https://github.com/Zeeeepa/deepseek-web-api
 
 https://github.com/lxf746/any2api
 https://github.com/browser-use/browser-harness
