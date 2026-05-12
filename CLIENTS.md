@@ -4,7 +4,7 @@ Cherry Studio.lnk
 ClawPanel.lnk
 ClawPanel2.lnk
 Cognithor.lnk
-CoWork OS.lnk
+CoWork OS.lnk  https://github.com/CoWork-OS/CoWork-OS
 Flyto2.lnk
 Groove.lnk
 MateClaw.lnk
