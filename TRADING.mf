@@ -1,5 +1,5 @@
 https://github.com/HaroonPashaaa/open-mythos
-
+https://github.com/TauricResearch/TradingAgents
 https://github.com/muxprotocol/kalshi-trading-bot
 https://github.com/TitanFlow-Systems/polymarket-trading-bot-v2
 https://github.com/freq-trades/hyperliquid-trading-bot
