@@ -7,7 +7,7 @@ Cognithor.lnk
 CoWork OS.lnk  https://github.com/CoWork-OS/CoWork-OS
 Flyto2.lnk
 Groove.lnk
-MateClaw.lnk
+MateClaw.lnk  https://gitee.com/mateos/mateclaw
 NuwaClaw.lnk
 OpenCove.lnk
 Plutus.lnk
@@ -28,6 +28,8 @@ https://github.com/agentroadmap/AgentHive
 https://github.com/Zeeeepa/code-buddy/tree/main
 https://github.com/Runfusion/Fusion
 https://github.com/umyunsang/UMMAYA
+
+https://www.npmjs.com/package/@codyswann/lisa
 
 pocketpaw
 [synapse.bat ](https://synapseorch.com/)   https://github.com/synapseorch-ai/synapse-ai
