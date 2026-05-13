@@ -12,6 +12,7 @@ https://github.com/FortiumPartners/ensemble  - Ensemble Plugin Ecosystem - Modul
 
 https://github.com/AgentWorkforce/workforce
 
+https://github.com/Zeeeepa/agent-knowledge-system
 https://github.com/nexu-io/open-design
 https://github.com/stephenschoettler/hermes-lcm
 
