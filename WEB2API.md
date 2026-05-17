@@ -11,11 +11,10 @@ https://github.com/ssmDo/CodeFreeMax
 https://github.com/makeittrue/llm-api-router-offline
 https://github.com/ogx-ai/ogx
 https://github.com/finch-xu/cc-router
-
 https://github.com/Zeeeepa/openclaw-zero-token
 https://github.com/Zeeeepa/unbrowse-openclaw
-
-https://github.com/Zeeeepa/zerotoken2
+https://github.com/Zeeeepa/ds2api
+https://github.com/CJackHwang/AIstudioProxyAPI
 
 https://github.com/Zeeeepa/deepseek-free-api
 https://github.com/Zeeeepa/deepseek-web-api
