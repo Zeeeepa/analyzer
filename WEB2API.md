@@ -10,7 +10,7 @@ https://github.com/router-for-me/CLIProxyAPI
 https://github.com/ssmDo/CodeFreeMax
 https://github.com/makeittrue/llm-api-router-offline
 https://github.com/ogx-ai/ogx
-
+https://github.com/finch-xu/cc-router
 
 https://github.com/Zeeeepa/openclaw-zero-token
 https://github.com/Zeeeepa/unbrowse-openclaw
