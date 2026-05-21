@@ -2,7 +2,11 @@ RAKTU!!!!!https://r289lgc.9router.com/v1
 sk-a9a81fb2c215a8e1-kkdr74-0521205f
 
 https://github.com/decolua/9router/ - in providers tab to add section "Web Chat Interfaces" - With entries 13 - to have identical sub-page view like other providers with connections section - round robin - Add Connection -> This opens dialog of the page where user logs in to the service. Then uniquely to the default providers, it should have Login_Completed button shifted from "Add Connection" indicating that user has logged in. then cookies from the session are saved and attatched to the specific provider and properly managed from there on. preferably these webchatinterface servers should be started/turnedToIdle on demand - turning off would disable model, after not sending requests for some time - to change state to idle. 
-https://github.com/Zeeeepa/zerotoken2
+
+
+https://github.com/Zeeeepa/web2api  +   https://github.com/Zeeeepa/zerotoken2
+
+
 https://github.com/TianLHen/synapse/blob/master/synapse_cli.py
 https://github.com/tokkkie/free-model-router
 https://github.com/Alishahryar1/free-claude-code
